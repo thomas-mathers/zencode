@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Moq;
 using Xunit;
 using ZenCode.Lexer;
@@ -296,6 +297,276 @@ public class ParserTests
         var actual = _sut.Parse(It.IsAny<string>());
 
         // Arrange
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData(TokenType.Or, TokenType.And)]
+    [InlineData(TokenType.Or, TokenType.LessThan)]
+    [InlineData(TokenType.Or, TokenType.LessThanOrEqual)]
+    [InlineData(TokenType.Or, TokenType.Equals)]
+    [InlineData(TokenType.Or, TokenType.NotEquals)]
+    [InlineData(TokenType.Or, TokenType.GreaterThan)]
+    [InlineData(TokenType.Or, TokenType.GreaterThanOrEqual)]
+    [InlineData(TokenType.Or, TokenType.Addition)]
+    [InlineData(TokenType.Or, TokenType.Subtraction)]
+    [InlineData(TokenType.Or, TokenType.Multiplication)]
+    [InlineData(TokenType.Or, TokenType.Division)]
+    [InlineData(TokenType.Or, TokenType.Modulus)]
+    [InlineData(TokenType.Or, TokenType.Exponentiation)]
+    [InlineData(TokenType.And, TokenType.LessThan)]
+    [InlineData(TokenType.And, TokenType.LessThanOrEqual)]
+    [InlineData(TokenType.And, TokenType.Equals)]
+    [InlineData(TokenType.And, TokenType.NotEquals)]
+    [InlineData(TokenType.And, TokenType.GreaterThan)]
+    [InlineData(TokenType.And, TokenType.GreaterThanOrEqual)]
+    [InlineData(TokenType.And, TokenType.Addition)]
+    [InlineData(TokenType.And, TokenType.Subtraction)]
+    [InlineData(TokenType.And, TokenType.Multiplication)]
+    [InlineData(TokenType.And, TokenType.Division)]
+    [InlineData(TokenType.And, TokenType.Modulus)]
+    [InlineData(TokenType.And, TokenType.Exponentiation)]
+    [InlineData(TokenType.LessThan, TokenType.Addition)]
+    [InlineData(TokenType.LessThan, TokenType.Subtraction)]
+    [InlineData(TokenType.LessThan, TokenType.Multiplication)]
+    [InlineData(TokenType.LessThan, TokenType.Division)]
+    [InlineData(TokenType.LessThan, TokenType.Modulus)]
+    [InlineData(TokenType.LessThan, TokenType.Exponentiation)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Addition)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Subtraction)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Multiplication)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Division)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Modulus)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Exponentiation)]
+    [InlineData(TokenType.Equals, TokenType.Addition)]
+    [InlineData(TokenType.Equals, TokenType.Subtraction)]
+    [InlineData(TokenType.Equals, TokenType.Multiplication)]
+    [InlineData(TokenType.Equals, TokenType.Division)]
+    [InlineData(TokenType.Equals, TokenType.Modulus)]
+    [InlineData(TokenType.Equals, TokenType.Exponentiation)]
+    [InlineData(TokenType.NotEquals, TokenType.Addition)]
+    [InlineData(TokenType.NotEquals, TokenType.Subtraction)]
+    [InlineData(TokenType.NotEquals, TokenType.Multiplication)]
+    [InlineData(TokenType.NotEquals, TokenType.Division)]
+    [InlineData(TokenType.NotEquals, TokenType.Modulus)]
+    [InlineData(TokenType.NotEquals, TokenType.Exponentiation)]
+    [InlineData(TokenType.GreaterThan, TokenType.Addition)]
+    [InlineData(TokenType.GreaterThan, TokenType.Subtraction)]
+    [InlineData(TokenType.GreaterThan, TokenType.Multiplication)]
+    [InlineData(TokenType.GreaterThan, TokenType.Division)]
+    [InlineData(TokenType.GreaterThan, TokenType.Modulus)]
+    [InlineData(TokenType.GreaterThan, TokenType.Exponentiation)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Addition)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Subtraction)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Multiplication)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Division)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Modulus)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Exponentiation)]
+    [InlineData(TokenType.Addition, TokenType.Multiplication)]
+    [InlineData(TokenType.Addition, TokenType.Division)]
+    [InlineData(TokenType.Addition, TokenType.Modulus)]
+    [InlineData(TokenType.Addition, TokenType.Exponentiation)]
+    [InlineData(TokenType.Subtraction, TokenType.Multiplication)]
+    [InlineData(TokenType.Subtraction, TokenType.Division)]
+    [InlineData(TokenType.Subtraction, TokenType.Modulus)]
+    [InlineData(TokenType.Subtraction, TokenType.Exponentiation)]
+    [InlineData(TokenType.Multiplication, TokenType.Exponentiation)]
+    [InlineData(TokenType.Division, TokenType.Exponentiation)]
+    [InlineData(TokenType.Modulus, TokenType.Exponentiation)]
+    public void Parse_ConstantLoOpConstantHiOpConstant_ReturnsCorrectParseTree(TokenType loOp, TokenType hiOp)
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = loOp,
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = hiOp,
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                }
+            }));
+
+        var expected = new Program(new List<Statement>
+        {
+            new BinaryExpression(
+                new ConstantExpression(new Token
+                {
+                    Type = TokenType.Integer
+                }),
+                new Token
+                {
+                    Type = loOp
+                },
+                new BinaryExpression(
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    }),
+                    new Token
+                    {
+                        Type = hiOp
+                    },
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    })))
+        });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+        
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+    
+    [Theory]
+    [InlineData(TokenType.Or, TokenType.And)]
+    [InlineData(TokenType.Or, TokenType.LessThan)]
+    [InlineData(TokenType.Or, TokenType.LessThanOrEqual)]
+    [InlineData(TokenType.Or, TokenType.Equals)]
+    [InlineData(TokenType.Or, TokenType.NotEquals)]
+    [InlineData(TokenType.Or, TokenType.GreaterThan)]
+    [InlineData(TokenType.Or, TokenType.GreaterThanOrEqual)]
+    [InlineData(TokenType.Or, TokenType.Addition)]
+    [InlineData(TokenType.Or, TokenType.Subtraction)]
+    [InlineData(TokenType.Or, TokenType.Multiplication)]
+    [InlineData(TokenType.Or, TokenType.Division)]
+    [InlineData(TokenType.Or, TokenType.Modulus)]
+    [InlineData(TokenType.Or, TokenType.Exponentiation)]
+    [InlineData(TokenType.And, TokenType.LessThan)]
+    [InlineData(TokenType.And, TokenType.LessThanOrEqual)]
+    [InlineData(TokenType.And, TokenType.Equals)]
+    [InlineData(TokenType.And, TokenType.NotEquals)]
+    [InlineData(TokenType.And, TokenType.GreaterThan)]
+    [InlineData(TokenType.And, TokenType.GreaterThanOrEqual)]
+    [InlineData(TokenType.And, TokenType.Addition)]
+    [InlineData(TokenType.And, TokenType.Subtraction)]
+    [InlineData(TokenType.And, TokenType.Multiplication)]
+    [InlineData(TokenType.And, TokenType.Division)]
+    [InlineData(TokenType.And, TokenType.Modulus)]
+    [InlineData(TokenType.And, TokenType.Exponentiation)]
+    [InlineData(TokenType.LessThan, TokenType.Addition)]
+    [InlineData(TokenType.LessThan, TokenType.Subtraction)]
+    [InlineData(TokenType.LessThan, TokenType.Multiplication)]
+    [InlineData(TokenType.LessThan, TokenType.Division)]
+    [InlineData(TokenType.LessThan, TokenType.Modulus)]
+    [InlineData(TokenType.LessThan, TokenType.Exponentiation)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Addition)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Subtraction)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Multiplication)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Division)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Modulus)]
+    [InlineData(TokenType.LessThanOrEqual, TokenType.Exponentiation)]
+    [InlineData(TokenType.Equals, TokenType.Addition)]
+    [InlineData(TokenType.Equals, TokenType.Subtraction)]
+    [InlineData(TokenType.Equals, TokenType.Multiplication)]
+    [InlineData(TokenType.Equals, TokenType.Division)]
+    [InlineData(TokenType.Equals, TokenType.Modulus)]
+    [InlineData(TokenType.Equals, TokenType.Exponentiation)]
+    [InlineData(TokenType.NotEquals, TokenType.Addition)]
+    [InlineData(TokenType.NotEquals, TokenType.Subtraction)]
+    [InlineData(TokenType.NotEquals, TokenType.Multiplication)]
+    [InlineData(TokenType.NotEquals, TokenType.Division)]
+    [InlineData(TokenType.NotEquals, TokenType.Modulus)]
+    [InlineData(TokenType.NotEquals, TokenType.Exponentiation)]
+    [InlineData(TokenType.GreaterThan, TokenType.Addition)]
+    [InlineData(TokenType.GreaterThan, TokenType.Subtraction)]
+    [InlineData(TokenType.GreaterThan, TokenType.Multiplication)]
+    [InlineData(TokenType.GreaterThan, TokenType.Division)]
+    [InlineData(TokenType.GreaterThan, TokenType.Modulus)]
+    [InlineData(TokenType.GreaterThan, TokenType.Exponentiation)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Addition)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Subtraction)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Multiplication)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Division)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Modulus)]
+    [InlineData(TokenType.GreaterThanOrEqual, TokenType.Exponentiation)]
+    [InlineData(TokenType.Addition, TokenType.Multiplication)]
+    [InlineData(TokenType.Addition, TokenType.Division)]
+    [InlineData(TokenType.Addition, TokenType.Modulus)]
+    [InlineData(TokenType.Addition, TokenType.Exponentiation)]
+    [InlineData(TokenType.Subtraction, TokenType.Multiplication)]
+    [InlineData(TokenType.Subtraction, TokenType.Division)]
+    [InlineData(TokenType.Subtraction, TokenType.Modulus)]
+    [InlineData(TokenType.Subtraction, TokenType.Exponentiation)]
+    [InlineData(TokenType.Multiplication, TokenType.Exponentiation)]
+    [InlineData(TokenType.Division, TokenType.Exponentiation)]
+    [InlineData(TokenType.Modulus, TokenType.Exponentiation)]    
+    public void Parse_ConstantHiOpConstantLoOpConstant_ReturnsCorrectParseTree(TokenType loOp, TokenType hiOp)
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = hiOp
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = loOp
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                }
+            }));
+
+        var expected = new Program(new List<Statement>
+        {
+            new BinaryExpression(
+                new BinaryExpression(
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    }),
+                    new Token
+                    {
+                        Type = hiOp
+                    },
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    })),
+                new Token
+                {
+                    Type = loOp
+                },
+                new ConstantExpression(new Token
+                {
+                    Type = TokenType.Integer
+                }))
+        });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+        
+        // Assert
         Assert.Equal(expected, actual);
     }
 

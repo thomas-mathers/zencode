@@ -2,36 +2,11 @@
 
 namespace ZenCode.Parser.Grammar;
 
-public struct Program : IEquatable<Program>
+public record Program(IReadOnlyList<Statement> Statements)
 {
-    public IReadOnlyList<Statement> Statements { get; }
-
-    public Program(IReadOnlyList<Statement> statements)
+    public virtual bool Equals(Program? other)
     {
-        Statements = statements;
-    }
-
-    public bool Equals(Program other)
-    {
-        if (Statements.Count != other.Statements.Count)
-        {
-            return false;
-        }
-
-        for (var i = 0; i < Statements.Count; i++)
-        {
-            if (!Statements[i].Equals(other.Statements[i]))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return obj is Program other && Equals(other);
+        return other != null && Statements.SequenceEqual(other.Statements);
     }
 
     public override int GetHashCode()
