@@ -30,14 +30,19 @@ public class TokenStream : ITokenStream
         return token;
     }
     
-    public Token? Consume()
+    public Token Consume()
     {
         if (_peekedTokens.Any())
         {
             return PopPeakedToken();
         }
-        
-        return _tokenEnumerator.MoveNext() ? _tokenEnumerator.Current : null;
+
+        if (!_tokenEnumerator.MoveNext())
+        {
+            throw new InvalidOperationException();
+        }
+
+        return _tokenEnumerator.Current;
     }
 
     public Token? Peek(byte numTokens)
@@ -73,13 +78,14 @@ public class TokenStream : ITokenStream
 
     public bool Match(TokenType tokenType)
     {
-        if (Peek(0).Type != tokenType)
+        if (Peek(0)?.Type != tokenType)
         {
-            return false;
+            return false;   
         }
 
         Consume();
         return true;
+
     }
     
     private Token? GetPeekedToken(int index)

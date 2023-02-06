@@ -24,16 +24,13 @@ public class TokenStreamTests
     }
     
     [Fact]
-    public void Consume_EmptyStream_ReturnsNull()
+    public void Consume_EmptyStream_ThrowsInvalidOperationException()
     {
         // Arrange
         var sut = new TokenStream(Enumerable.Empty<Token>());
         
-        // Act
-        var actualToken = sut.Consume();
-        
-        // Assert
-        Assert.Null(actualToken);
+        // Act + Assert
+        Assert.Throws<InvalidOperationException>(() => sut.Consume());
     }
 
     [Fact]
@@ -50,13 +47,11 @@ public class TokenStreamTests
         var actualToken1 = sut.Consume();
         var actualToken2 = sut.Consume();
         var actualToken3 = sut.Consume();
-        var actualToken4 = sut.Consume();
         
         // Assert
         Assert.Equal(expectedToken1, actualToken1);
         Assert.Equal(expectedToken2, actualToken2);
         Assert.Equal(expectedToken3, actualToken3);
-        Assert.Null(actualToken4);
     }
 
     [Fact]

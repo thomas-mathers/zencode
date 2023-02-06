@@ -6,7 +6,7 @@ namespace ZenCode.Parser;
 
 public interface IParser
 {
-    ITokenStream? TokenStream { get; }
+    ITokenStream TokenStream { get; }
     Program Parse(string input);
-    Expression? ParseExpression(int precedence = 0);
+    Expression ParseExpression(int precedence = 0);
 }

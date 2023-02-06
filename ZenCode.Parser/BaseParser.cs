@@ -14,7 +14,7 @@ public abstract class BaseParser : IParser
     private readonly IReadOnlyDictionary<TokenType, IPrefixExpressionParser> _prefixExpressionParsers;
     private readonly IReadOnlyDictionary<TokenType, IInfixExpressionParser> _infixExpressionParsers;
 
-    public ITokenStream? TokenStream { get; private set; }
+    public ITokenStream TokenStream { get; private set; } = new TokenStream(Enumerable.Empty<Token>());
     
     protected BaseParser(ITokenizer tokenizer,
         IReadOnlyDictionary<TokenType, IPrefixExpressionParser> prefixExpressionParsers,
@@ -31,34 +31,17 @@ public abstract class BaseParser : IParser
 
         var statements = new List<Statement>();
 
-        while (true)
+        while (TokenStream.Peek(0) != null)
         {
-            var statement = ParseStatement();
-            
-            if (statement == null)
-            {
-                break;
-            }
-            
-            statements.Add(statement);   
+            statements.Add(ParseStatement());   
         }
 
         return new Program(statements);
     }
 
-    public Statement? ParseStatement()
-    {
-        return ParseExpression();
-    }
-
-    public Expression? ParseExpression(int precedence = 0)
+    public Expression ParseExpression(int precedence = 0)
     {
         var token = TokenStream.Consume();
-
-        if (token == null)
-        {
-            return null;
-        }
 
         if (!_prefixExpressionParsers.TryGetValue(token.Type, out var prefixExpressionParser))
         {
@@ -80,6 +63,11 @@ public abstract class BaseParser : IParser
         }
         
         return lExpression;
+    }
+    
+    private Statement ParseStatement()
+    {
+        return ParseExpression();
     }
 
     private int GetPrecedence()
