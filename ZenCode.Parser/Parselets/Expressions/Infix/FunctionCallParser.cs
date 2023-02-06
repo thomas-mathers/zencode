@@ -10,37 +10,29 @@ public class FunctionCallParser : IInfixExpressionParser
     {
         if (lOperand is not IdentifierExpression identifier)
         {
-            throw new ParseException();
+            throw new ParseException();   
         }
-        
+
         var parameters = new List<Expression>();
-        
-        while (true)
+
+        if (parser.TokenStream.Match(TokenType.RightParenthesis))
         {
-            var parameter = parser.ParseExpression();
-            
-            parameters.Add(parameter);
-
-            var token = parser.Consume();
-
-            if (token == null)
-            {
-                throw new ParseException();
-            }
-            
-            if (token.Type == TokenType.Comma)
-            {
-                continue;
-            }
-
-            if (token.Type == TokenType.RightParenthesis)
-            {
-                break;
-            }
-
-            throw new ParseException();
+            return new FunctionCall(identifier.Identifier, parameters);   
         }
+
+        do
+        {
+            parameters.Add(parser.ParseExpression());
+        } 
+        while (parser.TokenStream.Match(TokenType.Comma));
+
+        parser.TokenStream.Consume(TokenType.RightParenthesis);
 
         return new FunctionCall(identifier.Identifier, parameters);
+    }
+
+    public int GetPrecedence()
+    {
+        return 1;
     }
 }

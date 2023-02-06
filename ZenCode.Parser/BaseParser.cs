@@ -13,9 +13,9 @@ public abstract class BaseParser : IParser
     private readonly ITokenizer _tokenizer;
     private readonly IReadOnlyDictionary<TokenType, IPrefixExpressionParser> _prefixExpressionParsers;
     private readonly IReadOnlyDictionary<TokenType, IInfixExpressionParser> _infixExpressionParsers;
-    private IEnumerator<Token> _tokenEnumerator = Enumerable.Empty<Token>().GetEnumerator();
-    private bool _isDone = false;
 
+    public ITokenStream? TokenStream { get; private set; }
+    
     protected BaseParser(ITokenizer tokenizer,
         IReadOnlyDictionary<TokenType, IPrefixExpressionParser> prefixExpressionParsers,
         IReadOnlyDictionary<TokenType, IInfixExpressionParser> infixExpressionParsers)
@@ -25,69 +25,74 @@ public abstract class BaseParser : IParser
         _infixExpressionParsers = infixExpressionParsers;
     }
 
-    public Token? Consume()
-    {
-        var hasMore = _tokenEnumerator.MoveNext();
-
-        if (!hasMore)
-        {
-            _isDone = true;
-            return null;
-        }
-
-        return _tokenEnumerator.Current;
-    }
-
-    public Token Expect(TokenType tokenType)
-    {
-        var token = Consume();
-
-        if (token?.Type != tokenType)
-            throw new ParseException();
-
-        return token;
-    }
-
     public Program Parse(string input)
     {
-        _tokenEnumerator = _tokenizer.Tokenize(input).GetEnumerator();
+        TokenStream = _tokenizer.Tokenize(input);
 
         var statements = new List<Statement>();
 
-        while (!_isDone)
+        while (true)
         {
             var statement = ParseStatement();
-            statements.Add(statement);
+            
+            if (statement == null)
+            {
+                break;
+            }
+            
+            statements.Add(statement);   
         }
 
         return new Program(statements);
     }
 
-    public Statement ParseStatement()
+    public Statement? ParseStatement()
     {
         return ParseExpression();
     }
 
-    public Expression ParseExpression()
+    public Expression? ParseExpression(int precedence = 0)
     {
-        var token = Consume();
+        var token = TokenStream.Consume();
 
         if (token == null)
-            throw new ParseException();
+        {
+            return null;
+        }
 
         if (!_prefixExpressionParsers.TryGetValue(token.Type, out var prefixExpressionParser))
-            throw new ParseException();
+        {
+            throw new ParseException();   
+        }
 
-        var lOperand = prefixExpressionParser.Parse(this, token);
+        var lExpression = prefixExpressionParser.Parse(this, token);
 
-        var op = Consume();
+        while (precedence < GetPrecedence())
+        {
+            var op = TokenStream.Consume();
 
-        if (op == null)
-            return lOperand;
+            if (!_infixExpressionParsers.TryGetValue(op.Type, out var infixExpressionParser))
+            {
+                throw new ParseException();
+            }
 
-        if (!_infixExpressionParsers.TryGetValue(op.Type, out var infixExpressionParser))
-            throw new ParseException();
+            lExpression = infixExpressionParser.Parse(this, lExpression, op);
+        }
+        
+        return lExpression;
+    }
 
-        return infixExpressionParser.Parse(this, lOperand, op);
+    private int GetPrecedence()
+    {
+        var currentToken = TokenStream?.Peek(0);
+
+        if (currentToken == null)
+        {
+            return 0;
+        }
+
+        return !_infixExpressionParsers.TryGetValue(currentToken.Type, out var parselet) 
+            ? 0 
+            : parselet.GetPrecedence();
     }
 }

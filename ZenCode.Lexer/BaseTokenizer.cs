@@ -15,7 +15,12 @@ public abstract class BaseTokenizer : ITokenizer
         _tokenMatchers = tokenMatchers;
     }
 
-    public IEnumerable<Token> Tokenize(string text)
+    public ITokenStream Tokenize(string text)
+    {
+        return new TokenStream(TokenizeHelper(text));
+    }
+    
+    private IEnumerable<Token> TokenizeHelper(string text)
     {
         _text = text;
         _currentLine = 0;

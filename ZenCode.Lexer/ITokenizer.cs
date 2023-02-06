@@ -2,5 +2,5 @@
 
 public interface ITokenizer
 {
-    IEnumerable<Token> Tokenize(string text);
+    ITokenStream Tokenize(string text);
 }

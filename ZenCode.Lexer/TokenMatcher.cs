@@ -16,11 +16,6 @@ public class TokenMatcher : ITokenMatcher
     {
         var index = input.IndexOf(_pattern, startingIndex, StringComparison.OrdinalIgnoreCase);
 
-        if (index != startingIndex)
-        {
-            return null;
-        }
-
-        return input.Substring(startingIndex, _pattern.Length);
+        return index != startingIndex ? null : input.Substring(startingIndex, _pattern.Length);
     }
 }

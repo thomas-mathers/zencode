@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Moq;
 using Xunit;
 using ZenCode.Lexer;
@@ -22,13 +21,15 @@ public class ParserTests
     public void Parse_Boolean_ReturnsConstantExpression()
     {
         // Arrange
-        _tokenizerMock.Setup(x => x.Tokenize(It.IsAny<string>())).Returns(new[]
-        {
-            new Token
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
             {
-                Type = TokenType.Boolean
-            }
-        });
+                new Token
+                {
+                    Type = TokenType.Boolean
+                }
+            }));
 
         var expected = new Program(new List<Statement>
         {
@@ -49,13 +50,15 @@ public class ParserTests
     public void Parse_Integer_ReturnsConstantExpression()
     {
         // Arrange
-        _tokenizerMock.Setup(x => x.Tokenize(It.IsAny<string>())).Returns(new[]
-        {
-            new Token
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
             {
-                Type = TokenType.Integer
-            }
-        });
+                new Token
+                {
+                    Type = TokenType.Integer
+                }
+            }));
 
         var expected = new Program(new List<Statement>
         {
@@ -76,13 +79,15 @@ public class ParserTests
     public void Parse_Float_ReturnsConstantExpression()
     {
         // Arrange
-        _tokenizerMock.Setup(x => x.Tokenize(It.IsAny<string>())).Returns(new[]
-        {
-            new Token
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
             {
-                Type = TokenType.Float
-            }
-        });
+                new Token
+                {
+                    Type = TokenType.Float
+                }
+            }));
 
         var expected = new Program(new List<Statement>
         {
@@ -103,13 +108,15 @@ public class ParserTests
     public void Parse_Identifier_ReturnsConstantExpression()
     {
         // Arrange
-        _tokenizerMock.Setup(x => x.Tokenize(It.IsAny<string>())).Returns(new[]
-        {
-            new Token
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
             {
-                Type = TokenType.Identifier
-            }
-        });
+                new Token
+                {
+                    Type = TokenType.Identifier
+                }
+            }));
 
         var expected = new Program(new List<Statement>
         {
@@ -256,21 +263,23 @@ public class ParserTests
     public void Parse_ConstantOpConstant_ReturnsBinaryExpression(TokenType lOperand, TokenType op, TokenType rOperand)
     {
         // Arrange
-        _tokenizerMock.Setup(x => x.Tokenize(It.IsAny<string>())).Returns(new[]
-        {
-            new Token
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
             {
-                Type = lOperand
-            },
-            new Token
-            {
-                Type = op
-            },
-            new Token
-            {
-                Type = rOperand
-            }
-        });
+                new Token
+                {
+                    Type = lOperand
+                },
+                new Token
+                {
+                    Type = op
+                },
+                new Token
+                {
+                    Type = rOperand
+                }
+            }));
         
         var expected = new Program(new List<Statement>
         {
@@ -297,17 +306,19 @@ public class ParserTests
     public void Parse_OpConstant_ReturnsUnaryExpression(TokenType op, TokenType operand)
     {
         // Arrange
-        _tokenizerMock.Setup(x => x.Tokenize(It.IsAny<string>())).Returns(new[]
-        {
-            new Token
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
             {
-                Type = op
-            },
-            new Token
-            {
-                Type = operand
-            }
-        });
+                new Token
+                {
+                    Type = op
+                },
+                new Token
+                {
+                    Type = operand
+                }
+            }));
         
         var expected = new Program(new List<Statement>
         {
@@ -327,28 +338,72 @@ public class ParserTests
     }
 
     [Fact]
-    public void Parse_FunctionCall_ReturnsFunctionCallExpression()
+    public void Parse_FunctionCallNoParameters_ReturnsFunctionCallExpression()
     {
         // Arrange
-        _tokenizerMock.Setup(x => x.Tokenize(It.IsAny<string>())).Returns(new[]
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                new Token
+                {
+                    Type = TokenType.LeftParenthesis
+                },
+                new Token
+                {
+                    Type = TokenType.RightParenthesis
+                }
+            }));
+        
+        var expected = new Program(new List<Statement>
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new FunctionCall(
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                Array.Empty<Expression>())
         });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+
+        // Arrange
+        Assert.Equal(expected, actual);
+    }
+    
+    [Theory]
+    [InlineData(TokenType.Boolean)]
+    [InlineData(TokenType.Integer)]
+    [InlineData(TokenType.Float)]
+    public void Parse_FunctionCallOneConstantParameter_ReturnsFunctionCallExpression(TokenType parameterType)
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                new Token
+                {
+                    Type = TokenType.LeftParenthesis
+                },
+                new Token
+                {
+                    Type = parameterType
+                },
+                new Token
+                {
+                    Type = TokenType.RightParenthesis
+                }
+            }));
         
         var expected = new Program(new List<Statement>
         {
@@ -359,9 +414,79 @@ public class ParserTests
                 },
                 new[]
                 {
-                    new IdentifierExpression(new Token
+                    new ConstantExpression(new Token
                     {
-                        Type = TokenType.Identifier
+                        Type = parameterType
+                    })
+                })
+        });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+
+        // Arrange
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData(TokenType.Boolean, TokenType.Boolean)]
+    [InlineData(TokenType.Boolean, TokenType.Integer)]
+    [InlineData(TokenType.Boolean, TokenType.Float)]
+    [InlineData(TokenType.Integer, TokenType.Boolean)]
+    [InlineData(TokenType.Integer, TokenType.Integer)]
+    [InlineData(TokenType.Integer, TokenType.Float)]
+    [InlineData(TokenType.Float, TokenType.Boolean)]
+    [InlineData(TokenType.Float, TokenType.Integer)]
+    [InlineData(TokenType.Float, TokenType.Float)]
+    public void Parse_FunctionCallTwoConstantParameters_ReturnsFunctionCallExpression(TokenType parameterType1, TokenType parameterType2)
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                new Token
+                {
+                    Type = TokenType.LeftParenthesis
+                },
+                new Token
+                {
+                    Type = parameterType1
+                },
+                new Token
+                {
+                    Type = TokenType.Comma
+                },
+                new Token
+                {
+                    Type = parameterType2
+                },
+                new Token
+                {
+                    Type = TokenType.RightParenthesis
+                }
+            }));
+        
+        var expected = new Program(new List<Statement>
+        {
+            new FunctionCall(
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                new[]
+                {
+                    new ConstantExpression(new Token
+                    {
+                        Type = parameterType1
+                    }),
+                    new ConstantExpression(new Token
+                    {
+                        Type = parameterType2
                     })
                 })
         });
