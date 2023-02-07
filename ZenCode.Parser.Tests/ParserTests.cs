@@ -569,6 +569,146 @@ public class ParserTests
         // Assert
         Assert.Equal(expected, actual);
     }
+    
+    [Theory]
+    [InlineData(TokenType.Addition)]
+    [InlineData(TokenType.Subtraction)]
+    [InlineData(TokenType.Multiplication)]
+    [InlineData(TokenType.Division)]
+    [InlineData(TokenType.Modulus)]
+    [InlineData(TokenType.LessThan)]
+    [InlineData(TokenType.LessThanOrEqual)]
+    [InlineData(TokenType.Equals)]
+    [InlineData(TokenType.NotEquals)]
+    [InlineData(TokenType.GreaterThan)]
+    [InlineData(TokenType.GreaterThanOrEqual)]
+    [InlineData(TokenType.And)]
+    [InlineData(TokenType.Or)]
+    public void Parse_ConstantLeftAssocOpConstantLeftAssocOpConstant_ReturnsCorrectParseTree(TokenType op)
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = op
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = op
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                }
+            }));
+
+        var expected = new Program(new List<Statement>
+        {
+            new BinaryExpression(
+                new BinaryExpression(
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    }),
+                    new Token
+                    {
+                        Type = op
+                    },
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    })),
+                new Token
+                {
+                    Type = op
+                },
+                new ConstantExpression(new Token
+                {
+                    Type = TokenType.Integer
+                }))
+        });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+        
+        // Assert
+        Assert.Equal(expected, actual);
+    }    
+
+    [Theory]
+    [InlineData(TokenType.Exponentiation)]
+    public void Parse_ConstantRightAssocOpConstantRightAssocOpConstant_ReturnsCorrectParseTree(TokenType op)
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = op
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = op
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                }
+            }));
+
+        var expected = new Program(new List<Statement>
+        {
+            new BinaryExpression(
+                new ConstantExpression(new Token
+                {
+                    Type = TokenType.Integer
+                }),
+                new Token
+                {
+                    Type = op
+                },
+                new BinaryExpression(
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    }),
+                    new Token
+                    {
+                        Type = op
+                    },
+                    new ConstantExpression(new Token
+                    {
+                        Type = TokenType.Integer
+                    })))
+        });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+        
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 
     [Theory]
     [InlineData(TokenType.Not, TokenType.Boolean)]

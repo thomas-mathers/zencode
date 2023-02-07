@@ -22,7 +22,7 @@ public class Parser : BaseParser
         [TokenType.Multiplication] = new BinaryExpressionParser(5),
         [TokenType.Division] = new BinaryExpressionParser(5),
         [TokenType.Modulus] = new BinaryExpressionParser(5),
-        [TokenType.Exponentiation] = new BinaryExpressionParser(6),
+        [TokenType.Exponentiation] = new BinaryExpressionParser(6, true),
         [TokenType.LessThan] = new BinaryExpressionParser(3),
         [TokenType.LessThanOrEqual] = new BinaryExpressionParser(3),
         [TokenType.Equals] = new BinaryExpressionParser(3),
