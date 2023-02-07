@@ -2,7 +2,7 @@ using ZenCode.Lexer;
 using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Grammar.Expressions;
 
-namespace ZenCode.Parser.Parselets.Expressions.Infix;
+namespace ZenCode.Parser.Parsers.Expressions.Infix;
 
 public class FunctionCallParser : IInfixExpressionParser
 {
@@ -13,7 +13,7 @@ public class FunctionCallParser : IInfixExpressionParser
         _precedence = precedence;
     }
 
-    public Expression Parse(IParser parser, Expression lOperand, Token @operator)
+    public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Expression lOperand, Token @operator)
     {
         if (lOperand is not VariableReferenceExpression identifier)
         {
@@ -22,18 +22,18 @@ public class FunctionCallParser : IInfixExpressionParser
 
         var parameters = new List<Expression>();
 
-        if (parser.TokenStream.Match(TokenType.RightParenthesis))
+        if (tokenStream.Match(TokenType.RightParenthesis))
         {
             return new FunctionCall(identifier.Identifier, parameters);   
         }
 
         do
         {
-            parameters.Add(parser.ParseExpression());
+            parameters.Add(parser.Parse(tokenStream));
         } 
-        while (parser.TokenStream.Match(TokenType.Comma));
+        while (tokenStream.Match(TokenType.Comma));
 
-        parser.TokenStream.Consume(TokenType.RightParenthesis);
+        tokenStream.Consume(TokenType.RightParenthesis);
 
         return new FunctionCall(identifier.Identifier, parameters);
     }

@@ -10,8 +10,4 @@
     <ProjectReference Include="..\ZenCode.Lexer\ZenCode.Lexer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Parselets\Expressions" />
-  </ItemGroup>
-
 </Project>

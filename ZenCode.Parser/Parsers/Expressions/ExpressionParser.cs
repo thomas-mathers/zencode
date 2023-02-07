@@ -1,10 +1,12 @@
 using ZenCode.Lexer;
-using ZenCode.Parser.Parselets.Expressions.Infix;
-using ZenCode.Parser.Parselets.Expressions.Prefix;
+using ZenCode.Parser.Exceptions;
+using ZenCode.Parser.Grammar.Expressions;
+using ZenCode.Parser.Parsers.Expressions.Infix;
+using ZenCode.Parser.Parsers.Expressions.Prefix;
 
-namespace ZenCode.Parser;
+namespace ZenCode.Parser.Parsers.Expressions;
 
-public class Parser : BaseParser
+public class ExpressionParser : IExpressionParser
 {
     private static readonly IReadOnlyDictionary<TokenType, IPrefixExpressionParser> PrefixExpressionParsers = new Dictionary<TokenType, IPrefixExpressionParser>()
     {
@@ -34,8 +36,44 @@ public class Parser : BaseParser
         [TokenType.Or] = new BinaryExpressionParser(1),
         [TokenType.LeftParenthesis] = new FunctionCallParser(7)
     };
-    
-    public Parser(ITokenizer tokenizer) : base(tokenizer, PrefixExpressionParsers, InfixExpressionParsers)
+
+    public Expression Parse(ITokenStream tokenStream, int precedence = 0)
     {
+        var token = tokenStream.Consume();
+
+        if (!PrefixExpressionParsers.TryGetValue(token.Type, out var prefixExpressionParser))
+        {
+            throw new ParseException();   
+        }
+
+        var lExpression = prefixExpressionParser.Parse(this, tokenStream, token);
+
+        while (precedence < GetPrecedence(tokenStream))
+        {
+            var op = tokenStream.Consume();
+
+            if (!InfixExpressionParsers.TryGetValue(op.Type, out var infixExpressionParser))
+            {
+                throw new ParseException();
+            }
+
+            lExpression = infixExpressionParser.Parse(this, tokenStream, lExpression, op);
+        }
+        
+        return lExpression;
+    }
+    
+    private static int GetPrecedence(ITokenStream tokenStream)
+    {
+        var currentToken = tokenStream?.Peek(0);
+
+        if (currentToken == null)
+        {
+            return 0;
+        }
+
+        return !InfixExpressionParsers.TryGetValue(currentToken.Type, out var parser) 
+            ? 0 
+            : parser.GetPrecedence();
     }
 }
