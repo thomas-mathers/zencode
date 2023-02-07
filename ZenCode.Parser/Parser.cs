@@ -12,7 +12,8 @@ public class Parser : BaseParser
         [TokenType.Integer] = new ConstantParser(),
         [TokenType.Float] = new ConstantParser(),
         [TokenType.Identifier] = new IdentifierParser(),
-        [TokenType.Not] = new UnaryExpressionParser()
+        [TokenType.Not] = new UnaryExpressionParser(),
+        [TokenType.LeftParenthesis] = new ParenthesizedExpressionParser()
     };
     
     private static readonly IReadOnlyDictionary<TokenType, IInfixExpressionParser> InfixExpressionParsers = new Dictionary<TokenType, IInfixExpressionParser>()
