@@ -24,5 +24,7 @@ public enum TokenType
     Identifier,
     LeftParenthesis,
     RightParenthesis,
-    Comma
+    Comma,
+    LeftBracket,
+    RightBracket
 }

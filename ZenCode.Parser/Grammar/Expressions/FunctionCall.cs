@@ -6,12 +6,7 @@ public record FunctionCall(Token Identifier, IReadOnlyList<Expression> Parameter
 {
     public virtual bool Equals(FunctionCall? other)
     {
-        if (other is null)
-        {
-            return false;
-        }
-
-        return Identifier.Equals(other.Identifier) && Parameters.SequenceEqual(other.Parameters);
+        return other != null && Identifier.Equals(other.Identifier) && Parameters.SequenceEqual(other.Parameters);
     }
 
     public override int GetHashCode()

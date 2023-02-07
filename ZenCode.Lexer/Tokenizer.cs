@@ -28,6 +28,8 @@ public class Tokenizer : BaseTokenizer
         new TokenMatcher(TokenType.Subtraction, "-"),
         new RegexTokenMatcher(TokenType.Identifier, "[a-zA-Z][a-zA-Z0-9]*"),
         new TokenMatcher(TokenType.Comma, ","),
+        new TokenMatcher(TokenType.LeftBracket, "["),
+        new TokenMatcher(TokenType.RightBracket, "]"),
     };
 
     public Tokenizer() : base(TokenMatchers) 

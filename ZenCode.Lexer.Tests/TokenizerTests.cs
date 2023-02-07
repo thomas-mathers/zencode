@@ -31,6 +31,8 @@ public class TokenizerTests
     [InlineData("TRUE", TokenType.Boolean)]
     [InlineData("false", TokenType.Boolean)]
     [InlineData("FALSE", TokenType.Boolean)]
+    [InlineData("[", TokenType.LeftBracket)]
+    [InlineData("]", TokenType.RightBracket)]
     public void Tokenize_ValidToken_ReturnsToken(string text, TokenType expectedTokenType)
     {
         // Arrange

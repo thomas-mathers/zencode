@@ -106,7 +106,7 @@ public class ParserTests
     }
 
     [Fact]
-    public void Parse_Identifier_ReturnsConstantExpression()
+    public void Parse_Identifier_ReturnsVariableReferenceExpression()
     {
         // Arrange
         _tokenizerMock
@@ -121,10 +121,122 @@ public class ParserTests
 
         var expected = new Program(new List<Statement>
         {
-            new IdentifierExpression(new Token
+            new VariableReferenceExpression(
+                new Token
+                {
+                    Type = TokenType.Identifier
+                }, 
+                Array.Empty<Expression>())
+        });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+
+        // Arrange
+        Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void Parse_SingleDimensionalArrayReference_ReturnsVariableReferenceExpression()
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
             {
-                Type = TokenType.Identifier
-            })
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                new Token
+                {
+                    Type = TokenType.LeftBracket
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = TokenType.RightBracket
+                }
+            }));
+
+        var expected = new Program(new List<Statement>
+        {
+            new VariableReferenceExpression(
+                new Token
+                {
+                    Type = TokenType.Identifier
+                }, 
+                new[]
+                {
+                    new ConstantExpression(new Token { Type = TokenType.Integer })
+                })
+        });
+
+        // Act
+        var actual = _sut.Parse(It.IsAny<string>());
+
+        // Arrange
+        Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void Parse_MultiDimensionalArrayReference_ReturnsVariableReferenceExpression()
+    {
+        // Arrange
+        _tokenizerMock
+            .Setup(x => x.Tokenize(It.IsAny<string>()))
+            .Returns(new TokenStream(new[]
+            {
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                new Token
+                {
+                    Type = TokenType.LeftBracket
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = TokenType.Comma
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = TokenType.Comma
+                },
+                new Token
+                {
+                    Type = TokenType.Integer
+                },
+                new Token
+                {
+                    Type = TokenType.RightBracket
+                }
+            }));
+
+        var expected = new Program(new List<Statement>
+        {
+            new VariableReferenceExpression(
+                new Token
+                {
+                    Type = TokenType.Identifier
+                }, 
+                new[]
+                {
+                    new ConstantExpression(new Token { Type = TokenType.Integer }),
+                    new ConstantExpression(new Token { Type = TokenType.Integer }),
+                    new ConstantExpression(new Token { Type = TokenType.Integer }),
+                })
         });
 
         // Act
@@ -950,7 +1062,7 @@ public class ParserTests
     }
     
     [Fact]
-    public void Parse_ParenthesizedIdentifier_ReturnsIdentifier()
+    public void Parse_ParenthesizedIdentifier_ReturnsVariableReferenceExpression()
     {
         // Arrange
         _tokenizerMock
@@ -973,10 +1085,12 @@ public class ParserTests
         
         var expected = new Program(new List<Statement>
         {
-            new IdentifierExpression(new Token
-            {
-                Type = TokenType.Identifier
-            })
+            new VariableReferenceExpression(
+                new Token
+                {
+                    Type = TokenType.Identifier
+                }, 
+                Array.Empty<Expression>())
         });
 
         // Act

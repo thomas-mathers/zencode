@@ -11,7 +11,7 @@ public class Parser : BaseParser
         [TokenType.Boolean] = new ConstantParser(),
         [TokenType.Integer] = new ConstantParser(),
         [TokenType.Float] = new ConstantParser(),
-        [TokenType.Identifier] = new IdentifierParser(),
+        [TokenType.Identifier] = new VariableReferenceParser(),
         [TokenType.Not] = new UnaryExpressionParser(),
         [TokenType.LeftParenthesis] = new ParenthesizedExpressionParser()
     };
@@ -32,7 +32,7 @@ public class Parser : BaseParser
         [TokenType.GreaterThanOrEqual] = new BinaryExpressionParser(3),
         [TokenType.And] = new BinaryExpressionParser(2),
         [TokenType.Or] = new BinaryExpressionParser(1),
-        [TokenType.LeftParenthesis] = new FunctionCallParser()
+        [TokenType.LeftParenthesis] = new FunctionCallParser(7)
     };
     
     public Parser(ITokenizer tokenizer) : base(tokenizer, PrefixExpressionParsers, InfixExpressionParsers)

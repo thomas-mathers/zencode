@@ -6,9 +6,16 @@ namespace ZenCode.Parser.Parselets.Expressions.Infix;
 
 public class FunctionCallParser : IInfixExpressionParser
 {
+    private readonly int _precedence;
+    
+    public FunctionCallParser(int precedence)
+    {
+        _precedence = precedence;
+    }
+
     public Expression Parse(IParser parser, Expression lOperand, Token @operator)
     {
-        if (lOperand is not IdentifierExpression identifier)
+        if (lOperand is not VariableReferenceExpression identifier)
         {
             throw new ParseException();   
         }
@@ -33,6 +40,6 @@ public class FunctionCallParser : IInfixExpressionParser
 
     public int GetPrecedence()
     {
-        return 1;
+        return _precedence;
     }
 }
