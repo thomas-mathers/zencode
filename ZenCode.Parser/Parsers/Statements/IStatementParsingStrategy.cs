@@ -3,7 +3,7 @@ using ZenCode.Parser.Grammar.Statements;
 
 namespace ZenCode.Parser.Parsers.Statements;
 
-public interface IStatementParser
+public interface IStatementParsingStrategy
 {
     Statement Parse(ITokenStream tokenStream);
 }

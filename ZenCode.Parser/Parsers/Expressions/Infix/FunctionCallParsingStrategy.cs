@@ -4,11 +4,11 @@ using ZenCode.Parser.Grammar.Expressions;
 
 namespace ZenCode.Parser.Parsers.Expressions.Infix;
 
-public class FunctionCallParser : IInfixExpressionParser
+public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 {
     private readonly int _precedence;
     
-    public FunctionCallParser(int precedence)
+    public FunctionCallParsingStrategy(int precedence)
     {
         _precedence = precedence;
     }

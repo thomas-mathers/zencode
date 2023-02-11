@@ -4,11 +4,11 @@ using ZenCode.Parser.Parsers.Expressions;
 
 namespace ZenCode.Parser.Parsers.Statements;
 
-public class AssignmentStatementParser : IStatementParser
+public class AssignmentStatementParsingStrategy : IStatementParsingStrategy
 {
     private readonly IExpressionParser _expressionParser;
     
-    public AssignmentStatementParser(IExpressionParser expressionParser)
+    public AssignmentStatementParsingStrategy(IExpressionParser expressionParser)
     {
         _expressionParser = expressionParser;
     }

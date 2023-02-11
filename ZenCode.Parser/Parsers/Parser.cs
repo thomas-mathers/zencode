@@ -8,12 +8,12 @@ namespace ZenCode.Parser.Parsers;
 public class Parser : IParser
 {
     private readonly ITokenizer _tokenizer;
-    private readonly IStatementParser _statementParser;
+    private readonly IStatementParsingContext _statementParsingContext;
     
-    protected Parser(ITokenizer tokenizer, IStatementParser statementParser)
+    protected Parser(ITokenizer tokenizer, IStatementParsingContext statementParsingContext)
     {
         _tokenizer = tokenizer;
-        _statementParser = statementParser;
+        _statementParsingContext = statementParsingContext;
     }
 
     public Program Parse(string input)
@@ -24,7 +24,7 @@ public class Parser : IParser
 
         while (tokenStream.Peek(0) != null)
         {
-            statements.Add(_statementParser.Parse(tokenStream));   
+            statements.Add(_statementParsingContext.Parse(tokenStream));   
         }
 
         return new Program(statements);

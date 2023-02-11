@@ -3,12 +3,12 @@ using ZenCode.Parser.Grammar.Expressions;
 
 namespace ZenCode.Parser.Parsers.Expressions.Infix;
 
-public class BinaryExpressionParser : IInfixExpressionParser
+public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
 {
     private readonly int _precedence;
     private readonly bool _isRightAssociative;
     
-    public BinaryExpressionParser(int precedence, bool isRightAssociative = false)
+    public BinaryExpressionParsingStrategy(int precedence, bool isRightAssociative = false)
     {
         _precedence = precedence;
         _isRightAssociative = isRightAssociative;

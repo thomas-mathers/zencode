@@ -2,6 +2,8 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Parser.Grammar.Expressions;
 using ZenCode.Parser.Parsers.Expressions;
+using ZenCode.Parser.Parsers.Expressions.Infix;
+using ZenCode.Parser.Parsers.Expressions.Prefix;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests;
@@ -12,7 +14,7 @@ public class ExpressionParserTests
 
     public ExpressionParserTests()
     {
-        _sut = new ExpressionParser();
+        _sut = new ExpressionParser(new PrefixExpressionParsingContext(), new InfixExpressionParsingContext());
     }
 
     [Fact]

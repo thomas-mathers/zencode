@@ -3,7 +3,7 @@ using ZenCode.Parser.Grammar.Expressions;
 
 namespace ZenCode.Parser.Parsers.Expressions.Prefix;
 
-public class UnaryExpressionParser : IPrefixExpressionParser
+public class UnaryExpressionParsingStrategy : IPrefixExpressionParsingStrategy
 {
     public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Token token)
     {
