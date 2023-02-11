@@ -11,6 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Parser", "ZenCode.P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Parser.Tests", "ZenCode.Parser.Tests\ZenCode.Parser.Tests.csproj", "{023F3E5B-2895-4C5D-96A1-DB7E724F7B55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Lexer.Abstractions", "ZenCode.Lexer.Abstractions\ZenCode.Lexer.Abstractions.csproj", "{CAC2D9D5-DA78-4D2B-A73C-8CD043468C9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Parser.Abstractions", "ZenCode.Parser.Abstractions\ZenCode.Parser.Abstractions.csproj", "{704D80B6-1FFA-4E55-8EF2-B885D99BCDAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Grammar", "ZenCode.Grammar\ZenCode.Grammar.csproj", "{911622F6-6288-41DB-BCB3-039456F059BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Lexer.Model", "ZenCode.Lexer.Model\ZenCode.Lexer.Model.csproj", "{BA59E65B-B13D-4CD0-87E7-2A21FD7450A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +41,22 @@ Global
 		{023F3E5B-2895-4C5D-96A1-DB7E724F7B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{023F3E5B-2895-4C5D-96A1-DB7E724F7B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{023F3E5B-2895-4C5D-96A1-DB7E724F7B55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC2D9D5-DA78-4D2B-A73C-8CD043468C9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC2D9D5-DA78-4D2B-A73C-8CD043468C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC2D9D5-DA78-4D2B-A73C-8CD043468C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC2D9D5-DA78-4D2B-A73C-8CD043468C9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704D80B6-1FFA-4E55-8EF2-B885D99BCDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704D80B6-1FFA-4E55-8EF2-B885D99BCDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704D80B6-1FFA-4E55-8EF2-B885D99BCDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704D80B6-1FFA-4E55-8EF2-B885D99BCDAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{911622F6-6288-41DB-BCB3-039456F059BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{911622F6-6288-41DB-BCB3-039456F059BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{911622F6-6288-41DB-BCB3-039456F059BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{911622F6-6288-41DB-BCB3-039456F059BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA59E65B-B13D-4CD0-87E7-2A21FD7450A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA59E65B-B13D-4CD0-87E7-2A21FD7450A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA59E65B-B13D-4CD0-87E7-2A21FD7450A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA59E65B-B13D-4CD0-87E7-2A21FD7450A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

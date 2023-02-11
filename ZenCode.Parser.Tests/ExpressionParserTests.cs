@@ -1,9 +1,8 @@
 using Xunit;
+using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
-using ZenCode.Parser.Grammar.Expressions;
-using ZenCode.Parser.Parsers.Expressions;
-using ZenCode.Parser.Parsers.Expressions.Infix;
-using ZenCode.Parser.Parsers.Expressions.Prefix;
+using ZenCode.Lexer.Model;
+using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests;

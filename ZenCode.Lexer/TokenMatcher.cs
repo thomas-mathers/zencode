@@ -1,4 +1,7 @@
-﻿namespace ZenCode.Lexer;
+﻿using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Model;
+
+namespace ZenCode.Lexer;
 
 public class TokenMatcher : ITokenMatcher
 {

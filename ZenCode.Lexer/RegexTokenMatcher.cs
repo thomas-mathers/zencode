@@ -1,4 +1,6 @@
 ﻿using System.Text.RegularExpressions;
+using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer;
 

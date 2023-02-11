@@ -1,6 +1,7 @@
 using AutoFixture;
 using Xunit;
 using ZenCode.Lexer.Exceptions;
+using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer.Tests;
 

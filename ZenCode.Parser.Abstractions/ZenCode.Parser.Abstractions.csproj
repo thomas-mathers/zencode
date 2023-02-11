@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ZenCode.Grammar\ZenCode.Grammar.csproj" />
+      <ProjectReference Include="..\ZenCode.Lexer.Abstractions\ZenCode.Lexer.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

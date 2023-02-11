@@ -1,4 +1,6 @@
-﻿using ZenCode.Lexer.Exceptions;
+﻿using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Exceptions;
+using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer;
 
