@@ -2,6 +2,7 @@ using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Tests.TestData;
 
@@ -13,7 +14,34 @@ public class ExpressionParserTests
 
     public ExpressionParserTests()
     {
-        _sut = new ExpressionParser(new PrefixExpressionParsingContext(), new InfixExpressionParsingContext());
+        _sut = new ExpressionParser(
+            new PrefixExpressionParsingContext(new Dictionary<TokenType, IPrefixExpressionParsingStrategy>
+            {
+                [TokenType.Boolean] = new ConstantParsingStrategy(),
+                [TokenType.Integer] = new ConstantParsingStrategy(),
+                [TokenType.Float] = new ConstantParsingStrategy(),
+                [TokenType.Identifier] = new VariableReferenceParsingStrategy(),
+                [TokenType.Not] = new UnaryExpressionParsingStrategy(),
+                [TokenType.LeftParenthesis] = new ParenthesizedExpressionParsingStrategy()
+            }), 
+            new InfixExpressionParsingContext(new Dictionary<TokenType, IInfixExpressionParsingStrategy>
+            {
+                [TokenType.Addition] = new BinaryExpressionParsingStrategy(4),
+                [TokenType.Subtraction] = new BinaryExpressionParsingStrategy(4),
+                [TokenType.Multiplication] = new BinaryExpressionParsingStrategy(5),
+                [TokenType.Division] = new BinaryExpressionParsingStrategy(5),
+                [TokenType.Modulus] = new BinaryExpressionParsingStrategy(5),
+                [TokenType.Exponentiation] = new BinaryExpressionParsingStrategy(6, true),
+                [TokenType.LessThan] = new BinaryExpressionParsingStrategy(3),
+                [TokenType.LessThanOrEqual] = new BinaryExpressionParsingStrategy(3),
+                [TokenType.Equals] = new BinaryExpressionParsingStrategy(3),
+                [TokenType.NotEquals] = new BinaryExpressionParsingStrategy(3),
+                [TokenType.GreaterThan] = new BinaryExpressionParsingStrategy(3),
+                [TokenType.GreaterThanOrEqual] = new BinaryExpressionParsingStrategy(3),
+                [TokenType.And] = new BinaryExpressionParsingStrategy(2),
+                [TokenType.Or] = new BinaryExpressionParsingStrategy(1),
+                [TokenType.LeftParenthesis] = new FunctionCallParsingStrategy(7)
+            }));
     }
 
     [Fact]
