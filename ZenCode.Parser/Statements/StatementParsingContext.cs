@@ -13,7 +13,7 @@ public class StatementParsingContext : IStatementParsingContext
 
     public StatementParsingContext(IExpressionParser expressionParser)
     {
-        _statementParsingStrategies = new Dictionary<TokenType, IStatementParsingStrategy>()
+        _statementParsingStrategies = new Dictionary<TokenType, IStatementParsingStrategy>
         {
             [TokenType.Identifier] = new AssignmentStatementParsingStrategy(expressionParser)
         };
@@ -22,11 +22,9 @@ public class StatementParsingContext : IStatementParsingContext
     public Statement Parse(ITokenStream tokenStream)
     {
         var token = tokenStream.Peek(0);
-        
+
         if (!_statementParsingStrategies.TryGetValue(token.Type, out var statementParsingStrategy))
-        {
-            throw new ParseException();   
-        }
+            throw new ParseException();
 
         return statementParsingStrategy.Parse(tokenStream);
     }

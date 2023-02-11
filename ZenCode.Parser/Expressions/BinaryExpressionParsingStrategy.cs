@@ -7,9 +7,9 @@ namespace ZenCode.Parser.Expressions;
 
 public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
 {
-    private readonly int _precedence;
     private readonly bool _isRightAssociative;
-    
+    private readonly int _precedence;
+
     public BinaryExpressionParsingStrategy(int precedence, bool isRightAssociative = false)
     {
         _precedence = precedence;

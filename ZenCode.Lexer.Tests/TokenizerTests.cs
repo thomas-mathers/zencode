@@ -174,7 +174,7 @@ public class TokenizerTests
                 Line = 0,
                 StartingColumn = 9,
                 Text = "b"
-            },
+            }
         };
 
         // Act
@@ -195,19 +195,19 @@ public class TokenizerTests
         {
             new Token
             {
-                Type = TokenType.Identifier, 
+                Type = TokenType.Identifier,
                 Line = 0,
                 StartingColumn = 0,
                 Text = "a"
             },
-            new Token            
+            new Token
             {
                 Type = TokenType.Assignment,
                 Line = 0,
                 StartingColumn = 2,
                 Text = ":="
             },
-            new Token            
+            new Token
             {
                 Type = TokenType.Float,
                 Line = 0,
@@ -234,7 +234,7 @@ public class TokenizerTests
                 Line = 1,
                 StartingColumn = 5,
                 Text = "3.75"
-            },            
+            },
             new Token
             {
                 Type = TokenType.Identifier,

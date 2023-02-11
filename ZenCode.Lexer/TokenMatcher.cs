@@ -7,13 +7,13 @@ public class TokenMatcher : ITokenMatcher
 {
     private readonly string _pattern;
 
-    public TokenType TokenType { get; }
-
     public TokenMatcher(TokenType type, string pattern)
     {
         TokenType = type;
         _pattern = pattern;
     }
+
+    public TokenType TokenType { get; }
 
     public string? Match(string input, int startingIndex)
     {

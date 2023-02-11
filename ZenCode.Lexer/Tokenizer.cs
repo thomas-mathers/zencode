@@ -33,19 +33,20 @@ public class Tokenizer : ITokenizer
         new RegexTokenMatcher(TokenType.Identifier, "[a-zA-Z][a-zA-Z0-9]*"),
         new TokenMatcher(TokenType.Comma, ","),
         new TokenMatcher(TokenType.LeftBracket, "["),
-        new TokenMatcher(TokenType.RightBracket, "]"),
+        new TokenMatcher(TokenType.RightBracket, "]")
     };
-    
-    private string _text = string.Empty;
-    private int _currentLine;
+
     private int _currentColumn;
     private int _currentIndex;
+    private int _currentLine;
+
+    private string _text = string.Empty;
 
     public ITokenStream Tokenize(string text)
     {
         return new TokenStream(TokenizeHelper(text));
     }
-    
+
     private IEnumerable<Token> TokenizeHelper(string text)
     {
         _text = text;
@@ -97,7 +98,7 @@ public class Tokenizer : ITokenizer
 
             if (match == null)
                 continue;
-            
+
             var token = new Token
             {
                 Type = matcher.TokenType,

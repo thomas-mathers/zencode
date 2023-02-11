@@ -9,12 +9,12 @@ namespace ZenCode.Parser.Statements;
 public class AssignmentStatementParsingStrategy : IStatementParsingStrategy
 {
     private readonly IExpressionParser _expressionParser;
-    
+
     public AssignmentStatementParsingStrategy(IExpressionParser expressionParser)
     {
         _expressionParser = expressionParser;
     }
-    
+
     public Statement Parse(ITokenStream tokenStream)
     {
         var identifier = tokenStream.Consume(TokenType.Identifier);

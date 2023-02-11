@@ -113,7 +113,7 @@ public class ExpressionParserTests
         // Arrange
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void Parse_SingleDimensionalArrayReference_ReturnsVariableReferenceExpression()
     {
@@ -154,7 +154,7 @@ public class ExpressionParserTests
         // Arrange
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void Parse_MultiDimensionalArrayReference_ReturnsVariableReferenceExpression()
     {
@@ -204,7 +204,7 @@ public class ExpressionParserTests
             {
                 new ConstantExpression(new Token { Type = TokenType.Integer }),
                 new ConstantExpression(new Token { Type = TokenType.Integer }),
-                new ConstantExpression(new Token { Type = TokenType.Integer }),
+                new ConstantExpression(new Token { Type = TokenType.Integer })
             });
 
         // Act
@@ -213,7 +213,7 @@ public class ExpressionParserTests
         // Arrange
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [ClassData(typeof(ConstantOpConstantTestData))]
     public void Parse_ConstantOpConstant_ReturnsBinaryExpression(TokenType lOperand, TokenType op, TokenType rOperand)
@@ -252,7 +252,8 @@ public class ExpressionParserTests
 
     [Theory]
     [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
-    public void Parse_LoPrecedenceOpThenHiPrecedenceOp_ReturnsParseTreeWithLastTwoTermsGroupedFirst(TokenType loOp, TokenType hiOp)
+    public void Parse_LoPrecedenceOpThenHiPrecedenceOp_ReturnsParseTreeWithLastTwoTermsGroupedFirst(TokenType loOp,
+        TokenType hiOp)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -263,7 +264,7 @@ public class ExpressionParserTests
             },
             new Token
             {
-                Type = loOp,
+                Type = loOp
             },
             new Token
             {
@@ -271,7 +272,7 @@ public class ExpressionParserTests
             },
             new Token
             {
-                Type = hiOp,
+                Type = hiOp
             },
             new Token
             {
@@ -304,14 +305,15 @@ public class ExpressionParserTests
 
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
-    public void Parse_HiPrecedenceOpThenLoPrecedenceOp_ReturnsParseTreeWithFirstTwoTermsGroupedFirst(TokenType loOp, TokenType hiOp)
+    public void Parse_HiPrecedenceOpThenLoPrecedenceOp_ReturnsParseTreeWithFirstTwoTermsGroupedFirst(TokenType loOp,
+        TokenType hiOp)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -363,11 +365,11 @@ public class ExpressionParserTests
 
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [ClassData(typeof(LeftAssociativeOpTestData))]
     public void Parse_LeftAssociativeOperator_ReturnsParseTreeWithFirstTwoTermsGroupedFirst(TokenType op)
@@ -422,10 +424,10 @@ public class ExpressionParserTests
 
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
-    }    
+    }
 
     [Theory]
     [InlineData(TokenType.Exponentiation)]
@@ -481,7 +483,7 @@ public class ExpressionParserTests
 
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
@@ -552,7 +554,7 @@ public class ExpressionParserTests
         // Arrange
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [ClassData(typeof(ConstantTestData))]
     public void Parse_FunctionCallOneConstantParameter_ReturnsFunctionCallExpression(TokenType parameterType)
@@ -600,7 +602,8 @@ public class ExpressionParserTests
 
     [Theory]
     [ClassData(typeof(ConstantPairTestData))]
-    public void Parse_FunctionCallTwoConstantParameters_ReturnsFunctionCallExpression(TokenType parameterType1, TokenType parameterType2)
+    public void Parse_FunctionCallTwoConstantParameters_ReturnsFunctionCallExpression(TokenType parameterType1,
+        TokenType parameterType2)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -687,7 +690,7 @@ public class ExpressionParserTests
         // Arrange
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void Parse_ParenthesizedIdentifier_ReturnsVariableReferenceExpression()
     {
@@ -721,7 +724,7 @@ public class ExpressionParserTests
         // Arrange
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void Parse_ParenthesizedFunctionCall_ReturnsFunctionCallExpression()
     {
@@ -755,7 +758,7 @@ public class ExpressionParserTests
                 Type = TokenType.Identifier
             },
             Array.Empty<Expression>());
-        
+
         // Act
         var actual = _sut.Parse(tokenStream);
 
@@ -765,7 +768,8 @@ public class ExpressionParserTests
 
     [Theory]
     [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
-    public void Parse_ParenthesizedLoPrecedenceOpThenHighPrecedenceOp_ReturnsParseTreeWithFirstTwoTermsGroupedFirst(TokenType loOp, TokenType hiOp)
+    public void Parse_ParenthesizedLoPrecedenceOpThenHighPrecedenceOp_ReturnsParseTreeWithFirstTwoTermsGroupedFirst(
+        TokenType loOp, TokenType hiOp)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -825,14 +829,15 @@ public class ExpressionParserTests
 
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
-    public void Parse_HiPrecedenceOpThenParenthesizedLoPrecedenceOp_ReturnsParseTreeWithLastTwoTermsGroupedFirst(TokenType hiOp, TokenType loOp)
+    public void Parse_HiPrecedenceOpThenParenthesizedLoPrecedenceOp_ReturnsParseTreeWithLastTwoTermsGroupedFirst(
+        TokenType hiOp, TokenType loOp)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -892,7 +897,7 @@ public class ExpressionParserTests
 
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
