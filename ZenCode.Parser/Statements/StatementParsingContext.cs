@@ -24,7 +24,7 @@ public class StatementParsingContext : IStatementParsingContext
         var token = tokenStream.Peek(0);
 
         if (!_statementParsingStrategies.TryGetValue(token.Type, out var statementParsingStrategy))
-            throw new ParseException();
+            throw new SyntaxError();
 
         return statementParsingStrategy.Parse(tokenStream);
     }

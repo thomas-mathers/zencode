@@ -18,7 +18,7 @@ public class InfixExpressionParsingContext : IInfixExpressionParsingContext
     public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Expression lOperand, Token @operator)
     {
         if (!_infixExpressionParsingStrategies.TryGetValue(@operator.Type, out var infixExpressionParsingStrategy))
-            throw new ParseException();
+            throw new SyntaxError();
 
         return infixExpressionParsingStrategy.Parse(parser, tokenStream, lOperand, @operator);
     }

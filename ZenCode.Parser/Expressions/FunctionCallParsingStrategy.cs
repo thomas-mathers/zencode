@@ -17,22 +17,24 @@ public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 
     public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Expression lOperand, Token @operator)
     {
-        if (lOperand is not VariableReferenceExpression identifier)
-            throw new ParseException();
-
+        if (lOperand is not VariableReferenceExpression variableReferenceExpression)
+        {
+            throw new SyntaxError();
+        }
+        
         var parameters = new List<Expression>();
 
-        if (tokenStream.Match(TokenType.RightParenthesis))
-            return new FunctionCall(identifier.Identifier, parameters);
-
-        do
+        if (!tokenStream.Match(TokenType.RightParenthesis))
         {
-            parameters.Add(parser.Parse(tokenStream));
-        } while (tokenStream.Match(TokenType.Comma));
+            do
+            {
+                parameters.Add(parser.Parse(tokenStream));
+            } while (tokenStream.Match(TokenType.Comma));
 
-        tokenStream.Consume(TokenType.RightParenthesis);
+            tokenStream.Consume(TokenType.RightParenthesis);   
+        }
 
-        return new FunctionCall(identifier.Identifier, parameters);
+        return new FunctionCall(variableReferenceExpression, parameters);
     }
 
     public int GetPrecedence()

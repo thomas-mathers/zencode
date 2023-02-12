@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
@@ -5,14 +6,18 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Tests.TestData;
+using BinaryExpression = ZenCode.Grammar.Expressions.BinaryExpression;
+using ConstantExpression = ZenCode.Grammar.Expressions.ConstantExpression;
+using Expression = ZenCode.Grammar.Expressions.Expression;
+using UnaryExpression = ZenCode.Grammar.Expressions.UnaryExpression;
 
-namespace ZenCode.Parser.Tests;
+namespace ZenCode.Parser.Tests.Expressions;
 
-public class ExpressionParserTests
+public class ExpressionParserIntegrationTests
 {
     private readonly ExpressionParser _sut;
 
-    public ExpressionParserTests()
+    public ExpressionParserIntegrationTests()
     {
         _sut = new ExpressionParser(
             new PrefixExpressionParsingContext(new Dictionary<TokenType, IPrefixExpressionParsingStrategy>
@@ -570,10 +575,14 @@ public class ExpressionParserTests
         });
 
         var expected = new FunctionCall(
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
+            new VariableReferenceExpression
+            (
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                Array.Empty<Expression>()
+            ),
             Array.Empty<Expression>());
 
         // Act
@@ -609,10 +618,14 @@ public class ExpressionParserTests
         });
 
         var expected = new FunctionCall(
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
+            new VariableReferenceExpression
+            (
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                Array.Empty<Expression>()
+            ),
             new[]
             {
                 new ConstantExpression(new Token
@@ -663,10 +676,14 @@ public class ExpressionParserTests
         });
 
         var expected = new FunctionCall(
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
+            new VariableReferenceExpression
+            (
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                Array.Empty<Expression>()
+            ),
             new[]
             {
                 new ConstantExpression(new Token
@@ -781,10 +798,15 @@ public class ExpressionParserTests
             }
         });
 
-        var expected = new FunctionCall(new Token
-            {
-                Type = TokenType.Identifier
-            },
+        var expected = new FunctionCall(
+            new VariableReferenceExpression
+            (
+                new Token
+                {
+                    Type = TokenType.Identifier
+                },
+                Array.Empty<Expression>()
+            ),
             Array.Empty<Expression>());
 
         // Act

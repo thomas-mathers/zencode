@@ -18,7 +18,7 @@ public class PrefixExpressionParsingContext : IPrefixExpressionParsingContext
     public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Token token)
     {
         if (!_prefixExpressionParsingStrategies.TryGetValue(token.Type, out var prefixExpressionParsingStrategy))
-            throw new ParseException();
+            throw new SyntaxError();
 
         return prefixExpressionParsingStrategy.Parse(parser, tokenStream, token);
     }
