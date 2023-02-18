@@ -1,16 +1,24 @@
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer.Abstractions;
-using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 
 namespace ZenCode.Parser.Expressions;
 
 public class UnaryExpressionParsingStrategy : IPrefixExpressionParsingStrategy
 {
-    public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Token token)
-    {
-        var expression = parser.Parse(tokenStream);
+    private readonly IExpressionParser _parser;
 
-        return new UnaryExpression(token, expression);
+    public UnaryExpressionParsingStrategy(IExpressionParser parser)
+    {
+        _parser = parser;
+    }
+
+    public Expression Parse(ITokenStream tokenStream)
+    {
+        var operatorToken = tokenStream.Consume();
+
+        var expression = _parser.Parse(tokenStream);
+
+        return new UnaryExpression(operatorToken, expression);
     }
 }

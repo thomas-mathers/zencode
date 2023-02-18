@@ -1,14 +1,13 @@
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer.Abstractions;
-using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 
 namespace ZenCode.Parser.Expressions;
 
 public class ConstantParsingStrategy : IPrefixExpressionParsingStrategy
 {
-    public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Token token)
+    public Expression Parse(ITokenStream tokenStream)
     {
-        return new ConstantExpression(token);
+        return new ConstantExpression(tokenStream.Consume());
     }
 }

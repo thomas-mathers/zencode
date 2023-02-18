@@ -1,5 +1,3 @@
 ﻿namespace ZenCode.Grammar.Statements;
 
-public abstract record Statement
-{
-}
+public abstract record Statement;

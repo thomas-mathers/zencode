@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ZenCode.Grammar\ZenCode.Grammar.csproj" />
-        <ProjectReference Include="..\ZenCode.Lexer\ZenCode.Lexer.csproj" />
-        <ProjectReference Include="..\ZenCode.Parser.Abstractions\ZenCode.Parser.Abstractions.csproj" />
+        <ProjectReference Include="..\ZenCode.Grammar\ZenCode.Grammar.csproj"/>
+        <ProjectReference Include="..\ZenCode.Lexer\ZenCode.Lexer.csproj"/>
+        <ProjectReference Include="..\ZenCode.Parser.Abstractions\ZenCode.Parser.Abstractions.csproj"/>
     </ItemGroup>
 
 </Project>

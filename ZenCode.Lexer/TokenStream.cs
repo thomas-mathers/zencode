@@ -15,15 +15,21 @@ public class TokenStream : ITokenStream
         _tokenEnumerator = tokenEnumerator.GetEnumerator();
     }
 
+    public Token Current => Peek(0)!;
+
     public Token Consume(TokenType tokenType)
     {
         var token = Consume();
 
         if (token == null)
+        {
             throw new UnexpectedTokenException();
+        }
 
         if (token.Type != tokenType)
+        {
             throw new UnexpectedTokenException();
+        }
 
         return token;
     }
@@ -31,10 +37,14 @@ public class TokenStream : ITokenStream
     public Token Consume()
     {
         if (_peekedTokens.Any())
+        {
             return PopPeakedToken();
+        }
 
         if (!_tokenEnumerator.MoveNext())
+        {
             throw new InvalidOperationException();
+        }
 
         return _tokenEnumerator.Current;
     }
@@ -42,32 +52,33 @@ public class TokenStream : ITokenStream
     public Token? Peek(byte numTokens)
     {
         if (numTokens < _peekedTokens.Count)
+        {
             return GetPeekedToken(numTokens);
+        }
 
         var numRemainingTokensToConsume = numTokens - _peekedTokens.Count;
-
-        var peekedTokens = new List<Token>();
 
         for (var i = 0; i <= numRemainingTokensToConsume; i++)
         {
             var token = _tokenEnumerator.MoveNext() ? _tokenEnumerator.Current : null;
 
             if (token == null)
+            {
                 return null;
+            }
 
-            peekedTokens.Add(token);
+            _peekedTokens.AddLast(token);
         }
 
-        foreach (var token in peekedTokens)
-            _peekedTokens.AddLast(token);
-
-        return peekedTokens.Last();
+        return _peekedTokens.Last();
     }
 
     public bool Match(TokenType tokenType)
     {
         if (Peek(0)?.Type != tokenType)
+        {
             return false;
+        }
 
         Consume();
         return true;

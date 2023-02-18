@@ -7,9 +7,17 @@ namespace ZenCode.Parser.Expressions;
 
 public class ParenthesizedExpressionParsingStrategy : IPrefixExpressionParsingStrategy
 {
-    public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Token token)
+    private readonly IExpressionParser _parser;
+
+    public ParenthesizedExpressionParsingStrategy(IExpressionParser parser)
     {
-        var innerExpression = parser.Parse(tokenStream);
+        _parser = parser;
+    }
+
+    public Expression Parse(ITokenStream tokenStream)
+    {
+        tokenStream.Consume(TokenType.LeftParenthesis);
+        var innerExpression = _parser.Parse(tokenStream);
         tokenStream.Consume(TokenType.RightParenthesis);
         return innerExpression;
     }

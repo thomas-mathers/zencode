@@ -2,6 +2,4 @@
 
 namespace ZenCode.Grammar.Expressions;
 
-public abstract record Expression : Statement
-{
-}
+public abstract record Expression : Statement;

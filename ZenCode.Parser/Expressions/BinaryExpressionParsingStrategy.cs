@@ -1,36 +1,42 @@
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Exceptions;
 
 namespace ZenCode.Parser.Expressions;
 
 public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
 {
     private readonly bool _isRightAssociative;
-    private readonly int _precedence;
+    private readonly IExpressionParser _parser;
 
-    public BinaryExpressionParsingStrategy(int precedence, bool isRightAssociative = false)
+    public BinaryExpressionParsingStrategy(IExpressionParser parser, int precedence, bool isRightAssociative = false)
     {
-        _precedence = precedence;
+        _parser = parser;
+        Precedence = precedence;
         _isRightAssociative = isRightAssociative;
     }
 
-    public Expression Parse(IExpressionParser parser, ITokenStream tokenStream, Expression lOperand, Token @operator)
-    {
-        if (!IsOperatorValid(@operator.Type))
-        {
-            throw new SyntaxError();
-        }
-        
-        var rOperand = parser.Parse(tokenStream, _precedence - (_isRightAssociative ? 1 : 0));
+    public int Precedence { get; }
 
-        return new BinaryExpression(lOperand, @operator, rOperand);
+    public Expression Parse(ITokenStream tokenStream, Expression lOperand)
+    {
+        var operatorToken = tokenStream.Consume();
+
+        if (!IsBinaryOperator(operatorToken.Type))
+        {
+            throw new UnexpectedTokenException();
+        }
+
+        var rOperand = _parser.Parse(tokenStream, _isRightAssociative ? Precedence - 1 : Precedence);
+
+        return new BinaryExpression(lOperand, operatorToken, rOperand);
     }
 
-    private bool IsOperatorValid(TokenType tokenType) =>
-        tokenType switch
+    private static bool IsBinaryOperator(TokenType tokenType)
+    {
+        return tokenType switch
         {
             TokenType.Addition => true,
             TokenType.Subtraction => true,
@@ -49,6 +55,5 @@ public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
             TokenType.Not => true,
             _ => false
         };
-
-    public int GetPrecedence() => _precedence;
+    }
 }

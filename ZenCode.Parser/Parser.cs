@@ -24,7 +24,9 @@ public class Parser : IParser
         var statements = new List<Statement>();
 
         while (tokenStream.Peek(0) != null)
+        {
             statements.Add(_statementParsingContext.Parse(tokenStream));
+        }
 
         return new Program(statements);
     }
