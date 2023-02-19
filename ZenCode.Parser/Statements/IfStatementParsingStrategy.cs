@@ -9,9 +9,11 @@ namespace ZenCode.Parser.Statements;
 public class IfStatementParsingStrategy : IStatementParsingStrategy
 {
     private readonly IExpressionParser _expressionParser;
+    private readonly IStatementParser _statementParser;
 
-    public IfStatementParsingStrategy(IExpressionParser expressionParser)
+    public IfStatementParsingStrategy(IStatementParser statementParser, IExpressionParser expressionParser)
     {
+        _statementParser = statementParser;
         _expressionParser = expressionParser;
     }
     
@@ -27,7 +29,7 @@ public class IfStatementParsingStrategy : IStatementParsingStrategy
         
         while (tokenStream.Current.Type != TokenType.RightBrace)
         {
-            statements.Add(_expressionParser.Parse(tokenStream));
+            statements.Add(_statementParser.Parse(tokenStream));
         }
         
         tokenStream.Consume(TokenType.RightBrace);
