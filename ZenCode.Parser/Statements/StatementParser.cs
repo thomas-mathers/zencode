@@ -7,15 +7,16 @@ using ZenCode.Parser.Abstractions.Statements;
 
 namespace ZenCode.Parser.Statements;
 
-public class StatementParsingContext : IStatementParsingContext
+public class StatementParser : IStatementParser
 {
     private readonly IReadOnlyDictionary<TokenType, IStatementParsingStrategy> _statementParsingStrategies;
 
-    public StatementParsingContext(IExpressionParser expressionParser)
+    public StatementParser(IExpressionParser expressionParser)
     {
         _statementParsingStrategies = new Dictionary<TokenType, IStatementParsingStrategy>
         {
-            [TokenType.Identifier] = new AssignmentStatementParsingStrategy(expressionParser)
+            [TokenType.Identifier] = new AssignmentStatementParsingStrategy(expressionParser),
+            [TokenType.If] = new IfStatementParsingStrategy(expressionParser)
         };
     }
 
