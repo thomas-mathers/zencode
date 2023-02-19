@@ -86,4 +86,28 @@ public class ExpressionParserConstantExpressionTests
         // Assert
         Assert.Equal(expected, actual);
     }
+    
+    [Fact]
+    public void Parse_String_ReturnsConstantExpression()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token
+            {
+                Type = TokenType.String
+            }
+        });
+
+        var expected = new ConstantExpression(new Token
+        {
+            Type = TokenType.String
+        });
+
+        // Act
+        var actual = _sut.Parse(tokenStream);
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 }

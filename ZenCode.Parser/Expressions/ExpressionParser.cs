@@ -20,6 +20,7 @@ public class ExpressionParser : IExpressionParser
             [TokenType.Boolean] = new ConstantParsingStrategy(),
             [TokenType.Integer] = new ConstantParsingStrategy(),
             [TokenType.Float] = new ConstantParsingStrategy(),
+            [TokenType.String] = new ConstantParsingStrategy(),
             [TokenType.Identifier] = new VariableReferenceParsingStrategy(this),
             [TokenType.Subtraction] = new UnaryExpressionParsingStrategy(this),
             [TokenType.Not] = new UnaryExpressionParsingStrategy(this),

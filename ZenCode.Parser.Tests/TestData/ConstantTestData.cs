@@ -10,6 +10,7 @@ public class ConstantTestData : IEnumerable<object[]>
         yield return new object[] { TokenType.Boolean };
         yield return new object[] { TokenType.Integer };
         yield return new object[] { TokenType.Float };
+        yield return new object[] { TokenType.String };
     }
 
     IEnumerator IEnumerable.GetEnumerator()

@@ -74,9 +74,7 @@ public class ExpressionParserFunctionCallExpressionTests
     }
     
     [Theory]
-    [InlineData(TokenType.Boolean)]
-    [InlineData(TokenType.Integer)]
-    [InlineData(TokenType.Float)]
+    [ClassData(typeof(ConstantTestData))]
     public void Parse_FunctionCallNoVariableReferenceExpression_ThrowsUnexpectedTokenException(TokenType tokenType)
     {
         // Arrange
