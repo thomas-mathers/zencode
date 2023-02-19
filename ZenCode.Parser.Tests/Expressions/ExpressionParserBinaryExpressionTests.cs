@@ -7,11 +7,11 @@ using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class BinaryExpressionIntegrationTests
+public class ExpressionParserBinaryExpressionTests
 {
     private readonly ExpressionParser _sut;
 
-    public BinaryExpressionIntegrationTests()
+    public ExpressionParserBinaryExpressionTests()
     {
         _sut = new ExpressionParser();
     }
@@ -48,7 +48,7 @@ public class BinaryExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 

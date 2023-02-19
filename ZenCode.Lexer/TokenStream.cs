@@ -19,14 +19,9 @@ public class TokenStream : ITokenStream
 
     public Token Consume(TokenType tokenType)
     {
-        var token = Consume();
+        var token = TryConsumeToken();
 
-        if (token == null)
-        {
-            throw new UnexpectedTokenException();
-        }
-
-        if (token.Type != tokenType)
+        if (token?.Type != tokenType)
         {
             throw new UnexpectedTokenException();
         }
@@ -36,12 +31,9 @@ public class TokenStream : ITokenStream
 
     public Token Consume()
     {
-        if (_peekedTokens.Any())
-        {
-            return PopPeakedToken();
-        }
+        var token = TryConsumeToken();
 
-        if (!_tokenEnumerator.MoveNext())
+        if (token == null)
         {
             throw new InvalidOperationException();
         }
@@ -92,6 +84,16 @@ public class TokenStream : ITokenStream
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
+    }
+
+    private Token? TryConsumeToken()
+    {
+        if (_peekedTokens.Any())
+        {
+            return PopPeakedToken();
+        }
+
+        return !_tokenEnumerator.MoveNext() ? null : _tokenEnumerator.Current;
     }
 
     private Token? GetPeekedToken(int index)

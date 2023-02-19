@@ -1,19 +1,88 @@
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class ParenthesizedExpressionIntegrationTests
+public class ExpressionParserParenthesizedExpressionTests
 {
     private readonly ExpressionParser _sut;
 
-    public ParenthesizedExpressionIntegrationTests()
+    public ExpressionParserParenthesizedExpressionTests()
     {
         _sut = new ExpressionParser();
+    }
+    
+    [Fact]
+    public void Parse_ExtraLeftParenthesis_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token
+            {
+                Type = TokenType.LeftParenthesis
+            },
+            new Token
+            {
+                Type = TokenType.LeftParenthesis
+            },
+            new Token
+            {
+                Type = TokenType.Integer
+            },
+            new Token
+            {
+                Type = TokenType.RightParenthesis
+            }
+        });
+
+        // Act + Assert
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
+    }
+    
+    [Fact]
+    public void Parse_NoExpression_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token
+            {
+                Type = TokenType.LeftParenthesis
+            },
+            new Token
+            {
+                Type = TokenType.RightParenthesis
+            },
+        });
+
+        // Act + Assert
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
+    }
+
+    [Fact]
+    public void Parse_MissingRightParenthesis_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token
+            {
+                Type = TokenType.LeftParenthesis
+            },
+            new Token
+            {
+                Type = TokenType.Integer
+            }
+        });
+
+        // Act + Assert
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
     }
 
     [Theory]
@@ -45,7 +114,7 @@ public class ParenthesizedExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 
@@ -79,7 +148,7 @@ public class ParenthesizedExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 
@@ -125,7 +194,7 @@ public class ParenthesizedExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 

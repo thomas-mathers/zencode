@@ -21,6 +21,7 @@ public class ExpressionParser : IExpressionParser
             [TokenType.Integer] = new ConstantParsingStrategy(),
             [TokenType.Float] = new ConstantParsingStrategy(),
             [TokenType.Identifier] = new VariableReferenceParsingStrategy(this),
+            [TokenType.Subtraction] = new UnaryExpressionParsingStrategy(this),
             [TokenType.Not] = new UnaryExpressionParsingStrategy(this),
             [TokenType.LeftParenthesis] = new ParenthesizedExpressionParsingStrategy(this)
         };

@@ -6,11 +6,11 @@ using ZenCode.Parser.Expressions;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class ConstantExpressionIntegrationTests
+public class ExpressionParserConstantExpressionTests
 {
     private readonly ExpressionParser _sut;
 
-    public ConstantExpressionIntegrationTests()
+    public ExpressionParserConstantExpressionTests()
     {
         _sut = new ExpressionParser();
     }
@@ -35,7 +35,7 @@ public class ConstantExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 
@@ -59,7 +59,7 @@ public class ConstantExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 
@@ -83,7 +83,7 @@ public class ConstantExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 }

@@ -6,11 +6,11 @@ using ZenCode.Parser.Expressions;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class UnaryExpressionIntegrationTests
+public class ExpressionParserUnaryExpressionTests
 {
     private readonly ExpressionParser _sut;
 
-    public UnaryExpressionIntegrationTests()
+    public ExpressionParserUnaryExpressionTests()
     {
         _sut = new ExpressionParser();
     }
@@ -19,6 +19,9 @@ public class UnaryExpressionIntegrationTests
     [InlineData(TokenType.Not, TokenType.Boolean)]
     [InlineData(TokenType.Not, TokenType.Integer)]
     [InlineData(TokenType.Not, TokenType.Float)]
+    [InlineData(TokenType.Subtraction, TokenType.Boolean)]
+    [InlineData(TokenType.Subtraction, TokenType.Integer)]
+    [InlineData(TokenType.Subtraction, TokenType.Float)]
     public void Parse_UnaryExpression_ReturnsUnaryExpression(TokenType op, TokenType operand)
     {
         // Arrange
@@ -44,7 +47,7 @@ public class UnaryExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 }

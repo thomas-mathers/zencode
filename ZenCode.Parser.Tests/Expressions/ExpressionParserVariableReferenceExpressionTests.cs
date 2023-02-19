@@ -7,11 +7,11 @@ using ZenCode.Parser.Expressions;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class VariableReferenceExpressionIntegrationTests
+public class ExpressionParserVariableReferenceExpressionTests
 {
     private readonly ExpressionParser _sut;
 
-    public VariableReferenceExpressionIntegrationTests()
+    public ExpressionParserVariableReferenceExpressionTests()
     {
         _sut = new ExpressionParser();
     }
@@ -38,7 +38,7 @@ public class VariableReferenceExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 
@@ -103,7 +103,7 @@ public class VariableReferenceExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 
@@ -162,7 +162,7 @@ public class VariableReferenceExpressionIntegrationTests
         // Act
         var actual = _sut.Parse(tokenStream);
 
-        // Arrange
+        // Assert
         Assert.Equal(expected, actual);
     }
 }
