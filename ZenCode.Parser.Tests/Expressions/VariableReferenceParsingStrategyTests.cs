@@ -1,5 +1,7 @@
+using AutoFixture;
 using Moq;
 using Xunit;
+using ZenCode.Common.Testing.Extensions;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Abstractions;
@@ -12,6 +14,7 @@ namespace ZenCode.Parser.Tests.Expressions;
 
 public class VariableReferenceParsingStrategyTests
 {
+    private readonly Fixture _fixture = new();
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly VariableReferenceParsingStrategy _sut;
 
@@ -61,19 +64,21 @@ public class VariableReferenceParsingStrategyTests
         {
             new Token(TokenType.Identifier),
             new Token(TokenType.LeftBracket),
-            new Token(TokenType.Integer),
+            new Token(TokenType.None),
             new Token(TokenType.RightBracket)
         });
 
+        var expression = _fixture.Create<Expression>();
+
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token(TokenType.Integer)))
+            .Returns(expression)
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new[]
             {
-                new ConstantExpression(new Token(TokenType.Integer))
+                expression
             }
         };
 
@@ -92,26 +97,23 @@ public class VariableReferenceParsingStrategyTests
         {
             new Token(TokenType.Identifier),
             new Token(TokenType.LeftBracket),
-            new Token(TokenType.Integer),
+            new Token(TokenType.None),
             new Token(TokenType.Comma),
-            new Token(TokenType.Integer),
+            new Token(TokenType.None),
             new Token(TokenType.Comma),
-            new Token(TokenType.Integer),
+            new Token(TokenType.None),
             new Token(TokenType.RightBracket)
         });
 
+        var indexExpressions = _fixture.CreateMany<Expression>().ToList();
+        
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token(TokenType.Integer)))
+            .ReturnsSequence(indexExpressions)
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new[]
-            {
-                new ConstantExpression(new Token(TokenType.Integer)),
-                new ConstantExpression(new Token(TokenType.Integer)),
-                new ConstantExpression(new Token(TokenType.Integer))
-            }
+            Indices = indexExpressions
         };
             
         // Act

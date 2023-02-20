@@ -9,10 +9,6 @@ namespace ZenCode.Parser.Tests.Expressions;
 
 public class ConstantParsingStrategyTests
 {
-    public static readonly IEnumerable<object[]> ConstantTokenTypes =
-        from c in TokenTypeGroups.GetConstants()
-        select new object[] { c };
-    
     private readonly ConstantParsingStrategy _sut;
 
     public ConstantParsingStrategyTests()
@@ -21,7 +17,7 @@ public class ConstantParsingStrategyTests
     }
 
     [Theory]
-    [MemberData(nameof(ConstantTokenTypes))]
+    [ClassData(typeof(Constants))]
     public void Parse_Constant_ReturnsConstantExpression(TokenType tokenType)
     {
         // Arrange

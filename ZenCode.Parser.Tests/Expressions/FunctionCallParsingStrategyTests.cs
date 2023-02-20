@@ -1,5 +1,7 @@
+using AutoFixture;
 using Moq;
 using Xunit;
+using ZenCode.Common.Testing.Extensions;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Abstractions;
@@ -13,15 +15,7 @@ namespace ZenCode.Parser.Tests.Expressions;
 
 public class FunctionCallParsingStrategyTests
 {
-    public static readonly IEnumerable<object[]> ConstantTokenTypes =
-        from c in TokenTypeGroups.GetConstants()
-        select new object[] { c };
-    
-    public static readonly IEnumerable<object[]> ConstantTokenTypePairs =
-        from c1 in TokenTypeGroups.GetConstants()
-        from c2 in TokenTypeGroups.GetConstants()
-        select new object[] { c1, c2 };
-    
+    private readonly Fixture _fixture = new();
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly FunctionCallParsingStrategy _sut;
     private readonly VariableReferenceExpression _variableReferenceExpression;
@@ -40,8 +34,15 @@ public class FunctionCallParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Integer),
+            new Token(TokenType.None),
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new Expression())
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -54,17 +55,24 @@ public class FunctionCallParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Integer),    
-            new Token(TokenType.Integer),    
+            new Token(TokenType.None),    
+            new Token(TokenType.None),    
             new Token(TokenType.RightParenthesis)
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new Expression())
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
     }
     
     [Theory]
-    [MemberData(nameof(ConstantTokenTypes))]
+    [ClassData(typeof(Constants))]
     public void Parse_FunctionCallNoVariableReferenceExpression_ThrowsUnexpectedTokenException(TokenType tokenType)
     {
         // Arrange
@@ -72,9 +80,16 @@ public class FunctionCallParsingStrategyTests
         {
             new Token(tokenType),
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Integer),       
+            new Token(TokenType.None),       
             new Token(TokenType.RightParenthesis)
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new Expression())
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -87,12 +102,19 @@ public class FunctionCallParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Integer),
+            new Token(TokenType.None),
             new Token(TokenType.Comma),
             new Token(TokenType.Comma),
-            new Token(TokenType.Integer),            
+            new Token(TokenType.None),            
             new Token(TokenType.RightParenthesis)
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new Expression())
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -105,10 +127,17 @@ public class FunctionCallParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Integer),
+            new Token(TokenType.None),
             new Token(TokenType.Comma),
             new Token(TokenType.RightParenthesis)
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new Expression())
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -133,27 +162,28 @@ public class FunctionCallParsingStrategyTests
         Assert.Equal(expected, actual);
     }
 
-    [Theory]
-    [MemberData(nameof(ConstantTokenTypes))]
-    public void Parse_FunctionCallOneConstantParameter_ReturnsFunctionCallExpression(TokenType parameterType)
+    [Fact]
+    public void Parse_FunctionCallOneConstantParameter_ReturnsFunctionCallExpression()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(parameterType),
+            new Token(TokenType.None),
             new Token(TokenType.RightParenthesis)
         });
+
+        var indexExpression = _fixture.Create<Expression>();
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token(parameterType)))
+            .Returns(indexExpression)
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         var expected = new FunctionCall(_variableReferenceExpression)
         {
             Parameters = new[]
             {
-                new ConstantExpression(new Token(parameterType))
+                indexExpression
             }
         };
 
@@ -164,41 +194,30 @@ public class FunctionCallParsingStrategyTests
         Assert.Equal(expected, actual);
     }
 
-    [Theory]
-    [MemberData(nameof(ConstantTokenTypePairs))]
-    public void Parse_FunctionCallTwoConstantParameters_ReturnsFunctionCallExpression(TokenType parameterType1,
-        TokenType parameterType2)
+    [Fact]
+    public void Parse_FunctionCallManyParameters_ReturnsFunctionCallExpression()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(parameterType1),
+            new Token(TokenType.None),
             new Token(TokenType.Comma),
-            new Token(parameterType2),
+            new Token(TokenType.None),
+            new Token(TokenType.Comma),
+            new Token(TokenType.None),
             new Token(TokenType.RightParenthesis)
         });
 
-        var invocationCount = 0;
+        var parameterExpressions = _fixture.CreateMany<Expression>(3).ToList();
 
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(() =>
-            {
-                return ++invocationCount switch
-                {
-                    1 => new ConstantExpression(new Token(parameterType1)),
-                    _ => new ConstantExpression(new Token(parameterType2))
-                };
-            })
+            .ReturnsSequence(parameterExpressions)
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         var expected = new FunctionCall(_variableReferenceExpression)
         {
-            Parameters = new[]
-            {
-                new ConstantExpression(new Token(parameterType1)),
-                new ConstantExpression(new Token(parameterType2))
-            }
+            Parameters = parameterExpressions
         };
 
         // Act

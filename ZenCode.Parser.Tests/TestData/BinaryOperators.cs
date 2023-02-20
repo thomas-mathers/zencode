@@ -3,7 +3,7 @@ using ZenCode.Lexer.Model;
 
 namespace ZenCode.Parser.Tests.TestData;
 
-public class LeftAssociativeOperatorTokenTypes : IEnumerable<object[]>
+public class BinaryOperators : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
@@ -12,6 +12,7 @@ public class LeftAssociativeOperatorTokenTypes : IEnumerable<object[]>
         yield return new object[] { TokenType.Multiplication };
         yield return new object[] { TokenType.Division };
         yield return new object[] { TokenType.Modulus };
+        yield return new object[] { TokenType.Exponentiation };
         yield return new object[] { TokenType.LessThan };
         yield return new object[] { TokenType.LessThanOrEqual };
         yield return new object[] { TokenType.Equals };

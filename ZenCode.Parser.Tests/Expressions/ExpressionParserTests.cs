@@ -17,7 +17,7 @@ public class ExpressionParserTests
     }
     
     [Theory]
-    [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
+    [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void Parse_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
         TokenType loOp,
         TokenType hiOp)
@@ -48,7 +48,7 @@ public class ExpressionParserTests
     }
 
     [Theory]
-    [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
+    [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void Parse_HiPrecedenceOpThenLoPrecedenceOp_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
         TokenType loOp,
         TokenType hiOp)
@@ -79,7 +79,7 @@ public class ExpressionParserTests
     }
 
     [Theory]
-    [ClassData(typeof(LeftAssociativeOperatorTokenTypes))]
+    [ClassData(typeof(LeftAssociativeBinaryOperators))]
     public void Parse_LeftAssociativeOperator_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(TokenType op)
     {
         // Arrange
@@ -137,7 +137,7 @@ public class ExpressionParserTests
     }
 
     [Theory]
-    [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
+    [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void Parse_HiPrecedenceOpThenParenthesizedLoPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
         TokenType hiOp, TokenType loOp)
     {

@@ -2,6 +2,7 @@
 
 public enum TokenType
 {
+    None = 0,
     Addition,
     And,
     Assignment,
