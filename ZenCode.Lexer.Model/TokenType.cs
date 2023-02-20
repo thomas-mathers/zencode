@@ -32,4 +32,5 @@ public enum TokenType
     RightParenthesis,
     String,
     Subtraction,
+    While
 }

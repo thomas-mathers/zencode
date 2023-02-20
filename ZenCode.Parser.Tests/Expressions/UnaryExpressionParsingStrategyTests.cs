@@ -34,6 +34,9 @@ public class UnaryExpressionParsingStrategyTests
         });
 
         var expression = _fixture.Create<Expression>();
+        var expected = new UnaryExpression(
+            new Token(operatorToken),
+            expression);
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
             .Returns(expression)
@@ -41,10 +44,6 @@ public class UnaryExpressionParsingStrategyTests
             {
                 tokenStream.Consume();
             });
-
-        var expected = new UnaryExpression(
-            new Token(operatorToken),
-            expression);
 
         // Act
         var actual = _sut.Parse(tokenStream);

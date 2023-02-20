@@ -35,15 +35,15 @@ public class BinaryExpressionParsingStrategyTests
             new Token(operatorTokenType),
             new Token(TokenType.None)
         });
-
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(rExpression)
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
-
+        
         var expected = new BinaryExpression(
             lExpression,
             new Token(operatorTokenType),
             rExpression);
+
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(rExpression)
+            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         // Act
         var actual = _sut.Parse(tokenStream, lExpression);

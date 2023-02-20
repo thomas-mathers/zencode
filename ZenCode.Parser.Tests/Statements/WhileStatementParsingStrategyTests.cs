@@ -13,33 +13,33 @@ using ZenCode.Parser.Statements;
 
 namespace ZenCode.Parser.Tests.Statements;
 
-public class IfStatementParsingStrategyTests
+public class WhileStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IStatementParser> _statementParserMock = new();
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
-    private readonly IfStatementParsingStrategy _sut;
+    private readonly WhileStatementParsingStrategy _sut;
 
-    public IfStatementParsingStrategyTests()
+    public WhileStatementParsingStrategyTests()
     {
-        _sut = new IfStatementParsingStrategy(_statementParserMock.Object, _expressionParserMock.Object);
+        _sut = new WhileStatementParsingStrategy(_statementParserMock.Object, _expressionParserMock.Object);
     }
 
     [Fact]
-    public void Parse_IfStatementWithNoStatements_ReturnsIfStatement()
+    public void Parse_WhileStatementWithNoStatements_ReturnsWhileExpression()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If),
+            new Token(TokenType.While),
             new Token(TokenType.None),
             new Token(TokenType.LeftBrace),
             new Token(TokenType.RightBrace)
         });
 
-        var condition = new Expression();
-        var expected = new IfStatement(condition);
-        
+        var condition = _fixture.Create<Expression>();
+        var expected = new WhileStatement(condition);
+
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
             .Returns(condition)
             .Callback<ITokenStream, int>((_, _) =>
@@ -55,12 +55,12 @@ public class IfStatementParsingStrategyTests
     }
     
     [Fact]
-    public void Parse_IfStatementWithOneStatement_ReturnsIfStatement()
+    public void Parse_WhileStatementWithOneStatement_ReturnsWhileExpression()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If),
+            new Token(TokenType.While),
             new Token(TokenType.None),
             new Token(TokenType.LeftBrace),
             new Token(TokenType.None),
@@ -69,7 +69,7 @@ public class IfStatementParsingStrategyTests
 
         var condition = _fixture.Create<Expression>();
         var bodyStatements = _fixture.CreateMany<Statement>(1).ToArray();
-        var expected = new IfStatement(condition) { Statements = bodyStatements };
+        var expected = new WhileStatement(condition) { Statements = bodyStatements };
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
             .Returns(condition)
@@ -84,7 +84,7 @@ public class IfStatementParsingStrategyTests
             {
                 tokenStream.Consume();
             });
-        
+
         // Act
         var actual = _sut.Parse(tokenStream);
         
@@ -93,12 +93,12 @@ public class IfStatementParsingStrategyTests
     }
     
     [Fact]
-    public void Parse_IfStatementWithMultipleStatements_ReturnsIfStatement()
+    public void Parse_WhileStatementWithMultipleStatements_ReturnsWhileExpression()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If),
+            new Token(TokenType.While),
             new Token(TokenType.None),
             new Token(TokenType.LeftBrace),
             new Token(TokenType.None),
@@ -109,7 +109,7 @@ public class IfStatementParsingStrategyTests
 
         var condition = _fixture.Create<Expression>();
         var bodyStatements = _fixture.CreateMany<Statement>(3).ToArray();
-        var expected = new IfStatement(condition) { Statements = bodyStatements };
+        var expected = new WhileStatement(condition) { Statements = bodyStatements };
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
             .Returns(condition)
@@ -124,7 +124,7 @@ public class IfStatementParsingStrategyTests
             {
                 tokenStream.Consume();
             });
-
+        
         // Act
         var actual = _sut.Parse(tokenStream);
         

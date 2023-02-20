@@ -34,14 +34,13 @@ public class AssignmentStatementParsingStrategyTests
         });
 
         var expression = _fixture.Create<Expression>();
+        var expected = new AssignmentStatement(
+            new Token(TokenType.Identifier),
+            expression);
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
             .Returns(expression)
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
-
-        var expected = new AssignmentStatement(
-            new Token(TokenType.Identifier),
-            expression);
 
         // Act
         var actual = _sut.Parse(tokenStream);

@@ -173,19 +173,16 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.RightParenthesis)
         });
 
-        var indexExpression = _fixture.Create<Expression>();
+        var parameters = _fixture.CreateMany<Expression>(1).ToArray();
         
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(indexExpression)
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
-
         var expected = new FunctionCall(_variableReferenceExpression)
         {
-            Parameters = new[]
-            {
-                indexExpression
-            }
+            Parameters = parameters
         };
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(parameters[0])
+            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         // Act
         var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
@@ -209,16 +206,16 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.RightParenthesis)
         });
 
-        var parameterExpressions = _fixture.CreateMany<Expression>(3).ToList();
-
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .ReturnsSequence(parameterExpressions)
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
-
+        var parameters = _fixture.CreateMany<Expression>(3).ToList();
+        
         var expected = new FunctionCall(_variableReferenceExpression)
         {
-            Parameters = parameterExpressions
+            Parameters = parameters
         };
+
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .ReturnsSequence(parameters)
+            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         // Act
         var actual = _sut.Parse(tokenStream, _variableReferenceExpression);

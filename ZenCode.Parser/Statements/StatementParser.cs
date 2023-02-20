@@ -16,7 +16,8 @@ public class StatementParser : IStatementParser
         _statementParsingStrategies = new Dictionary<TokenType, IStatementParsingStrategy>
         {
             [TokenType.Identifier] = new AssignmentStatementParsingStrategy(expressionParser),
-            [TokenType.If] = new IfStatementParsingStrategy(this, expressionParser)
+            [TokenType.If] = new IfStatementParsingStrategy(this, expressionParser),
+            [TokenType.While] = new WhileStatementParsingStrategy(this, expressionParser)
         };
     }
 
