@@ -1,8 +1,10 @@
 namespace ZenCode.Grammar.Expressions;
 
-public record FunctionCall(VariableReferenceExpression VariableReferenceExpression,
-    IReadOnlyList<Expression> Parameters) : Expression
+public record FunctionCall : Expression
 {
+    public required VariableReferenceExpression VariableReferenceExpression { get; init; }
+    public IReadOnlyList<Expression> Parameters { get; init; } = Array.Empty<Expression>();
+
     public virtual bool Equals(FunctionCall? other)
     {
         return other != null && VariableReferenceExpression.Equals(other.VariableReferenceExpression) &&

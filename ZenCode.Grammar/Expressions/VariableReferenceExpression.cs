@@ -2,8 +2,11 @@
 
 namespace ZenCode.Grammar.Expressions;
 
-public record VariableReferenceExpression(Token Identifier, IReadOnlyList<Expression> Indices) : Expression
+public record VariableReferenceExpression : Expression
 {
+    public required Token Identifier { get; init; }
+    public IReadOnlyList<Expression> Indices { get; init; } = Array.Empty<Expression>();
+    
     public virtual bool Equals(VariableReferenceExpression? other)
     {
         return other != null && Identifier.Equals(other.Identifier) && Indices.SequenceEqual(other.Indices);

@@ -1,20 +1,24 @@
+using Moq;
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class ExpressionParserParenthesizedExpressionTests
+public class ParenthesizedExpressionParsingStrategyTests
 {
-    private readonly ExpressionParser _sut;
+    private readonly Mock<IExpressionParser> _expressionParserMock = new();
+    private readonly ParenthesizedExpressionParsingStrategy _sut;
 
-    public ExpressionParserParenthesizedExpressionTests()
+    public ParenthesizedExpressionParsingStrategyTests()
     {
-        _sut = new ExpressionParser();
+        _sut = new ParenthesizedExpressionParsingStrategy(_expressionParserMock.Object);
     }
     
     [Fact]
@@ -40,7 +44,14 @@ public class ExpressionParserParenthesizedExpressionTests
                 Type = TokenType.RightParenthesis
             }
         });
-
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });        
+        
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
     }
@@ -61,6 +72,8 @@ public class ExpressionParserParenthesizedExpressionTests
             },
         });
 
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0)).Throws<UnexpectedTokenException>();
+
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
     }
@@ -80,6 +93,13 @@ public class ExpressionParserParenthesizedExpressionTests
                 Type = TokenType.Integer
             }
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
@@ -87,7 +107,7 @@ public class ExpressionParserParenthesizedExpressionTests
 
     [Theory]
     [ClassData(typeof(ConstantTestData))]
-    public void Parse_ParenthesizedConstant_ReturnsConstantExpression(TokenType tokenType)
+    public void Parse_ParenthesizedConstant_ReturnsConstantExpression(TokenType constantType)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -98,17 +118,24 @@ public class ExpressionParserParenthesizedExpressionTests
             },
             new Token
             {
-                Type = tokenType
+                Type = constantType
             },
             new Token
             {
                 Type = TokenType.RightParenthesis
             }
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new ConstantExpression(new Token { Type = constantType }))
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
         var expected = new ConstantExpression(new Token
         {
-            Type = tokenType
+            Type = constantType
         });
 
         // Act
@@ -137,13 +164,24 @@ public class ExpressionParserParenthesizedExpressionTests
                 Type = TokenType.RightParenthesis
             }
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new VariableReferenceExpression
+            {
+                Identifier = new Token { Type = TokenType.Identifier }
+            })
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+            });
 
-        var expected = new VariableReferenceExpression(
-            new Token
+        var expected = new VariableReferenceExpression
+        {
+            Identifier = new Token
             {
                 Type = TokenType.Identifier
-            },
-            Array.Empty<Expression>());
+            }
+        };
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -179,86 +217,35 @@ public class ExpressionParserParenthesizedExpressionTests
                 Type = TokenType.RightParenthesis
             }
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new FunctionCall
+            {
+                VariableReferenceExpression = new VariableReferenceExpression
+                {
+                    Identifier = new Token
+                    {
+                        Type = TokenType.Identifier
+                    }
+                }
+            })
+            .Callback<ITokenStream, int>((_, _) =>
+            {
+                tokenStream.Consume();
+                tokenStream.Consume();
+                tokenStream.Consume();
+            });
 
-        var expected = new FunctionCall(
-            new VariableReferenceExpression
-            (
-                new Token
+        var expected = new FunctionCall
+        {
+            VariableReferenceExpression = new VariableReferenceExpression
+            {
+                Identifier = new Token
                 {
                     Type = TokenType.Identifier
-                },
-                Array.Empty<Expression>()
-            ),
-            Array.Empty<Expression>());
-
-        // Act
-        var actual = _sut.Parse(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [ClassData(typeof(LoPrecedenceOpHiPrecedenceOpTestData))]
-    public void
-        Parse_ParenthesizedLoPrecedenceOpThenHighPrecedenceOp_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
-            TokenType loOp, TokenType hiOp)
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = loOp
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            },
-            new Token
-            {
-                Type = hiOp
-            },
-            new Token
-            {
-                Type = TokenType.Integer
+                }
             }
-        });
-
-        var expected = new BinaryExpression(
-            new BinaryExpression(
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                }),
-                new Token
-                {
-                    Type = loOp
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })),
-            new Token
-            {
-                Type = hiOp
-            },
-            new ConstantExpression(new Token
-            {
-                Type = TokenType.Integer
-            }));
+        };
 
         // Act
         var actual = _sut.Parse(tokenStream);

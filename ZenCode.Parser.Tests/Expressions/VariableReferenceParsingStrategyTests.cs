@@ -1,19 +1,23 @@
+using Moq;
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Expressions;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class ExpressionParserVariableReferenceExpressionTests
+public class VariableReferenceParsingStrategyTests
 {
-    private readonly ExpressionParser _sut;
+    private readonly Mock<IExpressionParser> _expressionParserMock = new();
+    private readonly VariableReferenceParsingStrategy _sut;
 
-    public ExpressionParserVariableReferenceExpressionTests()
+    public VariableReferenceParsingStrategyTests()
     {
-        _sut = new ExpressionParser();
+        _sut = new VariableReferenceParsingStrategy(_expressionParserMock.Object);
     }
 
     [Fact]
@@ -28,12 +32,13 @@ public class ExpressionParserVariableReferenceExpressionTests
             }
         });
 
-        var expected = new VariableReferenceExpression(
-            new Token
+        var expected = new VariableReferenceExpression
+        {
+            Identifier = new Token
             {
                 Type = TokenType.Identifier
-            },
-            Array.Empty<Expression>());
+            }
+        };
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -90,15 +95,21 @@ public class ExpressionParserVariableReferenceExpressionTests
             }
         });
 
-        var expected = new VariableReferenceExpression(
-            new Token
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+
+        var expected = new VariableReferenceExpression
+        {
+            Identifier = new Token 
             {
                 Type = TokenType.Identifier
             },
-            new[]
+            Indices = new[]
             {
                 new ConstantExpression(new Token { Type = TokenType.Integer })
-            });
+            }
+        };
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -147,18 +158,24 @@ public class ExpressionParserVariableReferenceExpressionTests
             }
         });
 
-        var expected = new VariableReferenceExpression(
-            new Token
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+
+        var expected = new VariableReferenceExpression
+        {
+            Identifier = new Token
             {
                 Type = TokenType.Identifier
             },
-            new[]
+            Indices = new[]
             {
                 new ConstantExpression(new Token { Type = TokenType.Integer }),
                 new ConstantExpression(new Token { Type = TokenType.Integer }),
                 new ConstantExpression(new Token { Type = TokenType.Integer })
-            });
-
+            }
+        };
+            
         // Act
         var actual = _sut.Parse(tokenStream);
 

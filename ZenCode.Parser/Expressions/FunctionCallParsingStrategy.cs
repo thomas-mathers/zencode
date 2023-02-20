@@ -31,7 +31,7 @@ public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 
         if (tokenStream.Match(TokenType.RightParenthesis))
         {
-            return new FunctionCall(variableReferenceExpression, parameterExpressions);
+            return new FunctionCall { VariableReferenceExpression = variableReferenceExpression, Parameters = parameterExpressions };
         }
 
         do
@@ -41,6 +41,6 @@ public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 
         tokenStream.Consume(TokenType.RightParenthesis);
 
-        return new FunctionCall(variableReferenceExpression, parameterExpressions);
+        return new FunctionCall { VariableReferenceExpression = variableReferenceExpression, Parameters = parameterExpressions };
     }
 }

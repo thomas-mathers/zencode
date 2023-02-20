@@ -1,20 +1,27 @@
+using Moq;
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
-public class ExpressionParserFunctionCallExpressionTests
+public class FunctionCallParsingStrategyTests
 {
-    private readonly ExpressionParser _sut;
+    private readonly Mock<IExpressionParser> _expressionParserMock = new();
+    private readonly FunctionCallParsingStrategy _sut;
+    private readonly VariableReferenceExpression _variableReferenceExpression;
 
-    public ExpressionParserFunctionCallExpressionTests()
+    public FunctionCallParsingStrategyTests()
     {
-        _sut = new ExpressionParser();
+        _sut = new FunctionCallParsingStrategy(_expressionParserMock.Object, 7);
+        _variableReferenceExpression =
+            new VariableReferenceExpression { Identifier = new Token { Type = TokenType.Identifier } };
     }
 
     [Fact]
@@ -23,10 +30,6 @@ public class ExpressionParserFunctionCallExpressionTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
             new Token
             {
                 Type = TokenType.LeftParenthesis
@@ -38,7 +41,7 @@ public class ExpressionParserFunctionCallExpressionTests
         });
 
         // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
     }
 
     [Fact]
@@ -47,10 +50,6 @@ public class ExpressionParserFunctionCallExpressionTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
             new Token
             {
                 Type = TokenType.LeftParenthesis
@@ -70,7 +69,7 @@ public class ExpressionParserFunctionCallExpressionTests
         });
 
         // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
     }
     
     [Theory]
@@ -99,7 +98,7 @@ public class ExpressionParserFunctionCallExpressionTests
         });
 
         // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
     }
     
     [Fact]
@@ -108,10 +107,6 @@ public class ExpressionParserFunctionCallExpressionTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
             new Token
             {
                 Type = TokenType.LeftParenthesis
@@ -139,7 +134,7 @@ public class ExpressionParserFunctionCallExpressionTests
         });
 
         // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
     }
 
     [Fact]
@@ -148,10 +143,6 @@ public class ExpressionParserFunctionCallExpressionTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
             new Token
             {
                 Type = TokenType.LeftParenthesis
@@ -171,7 +162,7 @@ public class ExpressionParserFunctionCallExpressionTests
         });
 
         // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
+        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
     }
 
     [Fact]
@@ -182,10 +173,6 @@ public class ExpressionParserFunctionCallExpressionTests
         {
             new Token
             {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
                 Type = TokenType.LeftParenthesis
             },
             new Token
@@ -194,19 +181,10 @@ public class ExpressionParserFunctionCallExpressionTests
             }
         });
 
-        var expected = new FunctionCall(
-            new VariableReferenceExpression
-            (
-                new Token
-                {
-                    Type = TokenType.Identifier
-                },
-                Array.Empty<Expression>()
-            ),
-            Array.Empty<Expression>());
+        var expected = new FunctionCall { VariableReferenceExpression = _variableReferenceExpression };
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -221,10 +199,6 @@ public class ExpressionParserFunctionCallExpressionTests
         {
             new Token
             {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
                 Type = TokenType.LeftParenthesis
             },
             new Token
@@ -236,26 +210,25 @@ public class ExpressionParserFunctionCallExpressionTests
                 Type = TokenType.RightParenthesis
             }
         });
+        
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(new ConstantExpression(new Token { Type = parameterType }))
+            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
-        var expected = new FunctionCall(
-            new VariableReferenceExpression
-            (
-                new Token
-                {
-                    Type = TokenType.Identifier
-                },
-                Array.Empty<Expression>()
-            ),
-            new[]
+        var expected = new FunctionCall
+        {
+            VariableReferenceExpression = _variableReferenceExpression,
+            Parameters = new[]
             {
                 new ConstantExpression(new Token
                 {
                     Type = parameterType
                 })
-            });
+            }
+        };
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -269,10 +242,6 @@ public class ExpressionParserFunctionCallExpressionTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
             new Token
             {
                 Type = TokenType.LeftParenthesis
@@ -295,16 +264,23 @@ public class ExpressionParserFunctionCallExpressionTests
             }
         });
 
-        var expected = new FunctionCall(
-            new VariableReferenceExpression
-            (
-                new Token
+        var invocationCount = 0;
+
+        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
+            .Returns(() =>
+            {
+                return ++invocationCount switch
                 {
-                    Type = TokenType.Identifier
-                },
-                Array.Empty<Expression>()
-            ),
-            new[]
+                    1 => new ConstantExpression(new Token { Type = parameterType1 }),
+                    _ => new ConstantExpression(new Token { Type = parameterType2 })
+                };
+            })
+            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+
+        var expected = new FunctionCall
+        {
+            VariableReferenceExpression = _variableReferenceExpression,
+            Parameters = new[]
             {
                 new ConstantExpression(new Token
                 {
@@ -314,74 +290,12 @@ public class ExpressionParserFunctionCallExpressionTests
                 {
                     Type = parameterType2
                 })
-            });
+            }
+        };
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
 
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-    
-    [Fact]
-    public void Parse_ArrayReferenceFunctionCall_ReturnsFunctionCallExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.LeftBracket
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.RightBracket
-            },
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            },
-        });
-        
-        var expected = new FunctionCall(
-            new VariableReferenceExpression
-            (
-                new Token
-                {
-                    Type = TokenType.Identifier
-                },
-                new List<Expression>()
-                {
-                    new ConstantExpression(new Token { Type = TokenType.Integer })
-                }
-            ),
-            new[]
-            {
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                }),
-            });
-
-        // Act
-        var actual = _sut.Parse(tokenStream);
-        
         // Assert
         Assert.Equal(expected, actual);
     }
