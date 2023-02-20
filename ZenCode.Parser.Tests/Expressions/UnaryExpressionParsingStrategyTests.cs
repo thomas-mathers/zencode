@@ -34,6 +34,7 @@ public class UnaryExpressionParsingStrategyTests
         });
 
         var expression = _fixture.Create<Expression>();
+        
         var expected = new UnaryExpression(
             new Token(operatorToken),
             expression);

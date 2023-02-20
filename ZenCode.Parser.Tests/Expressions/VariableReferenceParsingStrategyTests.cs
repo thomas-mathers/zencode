@@ -68,14 +68,15 @@ public class VariableReferenceParsingStrategyTests
             new Token(TokenType.RightBracket)
         });
 
-        var indexExpressions = _fixture.CreateMany<Expression>(1).ToArray();
+        var indices = _fixture.CreateMany<Expression>(1).ToArray();
+        
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = indexExpressions
+            Indices = indices
         };
 
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(indexExpressions[0])
+            .Returns(indices[0])
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         // Act
@@ -101,14 +102,15 @@ public class VariableReferenceParsingStrategyTests
             new Token(TokenType.RightBracket)
         });
 
-        var indexExpressions = _fixture.CreateMany<Expression>().ToList();
+        var indices = _fixture.CreateMany<Expression>(3).ToList();
+        
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = indexExpressions
+            Indices = indices
         };
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .ReturnsSequence(indexExpressions)
+            .ReturnsSequence(indices)
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         // Act
