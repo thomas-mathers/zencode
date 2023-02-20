@@ -2,9 +2,8 @@
 
 namespace ZenCode.Grammar.Expressions;
 
-public record VariableReferenceExpression : Expression
+public record VariableReferenceExpression(Token Identifier) : Expression
 {
-    public required Token Identifier { get; init; }
     public IReadOnlyList<Expression> Indices { get; init; } = Array.Empty<Expression>();
     
     public virtual bool Equals(VariableReferenceExpression? other)

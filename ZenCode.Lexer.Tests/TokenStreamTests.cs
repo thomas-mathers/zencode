@@ -13,10 +13,7 @@ public class TokenStreamTests
     public void Consume_DifferentTokenTypes_ThrowsUnexpectedTokenException()
     {
         // Arrange
-        var expectedToken = new Token
-        {
-            Type = TokenType.Addition
-        };
+        var expectedToken = new Token(TokenType.Addition);
 
         var sut = new TokenStream(new[] { expectedToken });
 

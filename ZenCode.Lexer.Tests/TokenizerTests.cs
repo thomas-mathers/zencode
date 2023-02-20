@@ -36,9 +36,8 @@ public class TokenizerTests
     public void Tokenize_ValidToken_ReturnsToken(string text, TokenType expectedTokenType)
     {
         // Arrange
-        var expectedToken = new Token
+        var expectedToken = new Token(expectedTokenType)
         {
-            Type = expectedTokenType,
             Text = text
         };
 
@@ -56,9 +55,8 @@ public class TokenizerTests
     public void Tokenize_ValidIdentifier_ReturnsIdentifier(string text)
     {
         // Arrange
-        var expectedToken = new Token
+        var expectedToken = new Token(TokenType.Identifier)
         {
-            Type = TokenType.Identifier,
             Text = text
         };
 
@@ -88,9 +86,8 @@ public class TokenizerTests
     public void Tokenize_ValidInteger_ReturnsInteger(string text)
     {
         // Arrange
-        var expectedToken = new Token
+        var expectedToken = new Token(TokenType.Integer)
         {
-            Type = TokenType.Integer,
             Text = text
         };
 
@@ -110,9 +107,8 @@ public class TokenizerTests
     public void Tokenize_ValidFloat_ReturnsFloat(string text)
     {
         // Arrange
-        var expectedToken = new Token
+        var expectedToken = new Token(TokenType.Float)
         {
-            Type = TokenType.Float,
             Text = text
         };
 
@@ -141,9 +137,8 @@ public class TokenizerTests
     public void Tokenize_ValidString_ReturnsString(string text)
     {
         // Arrange
-        var expectedToken = new Token
+        var expectedToken = new Token(TokenType.String)
         {
-            Type = TokenType.String,
             Text = text
         };
 
@@ -162,37 +157,32 @@ public class TokenizerTests
         // Arrange
         var expectedTokens = new[]
         {
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 0,
                 StartingColumn = 0,
                 Text = "x"
             },
-            new Token
+            new Token(TokenType.Assignment)
             {
-                Type = TokenType.Assignment,
                 Line = 0,
                 StartingColumn = 2,
                 Text = ":="
             },
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 0,
                 StartingColumn = 5,
                 Text = "a"
             },
-            new Token
+            new Token(TokenType.Addition)
             {
-                Type = TokenType.Addition,
                 Line = 0,
                 StartingColumn = 7,
                 Text = "+"
             },
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 0,
                 StartingColumn = 9,
                 Text = "b"
@@ -215,121 +205,104 @@ public class TokenizerTests
         // Arrange
         var expectedTokens = new[]
         {
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 0,
                 StartingColumn = 0,
                 Text = "a"
             },
-            new Token
+            new Token(TokenType.Assignment)
             {
-                Type = TokenType.Assignment,
                 Line = 0,
                 StartingColumn = 2,
                 Text = ":="
             },
-            new Token
+            new Token(TokenType.Float)
             {
-                Type = TokenType.Float,
                 Line = 0,
                 StartingColumn = 5,
                 Text = "1.25"
             },
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 1,
                 StartingColumn = 0,
                 Text = "b"
             },
-            new Token
+            new Token(TokenType.Assignment)
             {
-                Type = TokenType.Assignment,
                 Line = 1,
                 StartingColumn = 2,
                 Text = ":="
             },
-            new Token
+            new Token(TokenType.Float)
             {
-                Type = TokenType.Float,
                 Line = 1,
                 StartingColumn = 5,
                 Text = "3.75"
             },
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 2,
                 StartingColumn = 0,
                 Text = "c"
             },
-            new Token
+            new Token(TokenType.Assignment)
             {
-                Type = TokenType.Assignment,
                 Line = 2,
                 StartingColumn = 2,
                 Text = ":="
             },
-            new Token
+            new Token(TokenType.LeftParenthesis)
             {
-                Type = TokenType.LeftParenthesis,
                 Line = 2,
                 StartingColumn = 5,
                 Text = "("
             },
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 2,
                 StartingColumn = 6,
                 Text = "a"
             },
-            new Token
+            new Token(TokenType.Multiplication)
             {
-                Type = TokenType.Multiplication,
                 Line = 2,
                 StartingColumn = 8,
                 Text = "*"
             },
-            new Token
+            new Token(TokenType.Identifier)
             {
-                Type = TokenType.Identifier,
                 Line = 2,
                 StartingColumn = 10,
                 Text = "b"
             },
-            new Token
+            new Token(TokenType.RightParenthesis)
             {
-                Type = TokenType.RightParenthesis,
                 Line = 2,
                 StartingColumn = 11,
                 Text = ")"
             },
-            new Token
+            new Token(TokenType.Exponentiation)
             {
-                Type = TokenType.Exponentiation,
                 Line = 2,
                 StartingColumn = 13,
                 Text = "^"
             },
-            new Token
+            new Token(TokenType.Integer)
             {
-                Type = TokenType.Integer,
                 Line = 2,
                 StartingColumn = 15,
                 Text = "3"
             },
-            new Token
+            new Token(TokenType.Addition)
             {
-                Type = TokenType.Addition,
                 Line = 2,
                 StartingColumn = 17,
                 Text = "+"
             },
-            new Token
+            new Token(TokenType.Integer)
             {
-                Type = TokenType.Integer,
                 Line = 2,
                 StartingColumn = 19,
                 Text = "2"

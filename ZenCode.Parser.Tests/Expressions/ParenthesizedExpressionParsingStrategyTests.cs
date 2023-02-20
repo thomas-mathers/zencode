@@ -13,6 +13,10 @@ namespace ZenCode.Parser.Tests.Expressions;
 
 public class ParenthesizedExpressionParsingStrategyTests
 {
+    public static readonly IEnumerable<object[]> ConstantTokenTypes =
+        from c in TokenTypeGroups.GetConstants()
+        select new object[] { c };
+    
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly ParenthesizedExpressionParsingStrategy _sut;
 
@@ -27,26 +31,14 @@ public class ParenthesizedExpressionParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer),
+            new Token(TokenType.RightParenthesis)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Returns(new ConstantExpression(new Token(TokenType.Integer)))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
@@ -62,14 +54,8 @@ public class ParenthesizedExpressionParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            },
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis),
         });
 
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0)).Throws<UnexpectedTokenException>();
@@ -84,18 +70,12 @@ public class ParenthesizedExpressionParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Returns(new ConstantExpression(new Token(TokenType.Integer)))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
@@ -106,37 +86,25 @@ public class ParenthesizedExpressionParsingStrategyTests
     }
 
     [Theory]
-    [ClassData(typeof(ConstantTestData))]
+    [MemberData(nameof(ConstantTokenTypes))]
     public void Parse_ParenthesizedConstant_ReturnsConstantExpression(TokenType constantType)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = constantType
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(constantType),
+            new Token(TokenType.RightParenthesis)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = constantType }))
+            .Returns(new ConstantExpression(new Token(constantType)))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
             });
 
-        var expected = new ConstantExpression(new Token
-        {
-            Type = constantType
-        });
+        var expected = new ConstantExpression(new Token(constantType));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -151,37 +119,19 @@ public class ParenthesizedExpressionParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.RightParenthesis)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new VariableReferenceExpression
-            {
-                Identifier = new Token { Type = TokenType.Identifier }
-            })
+            .Returns(new VariableReferenceExpression(new Token(TokenType.Identifier)))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
             });
 
-        var expected = new VariableReferenceExpression
-        {
-            Identifier = new Token
-            {
-                Type = TokenType.Identifier
-            }
-        };
+        var expected = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -196,39 +146,15 @@ public class ParenthesizedExpressionParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightParenthesis)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new FunctionCall
-            {
-                VariableReferenceExpression = new VariableReferenceExpression
-                {
-                    Identifier = new Token
-                    {
-                        Type = TokenType.Identifier
-                    }
-                }
-            })
+            .Returns(new FunctionCall(new VariableReferenceExpression(new Token(TokenType.Identifier))))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
@@ -236,16 +162,7 @@ public class ParenthesizedExpressionParsingStrategyTests
                 tokenStream.Consume();
             });
 
-        var expected = new FunctionCall
-        {
-            VariableReferenceExpression = new VariableReferenceExpression
-            {
-                Identifier = new Token
-                {
-                    Type = TokenType.Identifier
-                }
-            }
-        };
+        var expected = new FunctionCall(new VariableReferenceExpression(new Token(TokenType.Identifier)));
 
         // Act
         var actual = _sut.Parse(tokenStream);

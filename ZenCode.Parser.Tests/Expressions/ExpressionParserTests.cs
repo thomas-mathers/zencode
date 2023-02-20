@@ -25,50 +25,20 @@ public class ExpressionParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = loOp
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = hiOp
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            }
+            new Token(TokenType.Integer),
+            new Token(loOp),
+            new Token(TokenType.Integer),
+            new Token(hiOp),
+            new Token(TokenType.Integer)
         });
 
         var expected = new BinaryExpression(
-            new ConstantExpression(new Token
-            {
-                Type = TokenType.Integer
-            }),
-            new Token
-            {
-                Type = loOp
-            },
+            new ConstantExpression(new Token(TokenType.Integer)),
+            new Token(loOp),
             new BinaryExpression(
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                }),
-                new Token
-                {
-                    Type = hiOp
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })));
+                new ConstantExpression(new Token(TokenType.Integer)),
+                new Token(hiOp),
+                new ConstantExpression(new Token(TokenType.Integer))));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -86,50 +56,20 @@ public class ExpressionParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = hiOp
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = loOp
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            }
+            new Token(TokenType.Integer),
+            new Token(hiOp),
+            new Token(TokenType.Integer),
+            new Token(loOp),
+            new Token(TokenType.Integer)
         });
 
         var expected = new BinaryExpression(
             new BinaryExpression(
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                }),
-                new Token
-                {
-                    Type = hiOp
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })),
-            new Token
-            {
-                Type = loOp
-            },
-            new ConstantExpression(new Token
-            {
-                Type = TokenType.Integer
-            }));
+                new ConstantExpression(new Token(TokenType.Integer)),
+                new Token(hiOp),
+                new ConstantExpression(new Token(TokenType.Integer))),
+            new Token(loOp),
+            new ConstantExpression(new Token(TokenType.Integer)));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -139,56 +79,26 @@ public class ExpressionParserTests
     }
 
     [Theory]
-    [ClassData(typeof(LeftAssociativeOpTestData))]
+    [ClassData(typeof(LeftAssociativeOperatorTokenTypes))]
     public void Parse_LeftAssociativeOperator_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(TokenType op)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = op
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = op
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            }
+            new Token(TokenType.Integer),
+            new Token(op),
+            new Token(TokenType.Integer),
+            new Token(op),
+            new Token(TokenType.Integer)
         });
 
         var expected = new BinaryExpression(
             new BinaryExpression(
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                }),
-                new Token
-                {
-                    Type = op
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })),
-            new Token
-            {
-                Type = op
-            },
-            new ConstantExpression(new Token
-            {
-                Type = TokenType.Integer
-            }));
+                new ConstantExpression(new Token(TokenType.Integer)),
+                new Token(op),
+                new ConstantExpression(new Token(TokenType.Integer))),
+            new Token(op),
+            new ConstantExpression(new Token(TokenType.Integer)));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -204,50 +114,20 @@ public class ExpressionParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = op
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = op
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            }
+            new Token(TokenType.Integer),
+            new Token(op),
+            new Token(TokenType.Integer),
+            new Token(op),
+            new Token(TokenType.Integer)
         });
 
         var expected = new BinaryExpression(
-            new ConstantExpression(new Token
-            {
-                Type = TokenType.Integer
-            }),
-            new Token
-            {
-                Type = op
-            },
+            new ConstantExpression(new Token(TokenType.Integer)),
+            new Token(op),
             new BinaryExpression(
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                }),
-                new Token
-                {
-                    Type = op
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })));
+                new ConstantExpression(new Token(TokenType.Integer)),
+                new Token(op),
+                new ConstantExpression(new Token(TokenType.Integer))));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -264,58 +144,22 @@ public class ExpressionParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = hiOp
-            },
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = loOp
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.Integer),
+            new Token(hiOp),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer),
+            new Token(loOp),
+            new Token(TokenType.Integer),
+            new Token(TokenType.RightParenthesis)
         });
 
         var expected = new BinaryExpression(
-            new ConstantExpression(new Token
-            {
-                Type = TokenType.Integer
-            }),
-            new Token
-            {
-                Type = hiOp
-            },
+            new ConstantExpression(new Token(TokenType.Integer)),
+            new Token(hiOp),
             new BinaryExpression(
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                }),
-                new Token
-                {
-                    Type = loOp
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })));
+                new ConstantExpression(new Token(TokenType.Integer)),
+                new Token(loOp),
+                new ConstantExpression(new Token(TokenType.Integer))));
 
         // Act
         var actual = _sut.Parse(tokenStream);

@@ -28,49 +28,19 @@ public class IfStatementParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.If
-            },
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.GreaterThan
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.LeftBrace
-            },
-            new Token
-            {
-                Type = TokenType.RightBrace
-            }
+            new Token(TokenType.If),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.GreaterThan),
+            new Token(TokenType.Integer),
+            new Token(TokenType.LeftBrace),
+            new Token(TokenType.RightBrace)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
             .Returns(new BinaryExpression(
-                new VariableReferenceExpression
-                {
-                    Identifier = new Token
-                    {
-                        Type = TokenType.Identifier
-                    }
-                },
-                new Token
-                {
-                    Type = TokenType.GreaterThan
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })))
+                new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                new Token(TokenType.GreaterThan),
+                new ConstantExpression(new Token(TokenType.Integer))))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
@@ -80,22 +50,9 @@ public class IfStatementParsingStrategyTests
 
         var expected = new IfStatement(
             new BinaryExpression(
-                new VariableReferenceExpression
-                {
-                    Identifier = new Token
-                    {
-                        Type = TokenType.Identifier
-                    }
-                },
-                new Token
-                {
-                    Type = TokenType.GreaterThan
-                },
-                new ConstantExpression(new Token
-                {
-                    Type = TokenType.Integer
-                })), 
-            Array.Empty<Statement>());
+                new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                new Token(TokenType.GreaterThan),
+                new ConstantExpression(new Token(TokenType.Integer))));
         
         // Act
         var actual = _sut.Parse(tokenStream);

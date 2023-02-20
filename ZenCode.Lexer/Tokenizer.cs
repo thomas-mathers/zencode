@@ -114,9 +114,8 @@ public class Tokenizer : ITokenizer
                 continue;
             }
 
-            var token = new Token
+            var token = new Token(matcher.TokenType)
             {
-                Type = matcher.TokenType,
                 Line = _currentLine,
                 StartingColumn = _currentColumn,
                 Text = match

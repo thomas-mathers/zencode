@@ -33,7 +33,7 @@ public class IfStatementParsingStrategy : IStatementParsingStrategy
         }
         
         tokenStream.Consume(TokenType.RightBrace);
-        
-        return new IfStatement(conditionExpression, statements);
+
+        return new IfStatement(conditionExpression) { Statements = statements };
     }
 }

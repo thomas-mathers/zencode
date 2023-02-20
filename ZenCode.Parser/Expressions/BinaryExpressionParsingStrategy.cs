@@ -53,7 +53,6 @@ public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
             TokenType.GreaterThanOrEqual => true,
             TokenType.And => true,
             TokenType.Or => true,
-            TokenType.Not => true,
             _ => false
         };
     }

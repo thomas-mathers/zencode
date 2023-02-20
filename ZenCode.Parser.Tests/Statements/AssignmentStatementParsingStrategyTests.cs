@@ -13,6 +13,10 @@ namespace ZenCode.Parser.Tests.Statements;
 
 public class AssignmentStatementParsingStrategyTests
 {
+    public static readonly IEnumerable<object[]> ConstantTokenTypes =
+        from c in TokenTypeGroups.GetConstants()
+        select new object[] { c };
+    
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly AssignmentStatementParsingStrategy _sut;
 
@@ -22,33 +26,24 @@ public class AssignmentStatementParsingStrategyTests
     }
 
     [Theory]
-    [ClassData(typeof(ConstantTestData))]
+    [MemberData(nameof(ConstantTokenTypes))]
     public void Parse_AssignmentToConstant_ReturnsAssignmentStatement(TokenType constantType)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.Assignment
-            },
-            new Token
-            {
-                Type = constantType
-            }
+            new Token(TokenType.Identifier),
+            new Token(TokenType.Assignment),
+            new Token(constantType)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = constantType }))
+            .Returns(new ConstantExpression(new Token(constantType)))
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
         var expected = new AssignmentStatement(
-            new Token { Type = TokenType.Identifier },
-            new ConstantExpression(new Token { Type = constantType }));
+            new Token(TokenType.Identifier),
+            new ConstantExpression(new Token(constantType)));
 
         // Act
         var actual = _sut.Parse(tokenStream);

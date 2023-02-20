@@ -12,6 +12,10 @@ namespace ZenCode.Parser.Tests.Expressions;
 
 public class UnaryExpressionParsingStrategyTests
 {
+    public static readonly IEnumerable<object[]> ConstantTokenTypes =
+        from c in TokenTypeGroups.GetConstants()
+        select new object[] { c };
+    
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly UnaryExpressionParsingStrategy _sut;
 
@@ -21,35 +25,26 @@ public class UnaryExpressionParsingStrategyTests
     }
 
     [Theory]
-    [ClassData(typeof(ConstantTestData))]
+    [MemberData(nameof(ConstantTokenTypes))]
     public void Parse_NotExpression_ReturnsUnaryExpression(TokenType constantType)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Not
-            },
-            new Token
-            {
-                Type = constantType
-            }
+            new Token(TokenType.Not),
+            new Token(constantType)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = constantType }))
+            .Returns(new ConstantExpression(new Token(constantType)))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
             });
 
         var expected = new UnaryExpression(
-            new Token
-            {
-                Type = TokenType.Not
-            },
-            new ConstantExpression(new Token { Type = constantType }));
+            new Token(TokenType.Not),
+            new ConstantExpression(new Token(constantType)));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -59,35 +54,26 @@ public class UnaryExpressionParsingStrategyTests
     }
     
     [Theory]
-    [ClassData(typeof(ConstantTestData))]
+    [MemberData(nameof(ConstantTokenTypes))]
     public void Parse_MinusExpression_ReturnsUnaryExpression(TokenType constantType)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Subtraction
-            },
-            new Token
-            {
-                Type = constantType
-            }
+            new Token(TokenType.Subtraction),
+            new Token(constantType)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = constantType }))
+            .Returns(new ConstantExpression(new Token(constantType)))
             .Callback<ITokenStream, int>((_, _) =>
             {
                 tokenStream.Consume();
             });
 
         var expected = new UnaryExpression(
-            new Token
-            {
-                Type = TokenType.Subtraction
-            },
-            new ConstantExpression(new Token { Type = constantType }));
+            new Token(TokenType.Subtraction),
+            new ConstantExpression(new Token(constantType)));
 
         // Act
         var actual = _sut.Parse(tokenStream);

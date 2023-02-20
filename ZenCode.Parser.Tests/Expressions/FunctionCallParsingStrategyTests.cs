@@ -13,6 +13,15 @@ namespace ZenCode.Parser.Tests.Expressions;
 
 public class FunctionCallParsingStrategyTests
 {
+    public static readonly IEnumerable<object[]> ConstantTokenTypes =
+        from c in TokenTypeGroups.GetConstants()
+        select new object[] { c };
+    
+    public static readonly IEnumerable<object[]> ConstantTokenTypePairs =
+        from c1 in TokenTypeGroups.GetConstants()
+        from c2 in TokenTypeGroups.GetConstants()
+        select new object[] { c1, c2 };
+    
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly FunctionCallParsingStrategy _sut;
     private readonly VariableReferenceExpression _variableReferenceExpression;
@@ -21,7 +30,7 @@ public class FunctionCallParsingStrategyTests
     {
         _sut = new FunctionCallParsingStrategy(_expressionParserMock.Object, 7);
         _variableReferenceExpression =
-            new VariableReferenceExpression { Identifier = new Token { Type = TokenType.Identifier } };
+            new VariableReferenceExpression(new Token(TokenType.Identifier));
     }
 
     [Fact]
@@ -30,14 +39,8 @@ public class FunctionCallParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer),
         });
 
         // Act + Assert
@@ -50,22 +53,10 @@ public class FunctionCallParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },    
-            new Token
-            {
-                Type = TokenType.Integer
-            },    
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer),    
+            new Token(TokenType.Integer),    
+            new Token(TokenType.RightParenthesis)
         });
 
         // Act + Assert
@@ -73,28 +64,16 @@ public class FunctionCallParsingStrategyTests
     }
     
     [Theory]
-    [ClassData(typeof(ConstantTestData))]
+    [MemberData(nameof(ConstantTokenTypes))]
     public void Parse_FunctionCallNoVariableReferenceExpression_ThrowsUnexpectedTokenException(TokenType tokenType)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = tokenType
-            },
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },       
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(tokenType),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer),       
+            new Token(TokenType.RightParenthesis)
         });
 
         // Act + Assert
@@ -107,30 +86,12 @@ public class FunctionCallParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.Comma
-            },
-            new Token
-            {
-                Type = TokenType.Comma
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },            
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer),
+            new Token(TokenType.Comma),
+            new Token(TokenType.Comma),
+            new Token(TokenType.Integer),            
+            new Token(TokenType.RightParenthesis)
         });
 
         // Act + Assert
@@ -143,22 +104,10 @@ public class FunctionCallParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.Comma
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Integer),
+            new Token(TokenType.Comma),
+            new Token(TokenType.RightParenthesis)
         });
 
         // Act + Assert
@@ -171,17 +120,11 @@ public class FunctionCallParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis)
         });
 
-        var expected = new FunctionCall { VariableReferenceExpression = _variableReferenceExpression };
+        var expected = new FunctionCall(_variableReferenceExpression);
 
         // Act
         var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
@@ -191,39 +134,26 @@ public class FunctionCallParsingStrategyTests
     }
 
     [Theory]
-    [ClassData(typeof(ConstantTestData))]
+    [MemberData(nameof(ConstantTokenTypes))]
     public void Parse_FunctionCallOneConstantParameter_ReturnsFunctionCallExpression(TokenType parameterType)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = parameterType
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(parameterType),
+            new Token(TokenType.RightParenthesis)
         });
         
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = parameterType }))
+            .Returns(new ConstantExpression(new Token(parameterType)))
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
-        var expected = new FunctionCall
+        var expected = new FunctionCall(_variableReferenceExpression)
         {
-            VariableReferenceExpression = _variableReferenceExpression,
             Parameters = new[]
             {
-                new ConstantExpression(new Token
-                {
-                    Type = parameterType
-                })
+                new ConstantExpression(new Token(parameterType))
             }
         };
 
@@ -235,33 +165,18 @@ public class FunctionCallParsingStrategyTests
     }
 
     [Theory]
-    [ClassData(typeof(ConstantPairTestData))]
+    [MemberData(nameof(ConstantTokenTypePairs))]
     public void Parse_FunctionCallTwoConstantParameters_ReturnsFunctionCallExpression(TokenType parameterType1,
         TokenType parameterType2)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.LeftParenthesis
-            },
-            new Token
-            {
-                Type = parameterType1
-            },
-            new Token
-            {
-                Type = TokenType.Comma
-            },
-            new Token
-            {
-                Type = parameterType2
-            },
-            new Token
-            {
-                Type = TokenType.RightParenthesis
-            }
+            new Token(TokenType.LeftParenthesis),
+            new Token(parameterType1),
+            new Token(TokenType.Comma),
+            new Token(parameterType2),
+            new Token(TokenType.RightParenthesis)
         });
 
         var invocationCount = 0;
@@ -271,25 +186,18 @@ public class FunctionCallParsingStrategyTests
             {
                 return ++invocationCount switch
                 {
-                    1 => new ConstantExpression(new Token { Type = parameterType1 }),
-                    _ => new ConstantExpression(new Token { Type = parameterType2 })
+                    1 => new ConstantExpression(new Token(parameterType1)),
+                    _ => new ConstantExpression(new Token(parameterType2))
                 };
             })
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
-        var expected = new FunctionCall
+        var expected = new FunctionCall(_variableReferenceExpression)
         {
-            VariableReferenceExpression = _variableReferenceExpression,
             Parameters = new[]
             {
-                new ConstantExpression(new Token
-                {
-                    Type = parameterType1
-                }),
-                new ConstantExpression(new Token
-                {
-                    Type = parameterType2
-                })
+                new ConstantExpression(new Token(parameterType1)),
+                new ConstantExpression(new Token(parameterType2))
             }
         };
 

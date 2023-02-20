@@ -3,7 +3,7 @@ using ZenCode.Lexer.Model;
 
 namespace ZenCode.Parser.Tests.TestData;
 
-public class LeftAssociativeOpTestData : IEnumerable<object[]>
+public class LeftAssociativeOperatorTokenTypes : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {

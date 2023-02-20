@@ -26,19 +26,10 @@ public class VariableReferenceParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            }
+            new Token(TokenType.Identifier)
         });
 
-        var expected = new VariableReferenceExpression
-        {
-            Identifier = new Token
-            {
-                Type = TokenType.Identifier
-            }
-        };
+        var expected = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -53,18 +44,9 @@ public class VariableReferenceParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.LeftBracket
-            },
-            new Token
-            {
-                Type = TokenType.RightBracket
-            }
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftBracket),
+            new Token(TokenType.RightBracket)
         });
 
         // Act + Assert
@@ -77,37 +59,21 @@ public class VariableReferenceParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.LeftBracket
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.RightBracket
-            }
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftBracket),
+            new Token(TokenType.Integer),
+            new Token(TokenType.RightBracket)
         });
 
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Returns(new ConstantExpression(new Token(TokenType.Integer)))
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
-        var expected = new VariableReferenceExpression
+        var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Identifier = new Token 
-            {
-                Type = TokenType.Identifier
-            },
             Indices = new[]
             {
-                new ConstantExpression(new Token { Type = TokenType.Integer })
+                new ConstantExpression(new Token(TokenType.Integer))
             }
         };
 
@@ -124,55 +90,27 @@ public class VariableReferenceParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token
-            {
-                Type = TokenType.Identifier
-            },
-            new Token
-            {
-                Type = TokenType.LeftBracket
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.Comma
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.Comma
-            },
-            new Token
-            {
-                Type = TokenType.Integer
-            },
-            new Token
-            {
-                Type = TokenType.RightBracket
-            }
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftBracket),
+            new Token(TokenType.Integer),
+            new Token(TokenType.Comma),
+            new Token(TokenType.Integer),
+            new Token(TokenType.Comma),
+            new Token(TokenType.Integer),
+            new Token(TokenType.RightBracket)
         });
 
         _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new ConstantExpression(new Token { Type = TokenType.Integer }))
+            .Returns(new ConstantExpression(new Token(TokenType.Integer)))
             .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
 
-        var expected = new VariableReferenceExpression
+        var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Identifier = new Token
-            {
-                Type = TokenType.Identifier
-            },
             Indices = new[]
             {
-                new ConstantExpression(new Token { Type = TokenType.Integer }),
-                new ConstantExpression(new Token { Type = TokenType.Integer }),
-                new ConstantExpression(new Token { Type = TokenType.Integer })
+                new ConstantExpression(new Token(TokenType.Integer)),
+                new ConstantExpression(new Token(TokenType.Integer)),
+                new ConstantExpression(new Token(TokenType.Integer))
             }
         };
             

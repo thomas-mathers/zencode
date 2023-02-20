@@ -29,7 +29,7 @@ public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
 
         if (!tokenStream.Match(TokenType.LeftBracket))
         {
-            return new VariableReferenceExpression { Identifier = identifierToken, Indices = indexExpressions };
+            return new VariableReferenceExpression(identifierToken) { Indices = indexExpressions };
         }
 
         if (tokenStream.Match(TokenType.RightBracket))
@@ -44,6 +44,6 @@ public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
 
         tokenStream.Consume(TokenType.RightBracket);
 
-        return new VariableReferenceExpression { Identifier = identifierToken, Indices = indexExpressions };
+        return new VariableReferenceExpression(identifierToken) { Indices = indexExpressions };
     }
 }
