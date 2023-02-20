@@ -39,6 +39,8 @@ public class Tokenizer : ITokenizer
         new TokenMatcher(TokenType.RightBrace, "}"),
         new TokenMatcher(TokenType.RightBracket, "]"),
         new TokenMatcher(TokenType.RightParenthesis, ")"),
+        new TokenMatcher(TokenType.Var, "var"),
+        new TokenMatcher(TokenType.While, "while"),
         new RegexTokenMatcher(TokenType.Float, "[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?"),
         new RegexTokenMatcher(TokenType.Integer, "[-+]?[0-9]+"),
         new RegexTokenMatcher(TokenType.Identifier, "[a-zA-Z][a-zA-Z0-9]*"),

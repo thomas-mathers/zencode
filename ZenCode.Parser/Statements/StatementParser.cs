@@ -17,7 +17,8 @@ public class StatementParser : IStatementParser
         {
             [TokenType.Identifier] = new AssignmentStatementParsingStrategy(expressionParser),
             [TokenType.If] = new IfStatementParsingStrategy(this, expressionParser),
-            [TokenType.While] = new WhileStatementParsingStrategy(this, expressionParser)
+            [TokenType.While] = new WhileStatementParsingStrategy(this, expressionParser),
+            [TokenType.Var] = new VariableDeclarationStatementParsingStrategy(expressionParser)
         };
     }
 
