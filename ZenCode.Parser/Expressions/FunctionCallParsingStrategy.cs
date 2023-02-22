@@ -8,11 +8,11 @@ namespace ZenCode.Parser.Expressions;
 
 public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 {
-    private readonly IExpressionParser _parser;
+    private readonly IExpressionListParser _expressionListParser;
 
-    public FunctionCallParsingStrategy(IExpressionParser parser, int precedence)
+    public FunctionCallParsingStrategy(IExpressionListParser expressionListParser, int precedence)
     {
-        _parser = parser;
+        _expressionListParser = expressionListParser;
         Precedence = precedence;
     }
 
@@ -27,17 +27,12 @@ public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 
         tokenStream.Consume(TokenType.LeftParenthesis);
 
-        var parameterExpressions = new List<Expression>();
-
         if (tokenStream.Match(TokenType.RightParenthesis))
         {
-            return new FunctionCall(variableReferenceExpression) { Parameters = parameterExpressions };
+            return new FunctionCall(variableReferenceExpression);
         }
 
-        do
-        {
-            parameterExpressions.Add(_parser.Parse(tokenStream));
-        } while (tokenStream.Match(TokenType.Comma));
+        var parameterExpressions = _expressionListParser.Parse(tokenStream);
 
         tokenStream.Consume(TokenType.RightParenthesis);
 

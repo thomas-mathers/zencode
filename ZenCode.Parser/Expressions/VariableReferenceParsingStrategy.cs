@@ -9,11 +9,11 @@ namespace ZenCode.Parser.Expressions;
 
 public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
 {
-    private readonly IExpressionParser _parser;
+    private readonly IExpressionListParser _expressionListParser;
 
-    public VariableReferenceParsingStrategy(IExpressionParser parser)
+    public VariableReferenceParsingStrategy(IExpressionListParser expressionListParser)
     {
-        _parser = parser;
+        _expressionListParser = expressionListParser;
     }
 
     public Expression Parse(ITokenStream tokenStream)
@@ -25,11 +25,9 @@ public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
             throw new UnexpectedTokenException();
         }
 
-        var indexExpressions = new List<Expression>();
-
         if (!tokenStream.Match(TokenType.LeftBracket))
         {
-            return new VariableReferenceExpression(identifierToken) { Indices = indexExpressions };
+            return new VariableReferenceExpression(identifierToken);
         }
 
         if (tokenStream.Match(TokenType.RightBracket))
@@ -37,10 +35,7 @@ public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
             throw new MissingIndexExpressionException();
         }
 
-        do
-        {
-            indexExpressions.Add(_parser.Parse(tokenStream));
-        } while (tokenStream.Match(TokenType.Comma));
+        var indexExpressions = _expressionListParser.Parse(tokenStream);
 
         tokenStream.Consume(TokenType.RightBracket);
 

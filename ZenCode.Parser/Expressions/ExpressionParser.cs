@@ -13,17 +13,20 @@ public class ExpressionParser : IExpressionParser
 
     public ExpressionParser()
     {
+        var expressionListParser = new ExpressionListParser(this);
+        
         _prefixStrategies = new Dictionary<TokenType, IPrefixExpressionParsingStrategy>
         {
             [TokenType.Boolean] = new ConstantParsingStrategy(),
             [TokenType.Integer] = new ConstantParsingStrategy(),
             [TokenType.Float] = new ConstantParsingStrategy(),
             [TokenType.String] = new ConstantParsingStrategy(),
-            [TokenType.Identifier] = new VariableReferenceParsingStrategy(this),
+            [TokenType.Identifier] = new VariableReferenceParsingStrategy(expressionListParser),
             [TokenType.Subtraction] = new UnaryExpressionParsingStrategy(this),
             [TokenType.Not] = new UnaryExpressionParsingStrategy(this),
             [TokenType.LeftParenthesis] = new ParenthesizedExpressionParsingStrategy(this)
         };
+        
         _infixStrategies = new Dictionary<TokenType, IInfixExpressionParsingStrategy>
         {
             [TokenType.Addition] = new BinaryExpressionParsingStrategy(this, 4),
@@ -40,7 +43,7 @@ public class ExpressionParser : IExpressionParser
             [TokenType.GreaterThanOrEqual] = new BinaryExpressionParsingStrategy(this, 3),
             [TokenType.And] = new BinaryExpressionParsingStrategy(this, 2),
             [TokenType.Or] = new BinaryExpressionParsingStrategy(this, 1),
-            [TokenType.LeftParenthesis] = new FunctionCallParsingStrategy(this, 7)
+            [TokenType.LeftParenthesis] = new FunctionCallParsingStrategy(expressionListParser, 7)
         };
     }
 

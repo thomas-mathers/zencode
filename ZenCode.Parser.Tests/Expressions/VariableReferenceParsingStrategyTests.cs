@@ -14,12 +14,12 @@ namespace ZenCode.Parser.Tests.Expressions;
 public class VariableReferenceParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<IExpressionParser> _expressionParserMock = new();
+    private readonly Mock<IExpressionListParser> _expressionListParserMock = new();
     private readonly VariableReferenceParsingStrategy _sut;
 
     public VariableReferenceParsingStrategyTests()
     {
-        _sut = new VariableReferenceParsingStrategy(_expressionParserMock.Object);
+        _sut = new VariableReferenceParsingStrategy(_expressionListParserMock.Object);
     }
 
     [Fact]
@@ -74,7 +74,7 @@ public class VariableReferenceParsingStrategyTests
             Indices = indices
         };
 
-        _expressionParserMock.ReturnsExpression(indices[0]);
+        _expressionListParserMock.ReturnsExpressionSequence(indices);
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -92,10 +92,6 @@ public class VariableReferenceParsingStrategyTests
             new Token(TokenType.Identifier),
             new Token(TokenType.LeftBracket),
             new Token(TokenType.None),
-            new Token(TokenType.Comma),
-            new Token(TokenType.None),
-            new Token(TokenType.Comma),
-            new Token(TokenType.None),
             new Token(TokenType.RightBracket)
         });
 
@@ -106,7 +102,7 @@ public class VariableReferenceParsingStrategyTests
             Indices = indices
         };
 
-        _expressionParserMock.ReturnsExpressionSequence(indices);
+        _expressionListParserMock.ReturnsExpressionSequence(indices);
 
         // Act
         var actual = _sut.Parse(tokenStream);
