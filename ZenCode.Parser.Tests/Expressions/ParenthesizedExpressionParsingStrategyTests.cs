@@ -3,11 +3,11 @@ using Moq;
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
-using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
+using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
@@ -35,13 +35,8 @@ public class ParenthesizedExpressionParsingStrategyTests
         });
 
         var expression = _fixture.Create<Expression>();
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(expression)
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });        
+
+        _expressionParserMock.ReturnsExpression(expression);
         
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
@@ -74,13 +69,8 @@ public class ParenthesizedExpressionParsingStrategyTests
         });
         
         var expression = _fixture.Create<Expression>();
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(expression)
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+
+        _expressionParserMock.ReturnsExpression(expression);
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
@@ -98,13 +88,8 @@ public class ParenthesizedExpressionParsingStrategyTests
         });
         
         var expected = _fixture.Create<Expression>();
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(expected)
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+
+        _expressionParserMock.ReturnsExpression(expected);
 
         // Act
         var actual = _sut.Parse(tokenStream);

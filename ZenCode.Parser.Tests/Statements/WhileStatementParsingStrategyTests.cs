@@ -1,7 +1,6 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Common.Testing.Extensions;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Grammar.Statements;
 using ZenCode.Lexer;
@@ -10,6 +9,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Statements;
+using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Statements;
 
@@ -40,12 +40,7 @@ public class WhileStatementParsingStrategyTests
         var condition = _fixture.Create<Expression>();
         var expected = new WhileStatement(condition);
 
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(condition)
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+        _expressionParserMock.ReturnsExpression(condition);
         
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -110,20 +105,9 @@ public class WhileStatementParsingStrategyTests
         var condition = _fixture.Create<Expression>();
         var bodyStatements = _fixture.CreateMany<Statement>(3).ToArray();
         var expected = new WhileStatement(condition) { Statements = bodyStatements };
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(condition)
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
-        
-        _statementParserMock.Setup(x => x.Parse(tokenStream))
-            .ReturnsSequence(bodyStatements)
-            .Callback<ITokenStream>(_ =>
-            {
-                tokenStream.Consume();
-            });
+
+        _expressionParserMock.ReturnsExpression(condition);
+        _statementParserMock.ReturnsStatementSequence(bodyStatements);
         
         // Act
         var actual = _sut.Parse(tokenStream);

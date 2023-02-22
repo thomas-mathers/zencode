@@ -3,10 +3,10 @@ using Moq;
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
-using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
+using ZenCode.Parser.Tests.Extensions;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions;
@@ -38,13 +38,8 @@ public class UnaryExpressionParsingStrategyTests
         var expected = new UnaryExpression(
             new Token(operatorToken),
             expression);
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(expression)
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+
+        _expressionParserMock.ReturnsExpression(expression);
 
         // Act
         var actual = _sut.Parse(tokenStream);

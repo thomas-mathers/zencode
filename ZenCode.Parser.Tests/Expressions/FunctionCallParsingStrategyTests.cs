@@ -1,14 +1,13 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Common.Testing.Extensions;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
-using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
+using ZenCode.Parser.Tests.Extensions;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions;
@@ -36,13 +35,8 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.LeftParenthesis),
             new Token(TokenType.None),
         });
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new Expression())
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+
+        _expressionParserMock.ReturnsExpression(_fixture.Create<Expression>());
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -60,12 +54,7 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.RightParenthesis)
         });
         
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new Expression())
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+        _expressionParserMock.ReturnsExpression(_fixture.Create<Expression>());
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -84,12 +73,7 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.RightParenthesis)
         });
         
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new Expression())
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+        _expressionParserMock.ReturnsExpression(_fixture.Create<Expression>());
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -109,12 +93,7 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.RightParenthesis)
         });
         
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new Expression())
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+        _expressionParserMock.ReturnsExpression(_fixture.Create<Expression>());
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -132,12 +111,7 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.RightParenthesis)
         });
         
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(new Expression())
-            .Callback<ITokenStream, int>((_, _) =>
-            {
-                tokenStream.Consume();
-            });
+        _expressionParserMock.ReturnsExpression(_fixture.Create<Expression>());
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -180,9 +154,7 @@ public class FunctionCallParsingStrategyTests
             Parameters = parameters
         };
         
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(parameters[0])
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+        _expressionParserMock.ReturnsExpression(parameters[0]);
 
         // Act
         var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
@@ -213,9 +185,7 @@ public class FunctionCallParsingStrategyTests
             Parameters = parameters
         };
 
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .ReturnsSequence(parameters)
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+        _expressionParserMock.ReturnsExpressionSequence(parameters);
 
         // Act
         var actual = _sut.Parse(tokenStream, _variableReferenceExpression);

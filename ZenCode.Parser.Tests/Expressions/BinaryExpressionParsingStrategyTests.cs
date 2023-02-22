@@ -3,10 +3,10 @@ using Moq;
 using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
-using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
+using ZenCode.Parser.Tests.Extensions;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions;
@@ -41,9 +41,7 @@ public class BinaryExpressionParsingStrategyTests
             new Token(operatorTokenType),
             rExpression);
 
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(rExpression)
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+        _expressionParserMock.ReturnsExpression(rExpression);
 
         // Act
         var actual = _sut.Parse(tokenStream, lExpression);

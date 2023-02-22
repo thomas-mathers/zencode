@@ -24,7 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ZenCode.Common.Testing\ZenCode.Common.Testing.csproj" />
         <ProjectReference Include="..\ZenCode.Parser\ZenCode.Parser.csproj" />
     </ItemGroup>
 

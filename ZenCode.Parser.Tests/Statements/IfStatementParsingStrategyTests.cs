@@ -1,7 +1,6 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Common.Testing.Extensions;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Grammar.Statements;
 using ZenCode.Lexer;
@@ -10,6 +9,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Statements;
+using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Statements;
 
@@ -77,13 +77,8 @@ public class IfStatementParsingStrategyTests
             {
                 tokenStream.Consume();
             });
-        
-        _statementParserMock.Setup(x => x.Parse(tokenStream))
-            .Returns(bodyStatements[0])
-            .Callback<ITokenStream>(_ =>
-            {
-                tokenStream.Consume();
-            });
+
+        _statementParserMock.ReturnsStatement(bodyStatements[0]);
         
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -117,13 +112,8 @@ public class IfStatementParsingStrategyTests
             {
                 tokenStream.Consume();
             });
-        
-        _statementParserMock.Setup(x => x.Parse(tokenStream))
-            .ReturnsSequence(bodyStatements)
-            .Callback<ITokenStream>(_ =>
-            {
-                tokenStream.Consume();
-            });
+
+        _statementParserMock.ReturnsStatementSequence(bodyStatements);
 
         // Act
         var actual = _sut.Parse(tokenStream);

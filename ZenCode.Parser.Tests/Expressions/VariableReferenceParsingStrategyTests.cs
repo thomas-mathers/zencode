@@ -1,14 +1,13 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Common.Testing.Extensions;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
-using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Expressions;
+using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Expressions;
 
@@ -75,9 +74,7 @@ public class VariableReferenceParsingStrategyTests
             Indices = indices
         };
 
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(indices[0])
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+        _expressionParserMock.ReturnsExpression(indices[0]);
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -108,10 +105,8 @@ public class VariableReferenceParsingStrategyTests
         {
             Indices = indices
         };
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .ReturnsSequence(indices)
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+
+        _expressionParserMock.ReturnsExpressionSequence(indices);
 
         // Act
         var actual = _sut.Parse(tokenStream);
