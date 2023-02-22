@@ -11,7 +11,7 @@ public class Parser : IParser
     private readonly IStatementParser _statementParser;
     private readonly ITokenizer _tokenizer;
 
-    protected Parser(ITokenizer tokenizer, IStatementParser statementParser)
+    public Parser(ITokenizer tokenizer, IStatementParser statementParser)
     {
         _tokenizer = tokenizer;
         _statementParser = statementParser;

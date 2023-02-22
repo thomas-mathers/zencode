@@ -2,6 +2,7 @@ using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Tests.TestData;
 

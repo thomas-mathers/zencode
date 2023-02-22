@@ -4,10 +4,10 @@ using Xunit;
 using ZenCode.Grammar.Expressions;
 using ZenCode.Grammar.Statements;
 using ZenCode.Lexer;
-using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Statements;
+using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Statements;
 
@@ -37,10 +37,8 @@ public class AssignmentStatementParsingStrategyTests
         var expected = new AssignmentStatement(
             new Token(TokenType.Identifier),
             expression);
-        
-        _expressionParserMock.Setup(x => x.Parse(tokenStream, 0))
-            .Returns(expression)
-            .Callback<ITokenStream, int>((_, _) => { tokenStream.Consume(); });
+
+        _expressionParserMock.ReturnsExpression(expression);
 
         // Act
         var actual = _sut.Parse(tokenStream);

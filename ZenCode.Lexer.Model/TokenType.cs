@@ -9,6 +9,8 @@ public enum TokenType
     Boolean,
     Comma,
     Division,
+    Else,
+    ElseIf,
     Equals,
     Exponentiation,
     Float,

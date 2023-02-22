@@ -1,37 +1,41 @@
 using ZenCode.Grammar.Statements;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements;
 
 namespace ZenCode.Parser.Statements;
 
 public class IfStatementParsingStrategy : IStatementParsingStrategy
 {
-    private readonly IExpressionParser _expressionParser;
-    private readonly IStatementParser _statementParser;
+    private readonly IConditionScopeParser _conditionScopeParser;
+    private readonly IScopeParser _scopeParser;
 
-    public IfStatementParsingStrategy(IStatementParser statementParser, IExpressionParser expressionParser)
+    public IfStatementParsingStrategy(IConditionScopeParser conditionScopeParser, IScopeParser scopeParser)
     {
-        _statementParser = statementParser;
-        _expressionParser = expressionParser;
+        _conditionScopeParser = conditionScopeParser;
+        _scopeParser = scopeParser;
     }
     
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.If);
         
-        var conditionExpression = _expressionParser.Parse(tokenStream);
+        var thenScope = _conditionScopeParser.Parse(tokenStream);
+
+        var elseIfScopes = new List<ConditionScope>();
         
-        tokenStream.Consume(TokenType.LeftBrace);
-        
-        var statements = new List<Statement>();
-        
-        while (!tokenStream.Match(TokenType.RightBrace))
+        while (tokenStream.Match(TokenType.ElseIf))
         {
-            statements.Add(_statementParser.Parse(tokenStream));
+            elseIfScopes.Add(_conditionScopeParser.Parse(tokenStream));
         }
 
-        return new IfStatement(conditionExpression) { Statements = statements };
+        Scope? elseScope = null;
+        
+        if (tokenStream.Match(TokenType.Else))
+        {
+            elseScope = _scopeParser.Parse(tokenStream);
+        }
+
+        return new IfStatement(thenScope) { ElseIfScopes = elseIfScopes, ElseScope = elseScope };
     }
 }

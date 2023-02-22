@@ -13,11 +13,14 @@ public class StatementParser : IStatementParser
 
     public StatementParser(IExpressionParser expressionParser)
     {
+        var scopeParser = new ScopeParser(this);
+        var conditionScopeParser = new ConditionScopeParser(expressionParser, scopeParser);
+        
         _statementParsingStrategies = new Dictionary<TokenType, IStatementParsingStrategy>
         {
             [TokenType.Identifier] = new AssignmentStatementParsingStrategy(expressionParser),
-            [TokenType.If] = new IfStatementParsingStrategy(this, expressionParser),
-            [TokenType.While] = new WhileStatementParsingStrategy(this, expressionParser),
+            [TokenType.If] = new IfStatementParsingStrategy(conditionScopeParser, scopeParser),
+            [TokenType.While] = new WhileStatementParsingStrategy(conditionScopeParser),
             [TokenType.Var] = new VariableDeclarationStatementParsingStrategy(expressionParser)
         };
     }

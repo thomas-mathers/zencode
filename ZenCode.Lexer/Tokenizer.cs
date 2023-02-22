@@ -21,6 +21,8 @@ public class Tokenizer : ITokenizer
         new TokenMatcher(TokenType.Boolean, "true"),
         new TokenMatcher(TokenType.Comma, ","),
         new TokenMatcher(TokenType.Division, "/"),
+        new TokenMatcher(TokenType.ElseIf, "else if"),
+        new TokenMatcher(TokenType.Else, "else"),
         new TokenMatcher(TokenType.Equals, "="),
         new TokenMatcher(TokenType.Exponentiation, "^"),
         new TokenMatcher(TokenType.GreaterThanOrEqual, ">="),
