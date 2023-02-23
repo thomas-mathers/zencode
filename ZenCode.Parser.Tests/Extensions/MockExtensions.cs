@@ -19,6 +19,15 @@ public static class MockOfExpressionExtensions
             .Callback<ITokenStream, int>((tokenStream, _) => tokenStream.Consume());
     }
     
+    public static ICallbackResult ReturnsExpressionSequence(this Mock<IExpressionParser> mock, IReadOnlyList<Expression> expressions)
+    {
+        var index = 0;
+        return mock
+            .Setup(x => x.Parse(It.IsAny<TokenStream>(), It.IsAny<int>()))
+            .Returns(() => expressions[index++])
+            .Callback<ITokenStream, int>((tokenStream, _) => tokenStream.Consume());
+    }
+    
     public static ICallbackResult ReturnsExpressionSequence(this Mock<IExpressionListParser> mock, IReadOnlyList<Expression> expressions)
     {
         return mock
