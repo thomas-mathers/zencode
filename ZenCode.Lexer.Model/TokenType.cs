@@ -29,6 +29,7 @@ public enum TokenType
     Not,
     NotEquals,
     Or,
+    Print,
     RightBrace,
     RightBracket,
     RightParenthesis,

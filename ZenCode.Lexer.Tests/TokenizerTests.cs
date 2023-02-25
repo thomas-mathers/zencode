@@ -32,6 +32,7 @@ public class TokenizerTests
     [InlineData("mod", TokenType.Modulus)]
     [InlineData("not", TokenType.Not)]
     [InlineData("or", TokenType.Or)]
+    [InlineData("print", TokenType.Print)]
     [InlineData("true", TokenType.Boolean)]
     [InlineData("var", TokenType.Var)]
     [InlineData("while", TokenType.While)]
