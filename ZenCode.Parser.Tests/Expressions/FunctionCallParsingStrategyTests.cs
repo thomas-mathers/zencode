@@ -32,10 +32,13 @@ public class FunctionCallParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.None),
+            new Token(TokenType.None)
         });
 
-        _expressionListParserMock.ReturnsExpressionSequence(_fixture.CreateMany<Expression>().ToArray());
+        _expressionListParserMock
+            .Setup(x => x.Parse(tokenStream))
+            .Returns(_fixture.CreateMany<Expression>().ToArray())
+            .ConsumesToken(tokenStream);
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
@@ -72,13 +75,16 @@ public class FunctionCallParsingStrategyTests
         });
 
         var parameters = _fixture.CreateMany<Expression>(1).ToArray();
-        
+
         var expected = new FunctionCall(_variableReferenceExpression)
         {
             Parameters = parameters
         };
-        
-        _expressionListParserMock.ReturnsExpressionSequence(parameters);
+
+        _expressionListParserMock
+            .Setup(x => x.Parse(tokenStream))
+            .Returns(parameters)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
@@ -99,13 +105,16 @@ public class FunctionCallParsingStrategyTests
         });
 
         var parameters = _fixture.CreateMany<Expression>(3).ToList();
-        
+
         var expected = new FunctionCall(_variableReferenceExpression)
         {
             Parameters = parameters
         };
 
-        _expressionListParserMock.ReturnsExpressionSequence(parameters);
+        _expressionListParserMock
+            .Setup(x => x.Parse(tokenStream))
+            .Returns(parameters)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream, _variableReferenceExpression);

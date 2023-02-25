@@ -35,7 +35,10 @@ public class ExpressionListParserTests
 
         var expected = _fixture.CreateMany<Expression>(1).ToArray();
 
-        _expressionParserMock.ReturnsExpressionSequence(expected);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .ReturnsSequence(expected)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -59,7 +62,10 @@ public class ExpressionListParserTests
 
         var expected = _fixture.CreateMany<Expression>(3).ToArray();
 
-        _expressionParserMock.ReturnsExpressionSequence(expected);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .ReturnsSequence(expected)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -84,7 +90,10 @@ public class ExpressionListParserTests
 
         var expected = expressions[..1];
 
-        _expressionParserMock.ReturnsExpressionSequence(expressions);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .ReturnsSequence(expected)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream);

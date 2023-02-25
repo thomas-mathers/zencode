@@ -41,7 +41,10 @@ public class BinaryExpressionParsingStrategyTests
             new Token(operatorTokenType),
             rExpression);
 
-        _expressionParserMock.ReturnsExpression(rExpression);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .Returns(rExpression)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream, lExpression);

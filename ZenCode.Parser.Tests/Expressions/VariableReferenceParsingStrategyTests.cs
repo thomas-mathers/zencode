@@ -74,7 +74,10 @@ public class VariableReferenceParsingStrategyTests
             Indices = indices
         };
 
-        _expressionListParserMock.ReturnsExpressionSequence(indices);
+        _expressionListParserMock
+            .Setup(x => x.Parse(tokenStream))
+            .Returns(indices)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -102,7 +105,10 @@ public class VariableReferenceParsingStrategyTests
             Indices = indices
         };
 
-        _expressionListParserMock.ReturnsExpressionSequence(indices);
+        _expressionListParserMock
+            .Setup(x => x.Parse(tokenStream))
+            .Returns(indices)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream);

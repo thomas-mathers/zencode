@@ -51,12 +51,17 @@ public class ScopeParserTests
             new Token(TokenType.RightBrace)
         });
 
+        var statement = _fixture.Create<Statement>();
+
         var expected = new Scope
         {
-            Statements = _fixture.CreateMany<Statement>(1).ToArray()
+            Statements = new[] { statement }
         };
 
-        _statementParserMock.ReturnsStatementSequence(expected.Statements);
+        _statementParserMock
+            .Setup(x => x.Parse(tokenStream))
+            .Returns(statement)
+            .ConsumesToken(tokenStream);
         
         // Act
         var actual = _sut.Parse(tokenStream);
@@ -78,12 +83,17 @@ public class ScopeParserTests
             new Token(TokenType.RightBrace)
         });
 
+        var statements = _fixture.CreateMany<Statement>(3).ToArray();
+
         var expected = new Scope
         {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
+            Statements = statements
         };
 
-        _statementParserMock.ReturnsStatementSequence(expected.Statements);
+        _statementParserMock
+            .Setup(x => x.Parse(tokenStream))
+            .ReturnsSequence(statements)
+            .ConsumesToken(tokenStream);
         
         // Act
         var actual = _sut.Parse(tokenStream);

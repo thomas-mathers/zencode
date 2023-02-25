@@ -38,7 +38,10 @@ public class AssignmentStatementParsingStrategyTests
             new Token(TokenType.Identifier),
             expression);
 
-        _expressionParserMock.ReturnsExpression(expression);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .Returns(expression)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream);

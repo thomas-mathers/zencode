@@ -36,7 +36,10 @@ public class ParenthesizedExpressionParsingStrategyTests
 
         var expression = _fixture.Create<Expression>();
 
-        _expressionParserMock.ReturnsExpression(expression);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .Returns(expression)
+            .ConsumesToken(tokenStream);
         
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
@@ -70,7 +73,10 @@ public class ParenthesizedExpressionParsingStrategyTests
         
         var expression = _fixture.Create<Expression>();
 
-        _expressionParserMock.ReturnsExpression(expression);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .Returns(expression)
+            .ConsumesToken(tokenStream);
 
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
@@ -89,7 +95,10 @@ public class ParenthesizedExpressionParsingStrategyTests
         
         var expected = _fixture.Create<Expression>();
 
-        _expressionParserMock.ReturnsExpression(expected);
+        _expressionParserMock
+            .Setup(x => x.Parse(tokenStream, 0))
+            .Returns(expected)
+            .ConsumesToken(tokenStream);
 
         // Act
         var actual = _sut.Parse(tokenStream);
