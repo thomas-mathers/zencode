@@ -12,7 +12,7 @@ public class TypeParserTests
     private readonly TypeParser _sut = new();
 
     [Fact]
-    public void Parse_Boolean_ReturnsCorrectType()
+    public void Parse_Boolean_ReturnsBooleanType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -30,7 +30,7 @@ public class TypeParserTests
     }
     
     [Fact]
-    public void Parse_Integer_ReturnsCorrectType()
+    public void Parse_Integer_ReturnsIntegerType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -48,7 +48,7 @@ public class TypeParserTests
     }
     
     [Fact]
-    public void Parse_Float_ReturnsCorrectType()
+    public void Parse_Float_ReturnsFloatType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -66,7 +66,7 @@ public class TypeParserTests
     }
     
     [Fact]
-    public void Parse_String_ReturnsCorrectType()
+    public void Parse_String_ReturnsStringType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -84,7 +84,7 @@ public class TypeParserTests
     }
     
     [Fact]
-    public void Parse_BooleanArray_ReturnsCorrectType()
+    public void Parse_BooleanArray_ReturnsArrayType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -104,7 +104,7 @@ public class TypeParserTests
     }
     
     [Fact]
-    public void Parse_IntegerArray_ReturnsCorrectType()
+    public void Parse_IntegerArray_ReturnsArrayType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -124,7 +124,7 @@ public class TypeParserTests
     }
     
     [Fact]
-    public void Parse_FloatArray_ReturnsCorrectType()
+    public void Parse_FloatArray_ReturnsArrayType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -144,7 +144,7 @@ public class TypeParserTests
     }
     
     [Fact]
-    public void Parse_StringArray_ReturnsCorrectType()
+    public void Parse_StringArray_ReturnsArrayType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
