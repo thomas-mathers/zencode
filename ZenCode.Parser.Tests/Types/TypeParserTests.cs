@@ -3,7 +3,6 @@ using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Types;
 using ZenCode.Parser.Types;
-using Type = System.Type;
 
 namespace ZenCode.Parser.Tests.Types;
 
