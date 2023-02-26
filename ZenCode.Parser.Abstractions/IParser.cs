@@ -1,4 +1,4 @@
-﻿using ZenCode.Grammar;
+﻿using ZenCode.Parser.Model.Grammar;
 
 namespace ZenCode.Parser.Abstractions;
 

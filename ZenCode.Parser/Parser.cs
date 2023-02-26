@@ -1,8 +1,8 @@
-﻿using ZenCode.Grammar;
-using ZenCode.Grammar.Statements;
-using ZenCode.Lexer.Abstractions;
+﻿using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Statements;
+using ZenCode.Parser.Model.Grammar;
+using ZenCode.Parser.Model.Grammar.Statements;
 
 namespace ZenCode.Parser;
 

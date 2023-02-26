@@ -1,5 +1,5 @@
-using ZenCode.Grammar.Expressions;
 using ZenCode.Lexer.Abstractions;
+using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Abstractions.Expressions;
 

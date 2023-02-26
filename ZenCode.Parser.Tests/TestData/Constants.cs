@@ -7,10 +7,10 @@ public class Constants : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return new object[] { TokenType.Boolean };
-        yield return new object[] { TokenType.Integer };
-        yield return new object[] { TokenType.Float };
-        yield return new object[] { TokenType.String };
+        yield return new object[] { TokenType.BooleanLiteral };
+        yield return new object[] { TokenType.IntegerLiteral };
+        yield return new object[] { TokenType.FloatLiteral };
+        yield return new object[] { TokenType.StringLiteral };
     }
 
     IEnumerator IEnumerable.GetEnumerator()

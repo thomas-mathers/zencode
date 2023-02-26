@@ -16,24 +16,31 @@ public class TokenizerTests
     [InlineData("+", TokenType.Addition)]
     [InlineData("-", TokenType.Subtraction)]
     [InlineData("/", TokenType.Division)]
+    [InlineData(":", TokenType.Colon)]
     [InlineData(":=", TokenType.Assignment)]
     [InlineData("<", TokenType.LessThan)]
     [InlineData("<=", TokenType.LessThanOrEqual)]
     [InlineData("=", TokenType.Equals)]
+    [InlineData("=>", TokenType.RightArrow)]
     [InlineData(">", TokenType.GreaterThan)]
     [InlineData(">=", TokenType.GreaterThanOrEqual)]
-    [InlineData("FALSE", TokenType.Boolean)]
-    [InlineData("TRUE", TokenType.Boolean)]
+    [InlineData("FALSE", TokenType.BooleanLiteral)]
+    [InlineData("TRUE", TokenType.BooleanLiteral)]
     [InlineData("[", TokenType.LeftBracket)]
     [InlineData("]", TokenType.RightBracket)]
     [InlineData("^", TokenType.Exponentiation)]
     [InlineData("and", TokenType.And)]
-    [InlineData("false", TokenType.Boolean)]
+    [InlineData("bool", TokenType.Boolean)]
+    [InlineData("false", TokenType.BooleanLiteral)]
+    [InlineData("float", TokenType.Float)]
+    [InlineData("function", TokenType.Function)]
+    [InlineData("int", TokenType.Integer)]
     [InlineData("mod", TokenType.Modulus)]
     [InlineData("not", TokenType.Not)]
     [InlineData("or", TokenType.Or)]
     [InlineData("print", TokenType.Print)]
-    [InlineData("true", TokenType.Boolean)]
+    [InlineData("string", TokenType.String)]
+    [InlineData("true", TokenType.BooleanLiteral)]
     [InlineData("var", TokenType.Var)]
     [InlineData("while", TokenType.While)]
     public void Tokenize_ValidToken_ReturnsToken(string text, TokenType expectedTokenType)
@@ -89,7 +96,7 @@ public class TokenizerTests
     public void Tokenize_ValidInteger_ReturnsInteger(string text)
     {
         // Arrange
-        var expectedToken = new Token(TokenType.Integer)
+        var expectedToken = new Token(TokenType.IntegerLiteral)
         {
             Text = text
         };
@@ -110,7 +117,7 @@ public class TokenizerTests
     public void Tokenize_ValidFloat_ReturnsFloat(string text)
     {
         // Arrange
-        var expectedToken = new Token(TokenType.Float)
+        var expectedToken = new Token(TokenType.FloatLiteral)
         {
             Text = text
         };
@@ -140,7 +147,7 @@ public class TokenizerTests
     public void Tokenize_ValidString_ReturnsString(string text)
     {
         // Arrange
-        var expectedToken = new Token(TokenType.String)
+        var expectedToken = new Token(TokenType.StringLiteral)
         {
             Text = text
         };
@@ -220,7 +227,7 @@ public class TokenizerTests
                 StartingColumn = 2,
                 Text = ":="
             },
-            new Token(TokenType.Float)
+            new Token(TokenType.FloatLiteral)
             {
                 Line = 0,
                 StartingColumn = 5,
@@ -238,7 +245,7 @@ public class TokenizerTests
                 StartingColumn = 2,
                 Text = ":="
             },
-            new Token(TokenType.Float)
+            new Token(TokenType.FloatLiteral)
             {
                 Line = 1,
                 StartingColumn = 5,
@@ -292,7 +299,7 @@ public class TokenizerTests
                 StartingColumn = 13,
                 Text = "^"
             },
-            new Token(TokenType.Integer)
+            new Token(TokenType.IntegerLiteral)
             {
                 Line = 2,
                 StartingColumn = 15,
@@ -304,7 +311,7 @@ public class TokenizerTests
                 StartingColumn = 17,
                 Text = "+"
             },
-            new Token(TokenType.Integer)
+            new Token(TokenType.IntegerLiteral)
             {
                 Line = 2,
                 StartingColumn = 19,

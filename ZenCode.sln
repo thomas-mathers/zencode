@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Lexer.Abstractions"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Parser.Abstractions", "ZenCode.Parser.Abstractions\ZenCode.Parser.Abstractions.csproj", "{704D80B6-1FFA-4E55-8EF2-B885D99BCDAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Grammar", "ZenCode.Grammar\ZenCode.Grammar.csproj", "{911622F6-6288-41DB-BCB3-039456F059BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Parser.Model", "ZenCode.Parser.Model\ZenCode.Parser.Model.csproj", "{911622F6-6288-41DB-BCB3-039456F059BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Lexer.Model", "ZenCode.Lexer.Model\ZenCode.Lexer.Model.csproj", "{BA59E65B-B13D-4CD0-87E7-2A21FD7450A1}"
 EndProject
