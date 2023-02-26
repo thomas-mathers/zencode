@@ -1,3 +1,3 @@
 namespace ZenCode.Parser.Model.Types;
 
-public record ArrayType : Type;
+public record ArrayType(Type BaseType) : Type;

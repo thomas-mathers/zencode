@@ -1,6 +1,5 @@
 using System.Collections;
 using ZenCode.Lexer.Abstractions;
-using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer;
@@ -17,13 +16,18 @@ public class TokenStream : ITokenStream
 
     public Token Current => Peek(0)!;
 
-    public Token Consume(TokenType tokenType)
+    public Token Consume(params TokenType[] tokenTypes)
     {
         var token = TryConsumeToken();
-
-        if (token?.Type != tokenType)
+        
+        if (token == null)
         {
-            throw new UnexpectedTokenException();
+            throw new InvalidOperationException();
+        }
+
+        if (!tokenTypes.Contains(token.Type))
+        {
+            throw new InvalidOperationException();
         }
 
         return token;

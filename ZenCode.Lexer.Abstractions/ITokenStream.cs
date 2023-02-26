@@ -5,7 +5,7 @@ namespace ZenCode.Lexer.Abstractions;
 public interface ITokenStream : IEnumerable<Token>
 {
     Token Current { get; }
-    Token Consume(TokenType tokenType);
+    Token Consume(params TokenType[] tokenTypes);
     Token Consume();
     Token? Peek(byte numTokens);
     bool Match(TokenType tokenType);
