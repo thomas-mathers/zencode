@@ -4,7 +4,7 @@ using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Expressions.Helpers;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Expressions.Helpers;
+namespace ZenCode.Parser.Expressions;
 
 public class ArgumentListParser : IArgumentListParser
 {

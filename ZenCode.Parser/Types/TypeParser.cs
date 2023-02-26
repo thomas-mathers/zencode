@@ -4,7 +4,7 @@ using ZenCode.Parser.Abstractions.Expressions.Helpers;
 using ZenCode.Parser.Model.Types;
 using Type = ZenCode.Parser.Model.Types.Type;
 
-namespace ZenCode.Parser.Expressions.Helpers;
+namespace ZenCode.Parser.Types;
 
 public class TypeParser : ITypeParser
 {
@@ -14,8 +14,8 @@ public class TypeParser : ITypeParser
 
         Type type = token.Type switch
         {
-            TokenType.Boolean => new BoolType(),
-            TokenType.Integer => new IntType(),
+            TokenType.Boolean => new BooleanType(),
+            TokenType.Integer => new IntegerType(),
             TokenType.Float => new FloatType(),
             _ => new StringType()
         };

@@ -5,10 +5,10 @@ using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Model.Grammar.Statements;
-using ZenCode.Parser.Statements.Helpers;
+using ZenCode.Parser.Statements;
 using ZenCode.Parser.Tests.Extensions;
 
-namespace ZenCode.Parser.Tests.Statements.Helpers;
+namespace ZenCode.Parser.Tests.Statements;
 
 public class ScopeParserTests
 {

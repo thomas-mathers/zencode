@@ -1,5 +1,6 @@
 using System.Collections;
 using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer;
@@ -22,12 +23,12 @@ public class TokenStream : ITokenStream
         
         if (token == null)
         {
-            throw new InvalidOperationException();
+            throw new UnexpectedTokenException();
         }
 
         if (!tokenTypes.Contains(token.Type))
         {
-            throw new InvalidOperationException();
+            throw new UnexpectedTokenException();
         }
 
         return token;

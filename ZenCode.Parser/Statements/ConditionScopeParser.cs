@@ -3,7 +3,7 @@ using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements.Helpers;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Helpers;
+namespace ZenCode.Parser.Statements;
 
 public class ConditionScopeParser : IConditionScopeParser
 {

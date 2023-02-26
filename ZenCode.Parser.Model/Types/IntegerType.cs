@@ -1,3 +1,3 @@
 namespace ZenCode.Parser.Model.Types;
 
-public record IntType : Type;
+public record IntegerType : Type;

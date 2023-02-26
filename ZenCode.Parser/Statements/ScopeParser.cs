@@ -4,7 +4,7 @@ using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Abstractions.Statements.Helpers;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Helpers;
+namespace ZenCode.Parser.Statements;
 
 public class ScopeParser : IScopeParser
 {

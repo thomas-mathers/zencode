@@ -3,7 +3,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions.Helpers;
 using ZenCode.Parser.Model;
 
-namespace ZenCode.Parser.Expressions.Helpers;
+namespace ZenCode.Parser.Expressions;
 
 public class ParameterListParser : IParameterListParser
 {

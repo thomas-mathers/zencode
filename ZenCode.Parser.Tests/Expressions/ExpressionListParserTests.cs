@@ -4,11 +4,11 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Expressions.Helpers;
+using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Extensions;
 
-namespace ZenCode.Parser.Tests.Expressions.Helpers;
+namespace ZenCode.Parser.Tests.Expressions;
 
 public class ExpressionListParserTests
 {
