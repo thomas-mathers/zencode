@@ -5,5 +5,5 @@ namespace ZenCode.Parser.Abstractions.Expressions.Helpers;
 
 public interface IArgumentListParser
 {
-    IReadOnlyList<Expression> Parse(ITokenStream tokenStream);
+    public IReadOnlyList<Expression> Parse(IExpressionParser expressionParser, ITokenStream tokenStream);
 }

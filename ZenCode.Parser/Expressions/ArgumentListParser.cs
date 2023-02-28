@@ -8,20 +8,13 @@ namespace ZenCode.Parser.Expressions;
 
 public class ArgumentListParser : IArgumentListParser
 {
-    private readonly IExpressionParser _expressionParser;
-
-    public ArgumentListParser(IExpressionParser expressionParser)
-    {
-        _expressionParser = expressionParser;
-    }
-    
-    public IReadOnlyList<Expression> Parse(ITokenStream tokenStream)
+    public IReadOnlyList<Expression> Parse(IExpressionParser expressionParser, ITokenStream tokenStream)
     {
         var expressions = new List<Expression>();
         
         do
         {
-            expressions.Add(_expressionParser.Parse(tokenStream));
+            expressions.Add(expressionParser.Parse(tokenStream));
         } while (tokenStream.Match(TokenType.Comma));
 
         return expressions;

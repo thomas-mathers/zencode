@@ -43,5 +43,6 @@ public enum TokenType
     StringLiteral,
     Subtraction,
     Var,
+    Void,
     While,
 }

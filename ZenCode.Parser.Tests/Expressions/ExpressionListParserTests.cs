@@ -21,7 +21,7 @@ public class ExpressionListParserTests
     
     public ExpressionListParserTests()
     {
-        _sut = new ArgumentListParser(_expressionParserMock.Object);
+        _sut = new ArgumentListParser();
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class ExpressionListParserTests
             .ConsumesToken(tokenStream);
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(_expressionParserMock.Object, tokenStream);
         
         // Assert
         Assert.Equal(expected, actual);
@@ -68,7 +68,7 @@ public class ExpressionListParserTests
             .ConsumesToken(tokenStream);
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(_expressionParserMock.Object, tokenStream);
         
         // Assert
         Assert.Equal(expected, actual);
@@ -96,7 +96,7 @@ public class ExpressionListParserTests
             .ConsumesToken(tokenStream);
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(_expressionParserMock.Object, tokenStream);
         
         // Assert
         Assert.Equal(expected, actual);

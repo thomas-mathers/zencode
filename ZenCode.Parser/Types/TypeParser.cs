@@ -1,31 +1,27 @@
-using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions.Helpers;
+using ZenCode.Parser.Abstractions.Types.Strategies;
 using ZenCode.Parser.Model.Types;
-using Type = ZenCode.Parser.Model.Types.Type;
+using ZenCode.Parser.Types.Strategies;
 
 namespace ZenCode.Parser.Types;
 
-public class TypeParser : ITypeParser
+public class TypeParser : BaseTypeParser
 {
-    public Type Parse(ITokenStream tokenStream)
+    public TypeParser()
     {
-        var token = tokenStream.Consume(TokenType.Boolean, TokenType.Integer, TokenType.Float, TokenType.String);
-
-        Type type = token.Type switch
+        PrefixStrategies = new Dictionary<TokenType, IPrefixTypeParsingStrategy>
         {
-            TokenType.Boolean => new BooleanType(),
-            TokenType.Integer => new IntegerType(),
-            TokenType.Float => new FloatType(),
-            _ => new StringType()
+            [TokenType.Void] = new PrimitivePrefixTypeParsingStrategy<VoidType>(TokenType.Void),
+            [TokenType.Boolean] = new PrimitivePrefixTypeParsingStrategy<BooleanType>(TokenType.Boolean),
+            [TokenType.Integer] = new PrimitivePrefixTypeParsingStrategy<IntegerType>(TokenType.Integer),
+            [TokenType.Float] = new PrimitivePrefixTypeParsingStrategy<FloatType>(TokenType.Float),
+            [TokenType.String] = new PrimitivePrefixTypeParsingStrategy<StringType>(TokenType.String),
+            [TokenType.LeftParenthesis] = new FunctionPrefixTypeParsingStrategy(this)
         };
 
-        while (tokenStream.Match(TokenType.LeftBracket))
+        InfixStrategies = new Dictionary<TokenType, IInfixTypeParsingStrategy>
         {
-            tokenStream.Consume(TokenType.RightBracket);
-            type = new ArrayType(type);
-        }
-        
-        return type;
+            [TokenType.LeftBracket] = new ArrayInfixTypeParsingStrategy(1)
+        };
     }
 }

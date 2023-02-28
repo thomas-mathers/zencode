@@ -1,6 +1,7 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions.Helpers;
+using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Model;
 
 namespace ZenCode.Parser.Expressions;
