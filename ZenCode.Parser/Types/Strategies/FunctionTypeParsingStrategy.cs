@@ -7,11 +7,11 @@ using Type = ZenCode.Parser.Model.Types.Type;
 
 namespace ZenCode.Parser.Types.Strategies;
 
-public class FunctionPrefixTypeParsingStrategy : IPrefixTypeParsingStrategy
+public class FunctionTypeParsingStrategy : IPrefixTypeParsingStrategy
 {
     private readonly ITypeParser _typeParser;
 
-    public FunctionPrefixTypeParsingStrategy(ITypeParser typeParser)
+    public FunctionTypeParsingStrategy(ITypeParser typeParser)
     {
         _typeParser = typeParser;
     }

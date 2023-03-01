@@ -6,11 +6,11 @@ using Type = ZenCode.Parser.Model.Types.Type;
 
 namespace ZenCode.Parser.Types.Strategies;
 
-public class ArrayInfixTypeParsingStrategy : IInfixTypeParsingStrategy
+public class ArrayTypeParsingStrategy : IInfixTypeParsingStrategy
 {
     public int Precedence { get; }
 
-    public ArrayInfixTypeParsingStrategy(int precedence)
+    public ArrayTypeParsingStrategy(int precedence)
     {
         Precedence = precedence;
     }
