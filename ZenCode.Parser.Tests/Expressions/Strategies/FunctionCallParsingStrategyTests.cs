@@ -5,7 +5,6 @@ using ZenCode.Lexer;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Abstractions.Expressions.Helpers;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Extensions;
@@ -15,14 +14,13 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class FunctionCallParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly IExpressionParser _expressionParser = Mock.Of<IExpressionParser>();
-    private readonly Mock<IArgumentListParser> _argumentListParserMock = new();
+    private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly FunctionCallParsingStrategy _sut;
     private readonly VariableReferenceExpression _variableReferenceExpression;
 
     public FunctionCallParsingStrategyTests()
     {
-        _sut = new FunctionCallParsingStrategy(_expressionParser, _argumentListParserMock.Object, 7);
+        _sut = new FunctionCallParsingStrategy(_expressionParserMock.Object, 7);
         _variableReferenceExpression =
             new VariableReferenceExpression(new Token(TokenType.Identifier));
     }
@@ -37,8 +35,8 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.None)
         });
 
-        _argumentListParserMock
-            .Setup(x => x.Parse(_expressionParser, tokenStream))
+        _expressionParserMock
+            .Setup(x => x.ParseList(tokenStream))
             .Returns(_fixture.CreateMany<Expression>().ToArray())
             .ConsumesToken(tokenStream);
 
@@ -83,8 +81,8 @@ public class FunctionCallParsingStrategyTests
             Arguments = arguments
         };
 
-        _argumentListParserMock
-            .Setup(x => x.Parse(_expressionParser, tokenStream))
+        _expressionParserMock
+            .Setup(x => x.ParseList(tokenStream))
             .Returns(arguments)
             .ConsumesToken(tokenStream);
 
@@ -113,8 +111,8 @@ public class FunctionCallParsingStrategyTests
             Arguments = arguments
         };
 
-        _argumentListParserMock
-            .Setup(x => x.Parse(_expressionParser, tokenStream))
+        _expressionParserMock
+            .Setup(x => x.ParseList(tokenStream))
             .Returns(arguments)
             .ConsumesToken(tokenStream);
 

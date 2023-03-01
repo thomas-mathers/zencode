@@ -45,10 +45,10 @@ public class Tokenizer : BaseTokenizer
         new TokenMatcher(TokenType.String, "string"),
         new RegexTokenMatcher(TokenType.FloatLiteral, "[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?"),
         new RegexTokenMatcher(TokenType.IntegerLiteral, "[-+]?[0-9]+"),
-        new RegexTokenMatcher(TokenType.Identifier, "[a-zA-Z][a-zA-Z0-9]*"),
-        new RegexTokenMatcher(TokenType.StringLiteral, "'.*'"),
         new TokenMatcher(TokenType.Addition, "+"),
         new TokenMatcher(TokenType.Subtraction, "-"),
+        new RegexTokenMatcher(TokenType.Identifier, "[a-zA-Z][a-zA-Z0-9]*"),
+        new RegexTokenMatcher(TokenType.StringLiteral, "'.*'"),
     })
     {
         

@@ -6,4 +6,5 @@ namespace ZenCode.Parser.Abstractions.Expressions;
 public interface IExpressionParser
 {
     public Expression Parse(ITokenStream tokenStream, int precedence = 0);
+    public IReadOnlyList<Expression> ParseList(ITokenStream tokenStream);
 }

@@ -1,6 +1,7 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Statements.Helpers;
+using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Model.Grammar.Statements;
 
@@ -8,19 +9,22 @@ namespace ZenCode.Parser.Statements.Strategies;
 
 public class WhileStatementParsingStrategy : IStatementParsingStrategy
 {
-    private readonly IConditionScopeParser _conditionScopeParser;
+    private readonly IExpressionParser _expressionParser;
+    private readonly IStatementParser _statementParser;
 
-    public WhileStatementParsingStrategy(IConditionScopeParser conditionScopeParser)
+    public WhileStatementParsingStrategy(IExpressionParser expressionParser, IStatementParser statementParser)
     {
-        _conditionScopeParser = conditionScopeParser;
+        _expressionParser = expressionParser;
+        _statementParser = statementParser;
     }
     
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.While);
 
-        var conditionScope = _conditionScopeParser.Parse(tokenStream);
+        var condition = _expressionParser.Parse(tokenStream);
+        var scope = _statementParser.ParseScope(tokenStream);
         
-        return new WhileStatement(conditionScope);
+        return new WhileStatement(new ConditionScope(condition, scope));
     }
 }

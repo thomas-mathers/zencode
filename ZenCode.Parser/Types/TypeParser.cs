@@ -3,6 +3,7 @@ using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Abstractions.Types.Strategies;
+using ZenCode.Parser.Model;
 using Type = ZenCode.Parser.Model.Types.Type;
 
 namespace ZenCode.Parser.Types;
@@ -25,6 +26,24 @@ public class TypeParser : ITypeParser
         }
         
         return type;
+    }
+    
+    public IReadOnlyList<Parameter> ParseParameterList(ITokenStream tokenStream)
+    {
+        var parameters = new List<Parameter>();
+        
+        do
+        {
+            var identifier = tokenStream.Consume(TokenType.Identifier);
+            
+            tokenStream.Consume(TokenType.Colon);
+
+            var type = Parse(tokenStream);
+            
+            parameters.Add(new Parameter(identifier, type));
+        } while (tokenStream.Match(TokenType.Comma));
+
+        return parameters;
     }
     
     public void SetPrefixParsingStrategy(TokenType tokenType, IPrefixTypeParsingStrategy parsingStrategy)
