@@ -6,6 +6,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Expressions.Strategies;
+using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Extensions;
 

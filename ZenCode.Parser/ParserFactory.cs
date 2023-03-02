@@ -41,6 +41,8 @@ public class ParserFactory
             new WhileStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.Return,
             new ReturnStatementParsingStrategy(parser));
+        parser.SetStatementParsingStrategy(TokenType.Function,
+            new FunctionDeclarationStatementParsingStrategy(parser));
 
         parser.SetPrefixExpressionParsingStrategy(TokenType.BooleanLiteral,
             new ConstantParsingStrategy());

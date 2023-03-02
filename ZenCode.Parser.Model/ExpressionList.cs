@@ -1,6 +1,8 @@
-namespace ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Grammar.Expressions;
 
-public record ExpressionList : Expression
+namespace ZenCode.Parser.Model;
+
+public record ExpressionList
 {
     public IReadOnlyList<Expression> Expressions { get; init; } = Array.Empty<Expression>();
 

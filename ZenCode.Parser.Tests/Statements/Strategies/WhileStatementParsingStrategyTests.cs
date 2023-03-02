@@ -4,6 +4,7 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
 using ZenCode.Parser.Tests.Extensions;

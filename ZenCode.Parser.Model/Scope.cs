@@ -1,6 +1,8 @@
-namespace ZenCode.Parser.Model.Grammar.Statements;
+using ZenCode.Parser.Model.Grammar.Statements;
 
-public record Scope : Statement
+namespace ZenCode.Parser.Model;
+
+public record Scope
 {
     public IReadOnlyList<Statement> Statements { get; init; } = Array.Empty<Statement>();
 
