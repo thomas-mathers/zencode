@@ -1,7 +1,7 @@
 using System.Collections;
 using ZenCode.Lexer.Model;
 
-namespace ZenCode.Parser.Tests.TestData;
+namespace ZenCode.Parser.Tests.Integration.TestData;
 
 public class LowPrecedenceOperatorHighPrecedenceOperatorPairs : IEnumerable<object[]>
 {

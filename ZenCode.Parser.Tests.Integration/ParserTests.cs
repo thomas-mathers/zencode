@@ -3,15 +3,15 @@ using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Tests.TestData;
+using ZenCode.Parser.Tests.Integration.TestData;
 
-namespace ZenCode.Parser.Tests;
+namespace ZenCode.Parser.Tests.Integration;
 
-public class ExpressionParserTests
+public class ParserTests
 {
     private readonly Parser _sut;
 
-    public ExpressionParserTests()
+    public ParserTests()
     {
         _sut = new Parser();
 
