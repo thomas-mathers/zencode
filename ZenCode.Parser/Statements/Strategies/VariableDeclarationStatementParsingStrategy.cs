@@ -1,6 +1,6 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Model.Grammar.Statements;
 
@@ -8,23 +8,23 @@ namespace ZenCode.Parser.Statements.Strategies;
 
 public class VariableDeclarationStatementParsingStrategy : IStatementParsingStrategy
 {
-    private readonly IExpressionParser _expressionParser;
+    private readonly IParser _parser;
 
-    public VariableDeclarationStatementParsingStrategy(IExpressionParser expressionParser)
+    public VariableDeclarationStatementParsingStrategy(IParser parser)
     {
-        _expressionParser = expressionParser;
+        _parser = parser;
     }
-    
+
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Var);
-        
+
         var identifier = tokenStream.Consume(TokenType.Identifier);
-        
+
         tokenStream.Consume(TokenType.Assignment);
-        
-        var expression = _expressionParser.Parse(tokenStream);
-        
+
+        var expression = _parser.ParseExpression(tokenStream);
+
         return new VariableDeclarationStatement(identifier, expression);
     }
 }

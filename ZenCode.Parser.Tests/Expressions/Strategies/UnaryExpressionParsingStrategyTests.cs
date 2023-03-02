@@ -3,7 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Extensions;
@@ -14,12 +14,12 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class UnaryExpressionParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<IExpressionParser> _expressionParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly UnaryExpressionParsingStrategy _sut;
 
     public UnaryExpressionParsingStrategyTests()
     {
-        _sut = new UnaryExpressionParsingStrategy(_expressionParserMock.Object);
+        _sut = new UnaryExpressionParsingStrategy(_parserMock.Object);
     }
 
     [Theory]
@@ -34,13 +34,13 @@ public class UnaryExpressionParsingStrategyTests
         });
 
         var expression = _fixture.Create<Expression>();
-        
+
         var expected = new UnaryExpression(
             new Token(operatorToken),
             expression);
 
-        _expressionParserMock
-            .Setup(x => x.Parse(tokenStream, 0))
+        _parserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
             .Returns(expression)
             .ConsumesToken(tokenStream);
 

@@ -20,7 +20,7 @@ public class TokenStream : ITokenStream
     public Token Consume(params TokenType[] tokenTypes)
     {
         var token = TryConsumeToken();
-        
+
         if (token == null)
         {
             throw new UnexpectedTokenException();

@@ -1,50 +1,51 @@
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.TestData;
 
-namespace ZenCode.Parser.Tests.Expressions;
+namespace ZenCode.Parser.Tests;
 
 public class ExpressionParserTests
 {
-    private readonly ExpressionParser _sut;
+    private readonly Parser _sut;
 
     public ExpressionParserTests()
     {
-        _sut = new ExpressionParser();
-        
-        _sut.SetPrefixStrategy(TokenType.BooleanLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixStrategy(TokenType.IntegerLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixStrategy(TokenType.FloatLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixStrategy(TokenType.StringLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixStrategy(TokenType.Identifier, new VariableReferenceParsingStrategy(_sut));
-        _sut.SetPrefixStrategy(TokenType.Subtraction, new UnaryExpressionParsingStrategy(_sut));
-        _sut.SetPrefixStrategy(TokenType.Not, new UnaryExpressionParsingStrategy(_sut));
-        _sut.SetPrefixStrategy(TokenType.LeftParenthesis, new ParenthesisParsingStrategy(_sut));
-        
-        _sut.SetInfixStrategy(TokenType.Addition, new BinaryExpressionParsingStrategy(_sut, 4));
-        _sut.SetInfixStrategy(TokenType.Subtraction, new BinaryExpressionParsingStrategy(_sut, 4));
-        _sut.SetInfixStrategy(TokenType.Multiplication, new BinaryExpressionParsingStrategy(_sut, 5));
-        _sut.SetInfixStrategy(TokenType.Division, new BinaryExpressionParsingStrategy(_sut, 5));
-        _sut.SetInfixStrategy(TokenType.Modulus, new BinaryExpressionParsingStrategy(_sut, 5));
-        _sut.SetInfixStrategy(TokenType.Exponentiation, new BinaryExpressionParsingStrategy(_sut, 6, true));
-        _sut.SetInfixStrategy(TokenType.LessThan, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixStrategy(TokenType.LessThanOrEqual, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixStrategy(TokenType.Equals, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixStrategy(TokenType.NotEquals, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixStrategy(TokenType.GreaterThan, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixStrategy(TokenType.GreaterThanOrEqual, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixStrategy(TokenType.And, new BinaryExpressionParsingStrategy(_sut, 2));
-        _sut.SetInfixStrategy(TokenType.Or, new BinaryExpressionParsingStrategy(_sut, 1));
-        _sut.SetInfixStrategy(TokenType.LeftParenthesis, new FunctionCallParsingStrategy(_sut, 7));
+        _sut = new Parser();
+
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.BooleanLiteral, new ConstantParsingStrategy());
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.IntegerLiteral, new ConstantParsingStrategy());
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.FloatLiteral, new ConstantParsingStrategy());
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.StringLiteral, new ConstantParsingStrategy());
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.Identifier, new VariableReferenceParsingStrategy(_sut));
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.Subtraction, new UnaryExpressionParsingStrategy(_sut));
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.Not, new UnaryExpressionParsingStrategy(_sut));
+        _sut.SetPrefixExpressionParsingStrategy(TokenType.LeftParenthesis, new ParenthesisParsingStrategy(_sut));
+
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Addition, new BinaryExpressionParsingStrategy(_sut, 4));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Subtraction, new BinaryExpressionParsingStrategy(_sut, 4));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Multiplication, new BinaryExpressionParsingStrategy(_sut, 5));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Division, new BinaryExpressionParsingStrategy(_sut, 5));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Modulus, new BinaryExpressionParsingStrategy(_sut, 5));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Exponentiation,
+            new BinaryExpressionParsingStrategy(_sut, 6, true));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.LessThan, new BinaryExpressionParsingStrategy(_sut, 3));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.LessThanOrEqual, new BinaryExpressionParsingStrategy(_sut, 3));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Equals, new BinaryExpressionParsingStrategy(_sut, 3));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.NotEquals, new BinaryExpressionParsingStrategy(_sut, 3));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.GreaterThan, new BinaryExpressionParsingStrategy(_sut, 3));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.GreaterThanOrEqual,
+            new BinaryExpressionParsingStrategy(_sut, 3));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.And, new BinaryExpressionParsingStrategy(_sut, 2));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.Or, new BinaryExpressionParsingStrategy(_sut, 1));
+        _sut.SetInfixExpressionParsingStrategy(TokenType.LeftParenthesis, new FunctionCallParsingStrategy(_sut, 7));
     }
-    
+
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
-    public void Parse_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
+    public void ParseExpression_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
         TokenType loOp,
         TokenType hiOp)
     {
@@ -67,7 +68,7 @@ public class ExpressionParserTests
                 new ConstantExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.ParseExpression(tokenStream);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -75,7 +76,7 @@ public class ExpressionParserTests
 
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
-    public void Parse_HiPrecedenceOpThenLoPrecedenceOp_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
+    public void ParseExpression_HiPrecedenceOpThenLoPrecedenceOp_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
         TokenType loOp,
         TokenType hiOp)
     {
@@ -98,7 +99,7 @@ public class ExpressionParserTests
             new ConstantExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.ParseExpression(tokenStream);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -106,7 +107,8 @@ public class ExpressionParserTests
 
     [Theory]
     [ClassData(typeof(LeftAssociativeBinaryOperators))]
-    public void Parse_LeftAssociativeOperator_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(TokenType op)
+    public void ParseExpression_LeftAssociativeOperator_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
+        TokenType op)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -127,7 +129,7 @@ public class ExpressionParserTests
             new ConstantExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.ParseExpression(tokenStream);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -135,7 +137,8 @@ public class ExpressionParserTests
 
     [Theory]
     [InlineData(TokenType.Exponentiation)]
-    public void Parse_RightAssociativeOperator_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(TokenType op)
+    public void ParseExpression_RightAssociativeOperator_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
+        TokenType op)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -156,7 +159,7 @@ public class ExpressionParserTests
                 new ConstantExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.ParseExpression(tokenStream);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -164,8 +167,9 @@ public class ExpressionParserTests
 
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
-    public void Parse_HiPrecedenceOpThenParenthesizedLoPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
-        TokenType hiOp, TokenType loOp)
+    public void
+        ParseExpression_HiPrecedenceOpThenParenthesizedLoPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
+            TokenType hiOp, TokenType loOp)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -188,7 +192,7 @@ public class ExpressionParserTests
                 new ConstantExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.ParseExpression(tokenStream);
 
         // Assert
         Assert.Equal(expected, actual);

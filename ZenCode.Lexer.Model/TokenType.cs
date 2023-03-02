@@ -44,5 +44,5 @@ public enum TokenType
     Subtraction,
     Var,
     Void,
-    While,
+    While
 }

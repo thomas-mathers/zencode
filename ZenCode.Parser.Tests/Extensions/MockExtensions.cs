@@ -10,7 +10,7 @@ public static class MockOfExpressionExtensions
     {
         return returns.Callback(() => tokenStream.Consume());
     }
-    
+
     public static IReturnsResult<TMock> ReturnsSequence<TMock, TResult>(this ISetup<TMock, TResult> setup,
         params TResult[] sequence) where TMock : class
     {

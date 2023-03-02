@@ -11,27 +11,27 @@ public class IntegerTypeParsingStrategyTests
 {
     public static readonly IEnumerable<object[]> OtherTokenTypes =
         Enum.GetValues<TokenType>().Where(t => t != TokenType.Integer).Select(t => new object[] { t });
-    
+
     private readonly IntegerTypeParsingStrategy _sut = new();
-    
+
     [Fact]
     public void Parse_Integer_ReturnsIntegerType()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Integer),
+            new Token(TokenType.Integer)
         });
 
         var expected = new IntegerType();
-        
+
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [MemberData(nameof(OtherTokenTypes))]
     public void Parse_NotFloat_ThrowsUnexpectedTokenException(TokenType tokenType)
@@ -39,9 +39,9 @@ public class IntegerTypeParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(tokenType),
+            new Token(tokenType)
         });
-        
+
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
     }

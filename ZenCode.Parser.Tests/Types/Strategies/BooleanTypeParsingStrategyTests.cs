@@ -11,7 +11,7 @@ public class BooleanTypeParsingStrategyTests
 {
     public static readonly IEnumerable<object[]> OtherTokenTypes =
         Enum.GetValues<TokenType>().Where(t => t != TokenType.Boolean).Select(t => new object[] { t });
-    
+
     private readonly BooleanTypeParsingStrategy _sut = new();
 
     [Fact]
@@ -20,18 +20,18 @@ public class BooleanTypeParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Boolean),
+            new Token(TokenType.Boolean)
         });
 
         var expected = new BooleanType();
-        
+
         // Act
         var actual = _sut.Parse(tokenStream);
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [MemberData(nameof(OtherTokenTypes))]
     public void Parse_NotBoolean_ThrowsUnexpectedTokenException(TokenType tokenType)
@@ -39,9 +39,9 @@ public class BooleanTypeParsingStrategyTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(tokenType),
+            new Token(tokenType)
         });
-        
+
         // Act + Assert
         Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
     }

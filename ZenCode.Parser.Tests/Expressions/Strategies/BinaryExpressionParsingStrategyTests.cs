@@ -3,7 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Extensions;
@@ -13,15 +13,15 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
 public class BinaryExpressionParsingStrategyTests
 {
-    private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly Fixture _fixture = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly BinaryExpressionParsingStrategy _sut;
 
     public BinaryExpressionParsingStrategyTests()
     {
-        _sut = new BinaryExpressionParsingStrategy(_expressionParserMock.Object, 0);
+        _sut = new BinaryExpressionParsingStrategy(_parserMock.Object, 0);
     }
-    
+
     [Theory]
     [ClassData(typeof(BinaryOperators))]
     public void Parse_ExpressionOpExpression_ReturnsBinaryExpression(TokenType operatorTokenType)
@@ -35,14 +35,14 @@ public class BinaryExpressionParsingStrategyTests
             new Token(operatorTokenType),
             new Token(TokenType.None)
         });
-        
+
         var expected = new BinaryExpression(
             lExpression,
             new Token(operatorTokenType),
             rExpression);
 
-        _expressionParserMock
-            .Setup(x => x.Parse(tokenStream, 0))
+        _parserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
             .Returns(rExpression)
             .ConsumesToken(tokenStream);
 

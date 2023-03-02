@@ -1,4 +1,5 @@
 ﻿using Xunit;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 
@@ -6,7 +7,7 @@ namespace ZenCode.Lexer.Tests;
 
 public class TokenizerTests
 {
-    private readonly Tokenizer _sut = new();
+    private readonly ITokenizer _sut = TokenizerFactory.Create();
 
     [Theory]
     [InlineData("!=", TokenType.NotEquals)]

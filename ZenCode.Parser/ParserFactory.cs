@@ -1,83 +1,85 @@
-using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Expressions.Strategies;
-using ZenCode.Parser.Statements;
 using ZenCode.Parser.Statements.Strategies;
+using ZenCode.Parser.Types.Strategies;
 
 namespace ZenCode.Parser;
 
-public class ParserFactory
+public static class ParserFactory
 {
-    public IParser Create()
+    public static IParser Create()
     {
-        var expressionParser = new ExpressionParser();
-        
-        expressionParser.SetPrefixStrategy(TokenType.BooleanLiteral, 
-            new ConstantParsingStrategy());
-        expressionParser.SetPrefixStrategy(TokenType.IntegerLiteral, 
-            new ConstantParsingStrategy());
-        expressionParser.SetPrefixStrategy(TokenType.FloatLiteral, 
-            new ConstantParsingStrategy());
-        expressionParser.SetPrefixStrategy(TokenType.StringLiteral, 
-            new ConstantParsingStrategy());
-        expressionParser.SetPrefixStrategy(TokenType.Identifier, 
-            new VariableReferenceParsingStrategy(expressionParser));
-        expressionParser.SetPrefixStrategy(TokenType.Subtraction, 
-            new UnaryExpressionParsingStrategy(expressionParser));
-        expressionParser.SetPrefixStrategy(TokenType.Not, 
-            new UnaryExpressionParsingStrategy(expressionParser));
-        expressionParser.SetPrefixStrategy(TokenType.LeftParenthesis, 
-            new ParenthesisParsingStrategy(expressionParser));
-        
-        expressionParser.SetInfixStrategy(TokenType.Addition, 
-            new BinaryExpressionParsingStrategy(expressionParser, 4));
-        expressionParser.SetInfixStrategy(TokenType.Subtraction, 
-            new BinaryExpressionParsingStrategy(expressionParser, 4));
-        expressionParser.SetInfixStrategy(TokenType.Multiplication, 
-            new BinaryExpressionParsingStrategy(expressionParser, 5));
-        expressionParser.SetInfixStrategy(TokenType.Division, 
-            new BinaryExpressionParsingStrategy(expressionParser, 5));
-        expressionParser.SetInfixStrategy(TokenType.Modulus, 
-            new BinaryExpressionParsingStrategy(expressionParser, 5));
-        expressionParser.SetInfixStrategy(TokenType.Exponentiation, 
-            new BinaryExpressionParsingStrategy(expressionParser, 6, true));
-        expressionParser.SetInfixStrategy(TokenType.LessThan, 
-            new BinaryExpressionParsingStrategy(expressionParser, 3));
-        expressionParser.SetInfixStrategy(TokenType.LessThanOrEqual, 
-            new BinaryExpressionParsingStrategy(expressionParser, 3));
-        expressionParser.SetInfixStrategy(TokenType.Equals, 
-            new BinaryExpressionParsingStrategy(expressionParser, 3));
-        expressionParser.SetInfixStrategy(TokenType.NotEquals, 
-            new BinaryExpressionParsingStrategy(expressionParser, 3));
-        expressionParser.SetInfixStrategy(TokenType.GreaterThan, 
-            new BinaryExpressionParsingStrategy(expressionParser, 3));
-        expressionParser.SetInfixStrategy(TokenType.GreaterThanOrEqual, 
-            new BinaryExpressionParsingStrategy(expressionParser, 3));
-        expressionParser.SetInfixStrategy(TokenType.And, 
-            new BinaryExpressionParsingStrategy(expressionParser, 2));
-        expressionParser.SetInfixStrategy(TokenType.Or, 
-            new BinaryExpressionParsingStrategy(expressionParser, 1));
-        expressionParser.SetInfixStrategy(TokenType.LeftParenthesis, 
-            new FunctionCallParsingStrategy(expressionParser, 7));
-        
-        var statementParser = new StatementParser();
-        
-        statementParser.SetStrategy(TokenType.Identifier, 
-            new AssignmentStatementParsingStrategy(expressionParser));
-        statementParser.SetStrategy(TokenType.If, 
-            new IfStatementParsingStrategy(expressionParser, statementParser));
-        statementParser.SetStrategy(TokenType.Print, 
-            new PrintStatementParsingStrategy(expressionParser));
-        statementParser.SetStrategy(TokenType.Var, 
-            new VariableDeclarationStatementParsingStrategy(expressionParser));
-        statementParser.SetStrategy(TokenType.While, 
-            new WhileStatementParsingStrategy(expressionParser, statementParser));
+        var parser = new Parser();
 
-        var tokenizer = new Tokenizer();
-        
-        var parser = new Parser(tokenizer, statementParser);
+        parser.SetPrefixTypeParsingStrategy(TokenType.Void, new VoidTypeParsingStrategy());
+        parser.SetPrefixTypeParsingStrategy(TokenType.Boolean, new BooleanTypeParsingStrategy());
+        parser.SetPrefixTypeParsingStrategy(TokenType.Integer, new IntegerTypeParsingStrategy());
+        parser.SetPrefixTypeParsingStrategy(TokenType.Float, new FloatTypeParsingStrategy());
+        parser.SetPrefixTypeParsingStrategy(TokenType.String, new StringTypeParsingStrategy());
+
+        parser.SetInfixTypeParsingStrategy(TokenType.LeftBracket, new ArrayTypeParsingStrategy(1));
+
+        parser.SetStatementParsingStrategy(TokenType.Identifier,
+            new AssignmentStatementParsingStrategy(parser));
+        parser.SetStatementParsingStrategy(TokenType.If,
+            new IfStatementParsingStrategy(parser));
+        parser.SetStatementParsingStrategy(TokenType.Print,
+            new PrintStatementParsingStrategy(parser));
+        parser.SetStatementParsingStrategy(TokenType.Var,
+            new VariableDeclarationStatementParsingStrategy(parser));
+        parser.SetStatementParsingStrategy(TokenType.While,
+            new WhileStatementParsingStrategy(parser));
+
+        parser.SetPrefixExpressionParsingStrategy(TokenType.BooleanLiteral,
+            new ConstantParsingStrategy());
+        parser.SetPrefixExpressionParsingStrategy(TokenType.IntegerLiteral,
+            new ConstantParsingStrategy());
+        parser.SetPrefixExpressionParsingStrategy(TokenType.FloatLiteral,
+            new ConstantParsingStrategy());
+        parser.SetPrefixExpressionParsingStrategy(TokenType.StringLiteral,
+            new ConstantParsingStrategy());
+        parser.SetPrefixExpressionParsingStrategy(TokenType.Identifier,
+            new VariableReferenceParsingStrategy(parser));
+        parser.SetPrefixExpressionParsingStrategy(TokenType.Subtraction,
+            new UnaryExpressionParsingStrategy(parser));
+        parser.SetPrefixExpressionParsingStrategy(TokenType.Not,
+            new UnaryExpressionParsingStrategy(parser));
+        parser.SetPrefixExpressionParsingStrategy(TokenType.LeftParenthesis,
+            new ParenthesisParsingStrategy(parser));
+        parser.SetPrefixExpressionParsingStrategy(TokenType.Function,
+            new AnonymousFunctionDeclarationParsingStrategy(parser));
+
+        parser.SetInfixExpressionParsingStrategy(TokenType.Addition,
+            new BinaryExpressionParsingStrategy(parser, 4));
+        parser.SetInfixExpressionParsingStrategy(TokenType.Subtraction,
+            new BinaryExpressionParsingStrategy(parser, 4));
+        parser.SetInfixExpressionParsingStrategy(TokenType.Multiplication,
+            new BinaryExpressionParsingStrategy(parser, 5));
+        parser.SetInfixExpressionParsingStrategy(TokenType.Division,
+            new BinaryExpressionParsingStrategy(parser, 5));
+        parser.SetInfixExpressionParsingStrategy(TokenType.Modulus,
+            new BinaryExpressionParsingStrategy(parser, 5));
+        parser.SetInfixExpressionParsingStrategy(TokenType.Exponentiation,
+            new BinaryExpressionParsingStrategy(parser, 6, true));
+        parser.SetInfixExpressionParsingStrategy(TokenType.LessThan,
+            new BinaryExpressionParsingStrategy(parser, 3));
+        parser.SetInfixExpressionParsingStrategy(TokenType.LessThanOrEqual,
+            new BinaryExpressionParsingStrategy(parser, 3));
+        parser.SetInfixExpressionParsingStrategy(TokenType.Equals,
+            new BinaryExpressionParsingStrategy(parser, 3));
+        parser.SetInfixExpressionParsingStrategy(TokenType.NotEquals,
+            new BinaryExpressionParsingStrategy(parser, 3));
+        parser.SetInfixExpressionParsingStrategy(TokenType.GreaterThan,
+            new BinaryExpressionParsingStrategy(parser, 3));
+        parser.SetInfixExpressionParsingStrategy(TokenType.GreaterThanOrEqual,
+            new BinaryExpressionParsingStrategy(parser, 3));
+        parser.SetInfixExpressionParsingStrategy(TokenType.And,
+            new BinaryExpressionParsingStrategy(parser, 2));
+        parser.SetInfixExpressionParsingStrategy(TokenType.Or,
+            new BinaryExpressionParsingStrategy(parser, 1));
+        parser.SetInfixExpressionParsingStrategy(TokenType.LeftParenthesis,
+            new FunctionCallParsingStrategy(parser, 7));
 
         return parser;
     }

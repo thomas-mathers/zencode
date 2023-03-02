@@ -8,13 +8,13 @@ namespace ZenCode.Parser.Types.Strategies;
 
 public class ArrayTypeParsingStrategy : IInfixTypeParsingStrategy
 {
-    public int Precedence { get; }
-
     public ArrayTypeParsingStrategy(int precedence)
     {
         Precedence = precedence;
     }
-    
+
+    public int Precedence { get; }
+
     public Type Parse(ITokenStream tokenStream, Type type)
     {
         tokenStream.Consume(TokenType.LeftBracket);

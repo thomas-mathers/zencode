@@ -3,7 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
@@ -14,12 +14,12 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class VariableReferenceParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<IExpressionParser> _expressionParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly VariableReferenceParsingStrategy _sut;
 
     public VariableReferenceParsingStrategyTests()
     {
-        _sut = new VariableReferenceParsingStrategy(_expressionParserMock.Object);
+        _sut = new VariableReferenceParsingStrategy(_parserMock.Object);
     }
 
     [Fact]
@@ -68,14 +68,14 @@ public class VariableReferenceParsingStrategyTests
         });
 
         var indices = _fixture.CreateMany<Expression>(1).ToArray();
-        
+
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = indices
         };
 
-        _expressionParserMock
-            .Setup(x => x.ParseList(tokenStream))
+        _parserMock
+            .Setup(x => x.ParseExpressionList(tokenStream))
             .Returns(indices)
             .ConsumesToken(tokenStream);
 
@@ -99,14 +99,14 @@ public class VariableReferenceParsingStrategyTests
         });
 
         var indices = _fixture.CreateMany<Expression>(3).ToList();
-        
+
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = indices
         };
 
-        _expressionParserMock
-            .Setup(x => x.ParseList(tokenStream))
+        _parserMock
+            .Setup(x => x.ParseExpressionList(tokenStream))
             .Returns(indices)
             .ConsumesToken(tokenStream);
 
