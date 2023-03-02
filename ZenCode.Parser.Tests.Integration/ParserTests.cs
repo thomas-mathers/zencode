@@ -1,7 +1,7 @@
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Expressions.Strategies;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Integration.TestData;
 
@@ -9,40 +9,13 @@ namespace ZenCode.Parser.Tests.Integration;
 
 public class ParserTests
 {
-    private readonly Parser _sut;
+    private readonly IParser _sut;
 
     public ParserTests()
     {
-        _sut = new Parser();
-
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.BooleanLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.IntegerLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.FloatLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.StringLiteral, new ConstantParsingStrategy());
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.Identifier, new VariableReferenceParsingStrategy(_sut));
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.Subtraction, new UnaryExpressionParsingStrategy(_sut));
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.Not, new UnaryExpressionParsingStrategy(_sut));
-        _sut.SetPrefixExpressionParsingStrategy(TokenType.LeftParenthesis, new ParenthesisParsingStrategy(_sut));
-
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Addition, new BinaryExpressionParsingStrategy(_sut, 4));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Subtraction, new BinaryExpressionParsingStrategy(_sut, 4));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Multiplication, new BinaryExpressionParsingStrategy(_sut, 5));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Division, new BinaryExpressionParsingStrategy(_sut, 5));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Modulus, new BinaryExpressionParsingStrategy(_sut, 5));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Exponentiation,
-            new BinaryExpressionParsingStrategy(_sut, 6, true));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.LessThan, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.LessThanOrEqual, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Equals, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.NotEquals, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.GreaterThan, new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.GreaterThanOrEqual,
-            new BinaryExpressionParsingStrategy(_sut, 3));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.And, new BinaryExpressionParsingStrategy(_sut, 2));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.Or, new BinaryExpressionParsingStrategy(_sut, 1));
-        _sut.SetInfixExpressionParsingStrategy(TokenType.LeftParenthesis, new FunctionCallParsingStrategy(_sut, 7));
+        _sut = new ParserFactory(new TokenizerFactory()).Create();
     }
-
+    
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void ParseExpression_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(

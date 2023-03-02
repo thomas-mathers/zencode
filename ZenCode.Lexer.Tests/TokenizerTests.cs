@@ -7,7 +7,7 @@ namespace ZenCode.Lexer.Tests;
 
 public class TokenizerTests
 {
-    private readonly ITokenizer _sut = TokenizerFactory.Create();
+    private readonly ITokenizer _sut = new TokenizerFactory().Create();
 
     [Theory]
     [InlineData("!=", TokenType.NotEquals)]
@@ -40,6 +40,7 @@ public class TokenizerTests
     [InlineData("not", TokenType.Not)]
     [InlineData("or", TokenType.Or)]
     [InlineData("print", TokenType.Print)]
+    [InlineData("return", TokenType.Return)]
     [InlineData("string", TokenType.String)]
     [InlineData("true", TokenType.BooleanLiteral)]
     [InlineData("var", TokenType.Var)]

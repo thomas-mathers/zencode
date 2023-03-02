@@ -15,6 +15,8 @@ namespace ZenCode.Parser;
 
 public class Parser : IParser
 {
+    private readonly ITokenizer _tokenizer;
+
     private readonly IDictionary<TokenType, IInfixExpressionParsingStrategy> _infixExpressionParsingStrategies =
         new Dictionary<TokenType, IInfixExpressionParsingStrategy>();
 
@@ -30,17 +32,12 @@ public class Parser : IParser
     private readonly IDictionary<TokenType, IStatementParsingStrategy> _statementParsingStrategies =
         new Dictionary<TokenType, IStatementParsingStrategy>();
 
-    public Program ParseProgram(ITokenStream tokenStream)
+    public Parser(ITokenizer tokenizer)
     {
-        var statements = new List<Statement>();
-
-        while (tokenStream.Peek(0) != null)
-        {
-            statements.Add(ParseStatement(tokenStream));
-        }
-
-        return new Program(statements);
+        _tokenizer = tokenizer;
     }
+
+    public Program Parse(string program) => ParseProgram(_tokenizer.Tokenize(program));
 
     public Expression ParseExpression(ITokenStream tokenStream, int precedence = 0)
     {
@@ -54,7 +51,7 @@ public class Parser : IParser
         return lExpression;
     }
 
-    public IReadOnlyList<Expression> ParseExpressionList(ITokenStream tokenStream)
+    public ExpressionList ParseExpressionList(ITokenStream tokenStream)
     {
         var expressions = new List<Expression>();
 
@@ -63,19 +60,7 @@ public class Parser : IParser
             expressions.Add(ParseExpression(tokenStream));
         } while (tokenStream.Match(TokenType.Comma));
 
-        return expressions;
-    }
-
-    public Statement ParseStatement(ITokenStream tokenStream)
-    {
-        var token = tokenStream.Current;
-
-        if (!_statementParsingStrategies.TryGetValue(token.Type, out var statementParsingStrategy))
-        {
-            throw new UnexpectedTokenException();
-        }
-
-        return statementParsingStrategy.Parse(tokenStream);
+        return new ExpressionList { Expressions = expressions };
     }
 
     public Scope ParseScope(ITokenStream tokenStream)
@@ -112,7 +97,7 @@ public class Parser : IParser
         return type;
     }
 
-    public IReadOnlyList<Parameter> ParseParameterList(ITokenStream tokenStream)
+    public ParameterList ParseParameterList(ITokenStream tokenStream)
     {
         var parameters = new List<Parameter>();
 
@@ -127,7 +112,7 @@ public class Parser : IParser
             parameters.Add(new Parameter(identifier, type));
         } while (tokenStream.Match(TokenType.Comma));
 
-        return parameters;
+        return new ParameterList { Parameters = parameters };
     }
 
     public void SetPrefixExpressionParsingStrategy(TokenType tokenType,
@@ -154,6 +139,30 @@ public class Parser : IParser
     public void SetInfixTypeParsingStrategy(TokenType tokenType, IInfixTypeParsingStrategy parsingStrategy)
     {
         _infixTypeParsingStrategies[tokenType] = parsingStrategy;
+    }
+    
+    private Program ParseProgram(ITokenStream tokenStream)
+    {
+        var statements = new List<Statement>();
+
+        while (tokenStream.Peek(0) != null)
+        {
+            statements.Add(ParseStatement(tokenStream));
+        }
+
+        return new Program(statements);
+    }
+    
+    private Statement ParseStatement(ITokenStream tokenStream)
+    {
+        var token = tokenStream.Current;
+
+        if (!_statementParsingStrategies.TryGetValue(token.Type, out var statementParsingStrategy))
+        {
+            throw new UnexpectedTokenException();
+        }
+
+        return statementParsingStrategy.Parse(tokenStream);
     }
 
     private Expression ParsePrefixExpression(ITokenStream tokenStream)

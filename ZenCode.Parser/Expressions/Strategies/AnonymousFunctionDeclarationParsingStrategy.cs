@@ -22,11 +22,11 @@ public class AnonymousFunctionDeclarationParsingStrategy : IPrefixExpressionPars
 
         tokenStream.Consume(TokenType.LeftParenthesis);
 
-        var parameters = Array.Empty<Parameter>();
+        var parameters = new ParameterList();
 
         if (!tokenStream.Match(TokenType.RightParenthesis))
         {
-            parameters = _parser.ParseParameterList(tokenStream).ToArray();
+            parameters = _parser.ParseParameterList(tokenStream);
 
             tokenStream.Consume(TokenType.RightParenthesis);
         }

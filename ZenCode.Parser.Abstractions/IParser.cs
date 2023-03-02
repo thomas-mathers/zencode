@@ -9,12 +9,11 @@ namespace ZenCode.Parser.Abstractions;
 
 public interface IParser
 {
-    Program ParseProgram(ITokenStream tokenStream);
+    Program Parse(string program);
     Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
-    IReadOnlyList<Expression> ParseExpressionList(ITokenStream tokenStream);
-    Statement ParseStatement(ITokenStream tokenStream);
+    ExpressionList ParseExpressionList(ITokenStream tokenStream);
     Scope ParseScope(ITokenStream tokenStream);
     ConditionScope ParseConditionScope(ITokenStream tokenStream);
     Type ParseType(ITokenStream tokenStream, int precedence = 0);
-    IReadOnlyList<Parameter> ParseParameterList(ITokenStream tokenStream);
+    ParameterList ParseParameterList(ITokenStream tokenStream);
 }

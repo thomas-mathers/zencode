@@ -35,9 +35,11 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.None)
         });
 
+        var arguments = _fixture.Create<ExpressionList>();
+
         _parserMock
             .Setup(x => x.ParseExpressionList(tokenStream))
-            .Returns(_fixture.CreateMany<Expression>().ToArray())
+            .Returns(arguments)
             .ConsumesToken(tokenStream);
 
         // Act + Assert
@@ -64,7 +66,7 @@ public class FunctionCallParsingStrategyTests
     }
 
     [Fact]
-    public void Parse_FunctionCallOneParameter_ReturnsFunctionCallExpression()
+    public void Parse_FunctionCallOneOrMoreParameters_ReturnsFunctionCallExpression()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -74,37 +76,7 @@ public class FunctionCallParsingStrategyTests
             new Token(TokenType.RightParenthesis)
         });
 
-        var arguments = _fixture.CreateMany<Expression>(1).ToArray();
-
-        var expected = new FunctionCallExpression(_variableReferenceExpression)
-        {
-            Arguments = arguments
-        };
-
-        _parserMock
-            .Setup(x => x.ParseExpressionList(tokenStream))
-            .Returns(arguments)
-            .ConsumesToken(tokenStream);
-
-        // Act
-        var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void Parse_FunctionCallManyParameters_ReturnsFunctionCallExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.None),
-            new Token(TokenType.RightParenthesis)
-        });
-
-        var arguments = _fixture.CreateMany<Expression>(3).ToList();
+        var arguments = _fixture.Create<ExpressionList>();
 
         var expected = new FunctionCallExpression(_variableReferenceExpression)
         {

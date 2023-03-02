@@ -35,6 +35,7 @@ public enum TokenType
     NotEquals,
     Or,
     Print,
+    Return,
     RightArrow,
     RightBrace,
     RightBracket,

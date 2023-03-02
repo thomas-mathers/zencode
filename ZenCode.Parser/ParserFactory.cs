@@ -1,3 +1,5 @@
+using ZenCode.Lexer;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
@@ -6,11 +8,18 @@ using ZenCode.Parser.Types.Strategies;
 
 namespace ZenCode.Parser;
 
-public static class ParserFactory
+public class ParserFactory
 {
-    public static IParser Create()
+    private readonly ITokenizer _tokenizer;
+
+    public ParserFactory(TokenizerFactory tokenizerFactory)
     {
-        var parser = new Parser();
+        _tokenizer = tokenizerFactory.Create();
+    }
+    
+    public IParser Create()
+    {
+        var parser = new Parser(_tokenizer);
 
         parser.SetPrefixTypeParsingStrategy(TokenType.Void, new VoidTypeParsingStrategy());
         parser.SetPrefixTypeParsingStrategy(TokenType.Boolean, new BooleanTypeParsingStrategy());
@@ -30,6 +39,8 @@ public static class ParserFactory
             new VariableDeclarationStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.While,
             new WhileStatementParsingStrategy(parser));
+        parser.SetStatementParsingStrategy(TokenType.Return,
+            new ReturnStatementParsingStrategy(parser));
 
         parser.SetPrefixExpressionParsingStrategy(TokenType.BooleanLiteral,
             new ConstantParsingStrategy());

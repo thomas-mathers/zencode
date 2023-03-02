@@ -3,9 +3,9 @@ using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer;
 
-public static class TokenizerFactory
+public class TokenizerFactory
 {
-    public static ITokenizer Create()
+    public ITokenizer Create()
     {
         return new Tokenizer(new ITokenMatcher[]
         {
@@ -36,6 +36,7 @@ public static class TokenizerFactory
             new TokenMatcher(TokenType.NotEquals, "!="),
             new TokenMatcher(TokenType.Or, "or"),
             new TokenMatcher(TokenType.Print, "print"),
+            new TokenMatcher(TokenType.Return, "return"),
             new TokenMatcher(TokenType.RightBrace, "}"),
             new TokenMatcher(TokenType.RightBracket, "]"),
             new TokenMatcher(TokenType.RightParenthesis, ")"),

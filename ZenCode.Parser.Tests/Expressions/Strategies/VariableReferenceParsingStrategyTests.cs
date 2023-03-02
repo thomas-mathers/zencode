@@ -56,7 +56,7 @@ public class VariableReferenceParsingStrategyTests
     }
 
     [Fact]
-    public void Parse_SingleDimensionalArrayReference_ReturnsVariableReferenceExpression()
+    public void Parse_ArrayReference_ReturnsVariableReferenceExpression()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -67,38 +67,7 @@ public class VariableReferenceParsingStrategyTests
             new Token(TokenType.RightBracket)
         });
 
-        var indices = _fixture.CreateMany<Expression>(1).ToArray();
-
-        var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
-        {
-            Indices = indices
-        };
-
-        _parserMock
-            .Setup(x => x.ParseExpressionList(tokenStream))
-            .Returns(indices)
-            .ConsumesToken(tokenStream);
-
-        // Act
-        var actual = _sut.Parse(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void Parse_MultiDimensionalArrayReference_ReturnsVariableReferenceExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Identifier),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.None),
-            new Token(TokenType.RightBracket)
-        });
-
-        var indices = _fixture.CreateMany<Expression>(3).ToList();
+        var indices = _fixture.Create<ExpressionList>();
 
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
