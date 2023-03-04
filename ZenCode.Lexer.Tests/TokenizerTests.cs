@@ -45,6 +45,9 @@ public class TokenizerTests
     [InlineData("true", TokenType.BooleanLiteral)]
     [InlineData("var", TokenType.Var)]
     [InlineData("while", TokenType.While)]
+    [InlineData("if", TokenType.If)]
+    [InlineData("else", TokenType.Else)]
+    [InlineData("else if", TokenType.ElseIf)]
     public void Tokenize_ValidToken_ReturnsToken(string text, TokenType expectedTokenType)
     {
         // Arrange
@@ -92,7 +95,6 @@ public class TokenizerTests
     }
 
     [Theory]
-    [InlineData("-2147483648")]
     [InlineData("0")]
     [InlineData("2147483647")]
     public void Tokenize_ValidInteger_ReturnsInteger(string text)
@@ -113,7 +115,6 @@ public class TokenizerTests
     }
 
     [Theory]
-    [InlineData("-3.40282346638528859e+38")]
     [InlineData("3.1415926535897932385")]
     [InlineData("3.40282346638528859e+38")]
     public void Tokenize_ValidFloat_ReturnsFloat(string text)
@@ -323,6 +324,39 @@ public class TokenizerTests
 
         // Act
         var actualTokens = _sut.Tokenize(code).ToList();
+
+        // Assert
+        Assert.Equal(expectedTokens, actualTokens);
+    }
+
+    [Fact]
+    public void Tokenize_()
+    {
+        // Arrange
+        var expectedTokens = new[]
+        {
+            new Token(TokenType.Identifier)
+            {
+                Line = 0,
+                StartingColumn = 0,
+                Text = "n"
+            },
+            new Token(TokenType.Subtraction)
+            {
+                Line = 0,
+                StartingColumn = 1,
+                Text = "-"
+            },
+            new Token(TokenType.IntegerLiteral)
+            {
+                Line = 0,
+                StartingColumn = 2,
+                Text = "2"
+            },
+        };
+
+        // Act
+        var actualTokens = _sut.Tokenize("n-2").ToList();
 
         // Assert
         Assert.Equal(expectedTokens, actualTokens);
