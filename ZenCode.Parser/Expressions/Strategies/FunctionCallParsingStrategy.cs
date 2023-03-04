@@ -21,22 +21,17 @@ public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 
     public Expression Parse(ITokenStream tokenStream, Expression lOperand)
     {
-        if (lOperand is not VariableReferenceExpression variableReferenceExpression)
-        {
-            throw new UnexpectedTokenException();
-        }
-
         tokenStream.Consume(TokenType.LeftParenthesis);
 
         if (tokenStream.Match(TokenType.RightParenthesis))
         {
-            return new FunctionCallExpression(variableReferenceExpression);
+            return new FunctionCallExpression(lOperand);
         }
 
         var arguments = _expressionParser.ParseExpressionList(tokenStream);
 
         tokenStream.Consume(TokenType.RightParenthesis);
 
-        return new FunctionCallExpression(variableReferenceExpression) { Arguments = arguments };
+        return new FunctionCallExpression(lOperand) { Arguments = arguments };
     }
 }
