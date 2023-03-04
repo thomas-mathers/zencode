@@ -330,7 +330,7 @@ public class TokenizerTests
     }
 
     [Fact]
-    public void Tokenize_()
+    public void Tokenize_IdentifierMinusInteger_ReturnsCorrectSequenceOfTokens()
     {
         // Arrange
         var expectedTokens = new[]
