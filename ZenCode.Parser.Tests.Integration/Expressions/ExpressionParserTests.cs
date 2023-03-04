@@ -2,20 +2,21 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Integration.TestData;
 
-namespace ZenCode.Parser.Tests.Integration;
+namespace ZenCode.Parser.Tests.Integration.Expressions;
 
-public class ParserTests
+public class ExpressionParserTests
 {
     private readonly IExpressionParser _sut;
 
-    public ParserTests()
+    public ExpressionParserTests()
     {
-        _sut = (IExpressionParser) new ParserFactory(new TokenizerFactory()).Create();
+        _sut = new ExpressionParserFactory().Create();
     }
-    
+
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void ParseExpression_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(

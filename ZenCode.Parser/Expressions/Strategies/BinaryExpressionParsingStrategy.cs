@@ -11,7 +11,8 @@ public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
 {
     private readonly IExpressionParser _expressionParser;
 
-    public BinaryExpressionParsingStrategy(IExpressionParser expressionParser, int precedence, bool isRightAssociative = false)
+    public BinaryExpressionParsingStrategy(IExpressionParser expressionParser, int precedence,
+        bool isRightAssociative = false)
     {
         _expressionParser = expressionParser;
         Precedence = precedence;

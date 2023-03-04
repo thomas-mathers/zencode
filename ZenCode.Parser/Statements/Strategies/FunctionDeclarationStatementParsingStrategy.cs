@@ -9,15 +9,15 @@ namespace ZenCode.Parser.Statements.Strategies;
 
 public class FunctionDeclarationStatementParsingStrategy : IStatementParsingStrategy
 {
-    private readonly ITypeParser _typeParser;
     private readonly IStatementParser _statementParser;
+    private readonly ITypeParser _typeParser;
 
     public FunctionDeclarationStatementParsingStrategy(ITypeParser typeParser, IStatementParser statementParser)
     {
         _typeParser = typeParser;
         _statementParser = statementParser;
     }
-    
+
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Function);
@@ -30,7 +30,7 @@ public class FunctionDeclarationStatementParsingStrategy : IStatementParsingStra
         tokenStream.Consume(TokenType.RightArrow);
 
         var returnType = _typeParser.ParseType(tokenStream);
-        
+
         var scope = _statementParser.ParseScope(tokenStream);
 
         return new FunctionDeclarationStatement(returnType, parameters, scope);

@@ -3,6 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
@@ -13,13 +14,14 @@ namespace ZenCode.Parser.Tests.Statements.Strategies;
 
 public class IfStatementParsingStrategyTests
 {
+    private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly Fixture _fixture = new();
-    private readonly Mock<IStatementParser> _parserMock = new();
+    private readonly Mock<IStatementParser> _statementParserMock = new();
     private readonly IfStatementParsingStrategy _sut;
 
     public IfStatementParsingStrategyTests()
     {
-        _sut = new IfStatementParsingStrategy(_parserMock.Object);
+        _sut = new IfStatementParsingStrategy(_expressionParserMock.Object, _statementParserMock.Object);
     }
 
     [Fact]
@@ -34,12 +36,19 @@ public class IfStatementParsingStrategyTests
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
+        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
+        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
 
         var expected = new IfStatement(conditionScopes[0]);
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(tokenStream))
-            .ReturnsSequence(conditionScopes)
+        _expressionParserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
+            .ReturnsSequence(conditions)
+            .ConsumesToken(tokenStream);
+
+        _statementParserMock
+            .Setup(x => x.ParseScope(tokenStream))
+            .ReturnsSequence(scopes)
             .ConsumesToken(tokenStream);
 
         // Arrange
@@ -57,11 +66,15 @@ public class IfStatementParsingStrategyTests
         {
             new Token(TokenType.If),
             new Token(TokenType.None),
+            new Token(TokenType.None),
             new Token(TokenType.ElseIf),
+            new Token(TokenType.None),
             new Token(TokenType.None)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
+        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
+        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
 
         var expected = new IfStatement(conditionScopes[0])
         {
@@ -71,9 +84,14 @@ public class IfStatementParsingStrategyTests
             }
         };
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(tokenStream))
-            .ReturnsSequence(conditionScopes)
+        _expressionParserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
+            .ReturnsSequence(conditions)
+            .ConsumesToken(tokenStream);
+
+        _statementParserMock
+            .Setup(x => x.ParseScope(tokenStream))
+            .ReturnsSequence(scopes)
             .ConsumesToken(tokenStream);
 
         // Arrange
@@ -91,15 +109,21 @@ public class IfStatementParsingStrategyTests
         {
             new Token(TokenType.If),
             new Token(TokenType.None),
-            new Token(TokenType.ElseIf),
             new Token(TokenType.None),
             new Token(TokenType.ElseIf),
             new Token(TokenType.None),
+            new Token(TokenType.None),
             new Token(TokenType.ElseIf),
+            new Token(TokenType.None),
+            new Token(TokenType.None),
+            new Token(TokenType.ElseIf),
+            new Token(TokenType.None),
             new Token(TokenType.None)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
+        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
+        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
 
         var expected = new IfStatement(conditionScopes[0])
         {
@@ -111,9 +135,14 @@ public class IfStatementParsingStrategyTests
             }
         };
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(tokenStream))
-            .ReturnsSequence(conditionScopes)
+        _expressionParserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
+            .ReturnsSequence(conditions)
+            .ConsumesToken(tokenStream);
+
+        _statementParserMock
+            .Setup(x => x.ParseScope(tokenStream))
+            .ReturnsSequence(scopes)
             .ConsumesToken(tokenStream);
 
         // Arrange
@@ -131,11 +160,14 @@ public class IfStatementParsingStrategyTests
         {
             new Token(TokenType.If),
             new Token(TokenType.None),
+            new Token(TokenType.None),
             new Token(TokenType.Else),
             new Token(TokenType.None)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
+        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
+        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
         var scope = _fixture.Create<Scope>();
 
         var expected = new IfStatement(conditionScopes[0])
@@ -144,14 +176,14 @@ public class IfStatementParsingStrategyTests
             ElseScope = scope
         };
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(tokenStream))
-            .ReturnsSequence(conditionScopes)
+        _expressionParserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
+            .ReturnsSequence(conditions)
             .ConsumesToken(tokenStream);
 
-        _parserMock
+        _statementParserMock
             .Setup(x => x.ParseScope(tokenStream))
-            .Returns(scope)
+            .ReturnsSequence(scopes.Concat(new[] { scope }).ToArray())
             .ConsumesToken(tokenStream);
 
         // Arrange
@@ -169,13 +201,17 @@ public class IfStatementParsingStrategyTests
         {
             new Token(TokenType.If),
             new Token(TokenType.None),
+            new Token(TokenType.None),
             new Token(TokenType.ElseIf),
+            new Token(TokenType.None),
             new Token(TokenType.None),
             new Token(TokenType.Else),
             new Token(TokenType.None)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
+        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
+        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
         var scope = _fixture.Create<Scope>();
 
         var expected = new IfStatement(conditionScopes[0])
@@ -187,14 +223,14 @@ public class IfStatementParsingStrategyTests
             ElseScope = scope
         };
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(tokenStream))
-            .ReturnsSequence(conditionScopes)
+        _expressionParserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
+            .ReturnsSequence(conditions)
             .ConsumesToken(tokenStream);
 
-        _parserMock
+        _statementParserMock
             .Setup(x => x.ParseScope(tokenStream))
-            .Returns(scope)
+            .ReturnsSequence(scopes.Concat(new[] { scope }).ToArray())
             .ConsumesToken(tokenStream);
 
         // Arrange
@@ -212,17 +248,23 @@ public class IfStatementParsingStrategyTests
         {
             new Token(TokenType.If),
             new Token(TokenType.None),
-            new Token(TokenType.ElseIf),
             new Token(TokenType.None),
             new Token(TokenType.ElseIf),
             new Token(TokenType.None),
+            new Token(TokenType.None),
             new Token(TokenType.ElseIf),
+            new Token(TokenType.None),
+            new Token(TokenType.None),
+            new Token(TokenType.ElseIf),
+            new Token(TokenType.None),
             new Token(TokenType.None),
             new Token(TokenType.Else),
             new Token(TokenType.None)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
+        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
+        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
         var scope = _fixture.Create<Scope>();
 
         var expected = new IfStatement(conditionScopes[0])
@@ -236,14 +278,14 @@ public class IfStatementParsingStrategyTests
             ElseScope = scope
         };
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(tokenStream))
-            .ReturnsSequence(conditionScopes)
+        _expressionParserMock
+            .Setup(x => x.ParseExpression(tokenStream, 0))
+            .ReturnsSequence(conditions)
             .ConsumesToken(tokenStream);
 
-        _parserMock
+        _statementParserMock
             .Setup(x => x.ParseScope(tokenStream))
-            .Returns(scope)
+            .ReturnsSequence(scopes.Concat(new[] { scope }).ToArray())
             .ConsumesToken(tokenStream);
 
         // Arrange

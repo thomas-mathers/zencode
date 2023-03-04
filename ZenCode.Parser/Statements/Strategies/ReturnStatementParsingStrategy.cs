@@ -14,7 +14,7 @@ public class ReturnStatementParsingStrategy : IStatementParsingStrategy
     {
         _expressionParser = expressionParser;
     }
-    
+
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Return);

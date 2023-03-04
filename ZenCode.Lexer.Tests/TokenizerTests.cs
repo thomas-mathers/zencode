@@ -352,7 +352,7 @@ public class TokenizerTests
                 Line = 0,
                 StartingColumn = 2,
                 Text = "2"
-            },
+            }
         };
 
         // Act
