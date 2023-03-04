@@ -3,7 +3,7 @@ using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer;
 
-public class TokenizerFactory
+public class TokenizerFactory : ITokenizerFactory
 {
     public ITokenizer Create()
     {

@@ -4,7 +4,7 @@ using ZenCode.Parser.Expressions.Strategies;
 
 namespace ZenCode.Parser.Expressions;
 
-public class ExpressionParserFactory
+public class ExpressionParserFactory : IExpressionParserFactory
 {
     public IExpressionParser Create()
     {

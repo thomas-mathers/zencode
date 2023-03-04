@@ -6,15 +6,15 @@ using ZenCode.Parser.Statements.Strategies;
 
 namespace ZenCode.Parser.Statements;
 
-public class StatementParserFactory
+public class StatementParserFactory : IStatementParserFactory
 {
     private readonly IExpressionParser _expressionParser;
     private readonly ITypeParser _typeParser;
 
-    public StatementParserFactory(IExpressionParser expressionParser, ITypeParser typeParser)
+    public StatementParserFactory(IExpressionParserFactory expressionParserFactory, ITypeParserFactory typeParserFactory)
     {
-        _expressionParser = expressionParser;
-        _typeParser = typeParser;
+        _expressionParser = expressionParserFactory.Create();
+        _typeParser = typeParserFactory.Create();
     }
 
     public IStatementParser Create()

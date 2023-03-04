@@ -4,7 +4,7 @@ using ZenCode.Parser.Types.Strategies;
 
 namespace ZenCode.Parser.Types;
 
-public class TypeParserFactory
+public class TypeParserFactory : ITypeParserFactory
 {
     public ITypeParser Create()
     {
