@@ -1,6 +1,6 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
@@ -9,24 +9,24 @@ namespace ZenCode.Parser.Statements.Strategies;
 
 public class IfStatementParsingStrategy : IStatementParsingStrategy
 {
-    private readonly IParser _parser;
+    private readonly IStatementParser _statementParser;
 
-    public IfStatementParsingStrategy(IParser parser)
+    public IfStatementParsingStrategy(IStatementParser statementParser)
     {
-        _parser = parser;
+        _statementParser = statementParser;
     }
 
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.If);
 
-        var thenConditionScope = _parser.ParseConditionScope(tokenStream);
+        var thenConditionScope = _statementParser.ParseConditionScope(tokenStream);
 
         var elseIfConditionScopes = new List<ConditionScope>();
 
         while (tokenStream.Match(TokenType.ElseIf))
         {
-            var elseIfConditionScope = _parser.ParseConditionScope(tokenStream);
+            var elseIfConditionScope = _statementParser.ParseConditionScope(tokenStream);
 
             elseIfConditionScopes.Add(elseIfConditionScope);
         }
@@ -35,7 +35,7 @@ public class IfStatementParsingStrategy : IStatementParsingStrategy
 
         if (tokenStream.Match(TokenType.Else))
         {
-            elseScope = _parser.ParseScope(tokenStream);
+            elseScope = _statementParser.ParseScope(tokenStream);
         }
 
         return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes, ElseScope = elseScope };

@@ -2,8 +2,11 @@
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;
+using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Abstractions.Statements.Strategies;
+using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Abstractions.Types.Strategies;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar;
@@ -13,7 +16,7 @@ using Type = ZenCode.Parser.Model.Types.Type;
 
 namespace ZenCode.Parser;
 
-public class Parser : IParser
+public class Parser : IParser, IExpressionParser, IStatementParser, ITypeParser
 {
     private readonly ITokenizer _tokenizer;
 

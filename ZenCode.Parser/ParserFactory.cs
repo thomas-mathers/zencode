@@ -42,7 +42,7 @@ public class ParserFactory
         parser.SetStatementParsingStrategy(TokenType.Return,
             new ReturnStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.Function,
-            new FunctionDeclarationStatementParsingStrategy(parser));
+            new FunctionDeclarationStatementParsingStrategy(parser, parser));
 
         parser.SetPrefixExpressionParsingStrategy(TokenType.BooleanLiteral,
             new ConstantParsingStrategy());
@@ -61,7 +61,7 @@ public class ParserFactory
         parser.SetPrefixExpressionParsingStrategy(TokenType.LeftParenthesis,
             new ParenthesisParsingStrategy(parser));
         parser.SetPrefixExpressionParsingStrategy(TokenType.Function,
-            new AnonymousFunctionDeclarationParsingStrategy(parser));
+            new AnonymousFunctionDeclarationParsingStrategy(parser, parser));
 
         parser.SetInfixExpressionParsingStrategy(TokenType.Addition,
             new BinaryExpressionParsingStrategy(parser, 4));

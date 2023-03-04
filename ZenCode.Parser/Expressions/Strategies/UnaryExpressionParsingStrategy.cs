@@ -1,7 +1,7 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
@@ -9,11 +9,11 @@ namespace ZenCode.Parser.Expressions.Strategies;
 
 public class UnaryExpressionParsingStrategy : IPrefixExpressionParsingStrategy
 {
-    private readonly IParser _parser;
+    private readonly IExpressionParser _expressionParser;
 
-    public UnaryExpressionParsingStrategy(IParser parser)
+    public UnaryExpressionParsingStrategy(IExpressionParser expressionParser)
     {
-        _parser = parser;
+        _expressionParser = expressionParser;
     }
 
     public Expression Parse(ITokenStream tokenStream)
@@ -25,7 +25,7 @@ public class UnaryExpressionParsingStrategy : IPrefixExpressionParsingStrategy
             throw new UnexpectedTokenException();
         }
 
-        var expression = _parser.ParseExpression(tokenStream);
+        var expression = _expressionParser.ParseExpression(tokenStream);
 
         return new UnaryExpression(operatorToken, expression);
     }

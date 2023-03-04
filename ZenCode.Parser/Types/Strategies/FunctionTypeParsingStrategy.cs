@@ -1,6 +1,6 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Abstractions.Types.Strategies;
 using ZenCode.Parser.Model.Types;
 using Type = ZenCode.Parser.Model.Types.Type;
@@ -9,11 +9,11 @@ namespace ZenCode.Parser.Types.Strategies;
 
 public class FunctionTypeParsingStrategy : IPrefixTypeParsingStrategy
 {
-    private readonly IParser _parser;
+    private readonly ITypeParser _typeParser;
 
-    public FunctionTypeParsingStrategy(IParser parser)
+    public FunctionTypeParsingStrategy(ITypeParser typeParser)
     {
-        _parser = parser;
+        _typeParser = typeParser;
     }
 
     public Type Parse(ITokenStream tokenStream)
@@ -24,12 +24,12 @@ public class FunctionTypeParsingStrategy : IPrefixTypeParsingStrategy
 
         while (!tokenStream.Match(TokenType.RightParenthesis))
         {
-            parameters.Add(_parser.ParseType(tokenStream));
+            parameters.Add(_typeParser.ParseType(tokenStream));
         }
 
         tokenStream.Consume(TokenType.RightArrow);
 
-        var returnType = _parser.ParseType(tokenStream);
+        var returnType = _typeParser.ParseType(tokenStream);
 
         return new FunctionType(returnType, parameters);
     }

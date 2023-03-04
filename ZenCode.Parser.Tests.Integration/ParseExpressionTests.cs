@@ -1,7 +1,7 @@
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Integration.TestData;
 
@@ -9,11 +9,11 @@ namespace ZenCode.Parser.Tests.Integration;
 
 public class ParserTests
 {
-    private readonly IParser _sut;
+    private readonly IExpressionParser _sut;
 
     public ParserTests()
     {
-        _sut = new ParserFactory(new TokenizerFactory()).Create();
+        _sut = (IExpressionParser) new ParserFactory(new TokenizerFactory()).Create();
     }
     
     [Theory]

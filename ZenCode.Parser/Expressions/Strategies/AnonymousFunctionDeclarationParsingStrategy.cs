@@ -1,7 +1,8 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;
+using ZenCode.Parser.Abstractions.Statements;
+using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
@@ -9,11 +10,13 @@ namespace ZenCode.Parser.Expressions.Strategies;
 
 public class AnonymousFunctionDeclarationParsingStrategy : IPrefixExpressionParsingStrategy
 {
-    private readonly IParser _parser;
+    private readonly ITypeParser _typeParser;
+    private readonly IStatementParser _statementParser;
 
-    public AnonymousFunctionDeclarationParsingStrategy(IParser parser)
+    public AnonymousFunctionDeclarationParsingStrategy(ITypeParser typeParser, IStatementParser statementParser)
     {
-        _parser = parser;
+        _typeParser = typeParser;
+        _statementParser = statementParser;
     }
 
     public Expression Parse(ITokenStream tokenStream)
@@ -26,16 +29,16 @@ public class AnonymousFunctionDeclarationParsingStrategy : IPrefixExpressionPars
 
         if (!tokenStream.Match(TokenType.RightParenthesis))
         {
-            parameters = _parser.ParseParameterList(tokenStream);
+            parameters = _typeParser.ParseParameterList(tokenStream);
 
             tokenStream.Consume(TokenType.RightParenthesis);
         }
 
         tokenStream.Consume(TokenType.RightArrow);
 
-        var returnType = _parser.ParseType(tokenStream);
+        var returnType = _typeParser.ParseType(tokenStream);
 
-        var scope = _parser.ParseScope(tokenStream);
+        var scope = _statementParser.ParseScope(tokenStream);
 
         return new AnonymousFunctionDeclarationExpression(returnType, parameters, scope);
     }
