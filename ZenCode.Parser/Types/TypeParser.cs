@@ -4,15 +4,13 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Abstractions.Types.Strategies;
 using ZenCode.Parser.Model;
+using ZenCode.Parser.Model.Types;
 using Type = ZenCode.Parser.Model.Types.Type;
 
 namespace ZenCode.Parser.Types;
 
 public class TypeParser : ITypeParser
 {
-    private readonly IDictionary<TokenType, IInfixTypeParsingStrategy> _infixTypeParsingStrategies =
-        new Dictionary<TokenType, IInfixTypeParsingStrategy>();
-
     private readonly IDictionary<TokenType, IPrefixTypeParsingStrategy> _prefixTypeParsingStrategies =
         new Dictionary<TokenType, IPrefixTypeParsingStrategy>();
 
@@ -20,9 +18,12 @@ public class TypeParser : ITypeParser
     {
         var type = ParsePrefixType(tokenStream);
 
-        while (precedence < GetTypePrecedence(tokenStream))
+        while (tokenStream.Peek(0)?.Type == TokenType.LeftBracket && tokenStream.Peek(1)?.Type == TokenType.RightBracket)
         {
-            type = ParseInfixType(tokenStream, type);
+            tokenStream.Consume(TokenType.LeftBracket);
+            tokenStream.Consume(TokenType.RightBracket);
+            
+            type = new ArrayType(type);
         }
 
         return type;
@@ -51,11 +52,6 @@ public class TypeParser : ITypeParser
         _prefixTypeParsingStrategies[tokenType] = parsingStrategy;
     }
 
-    public void SetInfixTypeParsingStrategy(TokenType tokenType, IInfixTypeParsingStrategy parsingStrategy)
-    {
-        _infixTypeParsingStrategies[tokenType] = parsingStrategy;
-    }
-
     private Type ParsePrefixType(ITokenStream tokenStream)
     {
         var token = tokenStream.Current;
@@ -66,31 +62,5 @@ public class TypeParser : ITypeParser
         }
 
         return prefixExpressionParsingStrategy.Parse(tokenStream);
-    }
-
-    private Type ParseInfixType(ITokenStream tokenStream, Type type)
-    {
-        var operatorToken = tokenStream.Current;
-
-        if (!_infixTypeParsingStrategies.TryGetValue(operatorToken.Type, out var infixExpressionParsingStrategy))
-        {
-            throw new UnexpectedTokenException();
-        }
-
-        return infixExpressionParsingStrategy.Parse(tokenStream, type);
-    }
-
-    private int GetTypePrecedence(ITokenStream tokenStream)
-    {
-        var currentToken = tokenStream.Peek(0);
-
-        if (currentToken == null)
-        {
-            return 0;
-        }
-
-        return !_infixTypeParsingStrategies.TryGetValue(currentToken.Type, out var parsingStrategy)
-            ? 0
-            : parsingStrategy.Precedence;
     }
 }

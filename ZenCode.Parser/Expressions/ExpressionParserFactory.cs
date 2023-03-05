@@ -1,11 +1,19 @@
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Expressions.Strategies;
 
 namespace ZenCode.Parser.Expressions;
 
 public class ExpressionParserFactory : IExpressionParserFactory
 {
+    private readonly ITypeParser _typeParser;
+    
+    public ExpressionParserFactory(ITypeParserFactory typeParserFactory)
+    {
+        _typeParser = typeParserFactory.Create();
+    }
+    
     public IExpressionParser Create()
     {
         var expressionParser = new ExpressionParser();
@@ -26,6 +34,9 @@ public class ExpressionParserFactory : IExpressionParserFactory
             new UnaryExpressionParsingStrategy(expressionParser));
         expressionParser.SetPrefixExpressionParsingStrategy(TokenType.LeftParenthesis,
             new ParenthesisParsingStrategy(expressionParser));
+        expressionParser.SetPrefixExpressionParsingStrategy(TokenType.New,
+            new NewExpressionParsingStrategy(_typeParser, expressionParser));
+        
         expressionParser.SetInfixExpressionParsingStrategy(TokenType.Addition,
             new BinaryExpressionParsingStrategy(expressionParser, 4));
         expressionParser.SetInfixExpressionParsingStrategy(TokenType.Subtraction,

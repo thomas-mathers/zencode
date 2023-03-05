@@ -16,8 +16,6 @@ public class TypeParserFactory : ITypeParserFactory
         typeParser.SetPrefixTypeParsingStrategy(TokenType.Float, new FloatTypeParsingStrategy());
         typeParser.SetPrefixTypeParsingStrategy(TokenType.String, new StringTypeParsingStrategy());
 
-        typeParser.SetInfixTypeParsingStrategy(TokenType.LeftBracket, new ArrayTypeParsingStrategy(1));
-
         return typeParser;
     }
 }

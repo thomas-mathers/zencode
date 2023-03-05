@@ -18,7 +18,7 @@ public class StatementParserTests
 
     public StatementParserTests()
     {
-        _sut = new StatementParserFactory(new ExpressionParserFactory(), new TypeParserFactory()).Create();
+        _sut = new StatementParserFactory(new ExpressionParserFactory(new TypeParserFactory()), new TypeParserFactory()).Create();
     }
 
     [Fact]
