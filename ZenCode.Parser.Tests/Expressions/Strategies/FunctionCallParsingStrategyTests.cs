@@ -7,7 +7,6 @@ using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
