@@ -1,5 +1,4 @@
 using ZenCode.Lexer.Abstractions;
-using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;

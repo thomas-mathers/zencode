@@ -1,19 +1,18 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Lexer;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
-using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Statements.Strategies;
 
 public class PrintStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IExpressionParser> _parserMock = new();
     private readonly PrintStatementParsingStrategy _sut;
 
@@ -26,25 +25,18 @@ public class PrintStatementParsingStrategyTests
     public void Parse_ValidInput_ReturnsPrintStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print),
-            new Token(TokenType.Unknown)
-        });
-
-        var expression = _fixture.Create<Expression>();
-
-        var expected = new PrintStatement(expression);
+        var expected = _fixture.Create<PrintStatement>();
 
         _parserMock
-            .Setup(x => x.ParseExpression(tokenStream, 0))
-            .Returns(expression)
-            .ConsumesToken(tokenStream);
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(expected.Expression);
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(_tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);
+        
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.Print));
     }
 }

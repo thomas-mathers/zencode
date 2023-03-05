@@ -1,7 +1,7 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Lexer;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Model.Grammar.Expressions;
@@ -14,6 +14,7 @@ namespace ZenCode.Parser.Tests.Statements.Strategies;
 public class AssignmentStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IExpressionParser> _parserMock = new();
     private readonly AssignmentStatementParsingStrategy _sut;
 
@@ -26,13 +27,6 @@ public class AssignmentStatementParsingStrategyTests
     public void Parse_AssignmentToConstant_ReturnsAssignmentStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.Unknown)
-        });
-
         var variableReferenceExpression = _fixture.Create<VariableReferenceExpression>();
         var expression = _fixture.Create<Expression>();
         
@@ -41,14 +35,15 @@ public class AssignmentStatementParsingStrategyTests
             expression);
 
         _parserMock
-            .Setup(x => x.ParseExpression(tokenStream, 0))
-            .ReturnsSequence(variableReferenceExpression, expression)
-            .ConsumesToken(tokenStream);
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .ReturnsSequence(variableReferenceExpression, expression);
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(_tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);
+        
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.Assignment));
     }
 }

@@ -1,8 +1,7 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Lexer;
-using ZenCode.Lexer.Exceptions;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions.Strategies;
@@ -15,6 +14,7 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class FunctionCallParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IExpressionParser> _parserMock = new();
     private readonly FunctionCallParsingStrategy _sut;
     private readonly VariableReferenceExpression _variableReferenceExpression;
@@ -27,40 +27,17 @@ public class FunctionCallParsingStrategyTests
     }
 
     [Fact]
-    public void Parse_FunctionCallMissingRightParenthesis_ThrowsUnexpectedTokenException()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Unknown)
-        });
-
-        var arguments = _fixture.Create<ExpressionList>();
-
-        _parserMock
-            .Setup(x => x.ParseExpressionList(tokenStream))
-            .Returns(arguments)
-            .ConsumesToken(tokenStream);
-
-        // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream, _variableReferenceExpression));
-    }
-
-    [Fact]
     public void Parse_FunctionCallNoParameters_ReturnsFunctionCallExpression()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis)
-        });
-
         var expected = new FunctionCallExpression(_variableReferenceExpression);
+        
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.RightParenthesis))
+            .Returns(true);
 
         // Act
-        var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
+        var actual = _sut.Parse(_tokenStreamMock.Object, _variableReferenceExpression);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -70,27 +47,23 @@ public class FunctionCallParsingStrategyTests
     public void Parse_FunctionCallOneOrMoreParameters_ReturnsFunctionCallExpression()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Unknown),
-            new Token(TokenType.RightParenthesis)
-        });
-
         var arguments = _fixture.Create<ExpressionList>();
 
         var expected = new FunctionCallExpression(_variableReferenceExpression)
         {
             Arguments = arguments
         };
+        
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.RightParenthesis))
+            .Returns(false);
 
         _parserMock
-            .Setup(x => x.ParseExpressionList(tokenStream))
-            .Returns(arguments)
-            .ConsumesToken(tokenStream);
+            .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
+            .Returns(arguments);
 
         // Act
-        var actual = _sut.Parse(tokenStream, _variableReferenceExpression);
+        var actual = _sut.Parse(_tokenStreamMock.Object, _variableReferenceExpression);
 
         // Assert
         Assert.Equal(expected, actual);

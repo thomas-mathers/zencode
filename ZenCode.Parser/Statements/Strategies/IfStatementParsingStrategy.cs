@@ -22,18 +22,14 @@ public class IfStatementParsingStrategy : IStatementParsingStrategy
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.If);
-
-        var thenCondition = _expressionParser.ParseExpression(tokenStream);
-        var thenScope = _statementParser.ParseScope(tokenStream);
-        var thenConditionScope = new ConditionScope(thenCondition, thenScope);
+        
+        var thenConditionScope = ParseConditionScope(tokenStream);
 
         var elseIfConditionScopes = new List<ConditionScope>();
 
         while (tokenStream.Match(TokenType.ElseIf))
         {
-            var elseIfCondition = _expressionParser.ParseExpression(tokenStream);
-            var elseIfScope = _statementParser.ParseScope(tokenStream);
-            var elseIfConditionScope = new ConditionScope(thenCondition, thenScope);
+            var elseIfConditionScope = ParseConditionScope(tokenStream);
 
             elseIfConditionScopes.Add(elseIfConditionScope);
         }
@@ -46,5 +42,13 @@ public class IfStatementParsingStrategy : IStatementParsingStrategy
         }
 
         return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes, ElseScope = elseScope };
+    }
+
+    private ConditionScope ParseConditionScope(ITokenStream tokenStream)
+    {
+        var condition = _expressionParser.ParseExpression(tokenStream);
+        var scope = _statementParser.ParseScope(tokenStream);
+
+        return new ConditionScope(condition, scope);
     }
 }

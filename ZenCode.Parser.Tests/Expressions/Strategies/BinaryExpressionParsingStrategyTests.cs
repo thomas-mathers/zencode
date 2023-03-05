@@ -1,7 +1,7 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Lexer;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions.Strategies;
@@ -14,6 +14,7 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class BinaryExpressionParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IExpressionParser> _parserMock = new();
     private readonly BinaryExpressionParsingStrategy _sut;
 
@@ -30,24 +31,21 @@ public class BinaryExpressionParsingStrategyTests
         var lExpression = _fixture.Create<Expression>();
         var rExpression = _fixture.Create<Expression>();
 
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(operatorTokenType),
-            new Token(TokenType.Unknown)
-        });
-
         var expected = new BinaryExpression(
             lExpression,
             new Token(operatorTokenType),
             rExpression);
 
+        _tokenStreamMock
+            .Setup(x => x.Consume())
+            .Returns(new Token(operatorTokenType));
+
         _parserMock
-            .Setup(x => x.ParseExpression(tokenStream, 0))
-            .Returns(rExpression)
-            .ConsumesToken(tokenStream);
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(rExpression);
 
         // Act
-        var actual = _sut.Parse(tokenStream, lExpression);
+        var actual = _sut.Parse(_tokenStreamMock.Object, lExpression);
 
         // Assert
         Assert.Equal(expected, actual);

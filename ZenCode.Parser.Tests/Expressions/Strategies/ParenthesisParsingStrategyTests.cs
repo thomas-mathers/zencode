@@ -1,19 +1,18 @@
 using AutoFixture;
 using Moq;
 using Xunit;
-using ZenCode.Lexer;
-using ZenCode.Lexer.Exceptions;
+using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
 public class ParenthesisParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IExpressionParser> _parserMock = new();
     private readonly ParenthesisParsingStrategy _sut;
 
@@ -23,87 +22,22 @@ public class ParenthesisParsingStrategyTests
     }
 
     [Fact]
-    public void Parse_ExtraLeftParenthesis_ThrowsUnexpectedTokenException()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Unknown),
-            new Token(TokenType.RightParenthesis)
-        });
-
-        var expression = _fixture.Create<Expression>();
-
-        _parserMock
-            .Setup(x => x.ParseExpression(tokenStream, 0))
-            .Returns(expression)
-            .ConsumesToken(tokenStream);
-
-        // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
-    }
-
-    [Fact]
-    public void Parse_NoExpression_ThrowsUnexpectedTokenException()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis)
-        });
-
-        _parserMock.Setup(x => x.ParseExpression(tokenStream, 0)).Throws<UnexpectedTokenException>();
-
-        // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
-    }
-
-    [Fact]
-    public void Parse_MissingRightParenthesis_ThrowsUnexpectedTokenException()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Unknown)
-        });
-
-        var expression = _fixture.Create<Expression>();
-
-        _parserMock
-            .Setup(x => x.ParseExpression(tokenStream, 0))
-            .Returns(expression)
-            .ConsumesToken(tokenStream);
-
-        // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => _sut.Parse(tokenStream));
-    }
-
-    [Fact]
     public void Parse_ParenthesizedExpression_ReturnsConstantExpression()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Unknown),
-            new Token(TokenType.RightParenthesis)
-        });
-
         var expected = _fixture.Create<Expression>();
 
         _parserMock
-            .Setup(x => x.ParseExpression(tokenStream, 0))
-            .Returns(expected)
-            .ConsumesToken(tokenStream);
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(expected);
 
         // Act
-        var actual = _sut.Parse(tokenStream);
+        var actual = _sut.Parse(_tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);
+        
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftParenthesis));
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.RightParenthesis));
     }
 }
