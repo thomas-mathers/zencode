@@ -49,9 +49,9 @@ public class StatementParserTests
 
         var expression = new BinaryExpression(
             new ConstantExpression(new Token(TokenType.FloatLiteral)),
-            new Token(TokenType.Addition), 
-            new ConstantExpression(new Token(TokenType.FloatLiteral))); 
-        
+            new Token(TokenType.Addition),
+            new ConstantExpression(new Token(TokenType.FloatLiteral)));
+
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
         // Act
@@ -116,7 +116,7 @@ public class StatementParserTests
             new Token(TokenType.LeftParenthesis),
             new Token(TokenType.RightParenthesis)
         });
-        
+
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ExpressionList
@@ -128,7 +128,7 @@ public class StatementParserTests
             }
         };
 
-        var expression = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier))); 
+        var expression = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
@@ -153,7 +153,7 @@ public class StatementParserTests
             new Token(TokenType.StringLiteral),
             new Token(TokenType.RightParenthesis)
         });
-        
+
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ExpressionList
@@ -165,7 +165,7 @@ public class StatementParserTests
             }
         };
 
-        var expression = new ConstantExpression(new Token(TokenType.StringLiteral)); 
+        var expression = new ConstantExpression(new Token(TokenType.StringLiteral));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
@@ -189,7 +189,7 @@ public class StatementParserTests
             new Token(TokenType.Subtraction),
             new Token(TokenType.IntegerLiteral)
         });
-        
+
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ExpressionList
@@ -226,7 +226,7 @@ public class StatementParserTests
             new Token(TokenType.Assignment),
             new Token(TokenType.Identifier)
         });
-        
+
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ExpressionList
@@ -706,6 +706,157 @@ public class StatementParserTests
         });
 
         var expectedStatement = new PrintStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+
+    [Fact]
+    public void Parse_ReturnBinaryExpression_ReturnsReturnStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Return),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.Addition),
+            new Token(TokenType.IntegerLiteral)
+        });
+
+        var expectedStatement = new ReturnStatement
+        {
+            Expression = new BinaryExpression(
+                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new Token(TokenType.Addition),
+                new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+        };
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+
+    [Theory]
+    [InlineData(TokenType.BooleanLiteral)]
+    [InlineData(TokenType.IntegerLiteral)]
+    [InlineData(TokenType.FloatLiteral)]
+    [InlineData(TokenType.StringLiteral)]
+    public void Parse_ReturnLiteral_ReturnsReturnStatement(TokenType tokenType)
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Return),
+            new Token(tokenType)
+        });
+
+        var expectedStatement = new ReturnStatement
+        {
+            Expression = new ConstantExpression(new Token(tokenType))
+        };
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+
+    [Fact]
+    public void Parse_ReturnFunctionCallExpression_ReturnsReturnStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Return),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis)
+        });
+
+        var expectedStatement =
+            new ReturnStatement
+            {
+                Expression =
+                    new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+            };
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+
+    [Fact]
+    public void Parse_ReturnParenthesisExpression_ReturnsReturnStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Return),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.StringLiteral),
+            new Token(TokenType.RightParenthesis)
+        });
+
+        var expectedStatement =
+            new ReturnStatement
+            {
+                Expression = new ConstantExpression(new Token(TokenType.StringLiteral))
+            };
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+
+    [Fact]
+    public void Parse_ReturnUnaryExpression_ReturnsReturnStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Return),
+            new Token(TokenType.Subtraction),
+            new Token(TokenType.FloatLiteral)
+        });
+
+        var expectedStatement =
+            new ReturnStatement
+            {
+                Expression = new UnaryExpression(new Token(TokenType.Subtraction),
+                    new ConstantExpression(new Token(TokenType.FloatLiteral)))
+            };
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+
+    [Fact]
+    public void Parse_ReturnVariableReference_ReturnsReturnStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Return),
+            new Token(TokenType.Identifier)
+        });
+
+        var expectedStatement = new ReturnStatement
+        {
+            Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
