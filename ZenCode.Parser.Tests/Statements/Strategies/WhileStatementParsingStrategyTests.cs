@@ -31,8 +31,8 @@ public class WhileStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.While),
-            new Token(TokenType.None),
-            new Token(TokenType.None)
+            new Token(TokenType.Any),
+            new Token(TokenType.Any)
         });
 
         var conditionScope = _fixture.Create<ConditionScope>();

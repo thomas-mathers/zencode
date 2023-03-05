@@ -29,7 +29,7 @@ public class VariableDeclarationStatementParsingStrategyTests
             new Token(TokenType.Var),
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
         var expression = new Expression();

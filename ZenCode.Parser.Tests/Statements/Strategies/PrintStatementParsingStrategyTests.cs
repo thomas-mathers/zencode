@@ -29,7 +29,7 @@ public class PrintStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.Print),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
         var expression = _fixture.Create<Expression>();

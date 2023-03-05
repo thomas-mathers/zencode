@@ -31,8 +31,8 @@ public class IfStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.If),
-            new Token(TokenType.None),
-            new Token(TokenType.None)
+            new Token(TokenType.Any),
+            new Token(TokenType.Any)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
@@ -65,11 +65,11 @@ public class IfStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.If),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None)
+            new Token(TokenType.Any),
+            new Token(TokenType.Any)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
@@ -108,17 +108,17 @@ public class IfStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.If),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None)
+            new Token(TokenType.Any),
+            new Token(TokenType.Any)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
@@ -159,10 +159,10 @@ public class IfStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.If),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.Else),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
@@ -200,13 +200,13 @@ public class IfStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.If),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.Else),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
@@ -247,19 +247,19 @@ public class IfStatementParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.If),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.ElseIf),
-            new Token(TokenType.None),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
+            new Token(TokenType.Any),
             new Token(TokenType.Else),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();

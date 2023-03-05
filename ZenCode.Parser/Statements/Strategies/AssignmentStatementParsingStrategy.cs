@@ -17,9 +17,9 @@ public class AssignmentStatementParsingStrategy : IStatementParsingStrategy
 
     public Statement Parse(ITokenStream tokenStream)
     {
-        var identifier = tokenStream.Consume(TokenType.Identifier);
+        var variableReferenceExpression = _expressionParser.ParseExpression(tokenStream);
         tokenStream.Consume(TokenType.Assignment);
         var expression = _expressionParser.ParseExpression(tokenStream);
-        return new AssignmentStatement(identifier, expression);
+        return new AssignmentStatement(variableReferenceExpression, expression);
     }
 }

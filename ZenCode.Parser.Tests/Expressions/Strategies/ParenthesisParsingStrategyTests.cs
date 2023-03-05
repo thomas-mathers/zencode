@@ -30,7 +30,7 @@ public class ParenthesisParsingStrategyTests
         {
             new Token(TokenType.LeftParenthesis),
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
             new Token(TokenType.RightParenthesis)
         });
 
@@ -68,7 +68,7 @@ public class ParenthesisParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
         var expression = _fixture.Create<Expression>();
@@ -89,7 +89,7 @@ public class ParenthesisParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
             new Token(TokenType.RightParenthesis)
         });
 

@@ -30,17 +30,19 @@ public class AssignmentStatementParsingStrategyTests
         {
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
+        var variableReferenceExpression = _fixture.Create<VariableReferenceExpression>();
         var expression = _fixture.Create<Expression>();
+        
         var expected = new AssignmentStatement(
-            new Token(TokenType.Identifier),
+            variableReferenceExpression,
             expression);
 
         _parserMock
             .Setup(x => x.ParseExpression(tokenStream, 0))
-            .Returns(expression)
+            .ReturnsSequence(variableReferenceExpression, expression)
             .ConsumesToken(tokenStream);
 
         // Act

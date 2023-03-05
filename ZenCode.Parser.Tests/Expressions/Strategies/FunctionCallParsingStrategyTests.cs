@@ -33,7 +33,7 @@ public class FunctionCallParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.None)
+            new Token(TokenType.Any)
         });
 
         var arguments = _fixture.Create<ExpressionList>();
@@ -73,7 +73,7 @@ public class FunctionCallParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.None),
+            new Token(TokenType.Any),
             new Token(TokenType.RightParenthesis)
         });
 
