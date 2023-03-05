@@ -33,7 +33,7 @@ public class BinaryExpressionParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(operatorTokenType),
-            new Token(TokenType.Any)
+            new Token(TokenType.Unknown)
         });
 
         var expected = new BinaryExpression(

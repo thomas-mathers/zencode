@@ -64,7 +64,7 @@ public class VariableReferenceParsingStrategyTests
         {
             new Token(TokenType.Identifier),
             new Token(TokenType.LeftBracket),
-            new Token(TokenType.Any),
+            new Token(TokenType.Unknown),
             new Token(TokenType.RightBracket)
         });
 

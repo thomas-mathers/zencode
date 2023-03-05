@@ -2,7 +2,7 @@
 
 public enum TokenType
 {
-    Any = 0,
+    Unknown = 0,
     Addition,
     And,
     Assignment,
@@ -31,6 +31,7 @@ public enum TokenType
     LessThanOrEqual,
     Modulus,
     Multiplication,
+    New,
     Not,
     NotEquals,
     Or,

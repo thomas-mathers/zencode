@@ -6,6 +6,7 @@ using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
+using ZenCode.Parser.Model.Types;
 using ZenCode.Parser.Statements;
 using ZenCode.Parser.Types;
 
@@ -392,6 +393,31 @@ public class StatementParserTests
         Assert.Equal(expectedStatement, actualStatement);
     }
 
+    [Fact]
+    public void Parse_FunctionWithNoParameters_ReturnFunctionDeclarationStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Function),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow),
+            new Token(TokenType.Void),
+            new Token(TokenType.LeftBrace),
+            new Token(TokenType.RightBrace),
+        });
+
+        var expectedStatement = new FunctionDeclarationStatement(new VoidType(), new ParameterList(), new Scope());
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+    
     [Fact]
     public void Parse_IfBinaryExpressionThenAssignmentStatement_ReturnsIfStatement()
     {

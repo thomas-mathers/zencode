@@ -30,7 +30,7 @@ public class AssignmentStatementParsingStrategyTests
         {
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),
-            new Token(TokenType.Any)
+            new Token(TokenType.Unknown)
         });
 
         var variableReferenceExpression = _fixture.Create<VariableReferenceExpression>();

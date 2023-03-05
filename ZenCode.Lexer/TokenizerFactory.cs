@@ -36,6 +36,7 @@ public class TokenizerFactory : ITokenizerFactory
             new TokenMatcher(TokenType.LessThan, "<"),
             new TokenMatcher(TokenType.Modulus, "mod"),
             new TokenMatcher(TokenType.Multiplication, "*"),
+            new TokenMatcher(TokenType.New, "new"),
             new TokenMatcher(TokenType.Not, "not"),
             new TokenMatcher(TokenType.NotEquals, "!="),
             new TokenMatcher(TokenType.Or, "or"),

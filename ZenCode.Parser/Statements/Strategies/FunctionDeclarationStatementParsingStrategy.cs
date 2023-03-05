@@ -3,6 +3,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Abstractions.Types;
+using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 
 namespace ZenCode.Parser.Statements.Strategies;
@@ -23,10 +24,16 @@ public class FunctionDeclarationStatementParsingStrategy : IStatementParsingStra
         tokenStream.Consume(TokenType.Function);
         tokenStream.Consume(TokenType.Identifier);
         tokenStream.Consume(TokenType.LeftParenthesis);
+        
+        var parameters = new ParameterList();
 
-        var parameters = _typeParser.ParseParameterList(tokenStream);
+        if (!tokenStream.Match(TokenType.RightParenthesis))
+        {
+            parameters = _typeParser.ParseParameterList(tokenStream);   
+            
+            tokenStream.Consume(TokenType.RightParenthesis);
+        }
 
-        tokenStream.Consume(TokenType.RightParenthesis);
         tokenStream.Consume(TokenType.RightArrow);
 
         var returnType = _typeParser.ParseType(tokenStream);

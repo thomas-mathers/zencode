@@ -32,11 +32,15 @@ public class TokenizerTests
     [InlineData("^", TokenType.Exponentiation)]
     [InlineData("and", TokenType.And)]
     [InlineData("bool", TokenType.Boolean)]
+    [InlineData("else if", TokenType.ElseIf)]
+    [InlineData("else", TokenType.Else)]
     [InlineData("false", TokenType.BooleanLiteral)]
     [InlineData("float", TokenType.Float)]
     [InlineData("function", TokenType.Function)]
+    [InlineData("if", TokenType.If)]
     [InlineData("int", TokenType.Integer)]
     [InlineData("mod", TokenType.Modulus)]
+    [InlineData("new", TokenType.New)]
     [InlineData("not", TokenType.Not)]
     [InlineData("or", TokenType.Or)]
     [InlineData("print", TokenType.Print)]
@@ -45,9 +49,6 @@ public class TokenizerTests
     [InlineData("true", TokenType.BooleanLiteral)]
     [InlineData("var", TokenType.Var)]
     [InlineData("while", TokenType.While)]
-    [InlineData("if", TokenType.If)]
-    [InlineData("else", TokenType.Else)]
-    [InlineData("else if", TokenType.ElseIf)]
     public void Tokenize_ValidToken_ReturnsToken(string text, TokenType expectedTokenType)
     {
         // Arrange

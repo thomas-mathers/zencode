@@ -30,7 +30,7 @@ public class UnaryExpressionParsingStrategyTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(operatorToken),
-            new Token(TokenType.Any)
+            new Token(TokenType.Unknown)
         });
 
         var expression = _fixture.Create<Expression>();
