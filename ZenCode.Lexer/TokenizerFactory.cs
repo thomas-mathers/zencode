@@ -9,7 +9,7 @@ public class TokenizerFactory : ITokenizerFactory
     {
         return new Tokenizer(new ITokenMatcher[]
         {
-            new TokenMatcher(TokenType.Addition, "+"),
+            new TokenMatcher(TokenType.Plus, "+"),
             new TokenMatcher(TokenType.And, "and"),
             new TokenMatcher(TokenType.Assignment, ":="),
             new TokenMatcher(TokenType.Boolean, "bool"),
@@ -24,6 +24,7 @@ public class TokenizerFactory : ITokenizerFactory
             new TokenMatcher(TokenType.Equals, "="),
             new TokenMatcher(TokenType.Exponentiation, "^"),
             new TokenMatcher(TokenType.Float, "float"),
+            new TokenMatcher(TokenType.For, "for"),
             new TokenMatcher(TokenType.Function, "function"),
             new TokenMatcher(TokenType.GreaterThanOrEqual, ">="),
             new TokenMatcher(TokenType.GreaterThan, ">"),

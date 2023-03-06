@@ -37,7 +37,7 @@ public class ExpressionParserFactory : IExpressionParserFactory
         expressionParser.SetPrefixExpressionParsingStrategy(TokenType.New,
             new NewExpressionParsingStrategy(_typeParser, expressionParser));
         
-        expressionParser.SetInfixExpressionParsingStrategy(TokenType.Addition,
+        expressionParser.SetInfixExpressionParsingStrategy(TokenType.Plus,
             new BinaryExpressionParsingStrategy(expressionParser, 4));
         expressionParser.SetInfixExpressionParsingStrategy(TokenType.Minus,
             new BinaryExpressionParsingStrategy(expressionParser, 4));

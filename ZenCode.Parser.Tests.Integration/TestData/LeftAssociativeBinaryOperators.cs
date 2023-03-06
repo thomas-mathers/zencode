@@ -7,7 +7,7 @@ public class LeftAssociativeBinaryOperators : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return new object[] { TokenType.Addition };
+        yield return new object[] { TokenType.Plus };
         yield return new object[] { TokenType.Minus };
         yield return new object[] { TokenType.Multiplication };
         yield return new object[] { TokenType.Division };

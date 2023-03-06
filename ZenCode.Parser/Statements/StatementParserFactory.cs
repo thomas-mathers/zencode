@@ -11,7 +11,8 @@ public class StatementParserFactory : IStatementParserFactory
     private readonly IExpressionParser _expressionParser;
     private readonly ITypeParser _typeParser;
 
-    public StatementParserFactory(IExpressionParserFactory expressionParserFactory, ITypeParserFactory typeParserFactory)
+    public StatementParserFactory(IExpressionParserFactory expressionParserFactory,
+        ITypeParserFactory typeParserFactory)
     {
         _expressionParser = expressionParserFactory.Create();
         _typeParser = typeParserFactory.Create();
@@ -35,6 +36,8 @@ public class StatementParserFactory : IStatementParserFactory
             new VariableDeclarationStatementParsingStrategy(_expressionParser));
         statementParser.SetStatementParsingStrategy(TokenType.Return,
             new ReturnStatementParsingStrategy(_expressionParser));
+        statementParser.SetStatementParsingStrategy(TokenType.For,
+            new ForStatementParsingStrategy(_expressionParser, statementParser));
 
         return statementParser;
     }

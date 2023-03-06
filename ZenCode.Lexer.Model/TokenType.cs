@@ -2,7 +2,7 @@
 
 public enum TokenType
 {
-    Addition,
+    Plus,
     And,
     Assignment,
     Boolean,
@@ -16,6 +16,7 @@ public enum TokenType
     Exponentiation,
     Float,
     FloatLiteral,
+    For,
     Function,
     GreaterThan,
     GreaterThanOrEqual,

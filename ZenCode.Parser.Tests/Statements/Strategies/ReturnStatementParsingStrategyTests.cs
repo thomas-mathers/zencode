@@ -17,7 +17,6 @@ public class ReturnStatementParsingStrategyTests
     private readonly Mock<IExpressionParser> _expressionParserMock = new();
     private readonly ReturnStatementParsingStrategy _sut;
     
-
     public ReturnStatementParsingStrategyTests()
     {
         _sut = new ReturnStatementParsingStrategy(_expressionParserMock.Object);

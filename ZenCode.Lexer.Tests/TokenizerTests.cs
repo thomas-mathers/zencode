@@ -14,7 +14,7 @@ public class TokenizerTests
     [InlineData("(", TokenType.LeftParenthesis)]
     [InlineData(")", TokenType.RightParenthesis)]
     [InlineData("*", TokenType.Multiplication)]
-    [InlineData("+", TokenType.Addition)]
+    [InlineData("+", TokenType.Plus)]
     [InlineData("-", TokenType.Minus)]
     [InlineData("/", TokenType.Division)]
     [InlineData(":", TokenType.Colon)]
@@ -37,6 +37,7 @@ public class TokenizerTests
     [InlineData("else", TokenType.Else)]
     [InlineData("false", TokenType.BooleanLiteral)]
     [InlineData("float", TokenType.Float)]
+    [InlineData("for", TokenType.For)]
     [InlineData("function", TokenType.Function)]
     [InlineData("if", TokenType.If)]
     [InlineData("int", TokenType.Integer)]
@@ -190,7 +191,7 @@ public class TokenizerTests
                 StartingColumn = 5,
                 Text = "a"
             },
-            new Token(TokenType.Addition)
+            new Token(TokenType.Plus)
             {
                 Line = 0,
                 StartingColumn = 7,
@@ -310,7 +311,7 @@ public class TokenizerTests
                 StartingColumn = 15,
                 Text = "3"
             },
-            new Token(TokenType.Addition)
+            new Token(TokenType.Plus)
             {
                 Line = 2,
                 StartingColumn = 17,
