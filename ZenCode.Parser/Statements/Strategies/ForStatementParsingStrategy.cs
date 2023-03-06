@@ -21,6 +21,7 @@ public class ForStatementParsingStrategy : IStatementParsingStrategy
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.For);
+        tokenStream.Consume(TokenType.LeftParenthesis);
 
         var initializer = _statementParser.ParseStatement(tokenStream);
 
@@ -31,6 +32,8 @@ public class ForStatementParsingStrategy : IStatementParsingStrategy
         tokenStream.Consume(TokenType.Semicolon);
 
         var iterator = _statementParser.ParseStatement(tokenStream);
+        
+        tokenStream.Consume(TokenType.RightParenthesis);
 
         var scope = _statementParser.ParseScope(tokenStream);
         

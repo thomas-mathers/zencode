@@ -400,6 +400,7 @@ public class StatementParserTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.For),
+            new Token(TokenType.LeftParenthesis),
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),
             new Token(TokenType.IntegerLiteral),
@@ -413,6 +414,7 @@ public class StatementParserTests
             new Token(TokenType.Identifier),
             new Token(TokenType.Plus),
             new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightParenthesis),
             new Token(TokenType.LeftBrace),
             new Token(TokenType.Identifier),
             new Token(TokenType.LeftBracket),
