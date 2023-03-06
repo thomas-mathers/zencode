@@ -2,7 +2,6 @@
 
 public enum TokenType
 {
-    Unknown = 0,
     Addition,
     And,
     Assignment,
@@ -41,9 +40,10 @@ public enum TokenType
     RightBrace,
     RightBracket,
     RightParenthesis,
+    Semicolon,
     String,
     StringLiteral,
-    Subtraction,
+    Minus,
     Var,
     Void,
     While

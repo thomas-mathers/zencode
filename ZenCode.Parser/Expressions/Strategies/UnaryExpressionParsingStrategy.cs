@@ -35,7 +35,7 @@ public class UnaryExpressionParsingStrategy : IPrefixExpressionParsingStrategy
         return tokenType switch
         {
             TokenType.Not => true,
-            TokenType.Subtraction => true,
+            TokenType.Minus => true,
             _ => false
         };
     }

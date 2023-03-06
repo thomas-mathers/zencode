@@ -18,7 +18,16 @@ public class ReturnStatementParsingStrategy : IStatementParsingStrategy
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Return);
+        
+        if (tokenStream.Match(TokenType.Semicolon))
+        {
+            return new ReturnStatement();
+        }
+        
         var expression = _expressionParser.ParseExpression(tokenStream);
+        
+        tokenStream.Consume(TokenType.Semicolon);
+        
         return new ReturnStatement { Expression = expression };
     }
 }

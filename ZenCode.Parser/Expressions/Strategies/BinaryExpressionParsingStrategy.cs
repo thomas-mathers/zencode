@@ -42,7 +42,7 @@ public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
         return tokenType switch
         {
             TokenType.Addition => true,
-            TokenType.Subtraction => true,
+            TokenType.Minus => true,
             TokenType.Multiplication => true,
             TokenType.Division => true,
             TokenType.Modulus => true,

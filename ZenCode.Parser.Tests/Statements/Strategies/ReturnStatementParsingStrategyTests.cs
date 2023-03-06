@@ -24,13 +24,32 @@ public class ReturnStatementParsingStrategyTests
     }
 
     [Fact]
-    public void Parse_AnyExpression_ReturnsReturnStatement()
+    public void Parse_ReturnNothing_ReturnsReturnStatement()
+    {
+        // Arrange
+        var expected = new ReturnStatement();
+
+        _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(true);
+        
+        // Act
+        var actual = _sut.Parse(_tokenStreamMock.Object);
+        
+        // Assert
+        Assert.Equal(expected, actual);
+        
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.Return));
+    }
+    
+    [Fact]
+    public void Parse_ReturnAnyExpression_ReturnsReturnStatement()
     {
         // Arrange
         var expression = _fixture.Create<Expression>();
 
         var expected = new ReturnStatement { Expression = expression };
 
+        _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(false);
+        
         _expressionParserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
             .Returns(expression);

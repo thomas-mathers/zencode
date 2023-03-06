@@ -18,7 +18,7 @@ public class TokenStreamTests
         var sut = new TokenStream(new[] { expectedToken });
 
         // Act + Assert
-        Assert.Throws<UnexpectedTokenException>(() => sut.Consume(TokenType.Subtraction));
+        Assert.Throws<UnexpectedTokenException>(() => sut.Consume(TokenType.Minus));
     }
 
     [Fact]

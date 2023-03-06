@@ -7,7 +7,7 @@ public class UnaryOperators : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return new object[] { TokenType.Subtraction };
+        yield return new object[] { TokenType.Minus };
         yield return new object[] { TokenType.Not };
     }
 

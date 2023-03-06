@@ -187,7 +187,7 @@ public class StatementParserTests
             new Token(TokenType.IntegerLiteral),
             new Token(TokenType.RightBracket),
             new Token(TokenType.Assignment),
-            new Token(TokenType.Subtraction),
+            new Token(TokenType.Minus),
             new Token(TokenType.IntegerLiteral)
         });
 
@@ -202,7 +202,7 @@ public class StatementParserTests
             }
         };
 
-        var expression = new UnaryExpression(new Token(TokenType.Subtraction),
+        var expression = new UnaryExpression(new Token(TokenType.Minus),
             new ConstantExpression(new Token(TokenType.IntegerLiteral)));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
@@ -355,13 +355,13 @@ public class StatementParserTests
         {
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),
-            new Token(TokenType.Subtraction),
+            new Token(TokenType.Minus),
             new Token(TokenType.IntegerLiteral)
         });
 
         var expectedStatement =
             new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new UnaryExpression(new Token(TokenType.Subtraction),
+                new UnaryExpression(new Token(TokenType.Minus),
                     new ConstantExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
@@ -706,12 +706,12 @@ public class StatementParserTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.Print),
-            new Token(TokenType.Subtraction),
+            new Token(TokenType.Minus),
             new Token(TokenType.FloatLiteral)
         });
 
         var expectedStatement =
-            new PrintStatement(new UnaryExpression(new Token(TokenType.Subtraction),
+            new PrintStatement(new UnaryExpression(new Token(TokenType.Minus),
                 new ConstantExpression(new Token(TokenType.FloatLiteral))));
 
         // Act
@@ -739,6 +739,25 @@ public class StatementParserTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
+    
+    [Fact]
+    public void Parse_ReturnNothing_ReturnsReturnStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Return),
+            new Token(TokenType.Semicolon)
+        });
+
+        var expectedStatement = new ReturnStatement();
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
 
     [Fact]
     public void Parse_ReturnBinaryExpression_ReturnsReturnStatement()
@@ -749,7 +768,8 @@ public class StatementParserTests
             new Token(TokenType.Return),
             new Token(TokenType.IntegerLiteral),
             new Token(TokenType.Addition),
-            new Token(TokenType.IntegerLiteral)
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.Semicolon)
         });
 
         var expectedStatement = new ReturnStatement
@@ -778,7 +798,8 @@ public class StatementParserTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.Return),
-            new Token(tokenType)
+            new Token(tokenType),
+            new Token(TokenType.Semicolon)
         });
 
         var expectedStatement = new ReturnStatement
@@ -802,7 +823,8 @@ public class StatementParserTests
             new Token(TokenType.Return),
             new Token(TokenType.Identifier),
             new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis)
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.Semicolon)
         });
 
         var expectedStatement =
@@ -828,7 +850,8 @@ public class StatementParserTests
             new Token(TokenType.Return),
             new Token(TokenType.LeftParenthesis),
             new Token(TokenType.StringLiteral),
-            new Token(TokenType.RightParenthesis)
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.Semicolon)
         });
 
         var expectedStatement =
@@ -851,14 +874,15 @@ public class StatementParserTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.Return),
-            new Token(TokenType.Subtraction),
-            new Token(TokenType.FloatLiteral)
+            new Token(TokenType.Minus),
+            new Token(TokenType.FloatLiteral),
+            new Token(TokenType.Semicolon)
         });
 
         var expectedStatement =
             new ReturnStatement
             {
-                Expression = new UnaryExpression(new Token(TokenType.Subtraction),
+                Expression = new UnaryExpression(new Token(TokenType.Minus),
                     new ConstantExpression(new Token(TokenType.FloatLiteral)))
             };
 
@@ -876,7 +900,8 @@ public class StatementParserTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.Return),
-            new Token(TokenType.Identifier)
+            new Token(TokenType.Identifier),
+            new Token(TokenType.Semicolon)
         });
 
         var expectedStatement = new ReturnStatement
@@ -1013,14 +1038,14 @@ public class StatementParserTests
             new Token(TokenType.Var),
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),
-            new Token(TokenType.Subtraction),
+            new Token(TokenType.Minus),
             new Token(TokenType.FloatLiteral)
         });
 
         var identifier = new Token(TokenType.Identifier);
         
         var expression = new UnaryExpression(
-            new Token(TokenType.Subtraction),
+            new Token(TokenType.Minus),
             new ConstantExpression(new Token(TokenType.FloatLiteral)));
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);

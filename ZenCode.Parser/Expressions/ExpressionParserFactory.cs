@@ -28,7 +28,7 @@ public class ExpressionParserFactory : IExpressionParserFactory
             new ConstantParsingStrategy());
         expressionParser.SetPrefixExpressionParsingStrategy(TokenType.Identifier,
             new VariableReferenceParsingStrategy(expressionParser));
-        expressionParser.SetPrefixExpressionParsingStrategy(TokenType.Subtraction,
+        expressionParser.SetPrefixExpressionParsingStrategy(TokenType.Minus,
             new UnaryExpressionParsingStrategy(expressionParser));
         expressionParser.SetPrefixExpressionParsingStrategy(TokenType.Not,
             new UnaryExpressionParsingStrategy(expressionParser));
@@ -39,7 +39,7 @@ public class ExpressionParserFactory : IExpressionParserFactory
         
         expressionParser.SetInfixExpressionParsingStrategy(TokenType.Addition,
             new BinaryExpressionParsingStrategy(expressionParser, 4));
-        expressionParser.SetInfixExpressionParsingStrategy(TokenType.Subtraction,
+        expressionParser.SetInfixExpressionParsingStrategy(TokenType.Minus,
             new BinaryExpressionParsingStrategy(expressionParser, 4));
         expressionParser.SetInfixExpressionParsingStrategy(TokenType.Multiplication,
             new BinaryExpressionParsingStrategy(expressionParser, 5));

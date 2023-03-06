@@ -15,10 +15,11 @@ public class TokenizerTests
     [InlineData(")", TokenType.RightParenthesis)]
     [InlineData("*", TokenType.Multiplication)]
     [InlineData("+", TokenType.Addition)]
-    [InlineData("-", TokenType.Subtraction)]
+    [InlineData("-", TokenType.Minus)]
     [InlineData("/", TokenType.Division)]
     [InlineData(":", TokenType.Colon)]
     [InlineData(":=", TokenType.Assignment)]
+    [InlineData(";", TokenType.Semicolon)]
     [InlineData("<", TokenType.LessThan)]
     [InlineData("<=", TokenType.LessThanOrEqual)]
     [InlineData("=", TokenType.Equals)]
@@ -342,7 +343,7 @@ public class TokenizerTests
                 StartingColumn = 0,
                 Text = "n"
             },
-            new Token(TokenType.Subtraction)
+            new Token(TokenType.Minus)
             {
                 Line = 0,
                 StartingColumn = 1,
