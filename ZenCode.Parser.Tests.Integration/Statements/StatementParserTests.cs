@@ -40,15 +40,15 @@ public class StatementParserTests
             {
                 Expressions = new[]
                 {
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
         };
 
         var expression = new BinaryExpression(
-            new ConstantExpression(new Token(TokenType.FloatLiteral)),
+            new LiteralExpression(new Token(TokenType.FloatLiteral)),
             new Token(TokenType.Plus),
-            new ConstantExpression(new Token(TokenType.FloatLiteral)));
+            new LiteralExpression(new Token(TokenType.FloatLiteral)));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
@@ -83,12 +83,12 @@ public class StatementParserTests
             {
                 Expressions = new[]
                 {
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
         };
 
-        var expression = new ConstantExpression(new Token(tokenType));
+        var expression = new LiteralExpression(new Token(tokenType));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
@@ -121,7 +121,7 @@ public class StatementParserTests
             {
                 Expressions = new[]
                 {
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
         };
@@ -158,12 +158,12 @@ public class StatementParserTests
             {
                 Expressions = new[]
                 {
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
         };
 
-        var expression = new ConstantExpression(new Token(TokenType.StringLiteral));
+        var expression = new LiteralExpression(new Token(TokenType.StringLiteral));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
@@ -194,13 +194,13 @@ public class StatementParserTests
             {
                 Expressions = new[]
                 {
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
         };
 
         var expression = new UnaryExpression(new Token(TokenType.Minus),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)));
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
@@ -231,7 +231,7 @@ public class StatementParserTests
             {
                 Expressions = new[]
                 {
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
         };
@@ -262,8 +262,8 @@ public class StatementParserTests
 
         var expectedStatement =
             new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new BinaryExpression(new ConstantExpression(new Token(TokenType.FloatLiteral)),
-                    new Token(TokenType.Plus), new ConstantExpression(new Token(TokenType.FloatLiteral))));
+                new BinaryExpression(new LiteralExpression(new Token(TokenType.FloatLiteral)),
+                    new Token(TokenType.Plus), new LiteralExpression(new Token(TokenType.FloatLiteral))));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -289,7 +289,7 @@ public class StatementParserTests
 
         var expectedStatement =
             new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new ConstantExpression(new Token(tokenType)));
+                new LiteralExpression(new Token(tokenType)));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -336,7 +336,7 @@ public class StatementParserTests
 
         var expectedStatement =
             new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new ConstantExpression(new Token(TokenType.StringLiteral)));
+                new LiteralExpression(new Token(TokenType.StringLiteral)));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -359,7 +359,7 @@ public class StatementParserTests
         var expectedStatement =
             new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 new UnaryExpression(new Token(TokenType.Minus),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))));
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -424,19 +424,19 @@ public class StatementParserTests
 
         var initialization = new AssignmentStatement(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)));
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         
         var condition = new BinaryExpression(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new Token(TokenType.LessThan),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)));
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         
         var iterator = new AssignmentStatement(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new BinaryExpression(
                 new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 new Token(TokenType.Plus),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))));
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
         
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
@@ -444,12 +444,12 @@ public class StatementParserTests
             {
                 Expressions = new[]
                 {
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral))   
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))   
                 }
             }
         };
         
-        var expression = new ConstantExpression(new Token(TokenType.IntegerLiteral));
+        var expression = new LiteralExpression(new Token(TokenType.IntegerLiteral));
         
         var scopeStatement = new AssignmentStatement(variableReferenceExpression, expression);
         
@@ -515,14 +515,14 @@ public class StatementParserTests
         var thenCondition = new BinaryExpression(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new Token(TokenType.Equals),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral))
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
         );
         var thenScope = new Scope
         {
             Statements = new[]
             {
                 new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
             }
         };
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
@@ -562,14 +562,14 @@ public class StatementParserTests
         var thenCondition = new BinaryExpression(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new Token(TokenType.Equals),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral))
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
         );
         var thenScope = new Scope
         {
             Statements = new[]
             {
                 new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
             }
         };
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
@@ -579,7 +579,7 @@ public class StatementParserTests
             Statements = new[]
             {
                 new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
             }
         };
 
@@ -631,14 +631,14 @@ public class StatementParserTests
         var thenCondition = new BinaryExpression(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new Token(TokenType.Equals),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral))
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
         );
         var thenScope = new Scope
         {
             Statements = new[]
             {
                 new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
             }
         };
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
@@ -646,14 +646,14 @@ public class StatementParserTests
         var elseIfCondition = new BinaryExpression(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new Token(TokenType.Equals),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral))
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
         );
         var elseIfScope = new Scope
         {
             Statements = new[]
             {
                 new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
             }
         };
         var elseIfConditionScope = new ConditionScope(elseIfCondition, elseIfScope);
@@ -663,7 +663,7 @@ public class StatementParserTests
             Statements = new[]
             {
                 new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
             }
         };
 
@@ -697,9 +697,9 @@ public class StatementParserTests
 
         var expectedStatement = new PrintStatement(
             new BinaryExpression(
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(TokenType.Plus),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))));
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -722,7 +722,7 @@ public class StatementParserTests
             new Token(tokenType)
         });
 
-        var expectedStatement = new PrintStatement(new ConstantExpression(new Token(tokenType)));
+        var expectedStatement = new PrintStatement(new LiteralExpression(new Token(tokenType)));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -767,7 +767,7 @@ public class StatementParserTests
         });
 
         var expectedStatement =
-            new PrintStatement(new ConstantExpression(new Token(TokenType.StringLiteral)));
+            new PrintStatement(new LiteralExpression(new Token(TokenType.StringLiteral)));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -789,7 +789,7 @@ public class StatementParserTests
 
         var expectedStatement =
             new PrintStatement(new UnaryExpression(new Token(TokenType.Minus),
-                new ConstantExpression(new Token(TokenType.FloatLiteral))));
+                new LiteralExpression(new Token(TokenType.FloatLiteral))));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -852,9 +852,9 @@ public class StatementParserTests
         var expectedStatement = new ReturnStatement
         {
             Expression = new BinaryExpression(
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(TokenType.Plus),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
         // Act
@@ -881,7 +881,7 @@ public class StatementParserTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new ConstantExpression(new Token(tokenType))
+            Expression = new LiteralExpression(new Token(tokenType))
         };
 
         // Act
@@ -934,7 +934,7 @@ public class StatementParserTests
         var expectedStatement =
             new ReturnStatement
             {
-                Expression = new ConstantExpression(new Token(TokenType.StringLiteral))
+                Expression = new LiteralExpression(new Token(TokenType.StringLiteral))
             };
 
         // Act
@@ -960,7 +960,7 @@ public class StatementParserTests
             new ReturnStatement
             {
                 Expression = new UnaryExpression(new Token(TokenType.Minus),
-                    new ConstantExpression(new Token(TokenType.FloatLiteral)))
+                    new LiteralExpression(new Token(TokenType.FloatLiteral)))
             };
 
         // Act
@@ -1010,9 +1010,9 @@ public class StatementParserTests
         var identifier = new Token(TokenType.Identifier);
 
         var expression = new BinaryExpression(
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
             new Token(TokenType.Plus),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)));
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
@@ -1041,7 +1041,7 @@ public class StatementParserTests
         
         var identifier = new Token(TokenType.Identifier);
 
-        var expression = new ConstantExpression(new Token(tokenType));
+        var expression = new LiteralExpression(new Token(tokenType));
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
@@ -1095,7 +1095,7 @@ public class StatementParserTests
         
         var identifier = new Token(TokenType.Identifier);
 
-        var expression = new ConstantExpression(new Token(TokenType.StringLiteral));
+        var expression = new LiteralExpression(new Token(TokenType.StringLiteral));
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
@@ -1123,7 +1123,7 @@ public class StatementParserTests
         
         var expression = new UnaryExpression(
             new Token(TokenType.Minus),
-            new ConstantExpression(new Token(TokenType.FloatLiteral)));
+            new LiteralExpression(new Token(TokenType.FloatLiteral)));
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
@@ -1179,14 +1179,14 @@ public class StatementParserTests
         var condition = new BinaryExpression(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new Token(TokenType.GreaterThan),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral))
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
         );
         var scope = new Scope
         {
             Statements = new[]
             {
                 new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new ConstantExpression(new Token(TokenType.IntegerLiteral)))
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
             }
         };
         var conditionScope = new ConditionScope(condition, scope);

@@ -35,7 +35,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -65,7 +65,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -95,7 +95,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -125,7 +125,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -159,7 +159,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -193,7 +193,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -227,7 +227,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -261,7 +261,7 @@ public class ExpressionParserTests
         {
             Expressions = new[]
             {
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
         
@@ -291,12 +291,12 @@ public class ExpressionParserTests
         });
 
         var expected = new BinaryExpression(
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
             new Token(loOp),
             new BinaryExpression(
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(hiOp),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))));
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -323,11 +323,11 @@ public class ExpressionParserTests
 
         var expected = new BinaryExpression(
             new BinaryExpression(
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(hiOp),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))),
             new Token(loOp),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)));
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -353,11 +353,11 @@ public class ExpressionParserTests
 
         var expected = new BinaryExpression(
             new BinaryExpression(
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(op),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))),
             new Token(op),
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)));
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -382,12 +382,12 @@ public class ExpressionParserTests
         });
 
         var expected = new BinaryExpression(
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
             new Token(op),
             new BinaryExpression(
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(op),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))));
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -415,12 +415,12 @@ public class ExpressionParserTests
         });
 
         var expected = new BinaryExpression(
-            new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
             new Token(hiOp),
             new BinaryExpression(
-                new ConstantExpression(new Token(TokenType.IntegerLiteral)),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(loOp),
-                new ConstantExpression(new Token(TokenType.IntegerLiteral))));
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);

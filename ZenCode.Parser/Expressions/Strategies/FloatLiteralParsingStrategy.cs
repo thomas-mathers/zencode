@@ -9,6 +9,6 @@ public class FloatLiteralParsingStrategy : IPrefixExpressionParsingStrategy
 {
     public Expression Parse(ITokenStream tokenStream)
     {
-        return new ConstantExpression(tokenStream.Consume(TokenType.FloatLiteral));
+        return new LiteralExpression(tokenStream.Consume(TokenType.FloatLiteral));
     }
 }

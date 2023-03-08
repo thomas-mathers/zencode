@@ -21,7 +21,7 @@ public class IntegerLiteralParsingStrategyTests
     public void Parse_IntegerLiteral_ReturnsConstantExpression()
     {
         // Arrange
-        var expected = new ConstantExpression(new Token(TokenType.IntegerLiteral));
+        var expected = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.IntegerLiteral))

@@ -2,4 +2,4 @@
 
 namespace ZenCode.Parser.Model.Grammar.Expressions;
 
-public record ConstantExpression(Token Token) : Expression;
+public record LiteralExpression(Token Token) : Expression;

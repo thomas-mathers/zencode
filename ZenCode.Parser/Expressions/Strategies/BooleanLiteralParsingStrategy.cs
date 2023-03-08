@@ -9,6 +9,6 @@ public class BooleanLiteralParsingStrategy : IPrefixExpressionParsingStrategy
 {
     public Expression Parse(ITokenStream tokenStream)
     {
-        return new ConstantExpression(tokenStream.Consume(TokenType.BooleanLiteral));
+        return new LiteralExpression(tokenStream.Consume(TokenType.BooleanLiteral));
     }
 }

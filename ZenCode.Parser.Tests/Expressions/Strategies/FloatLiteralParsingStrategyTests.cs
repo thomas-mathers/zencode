@@ -21,7 +21,7 @@ public class FloatLiteralParsingStrategyTests
     public void Parse_FloatLiteral_ReturnsConstantExpression()
     {
         // Arrange
-        var expected = new ConstantExpression(new Token(TokenType.FloatLiteral));
+        var expected = new LiteralExpression(new Token(TokenType.FloatLiteral));
 
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.FloatLiteral))

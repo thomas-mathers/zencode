@@ -21,7 +21,7 @@ public class BooleanLiteralParsingStrategyTests
     public void Parse_BooleanLiteral_ReturnsConstantExpression()
     {
         // Arrange
-        var expected = new ConstantExpression(new Token(TokenType.BooleanLiteral));
+        var expected = new LiteralExpression(new Token(TokenType.BooleanLiteral));
 
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.BooleanLiteral))

@@ -21,7 +21,7 @@ public class StringLiteralParsingStrategyTests
     public void Parse_StringLiteral_ReturnsConstantExpression()
     {
         // Arrange
-        var expected = new ConstantExpression(new Token(TokenType.StringLiteral));
+        var expected = new LiteralExpression(new Token(TokenType.StringLiteral));
 
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.StringLiteral))
