@@ -2,13 +2,10 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Statements;
-using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Types;
-using ZenCode.Parser.Statements;
-using ZenCode.Parser.Types;
 
 namespace ZenCode.Parser.Tests.Integration.Statements;
 
@@ -18,7 +15,7 @@ public class StatementParserTests
 
     public StatementParserTests()
     {
-        _sut = new StatementParserFactory(new ExpressionParserFactory(new TypeParserFactory()), new TypeParserFactory()).Create();
+        _sut = new ParserFactory().Create();
     }
 
     [Fact]

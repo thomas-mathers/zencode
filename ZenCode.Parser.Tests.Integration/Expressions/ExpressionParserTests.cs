@@ -2,12 +2,10 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Expressions;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Types;
 using ZenCode.Parser.Tests.Integration.TestData;
-using ZenCode.Parser.Types;
 
 namespace ZenCode.Parser.Tests.Integration.Expressions;
 
@@ -17,7 +15,7 @@ public class ExpressionParserTests
 
     public ExpressionParserTests()
     {
-        _sut = new ExpressionParserFactory(new TypeParserFactory()).Create();
+        _sut = new ParserFactory().Create();
     }
 
     [Fact]

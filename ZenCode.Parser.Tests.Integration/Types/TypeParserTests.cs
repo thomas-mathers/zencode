@@ -3,7 +3,6 @@ using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Model.Types;
-using ZenCode.Parser.Types;
 
 namespace ZenCode.Parser.Tests.Integration.Types;
 
@@ -13,7 +12,7 @@ public class TypeParserTests
 
     public TypeParserTests()
     {
-        _sut = new TypeParserFactory().Create();
+        _sut = new ParserFactory().Create();
     }
     
     [Fact]

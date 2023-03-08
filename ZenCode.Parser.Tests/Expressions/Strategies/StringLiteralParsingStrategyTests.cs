@@ -8,26 +8,25 @@ using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
-public class ConstantParsingStrategyTests
+public class StringLiteralParsingStrategyTests
 {
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly ConstantParsingStrategy _sut;
+    private readonly StringLiteralParsingStrategy _sut;
 
-    public ConstantParsingStrategyTests()
+    public StringLiteralParsingStrategyTests()
     {
-        _sut = new ConstantParsingStrategy();
+        _sut = new StringLiteralParsingStrategy();
     }
 
-    [Theory]
-    [ClassData(typeof(Constants))]
-    public void Parse_Constant_ReturnsConstantExpression(TokenType tokenType)
+    [Fact]
+    public void Parse_StringLiteral_ReturnsConstantExpression()
     {
         // Arrange
-        var expected = new ConstantExpression(new Token(tokenType));
+        var expected = new ConstantExpression(new Token(TokenType.StringLiteral));
 
         _tokenStreamMock
-            .Setup(x => x.Consume())
-            .Returns(new Token(tokenType));
+            .Setup(x => x.Consume(TokenType.StringLiteral))
+            .Returns(new Token(TokenType.StringLiteral));
 
         // Act
         var actual = _sut.Parse(_tokenStreamMock.Object);
