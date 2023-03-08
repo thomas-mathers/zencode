@@ -4,7 +4,6 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
