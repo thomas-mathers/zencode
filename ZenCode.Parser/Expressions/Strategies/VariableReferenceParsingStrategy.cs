@@ -31,6 +31,8 @@ public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
             return new VariableReferenceExpression(identifierToken);
         }
 
+        tokenStream.Consume(TokenType.LeftBracket);
+
         if (tokenStream.Match(TokenType.RightBracket))
         {
             throw new MissingIndexExpressionException();

@@ -70,16 +70,7 @@ public class TokenStream : ITokenStream
         return _peekedTokens.Last();
     }
 
-    public bool Match(TokenType tokenType)
-    {
-        if (Peek(0)?.Type != tokenType)
-        {
-            return false;
-        }
-
-        Consume();
-        return true;
-    }
+    public bool Match(TokenType tokenType) => Peek(0)?.Type == tokenType;
 
     public IEnumerator<Token> GetEnumerator()
     {

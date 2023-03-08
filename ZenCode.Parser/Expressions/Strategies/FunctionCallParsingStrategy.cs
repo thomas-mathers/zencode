@@ -2,6 +2,7 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;
+using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Expressions.Strategies;
@@ -22,12 +23,9 @@ public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
     {
         tokenStream.Consume(TokenType.LeftParenthesis);
 
-        if (tokenStream.Match(TokenType.RightParenthesis))
-        {
-            return new FunctionCallExpression(lOperand);
-        }
-
-        var arguments = _parser.ParseExpressionList(tokenStream);
+        var arguments = tokenStream.Match(TokenType.RightParenthesis)
+            ? new ExpressionList()
+            : _parser.ParseExpressionList(tokenStream);
 
         tokenStream.Consume(TokenType.RightParenthesis);
 

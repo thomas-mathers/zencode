@@ -56,10 +56,17 @@ public class Parser : IParser
     {
         var expressions = new List<Expression>();
 
-        do
+        while (true)
         {
             expressions.Add(ParseExpression(tokenStream));
-        } while (tokenStream.Match(TokenType.Comma));
+
+            if (!tokenStream.Match(TokenType.Comma))
+            {
+                break;
+            }
+
+            tokenStream.Consume(TokenType.Comma);
+        }
 
         return new ExpressionList { Expressions = expressions };
     }
@@ -82,8 +89,14 @@ public class Parser : IParser
 
         var statements = new List<Statement>();
 
-        while (!tokenStream.Match(TokenType.RightBrace))
+        while (true)
         {
+            if (tokenStream.Match(TokenType.RightBrace))
+            {
+                tokenStream.Consume(TokenType.RightBrace);
+                break;
+            }
+                
             statements.Add(ParseStatement(tokenStream));
         }
 
@@ -117,7 +130,7 @@ public class Parser : IParser
     {
         var parameters = new List<Parameter>();
 
-        do
+        while (true)
         {
             var identifier = tokenStream.Consume(TokenType.Identifier);
 
@@ -126,7 +139,14 @@ public class Parser : IParser
             var type = ParseType(tokenStream);
 
             parameters.Add(new Parameter(identifier, type));
-        } while (tokenStream.Match(TokenType.Comma));
+
+            if (!tokenStream.Match(TokenType.Comma))
+            {
+                break;
+            }
+
+            tokenStream.Consume(TokenType.Comma);
+        }
 
         return new ParameterList { Parameters = parameters };
     }

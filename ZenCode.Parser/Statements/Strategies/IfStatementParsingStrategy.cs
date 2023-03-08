@@ -26,17 +26,21 @@ public class IfStatementParsingStrategy : IStatementParsingStrategy
 
         while (tokenStream.Match(TokenType.ElseIf))
         {
+            tokenStream.Consume(TokenType.ElseIf);
+            
             var elseIfConditionScope = _parser.ParseConditionScope(tokenStream);
 
             elseIfConditionScopes.Add(elseIfConditionScope);
         }
 
-        Scope? elseScope = null;
-
-        if (tokenStream.Match(TokenType.Else))
+        if (!tokenStream.Match(TokenType.Else))
         {
-            elseScope = _parser.ParseScope(tokenStream);
+            return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes };
         }
+        
+        tokenStream.Consume(TokenType.Else);
+            
+        var elseScope = _parser.ParseScope(tokenStream);
 
         return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes, ElseScope = elseScope };
     }

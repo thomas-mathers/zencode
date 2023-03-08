@@ -22,14 +22,11 @@ public class FunctionDeclarationStatementParsingStrategy : IStatementParsingStra
         tokenStream.Consume(TokenType.Identifier);
         tokenStream.Consume(TokenType.LeftParenthesis);
         
-        var parameters = new ParameterList();
+        var parameters = tokenStream.Match(TokenType.RightParenthesis) 
+            ? new ParameterList()
+            : _parser.ParseParameterList(tokenStream);
 
-        if (!tokenStream.Match(TokenType.RightParenthesis))
-        {
-            parameters = _parser.ParseParameterList(tokenStream);   
-            
-            tokenStream.Consume(TokenType.RightParenthesis);
-        }
+        tokenStream.Consume(TokenType.RightParenthesis);
 
         tokenStream.Consume(TokenType.RightArrow);
 
