@@ -30,6 +30,8 @@ public class ParserFactory : IParserFactory
             new ParenthesisParsingStrategy(parser));
         parser.SetPrefixExpressionParsingStrategy(TokenType.New,
             new NewExpressionParsingStrategy(parser));
+        parser.SetPrefixExpressionParsingStrategy(TokenType.Function,
+            new AnonymousFunctionDeclarationParsingStrategy(parser));
         
         parser.SetInfixExpressionParsingStrategy(TokenType.Plus,
             new BinaryExpressionParsingStrategy(parser, 4));
