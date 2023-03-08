@@ -29,7 +29,7 @@ public class ParserFactory : IParserFactory
         parser.SetPrefixExpressionParsingStrategy(TokenType.LeftParenthesis,
             new ParenthesisParsingStrategy(parser));
         parser.SetPrefixExpressionParsingStrategy(TokenType.New,
-            new NewExpressionParsingStrategy(parser, parser));
+            new NewExpressionParsingStrategy(parser));
         
         parser.SetInfixExpressionParsingStrategy(TokenType.Plus,
             new BinaryExpressionParsingStrategy(parser, 4));
@@ -63,11 +63,11 @@ public class ParserFactory : IParserFactory
             new FunctionCallParsingStrategy(parser, 7));
         
         parser.SetStatementParsingStrategy(TokenType.If,
-            new IfStatementParsingStrategy(parser, parser));
+            new IfStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.While,
-            new WhileStatementParsingStrategy(parser, parser));
+            new WhileStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.Function,
-            new FunctionDeclarationStatementParsingStrategy(parser, parser));
+            new FunctionDeclarationStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.Identifier,
             new AssignmentStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.Print,
@@ -77,7 +77,7 @@ public class ParserFactory : IParserFactory
         parser.SetStatementParsingStrategy(TokenType.Return,
             new ReturnStatementParsingStrategy(parser));
         parser.SetStatementParsingStrategy(TokenType.For,
-            new ForStatementParsingStrategy(parser, parser));
+            new ForStatementParsingStrategy(parser));
         
         parser.SetPrefixTypeParsingStrategy(TokenType.Void, new VoidTypeParsingStrategy());
         parser.SetPrefixTypeParsingStrategy(TokenType.Boolean, new BooleanTypeParsingStrategy());

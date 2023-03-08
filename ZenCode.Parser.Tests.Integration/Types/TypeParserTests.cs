@@ -1,14 +1,14 @@
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Types;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Types;
 
 namespace ZenCode.Parser.Tests.Integration.Types;
 
 public class TypeParserTests
 {
-    private readonly ITypeParser _sut;
+    private readonly IParser _sut;
 
     public TypeParserTests()
     {

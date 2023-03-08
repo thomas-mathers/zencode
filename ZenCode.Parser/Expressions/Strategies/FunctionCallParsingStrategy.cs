@@ -1,6 +1,6 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
@@ -8,11 +8,11 @@ namespace ZenCode.Parser.Expressions.Strategies;
 
 public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
 {
-    private readonly IExpressionParser _expressionParser;
+    private readonly IParser _parser;
 
-    public FunctionCallParsingStrategy(IExpressionParser expressionParser, int precedence)
+    public FunctionCallParsingStrategy(IParser parser, int precedence)
     {
-        _expressionParser = expressionParser;
+        _parser = parser;
         Precedence = precedence;
     }
 
@@ -27,7 +27,7 @@ public class FunctionCallParsingStrategy : IInfixExpressionParsingStrategy
             return new FunctionCallExpression(lOperand);
         }
 
-        var arguments = _expressionParser.ParseExpressionList(tokenStream);
+        var arguments = _parser.ParseExpressionList(tokenStream);
 
         tokenStream.Consume(TokenType.RightParenthesis);
 

@@ -3,8 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Abstractions.Statements;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
@@ -16,13 +15,12 @@ public class IfStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IExpressionParser> _expressionParserMock = new();
-    private readonly Mock<IStatementParser> _statementParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly IfStatementParsingStrategy _sut;
 
     public IfStatementParsingStrategyTests()
     {
-        _sut = new IfStatementParsingStrategy(_expressionParserMock.Object, _statementParserMock.Object);
+        _sut = new IfStatementParsingStrategy(_parserMock.Object);
     }
 
     [Fact]
@@ -30,18 +28,12 @@ public class IfStatementParsingStrategyTests
     {
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
-        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
-        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
 
         var expected = new IfStatement(conditionScopes[0]);
 
-        _expressionParserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .ReturnsSequence(conditions);
-
-        _statementParserMock
-            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .ReturnsSequence(scopes);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
         // Arrange
         var actual = _sut.Parse(_tokenStreamMock.Object);
@@ -57,8 +49,6 @@ public class IfStatementParsingStrategyTests
     {
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
-        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
-        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
 
         var expected = new IfStatement(conditionScopes[0])
         {
@@ -72,13 +62,9 @@ public class IfStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.ElseIf))
             .ReturnsSequence(true, false);
 
-        _expressionParserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .ReturnsSequence(conditions);
-
-        _statementParserMock
-            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .ReturnsSequence(scopes);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
         // Arrange
         var actual = _sut.Parse(_tokenStreamMock.Object);
@@ -94,8 +80,6 @@ public class IfStatementParsingStrategyTests
     {
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
-        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
-        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
 
         var expected = new IfStatement(conditionScopes[0])
         {
@@ -111,14 +95,10 @@ public class IfStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.ElseIf))
             .ReturnsSequence(true, true, true, false);
 
-        _expressionParserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .ReturnsSequence(conditions);
-
-        _statementParserMock
-            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .ReturnsSequence(scopes);
-
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
+        
         // Arrange
         var actual = _sut.Parse(_tokenStreamMock.Object);
 
@@ -133,8 +113,6 @@ public class IfStatementParsingStrategyTests
     {
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
-        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
-        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
         var scope = _fixture.Create<Scope>();
 
         var expected = new IfStatement(conditionScopes[0])
@@ -147,13 +125,13 @@ public class IfStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.Else))
             .Returns(true);
 
-        _expressionParserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .ReturnsSequence(conditions);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-        _statementParserMock
+        _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .ReturnsSequence(scopes.Concat(new[] { scope }).ToArray());
+            .Returns(scope);
 
         // Arrange
         var actual = _sut.Parse(_tokenStreamMock.Object);
@@ -169,8 +147,6 @@ public class IfStatementParsingStrategyTests
     {
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
-        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
-        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
         var scope = _fixture.Create<Scope>();
 
         var expected = new IfStatement(conditionScopes[0])
@@ -190,13 +166,13 @@ public class IfStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.Else))
             .Returns(true);
 
-        _expressionParserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .ReturnsSequence(conditions);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-        _statementParserMock
+        _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .ReturnsSequence(scopes.Concat(new[] { scope }).ToArray());
+            .Returns(scope);
 
         // Arrange
         var actual = _sut.Parse(_tokenStreamMock.Object);
@@ -212,8 +188,6 @@ public class IfStatementParsingStrategyTests
     {
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
-        var conditions = conditionScopes.Select(x => x.Condition).ToArray();
-        var scopes = conditionScopes.Select(x => x.Scope).ToArray();
         var scope = _fixture.Create<Scope>();
 
         var expected = new IfStatement(conditionScopes[0])
@@ -235,13 +209,13 @@ public class IfStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.Else))
             .Returns(true);
 
-        _expressionParserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .ReturnsSequence(conditions);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-        _statementParserMock
+        _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .ReturnsSequence(scopes.Concat(new[] { scope }).ToArray());
+            .Returns(scope);
 
         // Arrange
         var actual = _sut.Parse(_tokenStreamMock.Object);

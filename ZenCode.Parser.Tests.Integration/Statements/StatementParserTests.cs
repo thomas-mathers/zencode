@@ -1,7 +1,7 @@
 using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Statements;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
@@ -11,7 +11,7 @@ namespace ZenCode.Parser.Tests.Integration.Statements;
 
 public class StatementParserTests
 {
-    private readonly IStatementParser _sut;
+    private readonly IParser _sut;
 
     public StatementParserTests()
     {

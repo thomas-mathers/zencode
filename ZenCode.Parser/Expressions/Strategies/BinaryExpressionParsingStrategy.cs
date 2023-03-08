@@ -1,7 +1,7 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
@@ -9,12 +9,12 @@ namespace ZenCode.Parser.Expressions.Strategies;
 
 public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
 {
-    private readonly IExpressionParser _expressionParser;
+    private readonly IParser _parser;
 
-    public BinaryExpressionParsingStrategy(IExpressionParser expressionParser, int precedence,
+    public BinaryExpressionParsingStrategy(IParser parser, int precedence,
         bool isRightAssociative = false)
     {
-        _expressionParser = expressionParser;
+        _parser = parser;
         Precedence = precedence;
         IsRightAssociative = isRightAssociative;
     }
@@ -32,7 +32,7 @@ public class BinaryExpressionParsingStrategy : IInfixExpressionParsingStrategy
             throw new UnexpectedTokenException();
         }
 
-        var rOperand = _expressionParser.ParseExpression(tokenStream, IsRightAssociative ? Precedence - 1 : Precedence);
+        var rOperand = _parser.ParseExpression(tokenStream, IsRightAssociative ? Precedence - 1 : Precedence);
 
         return new BinaryExpression(lOperand, operatorToken, rOperand);
     }

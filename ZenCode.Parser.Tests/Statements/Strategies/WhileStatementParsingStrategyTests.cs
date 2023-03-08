@@ -3,8 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Abstractions.Statements;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
@@ -15,13 +14,12 @@ public class WhileStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IExpressionParser> _expressionParserMock = new();
-    private readonly Mock<IStatementParser> _statementParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly WhileStatementParsingStrategy _sut;
 
     public WhileStatementParsingStrategyTests()
     {
-        _sut = new WhileStatementParsingStrategy(_expressionParserMock.Object, _statementParserMock.Object);
+        _sut = new WhileStatementParsingStrategy(_parserMock.Object);
     }
 
     [Fact]
@@ -31,13 +29,9 @@ public class WhileStatementParsingStrategyTests
         var conditionScope = _fixture.Create<ConditionScope>();
         var expected = new WhileStatement(conditionScope);
 
-        _expressionParserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .Returns(conditionScope.Condition);
-
-        _statementParserMock
-            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .Returns(conditionScope.Scope);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .Returns(conditionScope);
 
         // Act
         var actual = _sut.Parse(_tokenStreamMock.Object);

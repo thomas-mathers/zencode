@@ -1,7 +1,7 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions.Strategies;
 using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Model.Grammar.Expressions;
@@ -10,11 +10,11 @@ namespace ZenCode.Parser.Expressions.Strategies;
 
 public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
 {
-    private readonly IExpressionParser _expressionParser;
+    private readonly IParser _parser;
 
-    public VariableReferenceParsingStrategy(IExpressionParser expressionParser)
+    public VariableReferenceParsingStrategy(IParser parser)
     {
-        _expressionParser = expressionParser;
+        _parser = parser;
     }
 
     public Expression Parse(ITokenStream tokenStream)
@@ -36,7 +36,7 @@ public class VariableReferenceParsingStrategy : IPrefixExpressionParsingStrategy
             throw new MissingIndexExpressionException();
         }
 
-        var indexExpressions = _expressionParser.ParseExpressionList(tokenStream);
+        var indexExpressions = _parser.ParseExpressionList(tokenStream);
 
         tokenStream.Consume(TokenType.RightBracket);
 

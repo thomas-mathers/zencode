@@ -1,7 +1,6 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Abstractions.Statements;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
@@ -10,26 +9,24 @@ namespace ZenCode.Parser.Statements.Strategies;
 
 public class IfStatementParsingStrategy : IStatementParsingStrategy
 {
-    private readonly IExpressionParser _expressionParser;
-    private readonly IStatementParser _statementParser;
+    private readonly IParser _parser;
 
-    public IfStatementParsingStrategy(IExpressionParser expressionParser, IStatementParser statementParser)
+    public IfStatementParsingStrategy(IParser parser)
     {
-        _expressionParser = expressionParser;
-        _statementParser = statementParser;
+        _parser = parser;
     }
 
     public Statement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.If);
         
-        var thenConditionScope = ParseConditionScope(tokenStream);
+        var thenConditionScope = _parser.ParseConditionScope(tokenStream);
 
         var elseIfConditionScopes = new List<ConditionScope>();
 
         while (tokenStream.Match(TokenType.ElseIf))
         {
-            var elseIfConditionScope = ParseConditionScope(tokenStream);
+            var elseIfConditionScope = _parser.ParseConditionScope(tokenStream);
 
             elseIfConditionScopes.Add(elseIfConditionScope);
         }
@@ -38,17 +35,9 @@ public class IfStatementParsingStrategy : IStatementParsingStrategy
 
         if (tokenStream.Match(TokenType.Else))
         {
-            elseScope = _statementParser.ParseScope(tokenStream);
+            elseScope = _parser.ParseScope(tokenStream);
         }
 
         return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes, ElseScope = elseScope };
-    }
-
-    private ConditionScope ParseConditionScope(ITokenStream tokenStream)
-    {
-        var condition = _expressionParser.ParseExpression(tokenStream);
-        var scope = _statementParser.ParseScope(tokenStream);
-
-        return new ConditionScope(condition, scope);
     }
 }

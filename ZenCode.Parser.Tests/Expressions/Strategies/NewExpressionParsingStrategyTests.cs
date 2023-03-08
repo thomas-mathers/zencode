@@ -3,8 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Abstractions.Types;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
@@ -14,14 +13,13 @@ public class NewExpressionParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<ITypeParser> _typeParserMock = new();
-    private readonly Mock<IExpressionParser> _expressionParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly NewExpressionParsingStrategy _sut;
     
     
     public NewExpressionParsingStrategyTests()
     {
-        _sut = new NewExpressionParsingStrategy(_typeParserMock.Object, _expressionParserMock.Object);
+        _sut = new NewExpressionParsingStrategy(_parserMock.Object);
     }
 
     [Fact]
@@ -30,11 +28,11 @@ public class NewExpressionParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<NewExpression>();
 
-        _typeParserMock
+        _parserMock
             .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
             .Returns(expected.Type);
 
-        _expressionParserMock
+        _parserMock
             .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
             .Returns(expected.ExpressionList);
 

@@ -89,7 +89,15 @@ public class Parser : IParser
 
         return new Scope { Statements = statements };
     }
-    
+
+    public ConditionScope ParseConditionScope(ITokenStream tokenStream)
+    {
+        var condition = ParseExpression(tokenStream);
+        var scope = ParseScope(tokenStream);
+
+        return new ConditionScope(condition, scope);
+    }
+
     public Type ParseType(ITokenStream tokenStream, int precedence = 0)
     {
         var type = ParsePrefixType(tokenStream);

@@ -3,8 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Statements;
-using ZenCode.Parser.Abstractions.Types;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
@@ -16,14 +15,13 @@ public class FunctionDeclarationStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<ITypeParser> _typeParserMock = new();
-    private readonly Mock<IStatementParser> _statementParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly FunctionDeclarationStatementParsingStrategy _sut;
     
 
     public FunctionDeclarationStatementParsingStrategyTests()
     {
-        _sut = new FunctionDeclarationStatementParsingStrategy(_typeParserMock.Object, _statementParserMock.Object);
+        _sut = new FunctionDeclarationStatementParsingStrategy(_parserMock.Object);
     }
     
     [Fact]
@@ -39,11 +37,11 @@ public class FunctionDeclarationStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.RightParenthesis))
             .Returns(true);
 
-        _typeParserMock
+        _parserMock
             .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
             .Returns(type);
 
-        _statementParserMock
+        _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
             .Returns(scope);
         
@@ -69,15 +67,15 @@ public class FunctionDeclarationStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.RightParenthesis))
             .Returns(false);
 
-        _typeParserMock
+        _parserMock
             .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
             .Returns(expected.ReturnType);
 
-        _typeParserMock
+        _parserMock
             .Setup(x => x.ParseParameterList(_tokenStreamMock.Object))
             .Returns(expected.Parameters);
 
-        _statementParserMock
+        _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
             .Returns(expected.Scope);
         

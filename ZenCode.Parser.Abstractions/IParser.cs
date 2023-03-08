@@ -1,12 +1,20 @@
 ﻿using ZenCode.Lexer.Abstractions;
-using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Abstractions.Statements;
-using ZenCode.Parser.Abstractions.Types;
+using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar;
+using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Grammar.Statements;
+using Type = ZenCode.Parser.Model.Types.Type;
 
 namespace ZenCode.Parser.Abstractions;
 
-public interface IParser : IExpressionParser, IStatementParser, ITypeParser
+public interface IParser
 {
-    public Program ParseProgram(ITokenStream tokenStream);
+    Program ParseProgram(ITokenStream tokenStream);
+    Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
+    ExpressionList ParseExpressionList(ITokenStream tokenStream);
+    Statement ParseStatement(ITokenStream tokenStream);
+    Scope ParseScope(ITokenStream tokenStream);
+    ConditionScope ParseConditionScope(ITokenStream tokenStream);
+    Type ParseType(ITokenStream tokenStream, int precedence = 0);
+    ParameterList ParseParameterList(ITokenStream tokenStream);
 }

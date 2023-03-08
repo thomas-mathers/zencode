@@ -3,7 +3,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
@@ -14,7 +14,7 @@ public class FunctionCallParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IExpressionParser> _parserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly FunctionCallParsingStrategy _sut;
     private readonly VariableReferenceExpression _variableReferenceExpression;
 
