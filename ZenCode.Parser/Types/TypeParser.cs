@@ -3,7 +3,6 @@ using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Model.Grammar.Types;
-using ZenCode.Parser.Types.Strategies;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Types;
@@ -78,6 +77,6 @@ public class TypeParser : ITypeParser
             TokenType.Integer => ParseIntegerType(tokenStream),
             TokenType.String => ParseStringType(tokenStream),
             TokenType.Void => ParseVoidType(tokenStream),
-            _ => throw new UnexpectedTokenException()
+            _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
         };    
 }

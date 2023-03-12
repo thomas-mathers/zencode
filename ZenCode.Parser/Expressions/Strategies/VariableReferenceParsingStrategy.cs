@@ -1,5 +1,4 @@
 using ZenCode.Lexer.Abstractions;
-using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
@@ -12,12 +11,7 @@ public class VariableReferenceParsingStrategy : IVariableReferenceParsingStrateg
 {
     public VariableReferenceExpression Parse(IParser parser, ITokenStream tokenStream)
     {
-        var identifierToken = tokenStream.Consume();
-
-        if (identifierToken.Type != TokenType.Identifier)
-        {
-            throw new UnexpectedTokenException();
-        }
+        var identifierToken = tokenStream.Consume(TokenType.Identifier);
 
         if (!tokenStream.Match(TokenType.LeftBracket))
         {

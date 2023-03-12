@@ -30,7 +30,7 @@ public class VariableReferenceParsingStrategyTests
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
         _tokenStreamMock
-            .Setup(x => x.Consume())
+            .Setup(x => x.Consume(TokenType.Identifier))
             .Returns(new Token(TokenType.Identifier));
 
         // Act
@@ -72,7 +72,7 @@ public class VariableReferenceParsingStrategyTests
         };
         
         _tokenStreamMock
-            .Setup(x => x.Consume())
+            .Setup(x => x.Consume(TokenType.Identifier))
             .Returns(new Token(TokenType.Identifier));
         
         _tokenStreamMock

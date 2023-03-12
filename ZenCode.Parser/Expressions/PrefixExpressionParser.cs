@@ -3,7 +3,6 @@ using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Expressions;
@@ -44,10 +43,10 @@ public class PrefixExpressionParser : IPrefixExpressionParser
             TokenType.StringLiteral => ParseStringLiteralExpression(tokenStream),
             TokenType.New => ParseNewExpression(parser, tokenStream),
             TokenType.LeftParenthesis => ParseParenthesisExpression(parser, tokenStream),
-            TokenType.Minus => ParseUnaryExpression(parser, tokenStream),
-            TokenType.Not => ParseUnaryExpression(parser, tokenStream),
+            TokenType.Minus => ParseUnaryExpression(parser, tokenStream, TokenType.Minus),
+            TokenType.Not => ParseUnaryExpression(parser, tokenStream, TokenType.Not),
             TokenType.Identifier => ParseVariableReferenceExpression(parser, tokenStream),
-            _ => throw new UnexpectedTokenException()
+            _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
         };
     }
 
@@ -87,9 +86,9 @@ public class PrefixExpressionParser : IPrefixExpressionParser
         return _parenthesisParsingStrategy.Parse(parser, tokenStream);
     }
 
-    private UnaryExpression ParseUnaryExpression(IParser parser, ITokenStream tokenStream)
+    private UnaryExpression ParseUnaryExpression(IParser parser, ITokenStream tokenStream, TokenType tokenType)
     {
-        return _unaryExpressionParsingStrategy.Parse(parser, tokenStream);
+        return _unaryExpressionParsingStrategy.Parse(parser, tokenStream, tokenType);
     }
 
     private VariableReferenceExpression ParseVariableReferenceExpression(IParser parser, ITokenStream tokenStream)

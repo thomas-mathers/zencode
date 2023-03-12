@@ -34,7 +34,7 @@ public class UnaryExpressionParsingStrategyTests
             expression);
 
         _tokenStreamMock
-            .Setup(x => x.Consume())
+            .Setup(x => x.Consume(operatorToken))
             .Returns(new Token(operatorToken));
 
         _parserMock
@@ -42,7 +42,7 @@ public class UnaryExpressionParsingStrategyTests
             .Returns(expression);
 
         // Act
-        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, operatorToken);
 
         // Assert
         Assert.Equal(expected, actual);

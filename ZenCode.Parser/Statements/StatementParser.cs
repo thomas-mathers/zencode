@@ -4,7 +4,6 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Model.Grammar.Statements;
-using ZenCode.Parser.Statements.Strategies;
 
 namespace ZenCode.Parser.Statements;
 
@@ -50,7 +49,7 @@ public class StatementParser : IStatementParser
             TokenType.Return => ParseReturnStatement(parser, tokenStream),
             TokenType.Var => ParseVariableDeclarationStatement(parser, tokenStream),
             TokenType.While => ParseWhileStatement(parser, tokenStream),
-            _ => throw new UnexpectedTokenException()
+            _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
         };
     
     public AssignmentStatement ParseAssignmentStatement(IParser parser, ITokenStream tokenStream)

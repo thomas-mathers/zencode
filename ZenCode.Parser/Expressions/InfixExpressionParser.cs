@@ -3,7 +3,6 @@ using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
-using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Expressions;
@@ -61,7 +60,7 @@ public class InfixExpressionParser : IInfixExpressionParser
             case TokenType.LeftParenthesis:
                 return ParseFunctionCallExpression(parser, tokenStream, lOperand);
             default:
-                throw new UnexpectedTokenException();
+                throw new UnexpectedTokenException(tokenStream.Current.Type);
         }
     }
 

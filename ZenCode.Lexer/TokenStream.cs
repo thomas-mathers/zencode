@@ -17,18 +17,18 @@ public class TokenStream : ITokenStream
 
     public Token Current => Peek(0)!;
 
-    public Token Consume(params TokenType[] tokenTypes)
+    public Token Consume(TokenType tokenType)
     {
         var token = TryConsumeToken();
 
         if (token == null)
         {
-            throw new UnexpectedTokenException();
+            throw new InvalidOperationException();
         }
 
-        if (!tokenTypes.Contains(token.Type))
+        if (token.Type != tokenType)
         {
-            throw new UnexpectedTokenException();
+            throw new UnexpectedTokenException(tokenType, token.Type);
         }
 
         return token;
