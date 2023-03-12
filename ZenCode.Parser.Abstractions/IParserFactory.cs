@@ -1,7 +1,6 @@
-namespace ZenCode.Parser.Abstractions
+namespace ZenCode.Parser.Abstractions;
+
+public interface IParserFactory
 {
-    public interface IParserFactory
-    {
-        IParser Create();
-    }
+    IParser Create();
 }

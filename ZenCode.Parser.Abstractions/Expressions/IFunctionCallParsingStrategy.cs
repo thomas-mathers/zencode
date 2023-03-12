@@ -2,10 +2,9 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Expressions.Strategies
+namespace ZenCode.Parser.Expressions.Strategies;
+
+public interface IFunctionCallParsingStrategy
 {
-    public interface IFunctionCallParsingStrategy
-    {
-        FunctionCallExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand);
-    }
+    FunctionCallExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand);
 }

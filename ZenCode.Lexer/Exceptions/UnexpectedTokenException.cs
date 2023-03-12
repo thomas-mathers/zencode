@@ -1,6 +1,5 @@
-namespace ZenCode.Lexer.Exceptions
+namespace ZenCode.Lexer.Exceptions;
+
+public class UnexpectedTokenException : Exception
 {
-    public class UnexpectedTokenException : Exception
-    {
-    }
 }

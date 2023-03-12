@@ -4,19 +4,18 @@ using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
-namespace ZenCode.Parser.Abstractions
+namespace ZenCode.Parser.Abstractions;
+
+public interface IParser
 {
-    public interface IParser
-    {
-        Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
-        ExpressionList ParseExpressionList(ITokenStream tokenStream);
-        AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream);
-        VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream);
-        Statement ParseStatement(ITokenStream tokenStream);
-        Type ParseType(ITokenStream tokenStream, int precedence = 0);
-        ConditionScope ParseConditionScope(ITokenStream tokenStream);
-        ParameterList ParseParameterList(ITokenStream tokenStream);
-        Scope ParseScope(ITokenStream tokenStream);
-        Program ParseProgram(ITokenStream tokenStream);
-    }
+    Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
+    ExpressionList ParseExpressionList(ITokenStream tokenStream);
+    AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream);
+    VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream);
+    Statement ParseStatement(ITokenStream tokenStream);
+    Type ParseType(ITokenStream tokenStream, int precedence = 0);
+    ConditionScope ParseConditionScope(ITokenStream tokenStream);
+    ParameterList ParseParameterList(ITokenStream tokenStream);
+    Scope ParseScope(ITokenStream tokenStream);
+    Program ParseProgram(ITokenStream tokenStream);
 }

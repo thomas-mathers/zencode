@@ -1,7 +1,6 @@
-namespace ZenCode.Parser.Model.Grammar.Expressions
+namespace ZenCode.Parser.Model.Grammar.Expressions;
+
+public record FunctionCallExpression(Expression Expression) : Expression
 {
-    public record FunctionCallExpression(Expression Expression) : Expression
-    {
-        public ExpressionList Arguments { get; init; } = new();
-    }
+    public ExpressionList Arguments { get; init; } = new();
 }

@@ -2,10 +2,9 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Strategies
+namespace ZenCode.Parser.Statements.Strategies;
+
+public interface IPrintStatementParsingStrategy
 {
-    public interface IPrintStatementParsingStrategy
-    {
-        PrintStatement Parse(IParser parser, ITokenStream tokenStream);
-    }
+    PrintStatement Parse(IParser parser, ITokenStream tokenStream);
 }

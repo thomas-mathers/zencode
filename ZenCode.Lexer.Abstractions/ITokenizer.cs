@@ -1,7 +1,6 @@
-﻿namespace ZenCode.Lexer.Abstractions
+﻿namespace ZenCode.Lexer.Abstractions;
+
+public interface ITokenizer
 {
-    public interface ITokenizer
-    {
-        ITokenStream Tokenize(string text);
-    }
+    ITokenStream Tokenize(string text);
 }

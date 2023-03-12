@@ -2,10 +2,9 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Strategies
+namespace ZenCode.Parser.Statements.Strategies;
+
+public interface IWhileStatementParsingStrategy
 {
-    public interface IWhileStatementParsingStrategy
-    {
-        WhileStatement Parse(IParser parser, ITokenStream tokenStream);
-    }
+    WhileStatement Parse(IParser parser, ITokenStream tokenStream);
 }

@@ -7,37 +7,36 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
 
-namespace ZenCode.Parser.Tests.Statements.Strategies
+namespace ZenCode.Parser.Tests.Statements.Strategies;
+
+public class PrintStatementParsingStrategyTests
 {
-    public class PrintStatementParsingStrategyTests
+    private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
+    private readonly Mock<IParser> _parserMock = new();
+    private readonly PrintStatementParsingStrategy _sut;
+
+    public PrintStatementParsingStrategyTests()
     {
-        private readonly Fixture _fixture = new();
-        private readonly Mock<ITokenStream> _tokenStreamMock = new();
-        private readonly Mock<IParser> _parserMock = new();
-        private readonly PrintStatementParsingStrategy _sut;
+        _sut = new PrintStatementParsingStrategy();
+    }
 
-        public PrintStatementParsingStrategyTests()
-        {
-            _sut = new PrintStatementParsingStrategy();
-        }
+    [Fact]
+    public void Parse_ValidInput_ReturnsPrintStatement()
+    {
+        // Arrange
+        var expected = _fixture.Create<PrintStatement>();
 
-        [Fact]
-        public void Parse_ValidInput_ReturnsPrintStatement()
-        {
-            // Arrange
-            var expected = _fixture.Create<PrintStatement>();
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(expected.Expression);
 
-            _parserMock
-                .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-                .Returns(expected.Expression);
+        // Act
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
-            // Act
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-
-            // Assert
-            Assert.Equal(expected, actual);
+        // Assert
+        Assert.Equal(expected, actual);
         
-            _tokenStreamMock.Verify(x => x.Consume(TokenType.Print));
-        }
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.Print));
     }
 }

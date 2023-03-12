@@ -2,14 +2,13 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Types;
 
-namespace ZenCode.Parser.Types.Strategies
+namespace ZenCode.Parser.Types.Strategies;
+
+public class BooleanTypeParsingStrategy : IBooleanTypeParsingStrategy
 {
-    public class BooleanTypeParsingStrategy : IBooleanTypeParsingStrategy
+    public BooleanType Parse(ITokenStream tokenStream)
     {
-        public BooleanType Parse(ITokenStream tokenStream)
-        {
-            tokenStream.Consume(TokenType.Boolean);
-            return new BooleanType();
-        }
+        tokenStream.Consume(TokenType.Boolean);
+        return new BooleanType();
     }
 }

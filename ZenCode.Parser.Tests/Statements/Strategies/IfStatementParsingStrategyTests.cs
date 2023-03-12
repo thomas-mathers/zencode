@@ -9,221 +9,220 @@ using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
 using ZenCode.Parser.Tests.Extensions;
 
-namespace ZenCode.Parser.Tests.Statements.Strategies
+namespace ZenCode.Parser.Tests.Statements.Strategies;
+
+public class IfStatementParsingStrategyTests
 {
-    public class IfStatementParsingStrategyTests
+    private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
+    private readonly Mock<IParser> _parserMock = new();
+    private readonly IfStatementParsingStrategy _sut;
+
+    public IfStatementParsingStrategyTests()
     {
-        private readonly Fixture _fixture = new();
-        private readonly Mock<ITokenStream> _tokenStreamMock = new();
-        private readonly Mock<IParser> _parserMock = new();
-        private readonly IfStatementParsingStrategy _sut;
+        _sut = new IfStatementParsingStrategy();
+    }
 
-        public IfStatementParsingStrategyTests()
-        {
-            _sut = new IfStatementParsingStrategy();
-        }
+    [Fact]
+    public void Parse_HasThen_ReturnsIfStatementWithOnlyThen()
+    {
+        // Arrange
+        var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
 
-        [Fact]
-        public void Parse_HasThen_ReturnsIfStatementWithOnlyThen()
-        {
-            // Arrange
-            var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
+        var expected = new IfStatement(conditionScopes[0]);
 
-            var expected = new IfStatement(conditionScopes[0]);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-            _parserMock
-                .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-                .ReturnsSequence(conditionScopes);
+        // Arrange
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
-            // Arrange
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-
-            // Act
-            Assert.Equal(expected, actual);
+        // Act
+        Assert.Equal(expected, actual);
         
-            _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
-        }
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
+    }
 
-        [Fact]
-        public void Parse_HasThenAndOneElseIf_ReturnsIfStatementWithThenAndOneElseIf()
+    [Fact]
+    public void Parse_HasThenAndOneElseIf_ReturnsIfStatementWithThenAndOneElseIf()
+    {
+        // Arrange
+        var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
+
+        var expected = new IfStatement(conditionScopes[0])
         {
-            // Arrange
-            var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
-
-            var expected = new IfStatement(conditionScopes[0])
+            ElseIfScopes = new[]
             {
-                ElseIfScopes = new[]
-                {
-                    conditionScopes[1]
-                }
-            };
+                conditionScopes[1]
+            }
+        };
 
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.ElseIf))
-                .ReturnsSequence(true, false);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.ElseIf))
+            .ReturnsSequence(true, false);
 
-            _parserMock
-                .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-                .ReturnsSequence(conditionScopes);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-            // Arrange
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+        // Arrange
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
-            // Act
-            Assert.Equal(expected, actual);
+        // Act
+        Assert.Equal(expected, actual);
         
-            _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
-        }
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
+    }
 
-        [Fact]
-        public void Parse_HasThenAndMultipleElseIfs_ReturnsIfStatementWithThenAndMultipleElseIfs()
+    [Fact]
+    public void Parse_HasThenAndMultipleElseIfs_ReturnsIfStatementWithThenAndMultipleElseIfs()
+    {
+        // Arrange
+        var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
+
+        var expected = new IfStatement(conditionScopes[0])
         {
-            // Arrange
-            var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
-
-            var expected = new IfStatement(conditionScopes[0])
+            ElseIfScopes = new[]
             {
-                ElseIfScopes = new[]
-                {
-                    conditionScopes[1],
-                    conditionScopes[2],
-                    conditionScopes[3]
-                }
-            };
+                conditionScopes[1],
+                conditionScopes[2],
+                conditionScopes[3]
+            }
+        };
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.ElseIf))
-                .ReturnsSequence(true, true, true, false);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.ElseIf))
+            .ReturnsSequence(true, true, true, false);
 
-            _parserMock
-                .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-                .ReturnsSequence(conditionScopes);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
         
-            // Arrange
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+        // Arrange
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
-            // Act
-            Assert.Equal(expected, actual);
+        // Act
+        Assert.Equal(expected, actual);
         
-            _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
-        }
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
+    }
 
-        [Fact]
-        public void Parse_HasThenAndElse_ReturnsIfStatementWithThenAndElse()
+    [Fact]
+    public void Parse_HasThenAndElse_ReturnsIfStatementWithThenAndElse()
+    {
+        // Arrange
+        var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
+        var scope = _fixture.Create<Scope>();
+
+        var expected = new IfStatement(conditionScopes[0])
         {
-            // Arrange
-            var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
-            var scope = _fixture.Create<Scope>();
-
-            var expected = new IfStatement(conditionScopes[0])
-            {
-                ElseIfScopes = Array.Empty<ConditionScope>(),
-                ElseScope = scope
-            };
+            ElseIfScopes = Array.Empty<ConditionScope>(),
+            ElseScope = scope
+        };
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.Else))
-                .Returns(true);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.Else))
+            .Returns(true);
 
-            _parserMock
-                .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-                .ReturnsSequence(conditionScopes);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-            _parserMock
-                .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-                .Returns(scope);
+        _parserMock
+            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
+            .Returns(scope);
 
-            // Arrange
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+        // Arrange
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
-            // Act
-            Assert.Equal(expected, actual);
+        // Act
+        Assert.Equal(expected, actual);
         
-            _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
-        }
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
+    }
 
-        [Fact]
-        public void Parse_HasThenAndOneElseIfAndElse_ReturnsIfStatementWithThenAndOneElseIfAndElse()
+    [Fact]
+    public void Parse_HasThenAndOneElseIfAndElse_ReturnsIfStatementWithThenAndOneElseIfAndElse()
+    {
+        // Arrange
+        var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
+        var scope = _fixture.Create<Scope>();
+
+        var expected = new IfStatement(conditionScopes[0])
         {
-            // Arrange
-            var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
-            var scope = _fixture.Create<Scope>();
-
-            var expected = new IfStatement(conditionScopes[0])
+            ElseIfScopes = new[]
             {
-                ElseIfScopes = new[]
-                {
-                    conditionScopes[1]
-                },
-                ElseScope = scope
-            };
+                conditionScopes[1]
+            },
+            ElseScope = scope
+        };
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.ElseIf))
-                .ReturnsSequence(true, false);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.ElseIf))
+            .ReturnsSequence(true, false);
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.Else))
-                .Returns(true);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.Else))
+            .Returns(true);
 
-            _parserMock
-                .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-                .ReturnsSequence(conditionScopes);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-            _parserMock
-                .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-                .Returns(scope);
+        _parserMock
+            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
+            .Returns(scope);
 
-            // Arrange
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+        // Arrange
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
-            // Act
-            Assert.Equal(expected, actual);
+        // Act
+        Assert.Equal(expected, actual);
         
-            _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
-        }
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
+    }
 
-        [Fact]
-        public void Parse_HasThenAndMultipleElseIfAndElse_ReturnsIfStatementWithThenAndMultipleElseIfAndElse()
+    [Fact]
+    public void Parse_HasThenAndMultipleElseIfAndElse_ReturnsIfStatementWithThenAndMultipleElseIfAndElse()
+    {
+        // Arrange
+        var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
+        var scope = _fixture.Create<Scope>();
+
+        var expected = new IfStatement(conditionScopes[0])
         {
-            // Arrange
-            var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
-            var scope = _fixture.Create<Scope>();
-
-            var expected = new IfStatement(conditionScopes[0])
+            ElseIfScopes = new[]
             {
-                ElseIfScopes = new[]
-                {
-                    conditionScopes[1],
-                    conditionScopes[2],
-                    conditionScopes[3]
-                },
-                ElseScope = scope
-            };
+                conditionScopes[1],
+                conditionScopes[2],
+                conditionScopes[3]
+            },
+            ElseScope = scope
+        };
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.ElseIf))
-                .ReturnsSequence(true, true, true, false);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.ElseIf))
+            .ReturnsSequence(true, true, true, false);
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.Else))
-                .Returns(true);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.Else))
+            .Returns(true);
 
-            _parserMock
-                .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-                .ReturnsSequence(conditionScopes);
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .ReturnsSequence(conditionScopes);
 
-            _parserMock
-                .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-                .Returns(scope);
+        _parserMock
+            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
+            .Returns(scope);
 
-            // Arrange
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+        // Arrange
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
-            // Act
-            Assert.Equal(expected, actual);
+        // Act
+        Assert.Equal(expected, actual);
         
-            _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
-        }
+        _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
     }
 }

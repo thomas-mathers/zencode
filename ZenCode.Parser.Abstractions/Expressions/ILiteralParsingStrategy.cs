@@ -2,10 +2,9 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Expressions.Strategies
+namespace ZenCode.Parser.Expressions.Strategies;
+
+public interface ILiteralParsingStrategy
 {
-    public interface ILiteralParsingStrategy
-    {
-        LiteralExpression Parse(ITokenStream tokenStream, TokenType tokenType);
-    }
+    LiteralExpression Parse(ITokenStream tokenStream, TokenType tokenType);
 }

@@ -1,10 +1,9 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Model.Grammar.Types;
 
-namespace ZenCode.Parser.Types.Strategies
+namespace ZenCode.Parser.Types.Strategies;
+
+public interface IVoidTypeParsingStrategy
 {
-    public interface IVoidTypeParsingStrategy
-    {
-        VoidType Parse(ITokenStream tokenStream);
-    }
+    VoidType Parse(ITokenStream tokenStream);
 }

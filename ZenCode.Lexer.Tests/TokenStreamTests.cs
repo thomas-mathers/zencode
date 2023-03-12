@@ -3,153 +3,152 @@ using Xunit;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 
-namespace ZenCode.Lexer.Tests
+namespace ZenCode.Lexer.Tests;
+
+public class TokenStreamTests
 {
-    public class TokenStreamTests
+    private readonly Fixture _fixture = new();
+
+    [Fact]
+    public void Consume_DifferentTokenTypes_ThrowsUnexpectedTokenException()
     {
-        private readonly Fixture _fixture = new();
+        // Arrange
+        var expectedToken = new Token(TokenType.Plus);
 
-        [Fact]
-        public void Consume_DifferentTokenTypes_ThrowsUnexpectedTokenException()
-        {
-            // Arrange
-            var expectedToken = new Token(TokenType.Plus);
+        var sut = new TokenStream(new[] { expectedToken });
 
-            var sut = new TokenStream(new[] { expectedToken });
+        // Act + Assert
+        Assert.Throws<UnexpectedTokenException>(() => sut.Consume(TokenType.Minus));
+    }
 
-            // Act + Assert
-            Assert.Throws<UnexpectedTokenException>(() => sut.Consume(TokenType.Minus));
-        }
+    [Fact]
+    public void Consume_EmptyStream_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var sut = new TokenStream(Enumerable.Empty<Token>());
 
-        [Fact]
-        public void Consume_EmptyStream_ThrowsInvalidOperationException()
-        {
-            // Arrange
-            var sut = new TokenStream(Enumerable.Empty<Token>());
+        // Act + Assert
+        Assert.Throws<InvalidOperationException>(() => sut.Consume());
+    }
 
-            // Act + Assert
-            Assert.Throws<InvalidOperationException>(() => sut.Consume());
-        }
+    [Fact]
+    public void Consume_NonEmptyStream_ReturnsExpectedTokens()
+    {
+        // Arrange
+        var expectedToken1 = _fixture.Create<Token>();
+        var expectedToken2 = _fixture.Create<Token>();
+        var expectedToken3 = _fixture.Create<Token>();
 
-        [Fact]
-        public void Consume_NonEmptyStream_ReturnsExpectedTokens()
-        {
-            // Arrange
-            var expectedToken1 = _fixture.Create<Token>();
-            var expectedToken2 = _fixture.Create<Token>();
-            var expectedToken3 = _fixture.Create<Token>();
+        var sut = new TokenStream(new[] { expectedToken1, expectedToken2, expectedToken3 });
 
-            var sut = new TokenStream(new[] { expectedToken1, expectedToken2, expectedToken3 });
+        // Act
+        var actualToken1 = sut.Consume();
+        var actualToken2 = sut.Consume();
+        var actualToken3 = sut.Consume();
 
-            // Act
-            var actualToken1 = sut.Consume();
-            var actualToken2 = sut.Consume();
-            var actualToken3 = sut.Consume();
+        // Assert
+        Assert.Equal(expectedToken1, actualToken1);
+        Assert.Equal(expectedToken2, actualToken2);
+        Assert.Equal(expectedToken3, actualToken3);
+    }
 
-            // Assert
-            Assert.Equal(expectedToken1, actualToken1);
-            Assert.Equal(expectedToken2, actualToken2);
-            Assert.Equal(expectedToken3, actualToken3);
-        }
+    [Fact]
+    public void ToList_NonEmptyList_ReturnsSameList()
+    {
+        // Arrange
+        var expectedTokens = _fixture.CreateMany<Token>().ToList();
 
-        [Fact]
-        public void ToList_NonEmptyList_ReturnsSameList()
-        {
-            // Arrange
-            var expectedTokens = _fixture.CreateMany<Token>().ToList();
+        var sut = new TokenStream(expectedTokens);
 
-            var sut = new TokenStream(expectedTokens);
+        // Act
+        var actualTokens = sut.ToList();
 
-            // Act
-            var actualTokens = sut.ToList();
+        // Assert
+        Assert.Equal(expectedTokens, actualTokens);
+    }
 
-            // Assert
-            Assert.Equal(expectedTokens, actualTokens);
-        }
+    [Fact]
+    public void ToList_EmptyList_ReturnsEmptyList()
+    {
+        // Arrange
+        var expectedTokens = Array.Empty<Token>();
 
-        [Fact]
-        public void ToList_EmptyList_ReturnsEmptyList()
-        {
-            // Arrange
-            var expectedTokens = Array.Empty<Token>();
+        var sut = new TokenStream(expectedTokens);
 
-            var sut = new TokenStream(expectedTokens);
+        // Act
+        var actualTokens = sut.ToList();
 
-            // Act
-            var actualTokens = sut.ToList();
+        // Assert
+        Assert.Equal(expectedTokens, actualTokens);
+    }
 
-            // Assert
-            Assert.Equal(expectedTokens, actualTokens);
-        }
+    [Fact]
+    public void Peek_OffsetLargerThanNumberOfRemainingElements_ReturnsNull()
+    {
+        // Arrange
+        var expectedTokens = _fixture.CreateMany<Token>(3).ToList();
 
-        [Fact]
-        public void Peek_OffsetLargerThanNumberOfRemainingElements_ReturnsNull()
-        {
-            // Arrange
-            var expectedTokens = _fixture.CreateMany<Token>(3).ToList();
+        var sut = new TokenStream(expectedTokens);
 
-            var sut = new TokenStream(expectedTokens);
+        // Act
+        var actualToken = sut.Peek(3);
 
-            // Act
-            var actualToken = sut.Peek(3);
+        // Assert
+        Assert.Null(actualToken);
+    }
 
-            // Assert
-            Assert.Null(actualToken);
-        }
+    [Fact]
+    public void Peek_ZeroOffset_ReturnsFirstToken()
+    {
+        // Arrange
+        var expectedToken = _fixture.Create<Token>();
 
-        [Fact]
-        public void Peek_ZeroOffset_ReturnsFirstToken()
-        {
-            // Arrange
-            var expectedToken = _fixture.Create<Token>();
+        var sut = new TokenStream(new[] { expectedToken });
 
-            var sut = new TokenStream(new[] { expectedToken });
+        // Act
+        var actualToken = sut.Peek(0);
 
-            // Act
-            var actualToken = sut.Peek(0);
+        // Assert
+        Assert.Equal(expectedToken, actualToken);
+    }
 
-            // Assert
-            Assert.Equal(expectedToken, actualToken);
-        }
+    [Fact]
+    public void Peek_FromLastToFirst_ReturnsExpectedTokens()
+    {
+        // Arrange
+        var expectedTokens = _fixture.CreateMany<Token>(5).ToList();
 
-        [Fact]
-        public void Peek_FromLastToFirst_ReturnsExpectedTokens()
-        {
-            // Arrange
-            var expectedTokens = _fixture.CreateMany<Token>(5).ToList();
+        var sut = new TokenStream(expectedTokens);
 
-            var sut = new TokenStream(expectedTokens);
+        // Act
+        var actualToken5 = sut.Peek(4);
+        var actualToken4 = sut.Peek(3);
+        var actualToken3 = sut.Peek(2);
+        var actualToken2 = sut.Peek(1);
+        var actualToken1 = sut.Peek(0);
+        var actualTokens = new[] { actualToken1, actualToken2, actualToken3, actualToken4, actualToken5 };
 
-            // Act
-            var actualToken5 = sut.Peek(4);
-            var actualToken4 = sut.Peek(3);
-            var actualToken3 = sut.Peek(2);
-            var actualToken2 = sut.Peek(1);
-            var actualToken1 = sut.Peek(0);
-            var actualTokens = new[] { actualToken1, actualToken2, actualToken3, actualToken4, actualToken5 };
+        // Assert
+        Assert.Equal(expectedTokens, actualTokens);
+    }
 
-            // Assert
-            Assert.Equal(expectedTokens, actualTokens);
-        }
+    [Fact]
+    public void Peek_FromFirstToLast_ReturnsExpectedTokens()
+    {
+        // Arrange
+        var expectedTokens = _fixture.CreateMany<Token>(5).ToList();
 
-        [Fact]
-        public void Peek_FromFirstToLast_ReturnsExpectedTokens()
-        {
-            // Arrange
-            var expectedTokens = _fixture.CreateMany<Token>(5).ToList();
+        var sut = new TokenStream(expectedTokens);
 
-            var sut = new TokenStream(expectedTokens);
+        // Act
+        var actualToken1 = sut.Peek(0);
+        var actualToken2 = sut.Peek(1);
+        var actualToken3 = sut.Peek(2);
+        var actualToken4 = sut.Peek(3);
+        var actualToken5 = sut.Peek(4);
+        var actualTokens = new[] { actualToken1, actualToken2, actualToken3, actualToken4, actualToken5 };
 
-            // Act
-            var actualToken1 = sut.Peek(0);
-            var actualToken2 = sut.Peek(1);
-            var actualToken3 = sut.Peek(2);
-            var actualToken4 = sut.Peek(3);
-            var actualToken5 = sut.Peek(4);
-            var actualTokens = new[] { actualToken1, actualToken2, actualToken3, actualToken4, actualToken5 };
-
-            // Assert
-            Assert.Equal(expectedTokens, actualTokens);
-        }
+        // Assert
+        Assert.Equal(expectedTokens, actualTokens);
     }
 }

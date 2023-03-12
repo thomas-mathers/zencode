@@ -1,19 +1,18 @@
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Model.Grammar
+namespace ZenCode.Parser.Model.Grammar;
+
+public record Scope
 {
-    public record Scope
+    public IReadOnlyList<Statement> Statements { get; init; } = Array.Empty<Statement>();
+
+    public virtual bool Equals(Scope? other)
     {
-        public IReadOnlyList<Statement> Statements { get; init; } = Array.Empty<Statement>();
+        return other != null && Statements.SequenceEqual(other.Statements);
+    }
 
-        public virtual bool Equals(Scope? other)
-        {
-            return other != null && Statements.SequenceEqual(other.Statements);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(base.GetHashCode(), Statements);
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(base.GetHashCode(), Statements);
     }
 }

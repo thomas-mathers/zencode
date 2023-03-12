@@ -2,30 +2,29 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 
-namespace ZenCode.Lexer
+namespace ZenCode.Lexer;
+
+public class RegexTokenMatcher : ITokenMatcher
 {
-    public class RegexTokenMatcher : ITokenMatcher
+    private readonly Regex _regex;
+
+    public RegexTokenMatcher(TokenType tokenType, string pattern)
     {
-        private readonly Regex _regex;
+        TokenType = tokenType;
+        _regex = new Regex(pattern, RegexOptions.Compiled | RegexOptions.NonBacktracking);
+    }
 
-        public RegexTokenMatcher(TokenType tokenType, string pattern)
+    public TokenType TokenType { get; }
+
+    public string? Match(string input, int startingIndex)
+    {
+        var match = _regex.Match(input, startingIndex);
+
+        if (!match.Success || match.Index != startingIndex)
         {
-            TokenType = tokenType;
-            _regex = new Regex(pattern, RegexOptions.Compiled | RegexOptions.NonBacktracking);
+            return null;
         }
 
-        public TokenType TokenType { get; }
-
-        public string? Match(string input, int startingIndex)
-        {
-            var match = _regex.Match(input, startingIndex);
-
-            if (!match.Success || match.Index != startingIndex)
-            {
-                return null;
-            }
-
-            return match.Value;
-        }
+        return match.Value;
     }
 }

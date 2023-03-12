@@ -8,41 +8,40 @@ using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.TestData;
 
-namespace ZenCode.Parser.Tests.Expressions.Strategies
+namespace ZenCode.Parser.Tests.Expressions.Strategies;
+
+public class BinaryExpressionParsingStrategyTests
 {
-    public class BinaryExpressionParsingStrategyTests
+    private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
+    private readonly Mock<IParser> _parserMock = new();
+    private readonly BinaryExpressionParsingStrategy _sut = new();
+
+    [Theory]
+    [ClassData(typeof(BinaryOperators))]
+    public void Parse_ExpressionOpExpression_ReturnsBinaryExpression(TokenType operatorTokenType)
     {
-        private readonly Fixture _fixture = new();
-        private readonly Mock<ITokenStream> _tokenStreamMock = new();
-        private readonly Mock<IParser> _parserMock = new();
-        private readonly BinaryExpressionParsingStrategy _sut = new();
+        // Arrange
+        var lExpression = _fixture.Create<Expression>();
+        var rExpression = _fixture.Create<Expression>();
 
-        [Theory]
-        [ClassData(typeof(BinaryOperators))]
-        public void Parse_ExpressionOpExpression_ReturnsBinaryExpression(TokenType operatorTokenType)
-        {
-            // Arrange
-            var lExpression = _fixture.Create<Expression>();
-            var rExpression = _fixture.Create<Expression>();
+        var expected = new BinaryExpression(
+            lExpression,
+            new Token(operatorTokenType),
+            rExpression);
 
-            var expected = new BinaryExpression(
-                lExpression,
-                new Token(operatorTokenType),
-                rExpression);
+        _tokenStreamMock
+            .Setup(x => x.Consume(operatorTokenType))
+            .Returns(new Token(operatorTokenType));
 
-            _tokenStreamMock
-                .Setup(x => x.Consume(operatorTokenType))
-                .Returns(new Token(operatorTokenType));
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, It.IsAny<int>()))
+            .Returns(rExpression);
 
-            _parserMock
-                .Setup(x => x.ParseExpression(_tokenStreamMock.Object, It.IsAny<int>()))
-                .Returns(rExpression);
+        // Act
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, lExpression, operatorTokenType, 0, false);
 
-            // Act
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, lExpression, operatorTokenType, 0, false);
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
+        // Assert
+        Assert.Equal(expected, actual);
     }
 }

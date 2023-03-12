@@ -1,12 +1,11 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Abstractions.Statements
+namespace ZenCode.Parser.Abstractions.Statements;
+
+public interface IStatementParser
 {
-    public interface IStatementParser
-    {
-        AssignmentStatement ParseAssignmentStatement(IParser parser, ITokenStream tokenStream);
-        VariableDeclarationStatement ParseVariableDeclarationStatement(IParser parser, ITokenStream tokenStream);
-        Statement ParseStatement(IParser parser, ITokenStream tokenStream);
-    }
+    AssignmentStatement ParseAssignmentStatement(IParser parser, ITokenStream tokenStream);
+    VariableDeclarationStatement ParseVariableDeclarationStatement(IParser parser, ITokenStream tokenStream);
+    Statement ParseStatement(IParser parser, ITokenStream tokenStream);
 }

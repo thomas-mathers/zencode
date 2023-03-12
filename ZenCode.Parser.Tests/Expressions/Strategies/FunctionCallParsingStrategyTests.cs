@@ -8,64 +8,63 @@ using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Tests.Expressions.Strategies
+namespace ZenCode.Parser.Tests.Expressions.Strategies;
+
+public class FunctionCallParsingStrategyTests
 {
-    public class FunctionCallParsingStrategyTests
+    private readonly Fixture _fixture = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
+    private readonly Mock<IParser> _parserMock = new();
+    private readonly FunctionCallParsingStrategy _sut;
+    private readonly VariableReferenceExpression _variableReferenceExpression;
+
+    public FunctionCallParsingStrategyTests()
     {
-        private readonly Fixture _fixture = new();
-        private readonly Mock<ITokenStream> _tokenStreamMock = new();
-        private readonly Mock<IParser> _parserMock = new();
-        private readonly FunctionCallParsingStrategy _sut;
-        private readonly VariableReferenceExpression _variableReferenceExpression;
+        _sut = new FunctionCallParsingStrategy();
+        _variableReferenceExpression =
+            new VariableReferenceExpression(new Token(TokenType.Identifier));
+    }
 
-        public FunctionCallParsingStrategyTests()
-        {
-            _sut = new FunctionCallParsingStrategy();
-            _variableReferenceExpression =
-                new VariableReferenceExpression(new Token(TokenType.Identifier));
-        }
-
-        [Fact]
-        public void Parse_FunctionCallNoParameters_ReturnsFunctionCallExpression()
-        {
-            // Arrange
-            var expected = new FunctionCallExpression(_variableReferenceExpression);
+    [Fact]
+    public void Parse_FunctionCallNoParameters_ReturnsFunctionCallExpression()
+    {
+        // Arrange
+        var expected = new FunctionCallExpression(_variableReferenceExpression);
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.RightParenthesis))
-                .Returns(true);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.RightParenthesis))
+            .Returns(true);
 
-            // Act
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);
+        // Act
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);
 
-            // Assert
-            Assert.Equal(expected, actual);
-        }
+        // Assert
+        Assert.Equal(expected, actual);
+    }
 
-        [Fact]
-        public void Parse_FunctionCallOneOrMoreParameters_ReturnsFunctionCallExpression()
+    [Fact]
+    public void Parse_FunctionCallOneOrMoreParameters_ReturnsFunctionCallExpression()
+    {
+        // Arrange
+        var arguments = _fixture.Create<ExpressionList>();
+
+        var expected = new FunctionCallExpression(_variableReferenceExpression)
         {
-            // Arrange
-            var arguments = _fixture.Create<ExpressionList>();
-
-            var expected = new FunctionCallExpression(_variableReferenceExpression)
-            {
-                Arguments = arguments
-            };
+            Arguments = arguments
+        };
         
-            _tokenStreamMock
-                .Setup(x => x.Match(TokenType.RightParenthesis))
-                .Returns(false);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.RightParenthesis))
+            .Returns(false);
 
-            _parserMock
-                .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
-                .Returns(arguments);
+        _parserMock
+            .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
+            .Returns(arguments);
 
-            // Act
-            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);
+        // Act
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);
 
-            // Assert
-            Assert.Equal(expected, actual);
-        }
+        // Assert
+        Assert.Equal(expected, actual);
     }
 }
