@@ -1,5 +1,4 @@
 ﻿using ZenCode.Lexer.Abstractions;
-using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements;
@@ -13,20 +12,25 @@ namespace ZenCode.Parser;
 
 public class Parser : IParser
 {
+    private readonly IExpressionListParser _expressionListParser;
     private readonly IExpressionParser _expressionParser;
+    private readonly IParameterListParser _parameterListParser;
+    private readonly IScopeParser _scopeParser;
     private readonly IStatementParser _statementParser;
     private readonly ITypeParser _typeParser;
 
-    public Parser(
-        IExpressionParser expressionParser,
-        IStatementParser statementParser,
+    public Parser(IExpressionListParser expressionListParser, IExpressionParser expressionParser,
+        IParameterListParser parameterListParser, IScopeParser scopeParser, IStatementParser statementParser,
         ITypeParser typeParser)
     {
+        _expressionListParser = expressionListParser;
         _expressionParser = expressionParser;
+        _parameterListParser = parameterListParser;
+        _scopeParser = scopeParser;
         _statementParser = statementParser;
         _typeParser = typeParser;
     }
-    
+
     public Program ParseProgram(ITokenStream tokenStream)
     {
         var statements = new List<Statement>();
@@ -43,17 +47,17 @@ public class Parser : IParser
     {
         return _expressionParser.ParseExpression(this, tokenStream, precedence);
     }
-    
+
     public AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream)
     {
         return _statementParser.ParseAssignmentStatement(this, tokenStream);
     }
-    
+
     public VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream)
     {
         return _statementParser.ParseVariableDeclarationStatement(this, tokenStream);
     }
-    
+
     public Statement ParseStatement(ITokenStream tokenStream)
     {
         return _statementParser.ParseStatement(this, tokenStream);
@@ -66,41 +70,12 @@ public class Parser : IParser
 
     public ExpressionList ParseExpressionList(ITokenStream tokenStream)
     {
-        var expressions = new List<Expression>();
-
-        while (true)
-        {
-            expressions.Add(ParseExpression(tokenStream));
-
-            if (!tokenStream.Match(TokenType.Comma))
-            {
-                break;
-            }
-
-            tokenStream.Consume(TokenType.Comma);
-        }
-
-        return new ExpressionList { Expressions = expressions };
+        return _expressionListParser.ParseExpressionList(this, tokenStream);
     }
-    
+
     public Scope ParseScope(ITokenStream tokenStream)
     {
-        tokenStream.Consume(TokenType.LeftBrace);
-
-        var statements = new List<Statement>();
-
-        while (true)
-        {
-            if (tokenStream.Match(TokenType.RightBrace))
-            {
-                tokenStream.Consume(TokenType.RightBrace);
-                break;
-            }
-                
-            statements.Add(ParseStatement(tokenStream));
-        }
-
-        return new Scope { Statements = statements };
+        return _scopeParser.ParseScope(this, tokenStream);
     }
 
     public ConditionScope ParseConditionScope(ITokenStream tokenStream)
@@ -113,26 +88,6 @@ public class Parser : IParser
 
     public ParameterList ParseParameterList(ITokenStream tokenStream)
     {
-        var parameters = new List<Parameter>();
-
-        while (true)
-        {
-            var identifier = tokenStream.Consume(TokenType.Identifier);
-
-            tokenStream.Consume(TokenType.Colon);
-
-            var type = ParseType(tokenStream);
-
-            parameters.Add(new Parameter(identifier, type));
-
-            if (!tokenStream.Match(TokenType.Comma))
-            {
-                break;
-            }
-
-            tokenStream.Consume(TokenType.Comma);
-        }
-
-        return new ParameterList { Parameters = parameters };
+        return _parameterListParser.ParseParameterList(this, tokenStream);
     }
 }

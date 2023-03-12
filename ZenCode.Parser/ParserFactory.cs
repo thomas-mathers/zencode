@@ -13,6 +13,7 @@ public class ParserFactory
     public IParser Create()
     {
         var parser = new Parser(
+            new ExpressionListParser(),
             new ExpressionParser(
                 new PrefixExpressionParser(
                     new AnonymousFunctionDeclarationParsingStrategy(),
@@ -26,6 +27,8 @@ public class ParserFactory
                     new BinaryExpressionParsingStrategy(), 
                     new FunctionCallParsingStrategy())
             ),
+            new ParameterListParser(),
+            new ScopeParser(),
             new StatementParser(
                 new AssignmentStatementParsingStrategy(), 
                 new ForStatementParsingStrategy(), 
