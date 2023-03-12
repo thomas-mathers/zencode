@@ -17,7 +17,7 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
 
     public AnonymousFunctionDeclarationParsingStrategyTests()
     {
-        _sut = new AnonymousFunctionDeclarationParsingStrategy(_parserMock.Object);
+        _sut = new AnonymousFunctionDeclarationParsingStrategy();
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
             .Returns(expected.Scope);
         
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
         
         // Assert
         Assert.Equal(expected, actual);

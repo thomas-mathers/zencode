@@ -14,12 +14,12 @@ public class ReturnStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IParser> _expressionParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly ReturnStatementParsingStrategy _sut;
     
     public ReturnStatementParsingStrategyTests()
     {
-        _sut = new ReturnStatementParsingStrategy(_expressionParserMock.Object);
+        _sut = new ReturnStatementParsingStrategy();
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class ReturnStatementParsingStrategyTests
         _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(true);
         
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
         
         // Assert
         Assert.Equal(expected, actual);
@@ -49,12 +49,12 @@ public class ReturnStatementParsingStrategyTests
 
         _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(false);
         
-        _expressionParserMock
+        _parserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
             .Returns(expression);
         
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
         
         // Assert
         Assert.Equal(expected, actual);

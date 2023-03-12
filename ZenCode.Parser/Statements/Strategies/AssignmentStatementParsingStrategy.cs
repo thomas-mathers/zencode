@@ -1,25 +1,17 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Model.Grammar.Statements;
 
 namespace ZenCode.Parser.Statements.Strategies;
 
-public class AssignmentStatementParsingStrategy : IStatementParsingStrategy
+public class AssignmentStatementParsingStrategy
 {
-    private readonly IParser _parser;
-
-    public AssignmentStatementParsingStrategy(IParser parser)
+    public AssignmentStatement Parse(IParser parser, ITokenStream tokenStream)
     {
-        _parser = parser;
-    }
-
-    public Statement Parse(ITokenStream tokenStream)
-    {
-        var variableReferenceExpression = _parser.ParseExpression(tokenStream);
+        var variableReferenceExpression = parser.ParseExpression(tokenStream);
         tokenStream.Consume(TokenType.Assignment);
-        var expression = _parser.ParseExpression(tokenStream);
+        var expression = parser.ParseExpression(tokenStream);
         return new AssignmentStatement(variableReferenceExpression, expression);
     }
 }

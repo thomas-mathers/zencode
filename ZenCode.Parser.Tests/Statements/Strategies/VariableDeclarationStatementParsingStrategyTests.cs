@@ -13,12 +13,12 @@ public class VariableDeclarationStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IParser> _expressionParserMock = new();
+    private readonly Mock<IParser> _parserMock = new();
     private readonly VariableDeclarationStatementParsingStrategy _sut;
 
     public VariableDeclarationStatementParsingStrategyTests()
     {
-        _sut = new VariableDeclarationStatementParsingStrategy(_expressionParserMock.Object);
+        _sut = new VariableDeclarationStatementParsingStrategy();
     }
 
     [Fact]
@@ -31,12 +31,12 @@ public class VariableDeclarationStatementParsingStrategyTests
             .Setup(x => x.Consume(TokenType.Identifier))
             .Returns(expected.Identifier);
 
-        _expressionParserMock
+        _parserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
             .Returns(expected.Expression);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);

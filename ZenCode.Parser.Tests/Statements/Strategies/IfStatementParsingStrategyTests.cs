@@ -20,7 +20,7 @@ public class IfStatementParsingStrategyTests
 
     public IfStatementParsingStrategyTests()
     {
-        _sut = new IfStatementParsingStrategy(_parserMock.Object);
+        _sut = new IfStatementParsingStrategy();
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class IfStatementParsingStrategyTests
             .ReturnsSequence(conditionScopes);
 
         // Arrange
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Act
         Assert.Equal(expected, actual);
@@ -67,7 +67,7 @@ public class IfStatementParsingStrategyTests
             .ReturnsSequence(conditionScopes);
 
         // Arrange
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Act
         Assert.Equal(expected, actual);
@@ -100,7 +100,7 @@ public class IfStatementParsingStrategyTests
             .ReturnsSequence(conditionScopes);
         
         // Arrange
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Act
         Assert.Equal(expected, actual);
@@ -134,7 +134,7 @@ public class IfStatementParsingStrategyTests
             .Returns(scope);
 
         // Arrange
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Act
         Assert.Equal(expected, actual);
@@ -175,7 +175,7 @@ public class IfStatementParsingStrategyTests
             .Returns(scope);
 
         // Arrange
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Act
         Assert.Equal(expected, actual);
@@ -218,7 +218,7 @@ public class IfStatementParsingStrategyTests
             .Returns(scope);
 
         // Arrange
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Act
         Assert.Equal(expected, actual);

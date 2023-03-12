@@ -21,7 +21,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
 
     public FunctionDeclarationStatementParsingStrategyTests()
     {
-        _sut = new FunctionDeclarationStatementParsingStrategy(_parserMock.Object);
+        _sut = new FunctionDeclarationStatementParsingStrategy();
     }
     
     [Fact]
@@ -46,7 +46,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
             .Returns(scope);
         
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
         
         // Assert
         Assert.Equal(expected, actual);
@@ -80,7 +80,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
             .Returns(expected.Scope);
         
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
         
         // Assert
         Assert.Equal(expected, actual);

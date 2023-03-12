@@ -20,7 +20,7 @@ public class FunctionCallParsingStrategyTests
 
     public FunctionCallParsingStrategyTests()
     {
-        _sut = new FunctionCallParsingStrategy(_parserMock.Object, 7);
+        _sut = new FunctionCallParsingStrategy();
         _variableReferenceExpression =
             new VariableReferenceExpression(new Token(TokenType.Identifier));
     }
@@ -36,7 +36,7 @@ public class FunctionCallParsingStrategyTests
             .Returns(true);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object, _variableReferenceExpression);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -62,7 +62,7 @@ public class FunctionCallParsingStrategyTests
             .Returns(arguments);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object, _variableReferenceExpression);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);
 
         // Assert
         Assert.Equal(expected, actual);

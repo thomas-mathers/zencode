@@ -398,6 +398,7 @@ public class StatementParserTests
         {
             new Token(TokenType.For),
             new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Var),
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),
             new Token(TokenType.IntegerLiteral),
@@ -422,8 +423,8 @@ public class StatementParserTests
             new Token(TokenType.RightBrace)
         });
 
-        var initialization = new AssignmentStatement(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
+        var initialization = new VariableDeclarationStatement(
+            new Token(TokenType.Identifier),
             new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         
         var condition = new BinaryExpression(

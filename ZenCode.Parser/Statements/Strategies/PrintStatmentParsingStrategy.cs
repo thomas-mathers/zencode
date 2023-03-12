@@ -1,25 +1,17 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Model.Grammar.Statements;
 
 namespace ZenCode.Parser.Statements.Strategies;
 
-public class PrintStatementParsingStrategy : IStatementParsingStrategy
+public class PrintStatementParsingStrategy
 {
-    private readonly IParser _parser;
-
-    public PrintStatementParsingStrategy(IParser parser)
-    {
-        _parser = parser;
-    }
-
-    public Statement Parse(ITokenStream tokenStream)
+    public PrintStatement Parse(IParser parser, ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Print);
 
-        var expression = _parser.ParseExpression(tokenStream);
+        var expression = parser.ParseExpression(tokenStream);
 
         return new PrintStatement(expression);
     }

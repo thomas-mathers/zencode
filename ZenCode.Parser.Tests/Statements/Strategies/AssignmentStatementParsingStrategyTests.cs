@@ -20,7 +20,7 @@ public class AssignmentStatementParsingStrategyTests
 
     public AssignmentStatementParsingStrategyTests()
     {
-        _sut = new AssignmentStatementParsingStrategy(_parserMock.Object);
+        _sut = new AssignmentStatementParsingStrategy();
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class AssignmentStatementParsingStrategyTests
             .ReturnsSequence(variableReferenceExpression, expression);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);

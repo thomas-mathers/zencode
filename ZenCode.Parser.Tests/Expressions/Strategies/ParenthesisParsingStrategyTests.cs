@@ -18,7 +18,7 @@ public class ParenthesisParsingStrategyTests
 
     public ParenthesisParsingStrategyTests()
     {
-        _sut = new ParenthesisParsingStrategy(_parserMock.Object);
+        _sut = new ParenthesisParsingStrategy();
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class ParenthesisParsingStrategyTests
             .Returns(expected);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);

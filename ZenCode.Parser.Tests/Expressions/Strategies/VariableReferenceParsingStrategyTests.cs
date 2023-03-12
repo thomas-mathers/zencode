@@ -20,7 +20,7 @@ public class VariableReferenceParsingStrategyTests
 
     public VariableReferenceParsingStrategyTests()
     {
-        _sut = new VariableReferenceParsingStrategy(_parserMock.Object);
+        _sut = new VariableReferenceParsingStrategy();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class VariableReferenceParsingStrategyTests
             .Returns(new Token(TokenType.Identifier));
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -57,7 +57,7 @@ public class VariableReferenceParsingStrategyTests
             .Returns(true);
 
         // Act + Assert
-        Assert.Throws<MissingIndexExpressionException>(() => _sut.Parse(_tokenStreamMock.Object));
+        Assert.Throws<MissingIndexExpressionException>(() => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object));
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class VariableReferenceParsingStrategyTests
             .Returns(indices);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);

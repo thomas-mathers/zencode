@@ -2,4 +2,4 @@ using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
-public record ForStatement(Statement Initialization, Expression Condition, Statement Iterator, Scope Scope) : Statement;
+public record ForStatement(VariableDeclarationStatement Initialization, Expression Condition, AssignmentStatement Iterator, Scope Scope) : Statement;

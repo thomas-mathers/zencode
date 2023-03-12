@@ -19,7 +19,7 @@ public class UnaryExpressionParsingStrategyTests
 
     public UnaryExpressionParsingStrategyTests()
     {
-        _sut = new UnaryExpressionParsingStrategy(_parserMock.Object);
+        _sut = new UnaryExpressionParsingStrategy();
     }
 
     [Theory]
@@ -42,7 +42,7 @@ public class UnaryExpressionParsingStrategyTests
             .Returns(expression);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);

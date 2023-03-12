@@ -1,22 +1,14 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Abstractions.Statements.Strategies;
 using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 
 namespace ZenCode.Parser.Statements.Strategies;
 
-public class FunctionDeclarationStatementParsingStrategy : IStatementParsingStrategy
+public class FunctionDeclarationStatementParsingStrategy
 {
-    private readonly IParser _parser;
-
-    public FunctionDeclarationStatementParsingStrategy(IParser parser)
-    {
-        _parser = parser;
-    }
-
-    public Statement Parse(ITokenStream tokenStream)
+    public FunctionDeclarationStatement Parse(IParser parser, ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Function);
         tokenStream.Consume(TokenType.Identifier);
@@ -24,15 +16,15 @@ public class FunctionDeclarationStatementParsingStrategy : IStatementParsingStra
         
         var parameters = tokenStream.Match(TokenType.RightParenthesis) 
             ? new ParameterList()
-            : _parser.ParseParameterList(tokenStream);
+            : parser.ParseParameterList(tokenStream);
 
         tokenStream.Consume(TokenType.RightParenthesis);
 
         tokenStream.Consume(TokenType.RightArrow);
 
-        var returnType = _parser.ParseType(tokenStream);
+        var returnType = parser.ParseType(tokenStream);
 
-        var scope = _parser.ParseScope(tokenStream);
+        var scope = parser.ParseScope(tokenStream);
 
         return new FunctionDeclarationStatement(returnType, parameters, scope);
     }

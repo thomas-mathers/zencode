@@ -1,13 +1,12 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Abstractions.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Expressions.Strategies;
 
-public class IntegerLiteralParsingStrategy : IPrefixExpressionParsingStrategy
+public class IntegerLiteralParsingStrategy
 {
-    public Expression Parse(ITokenStream tokenStream)
+    public LiteralExpression Parse(ITokenStream tokenStream)
     {
         return new LiteralExpression(tokenStream.Consume(TokenType.IntegerLiteral));
     }

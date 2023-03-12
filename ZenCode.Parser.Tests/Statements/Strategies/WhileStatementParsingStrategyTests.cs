@@ -19,7 +19,7 @@ public class WhileStatementParsingStrategyTests
 
     public WhileStatementParsingStrategyTests()
     {
-        _sut = new WhileStatementParsingStrategy(_parserMock.Object);
+        _sut = new WhileStatementParsingStrategy();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class WhileStatementParsingStrategyTests
             .Returns(conditionScope);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);

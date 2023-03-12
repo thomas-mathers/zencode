@@ -18,7 +18,7 @@ public class PrintStatementParsingStrategyTests
 
     public PrintStatementParsingStrategyTests()
     {
-        _sut = new PrintStatementParsingStrategy(_parserMock.Object);
+        _sut = new PrintStatementParsingStrategy();
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class PrintStatementParsingStrategyTests
             .Returns(expected.Expression);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Assert
         Assert.Equal(expected, actual);

@@ -19,7 +19,7 @@ public class NewExpressionParsingStrategyTests
     
     public NewExpressionParsingStrategyTests()
     {
-        _sut = new NewExpressionParsingStrategy(_parserMock.Object);
+        _sut = new NewExpressionParsingStrategy();
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class NewExpressionParsingStrategyTests
             .Returns(expected.ExpressionList);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
         
         // Assert
         Assert.Equal(expected, actual);

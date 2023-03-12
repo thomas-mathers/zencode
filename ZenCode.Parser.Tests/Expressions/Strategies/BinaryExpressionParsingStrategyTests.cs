@@ -15,12 +15,7 @@ public class BinaryExpressionParsingStrategyTests
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
-    private readonly BinaryExpressionParsingStrategy _sut;
-
-    public BinaryExpressionParsingStrategyTests()
-    {
-        _sut = new BinaryExpressionParsingStrategy(_parserMock.Object, 0);
-    }
+    private readonly BinaryExpressionParsingStrategy _sut = new();
 
     [Theory]
     [ClassData(typeof(BinaryOperators))]
@@ -36,15 +31,15 @@ public class BinaryExpressionParsingStrategyTests
             rExpression);
 
         _tokenStreamMock
-            .Setup(x => x.Consume())
+            .Setup(x => x.Consume(operatorTokenType))
             .Returns(new Token(operatorTokenType));
 
         _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, It.IsAny<int>()))
             .Returns(rExpression);
 
         // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object, lExpression);
+        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, lExpression, operatorTokenType, 0, false);
 
         // Assert
         Assert.Equal(expected, actual);
