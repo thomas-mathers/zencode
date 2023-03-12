@@ -5,35 +5,36 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Expressions.Strategies;
-
-public class VariableReferenceParsingStrategy
+namespace ZenCode.Parser.Expressions.Strategies
 {
-    public VariableReferenceExpression Parse(IParser parser, ITokenStream tokenStream)
+    public class VariableReferenceParsingStrategy : IVariableReferenceParsingStrategy
     {
-        var identifierToken = tokenStream.Consume();
-
-        if (identifierToken.Type != TokenType.Identifier)
+        public VariableReferenceExpression Parse(IParser parser, ITokenStream tokenStream)
         {
-            throw new UnexpectedTokenException();
+            var identifierToken = tokenStream.Consume();
+
+            if (identifierToken.Type != TokenType.Identifier)
+            {
+                throw new UnexpectedTokenException();
+            }
+
+            if (!tokenStream.Match(TokenType.LeftBracket))
+            {
+                return new VariableReferenceExpression(identifierToken);
+            }
+
+            tokenStream.Consume(TokenType.LeftBracket);
+
+            if (tokenStream.Match(TokenType.RightBracket))
+            {
+                throw new MissingIndexExpressionException();
+            }
+
+            var indexExpressions = parser.ParseExpressionList(tokenStream);
+
+            tokenStream.Consume(TokenType.RightBracket);
+
+            return new VariableReferenceExpression(identifierToken) { Indices = indexExpressions };
         }
-
-        if (!tokenStream.Match(TokenType.LeftBracket))
-        {
-            return new VariableReferenceExpression(identifierToken);
-        }
-
-        tokenStream.Consume(TokenType.LeftBracket);
-
-        if (tokenStream.Match(TokenType.RightBracket))
-        {
-            throw new MissingIndexExpressionException();
-        }
-
-        var indexExpressions = parser.ParseExpressionList(tokenStream);
-
-        tokenStream.Consume(TokenType.RightBracket);
-
-        return new VariableReferenceExpression(identifierToken) { Indices = indexExpressions };
     }
 }

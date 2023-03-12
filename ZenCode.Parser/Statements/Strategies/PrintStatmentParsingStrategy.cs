@@ -3,16 +3,17 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Strategies;
-
-public class PrintStatementParsingStrategy
+namespace ZenCode.Parser.Statements.Strategies
 {
-    public PrintStatement Parse(IParser parser, ITokenStream tokenStream)
+    public class PrintStatementParsingStrategy : IPrintStatementParsingStrategy
     {
-        tokenStream.Consume(TokenType.Print);
+        public PrintStatement Parse(IParser parser, ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.Print);
 
-        var expression = parser.ParseExpression(tokenStream);
+            var expression = parser.ParseExpression(tokenStream);
 
-        return new PrintStatement(expression);
+            return new PrintStatement(expression);
+        }
     }
 }

@@ -1,24 +1,25 @@
 ﻿using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 
-namespace ZenCode.Lexer;
-
-public class TokenMatcher : ITokenMatcher
+namespace ZenCode.Lexer
 {
-    private readonly string _pattern;
-
-    public TokenMatcher(TokenType type, string pattern)
+    public class TokenMatcher : ITokenMatcher
     {
-        TokenType = type;
-        _pattern = pattern;
-    }
+        private readonly string _pattern;
 
-    public TokenType TokenType { get; }
+        public TokenMatcher(TokenType type, string pattern)
+        {
+            TokenType = type;
+            _pattern = pattern;
+        }
 
-    public string? Match(string input, int startingIndex)
-    {
-        var index = input.IndexOf(_pattern, startingIndex, StringComparison.OrdinalIgnoreCase);
+        public TokenType TokenType { get; }
 
-        return index != startingIndex ? null : input.Substring(startingIndex, _pattern.Length);
+        public string? Match(string input, int startingIndex)
+        {
+            var index = input.IndexOf(_pattern, startingIndex, StringComparison.OrdinalIgnoreCase);
+
+            return index != startingIndex ? null : input.Substring(startingIndex, _pattern.Length);
+        }
     }
 }

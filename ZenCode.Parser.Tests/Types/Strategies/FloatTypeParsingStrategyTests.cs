@@ -2,28 +2,29 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Model.Types;
+using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.Parser.Types.Strategies;
 
-namespace ZenCode.Parser.Tests.Types.Strategies;
-
-public class FloatTypeParsingStrategyTests
+namespace ZenCode.Parser.Tests.Types.Strategies
 {
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly FloatTypeParsingStrategy _sut = new();
-
-    [Fact]
-    public void Parse_Float_ReturnsFloatType()
+    public class FloatTypeParsingStrategyTests
     {
-        // Arrange
-        var expected = new FloatType();
+        private readonly Mock<ITokenStream> _tokenStreamMock = new();
+        private readonly FloatTypeParsingStrategy _sut = new();
 
-        // Act
-        var actual = _sut.Parse(_tokenStreamMock.Object);
+        [Fact]
+        public void Parse_Float_ReturnsFloatType()
+        {
+            // Arrange
+            var expected = new FloatType();
 
-        // Assert
-        Assert.Equal(expected, actual);
+            // Act
+            var actual = _sut.Parse(_tokenStreamMock.Object);
+
+            // Assert
+            Assert.Equal(expected, actual);
         
-        _tokenStreamMock.Verify(x => x.Consume(TokenType.Float));
+            _tokenStreamMock.Verify(x => x.Consume(TokenType.Float));
+        }
     }
 }

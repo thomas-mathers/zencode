@@ -2,578 +2,579 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Model;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
-using ZenCode.Parser.Model.Types;
+using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.Parser.Tests.Integration.TestData;
 
-namespace ZenCode.Parser.Tests.Integration.Expressions;
-
-public class ExpressionParserTests
+namespace ZenCode.Parser.Tests.Integration.Expressions
 {
-    private readonly IParser _sut;
-
-    public ExpressionParserTests()
+    public class ExpressionParserTests
     {
-        _sut = new ParserFactory().Create();
-    }
+        private readonly IParser _sut;
 
-    [Fact]
-    public void ParseExpression_AnonFuncNoParamsNoStatements_ReturnsAnonFuncDeclarationExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
+        public ExpressionParserTests()
         {
-            new Token(TokenType.Function),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(TokenType.Void),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.RightBrace)
-        });
+            _sut = new ParserFactory().Create();
+        }
 
-        var expected = new AnonymousFunctionDeclarationExpression(new VoidType(), new ParameterList(), new Scope());
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void ParseExpression_AnonFuncOneParamOneStatement_ReturnsAnonFuncDeclarationExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
+        [Fact]
+        public void ParseExpression_AnonFuncNoParamsNoStatements_ReturnsAnonFuncDeclarationExpression()
         {
-            new Token(TokenType.Function),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon),
-            new Token(TokenType.Integer),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(TokenType.Integer),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Return),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Semicolon),
-            new Token(TokenType.RightBrace)
-        });
-
-        var returnType = new IntegerType();
-
-        var parameterList = new ParameterList
-        {
-            Parameters = new[]
+            // Arrange
+            var tokenStream = new TokenStream(new[]
             {
-                new Parameter(new Token(TokenType.Identifier), new IntegerType())
-            }
-        };
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Void),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.RightBrace)
+            });
 
-        var scope = new Scope
+            var expected = new AnonymousFunctionDeclarationExpression(new VoidType(), new ParameterList(), new Scope());
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ParseExpression_AnonFuncOneParamOneStatement_ReturnsAnonFuncDeclarationExpression()
         {
-            Statements = new[]
+            // Arrange
+            var tokenStream = new TokenStream(new[]
             {
-                new ReturnStatement
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            });
+
+            var returnType = new IntegerType();
+
+            var parameterList = new ParameterList
+            {
+                Parameters = new[]
                 {
-                    Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                    new Parameter(new Token(TokenType.Identifier), new IntegerType())
                 }
-            }
-        };
+            };
 
-        var expected = new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void ParseExpression_AnonFuncMultipleParamMultipleStatement_ReturnsAnonFuncDeclarationExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Function),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon),
-            new Token(TokenType.Boolean),
-            new Token(TokenType.Comma),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon),
-            new Token(TokenType.Integer),
-            new Token(TokenType.Comma),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon),
-            new Token(TokenType.Float),
-            new Token(TokenType.Comma),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon),
-            new Token(TokenType.String),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(TokenType.Float),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Var),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Return),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Semicolon),
-            new Token(TokenType.RightBrace)
-        });
-
-        var returnType = new FloatType();
-
-        var parameterList = new ParameterList
-        {
-            Parameters = new[]
+            var scope = new Scope
             {
-                new Parameter(new Token(TokenType.Identifier), new BooleanType()),
-                new Parameter(new Token(TokenType.Identifier), new IntegerType()),
-                new Parameter(new Token(TokenType.Identifier), new FloatType()),
-                new Parameter(new Token(TokenType.Identifier), new StringType())
-            }
-        };
-
-        var scope = new Scope
-        {
-            Statements = new Statement[]
-            {
-                new VariableDeclarationStatement(new Token(TokenType.Identifier),
-                    new VariableReferenceExpression(new Token(TokenType.Identifier))),
-                new ReturnStatement
+                Statements = new[]
                 {
-                    Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                    new ReturnStatement
+                    {
+                        Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                    }
                 }
-            }
-        };
+            };
 
-        var expected = new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
+            var expected = new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
 
-        // Assert
-        Assert.Equal(expected, actual);
-    }
+            // Assert
+            Assert.Equal(expected, actual);
+        }
 
-    [Fact]
-    public void ParseExpression_NewBooleanArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
+        [Fact]
+        public void ParseExpression_AnonFuncMultipleParamMultipleStatement_ReturnsAnonFuncDeclarationExpression()
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Boolean),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            // Arrange
+            var tokenStream = new TokenStream(new[]
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Boolean),
+                new Token(TokenType.Comma),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.Comma),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Float),
+                new Token(TokenType.Comma),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.String),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Float),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            });
 
-        var expected = new NewExpression(new BooleanType(), expressionList);
+            var returnType = new FloatType();
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void ParseExpression_NewIntegerArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.New),
-            new Token(TokenType.Integer),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            var parameterList = new ParameterList
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                Parameters = new[]
+                {
+                    new Parameter(new Token(TokenType.Identifier), new BooleanType()),
+                    new Parameter(new Token(TokenType.Identifier), new IntegerType()),
+                    new Parameter(new Token(TokenType.Identifier), new FloatType()),
+                    new Parameter(new Token(TokenType.Identifier), new StringType())
+                }
+            };
 
-        var expected = new NewExpression(new IntegerType(), expressionList);
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void ParseExpression_NewFloatArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.New),
-            new Token(TokenType.Float),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            var scope = new Scope
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                Statements = new Statement[]
+                {
+                    new VariableDeclarationStatement(new Token(TokenType.Identifier),
+                        new VariableReferenceExpression(new Token(TokenType.Identifier))),
+                    new ReturnStatement
+                    {
+                        Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                    }
+                }
+            };
 
-        var expected = new NewExpression(new FloatType(), expressionList);
+            var expected = new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
 
-        // Assert
-        Assert.Equal(expected, actual);
-    }
+            // Assert
+            Assert.Equal(expected, actual);
+        }
 
-    [Fact]
-    public void ParseExpression_NewStringArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
+        [Fact]
+        public void ParseExpression_NewBooleanArray_ReturnsNewExpression()
         {
-            new Token(TokenType.New),
-            new Token(TokenType.String),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            // Arrange
+            var tokenStream = new TokenStream(new[]
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                new Token(TokenType.New),
+                new Token(TokenType.Boolean),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
 
-        var expected = new NewExpression(new StringType(), expressionList);
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void ParseExpression_NewBooleanJaggedArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.New),
-            new Token(TokenType.Boolean),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            var expressionList = new ExpressionList
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new BooleanType())), expressionList);
+            var expected = new NewExpression(new BooleanType(), expressionList);
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
 
-        // Assert
-        Assert.Equal(expected, actual);
-    }
+            // Assert
+            Assert.Equal(expected, actual);
+        }
 
-    [Fact]
-    public void ParseExpression_NewIntegerJaggedArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
+        [Fact]
+        public void ParseExpression_NewIntegerArray_ReturnsNewExpression()
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Integer),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            // Arrange
+            var tokenStream = new TokenStream(new[]
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                new Token(TokenType.New),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new IntegerType())), expressionList);
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Fact]
-    public void ParseExpression_NewFloatJaggedArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.New),
-            new Token(TokenType.Float),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            var expressionList = new ExpressionList
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new FloatType())), expressionList);
+            var expected = new NewExpression(new IntegerType(), expressionList);
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
 
-        // Assert
-        Assert.Equal(expected, actual);
-    }
+            // Assert
+            Assert.Equal(expected, actual);
+        }
 
-    [Fact]
-    public void ParseExpression_NewStringJaggedArray_ReturnsNewExpression()
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
+        [Fact]
+        public void ParseExpression_NewFloatArray_ReturnsNewExpression()
         {
-            new Token(TokenType.New),
-            new Token(TokenType.String),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
-        });
-
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
+            // Arrange
+            var tokenStream = new TokenStream(new[]
             {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+                new Token(TokenType.New),
+                new Token(TokenType.Float),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new StringType())), expressionList);
+            var expressionList = new ExpressionList
+            {
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
+            var expected = new NewExpression(new FloatType(), expressionList);
 
-        // Assert
-        Assert.Equal(expected, actual);
-    }
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
 
-    [Theory]
-    [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
-    public void ParseExpression_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
-        TokenType loOp,
-        TokenType hiOp)
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ParseExpression_NewStringArray_ReturnsNewExpression()
         {
-            new Token(TokenType.IntegerLiteral),
-            new Token(loOp),
-            new Token(TokenType.IntegerLiteral),
-            new Token(hiOp),
-            new Token(TokenType.IntegerLiteral)
-        });
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.String),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
 
-        var expected = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(loOp),
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            var expressionList = new ExpressionList
+            {
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
+
+            var expected = new NewExpression(new StringType(), expressionList);
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ParseExpression_NewBooleanJaggedArray_ReturnsNewExpression()
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.Boolean),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
+
+            var expressionList = new ExpressionList
+            {
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
+
+            var expected = new NewExpression(new ArrayType(new ArrayType(new BooleanType())), expressionList);
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ParseExpression_NewIntegerJaggedArray_ReturnsNewExpression()
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
+
+            var expressionList = new ExpressionList
+            {
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
+
+            var expected = new NewExpression(new ArrayType(new ArrayType(new IntegerType())), expressionList);
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ParseExpression_NewFloatJaggedArray_ReturnsNewExpression()
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.Float),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
+
+            var expressionList = new ExpressionList
+            {
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
+
+            var expected = new NewExpression(new ArrayType(new ArrayType(new FloatType())), expressionList);
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void ParseExpression_NewStringJaggedArray_ReturnsNewExpression()
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.String),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            });
+
+            var expressionList = new ExpressionList
+            {
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            };
+
+            var expected = new NewExpression(new ArrayType(new ArrayType(new StringType())), expressionList);
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
+        public void ParseExpression_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
+            TokenType loOp,
+            TokenType hiOp)
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.IntegerLiteral),
+                new Token(loOp),
+                new Token(TokenType.IntegerLiteral),
                 new Token(hiOp),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
+                new Token(TokenType.IntegerLiteral)
+            });
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
-    public void ParseExpression_HiPrecedenceOpThenLoPrecedenceOp_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
-        TokenType loOp,
-        TokenType hiOp)
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.IntegerLiteral),
-            new Token(hiOp),
-            new Token(TokenType.IntegerLiteral),
-            new Token(loOp),
-            new Token(TokenType.IntegerLiteral)
-        });
-
-        var expected = new BinaryExpression(
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(hiOp),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))),
-            new Token(loOp),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [ClassData(typeof(LeftAssociativeBinaryOperators))]
-    public void ParseExpression_LeftAssociativeOperator_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
-        TokenType op)
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.IntegerLiteral),
-            new Token(op),
-            new Token(TokenType.IntegerLiteral),
-            new Token(op),
-            new Token(TokenType.IntegerLiteral)
-        });
-
-        var expected = new BinaryExpression(
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(op),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))),
-            new Token(op),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [InlineData(TokenType.Exponentiation)]
-    public void ParseExpression_RightAssociativeOperator_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
-        TokenType op)
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.IntegerLiteral),
-            new Token(op),
-            new Token(TokenType.IntegerLiteral),
-            new Token(op),
-            new Token(TokenType.IntegerLiteral)
-        });
-
-        var expected = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(op),
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(op),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
-
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
-
-        // Assert
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
-    public void
-        ParseExpression_HiPrecedenceOpThenParenthesizedLoPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
-            TokenType hiOp, TokenType loOp)
-    {
-        // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.IntegerLiteral),
-            new Token(hiOp),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.IntegerLiteral),
-            new Token(loOp),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightParenthesis)
-        });
-
-        var expected = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(hiOp),
-            new BinaryExpression(
+            var expected = new BinaryExpression(
                 new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 new Token(loOp),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
+                new BinaryExpression(
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    new Token(hiOp),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
-        // Act
-        var actual = _sut.ParseExpression(tokenStream);
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
 
-        // Assert
-        Assert.Equal(expected, actual);
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
+        public void ParseExpression_HiPrecedenceOpThenLoPrecedenceOp_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
+            TokenType loOp,
+            TokenType hiOp)
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.IntegerLiteral),
+                new Token(hiOp),
+                new Token(TokenType.IntegerLiteral),
+                new Token(loOp),
+                new Token(TokenType.IntegerLiteral)
+            });
+
+            var expected = new BinaryExpression(
+                new BinaryExpression(
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    new Token(hiOp),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))),
+                new Token(loOp),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [ClassData(typeof(LeftAssociativeBinaryOperators))]
+        public void ParseExpression_LeftAssociativeOperator_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
+            TokenType op)
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.IntegerLiteral),
+                new Token(op),
+                new Token(TokenType.IntegerLiteral),
+                new Token(op),
+                new Token(TokenType.IntegerLiteral)
+            });
+
+            var expected = new BinaryExpression(
+                new BinaryExpression(
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    new Token(op),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))),
+                new Token(op),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(TokenType.Exponentiation)]
+        public void ParseExpression_RightAssociativeOperator_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
+            TokenType op)
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.IntegerLiteral),
+                new Token(op),
+                new Token(TokenType.IntegerLiteral),
+                new Token(op),
+                new Token(TokenType.IntegerLiteral)
+            });
+
+            var expected = new BinaryExpression(
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                new Token(op),
+                new BinaryExpression(
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    new Token(op),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))));
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
+        public void
+            ParseExpression_HiPrecedenceOpThenParenthesizedLoPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
+                TokenType hiOp, TokenType loOp)
+        {
+            // Arrange
+            var tokenStream = new TokenStream(new[]
+            {
+                new Token(TokenType.IntegerLiteral),
+                new Token(hiOp),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.IntegerLiteral),
+                new Token(loOp),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis)
+            });
+
+            var expected = new BinaryExpression(
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                new Token(hiOp),
+                new BinaryExpression(
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    new Token(loOp),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))));
+
+            // Act
+            var actual = _sut.ParseExpression(tokenStream);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }

@@ -3,16 +3,17 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Strategies;
-
-public class WhileStatementParsingStrategy
+namespace ZenCode.Parser.Statements.Strategies
 {
-    public WhileStatement Parse(IParser parser, ITokenStream tokenStream)
+    public class WhileStatementParsingStrategy : IWhileStatementParsingStrategy
     {
-        tokenStream.Consume(TokenType.While);
+        public WhileStatement Parse(IParser parser, ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.While);
 
-        var conditionScope = parser.ParseConditionScope(tokenStream);
+            var conditionScope = parser.ParseConditionScope(tokenStream);
 
-        return new WhileStatement(conditionScope);
+            return new WhileStatement(conditionScope);
+        }
     }
 }

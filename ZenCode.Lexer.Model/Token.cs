@@ -1,19 +1,20 @@
-﻿namespace ZenCode.Lexer.Model;
-
-public record Token(TokenType Type)
+﻿namespace ZenCode.Lexer.Model
 {
-    public int EndingColumn => StartingColumn + Text.Length;
-    public int Line { get; init; }
-    public int StartingColumn { get; init; }
-    public string Text { get; init; } = string.Empty;
-
-    public virtual bool Equals(Token? other)
+    public record Token(TokenType Type)
     {
-        return other != null && Type == other.Type;
-    }
+        public int EndingColumn => StartingColumn + Text.Length;
+        public int Line { get; init; }
+        public int StartingColumn { get; init; }
+        public string Text { get; init; } = string.Empty;
 
-    public override int GetHashCode()
-    {
-        return (int)Type;
+        public virtual bool Equals(Token? other)
+        {
+            return other != null && Type == other.Type;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)Type;
+        }
     }
 }

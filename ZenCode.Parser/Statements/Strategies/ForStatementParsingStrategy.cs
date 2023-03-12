@@ -3,29 +3,30 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Strategies;
-
-public class ForStatementParsingStrategy
+namespace ZenCode.Parser.Statements.Strategies
 {
-    public ForStatement Parse(IParser parser, ITokenStream tokenStream)
+    public class ForStatementParsingStrategy : IForStatementParsingStrategy
     {
-        tokenStream.Consume(TokenType.For);
-        tokenStream.Consume(TokenType.LeftParenthesis);
+        public ForStatement Parse(IParser parser, ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.For);
+            tokenStream.Consume(TokenType.LeftParenthesis);
 
-        var initializer = parser.ParseVariableDeclarationStatement(tokenStream);
+            var initializer = parser.ParseVariableDeclarationStatement(tokenStream);
 
-        tokenStream.Consume(TokenType.Semicolon);
+            tokenStream.Consume(TokenType.Semicolon);
 
-        var condition = parser.ParseExpression(tokenStream);
+            var condition = parser.ParseExpression(tokenStream);
 
-        tokenStream.Consume(TokenType.Semicolon);
+            tokenStream.Consume(TokenType.Semicolon);
 
-        var iterator = parser.ParseAssignmentStatement(tokenStream);
+            var iterator = parser.ParseAssignmentStatement(tokenStream);
         
-        tokenStream.Consume(TokenType.RightParenthesis);
+            tokenStream.Consume(TokenType.RightParenthesis);
 
-        var scope = parser.ParseScope(tokenStream);
+            var scope = parser.ParseScope(tokenStream);
         
-        return new ForStatement(initializer, condition, iterator, scope);
+            return new ForStatement(initializer, condition, iterator, scope);
+        }
     }
 }

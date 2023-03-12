@@ -3,23 +3,24 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Strategies;
-
-public class ReturnStatementParsingStrategy
+namespace ZenCode.Parser.Statements.Strategies
 {
-    public ReturnStatement Parse(IParser parser, ITokenStream tokenStream)
+    public class ReturnStatementParsingStrategy : IReturnStatementParsingStrategy
     {
-        tokenStream.Consume(TokenType.Return);
-        
-        if (tokenStream.Match(TokenType.Semicolon))
+        public ReturnStatement Parse(IParser parser, ITokenStream tokenStream)
         {
-            return new ReturnStatement();
+            tokenStream.Consume(TokenType.Return);
+        
+            if (tokenStream.Match(TokenType.Semicolon))
+            {
+                return new ReturnStatement();
+            }
+        
+            var expression = parser.ParseExpression(tokenStream);
+        
+            tokenStream.Consume(TokenType.Semicolon);
+        
+            return new ReturnStatement { Expression = expression };
         }
-        
-        var expression = parser.ParseExpression(tokenStream);
-        
-        tokenStream.Consume(TokenType.Semicolon);
-        
-        return new ReturnStatement { Expression = expression };
     }
 }

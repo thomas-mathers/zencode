@@ -1,3 +1,4 @@
-﻿namespace ZenCode.Parser.Model.Grammar.Statements;
-
-public record Statement;
+﻿namespace ZenCode.Parser.Model.Grammar.Statements
+{
+    public record Statement;
+}

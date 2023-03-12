@@ -7,37 +7,38 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Tests.Expressions.Strategies;
-
-public class ParenthesisParsingStrategyTests
+namespace ZenCode.Parser.Tests.Expressions.Strategies
 {
-    private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IParser> _parserMock = new();
-    private readonly ParenthesisParsingStrategy _sut;
-
-    public ParenthesisParsingStrategyTests()
+    public class ParenthesisParsingStrategyTests
     {
-        _sut = new ParenthesisParsingStrategy();
-    }
+        private readonly Fixture _fixture = new();
+        private readonly Mock<ITokenStream> _tokenStreamMock = new();
+        private readonly Mock<IParser> _parserMock = new();
+        private readonly ParenthesisParsingStrategy _sut;
 
-    [Fact]
-    public void Parse_ParenthesizedExpression_ReturnsConstantExpression()
-    {
-        // Arrange
-        var expected = _fixture.Create<Expression>();
+        public ParenthesisParsingStrategyTests()
+        {
+            _sut = new ParenthesisParsingStrategy();
+        }
 
-        _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .Returns(expected);
+        [Fact]
+        public void Parse_ParenthesizedExpression_ReturnsConstantExpression()
+        {
+            // Arrange
+            var expected = _fixture.Create<Expression>();
 
-        // Act
-        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+            _parserMock
+                .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+                .Returns(expected);
 
-        // Assert
-        Assert.Equal(expected, actual);
+            // Act
+            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+
+            // Assert
+            Assert.Equal(expected, actual);
         
-        _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftParenthesis));
-        _tokenStreamMock.Verify(x => x.Consume(TokenType.RightParenthesis));
+            _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftParenthesis));
+            _tokenStreamMock.Verify(x => x.Consume(TokenType.RightParenthesis));
+        }
     }
 }

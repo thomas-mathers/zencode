@@ -1,14 +1,15 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Model.Types;
+using ZenCode.Parser.Model.Grammar.Types;
 
-namespace ZenCode.Parser.Types.Strategies;
-
-public class IntegerTypeParsingStrategy
+namespace ZenCode.Parser.Types.Strategies
 {
-    public IntegerType Parse(ITokenStream tokenStream)
+    public class IntegerTypeParsingStrategy : IIntegerTypeParsingStrategy
     {
-        tokenStream.Consume(TokenType.Integer);
-        return new IntegerType();
+        public IntegerType Parse(ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.Integer);
+            return new IntegerType();
+        }
     }
 }

@@ -1,9 +1,10 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Abstractions.Expressions;
-
-public interface IExpressionParser
+namespace ZenCode.Parser.Abstractions.Expressions
 {
-    Expression ParseExpression(IParser parser, ITokenStream tokenStream, int precedence);
+    public interface IExpressionParser
+    {
+        Expression ParseExpression(IParser parser, ITokenStream tokenStream, int precedence);
+    }
 }

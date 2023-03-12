@@ -4,136 +4,136 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements;
 using ZenCode.Parser.Abstractions.Types;
-using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
-using Type = ZenCode.Parser.Model.Types.Type;
+using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
-namespace ZenCode.Parser;
-
-public class Parser : IParser
+namespace ZenCode.Parser
 {
-    private readonly IExpressionParser _expressionParser;
-    private readonly IStatementParser _statementParser;
-    private readonly ITypeParser _typeParser;
-
-    public Parser(
-        IExpressionParser expressionParser,
-        IStatementParser statementParser,
-        ITypeParser typeParser)
+    public class Parser : IParser
     {
-        _expressionParser = expressionParser;
-        _statementParser = statementParser;
-        _typeParser = typeParser;
-    }
-    
-    public Program ParseProgram(ITokenStream tokenStream)
-    {
-        var statements = new List<Statement>();
+        private readonly IExpressionParser _expressionParser;
+        private readonly IStatementParser _statementParser;
+        private readonly ITypeParser _typeParser;
 
-        while (tokenStream.Peek(0) != null)
+        public Parser(
+            IExpressionParser expressionParser,
+            IStatementParser statementParser,
+            ITypeParser typeParser)
         {
-            statements.Add(ParseStatement(tokenStream));
+            _expressionParser = expressionParser;
+            _statementParser = statementParser;
+            _typeParser = typeParser;
         }
-
-        return new Program(statements);
-    }
-
-    public Expression ParseExpression(ITokenStream tokenStream, int precedence = 0)
-    {
-        return _expressionParser.ParseExpression(this, tokenStream, precedence);
-    }
     
-    public AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream)
-    {
-        return _statementParser.ParseAssignmentStatement(this, tokenStream);
-    }
-    
-    public VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream)
-    {
-        return _statementParser.ParseVariableDeclarationStatement(this, tokenStream);
-    }
-    
-    public Statement ParseStatement(ITokenStream tokenStream)
-    {
-        return _statementParser.ParseStatement(this, tokenStream);
-    }
-
-    public Type ParseType(ITokenStream tokenStream, int precedence = 0)
-    {
-        return _typeParser.ParseType(tokenStream);
-    }
-
-    public ExpressionList ParseExpressionList(ITokenStream tokenStream)
-    {
-        var expressions = new List<Expression>();
-
-        while (true)
+        public Program ParseProgram(ITokenStream tokenStream)
         {
-            expressions.Add(ParseExpression(tokenStream));
+            var statements = new List<Statement>();
 
-            if (!tokenStream.Match(TokenType.Comma))
+            while (tokenStream.Peek(0) != null)
             {
-                break;
+                statements.Add(ParseStatement(tokenStream));
             }
 
-            tokenStream.Consume(TokenType.Comma);
+            return new Program(statements);
         }
 
-        return new ExpressionList { Expressions = expressions };
-    }
-    
-    public Scope ParseScope(ITokenStream tokenStream)
-    {
-        tokenStream.Consume(TokenType.LeftBrace);
-
-        var statements = new List<Statement>();
-
-        while (true)
+        public Expression ParseExpression(ITokenStream tokenStream, int precedence = 0)
         {
-            if (tokenStream.Match(TokenType.RightBrace))
+            return _expressionParser.ParseExpression(this, tokenStream, precedence);
+        }
+    
+        public AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream)
+        {
+            return _statementParser.ParseAssignmentStatement(this, tokenStream);
+        }
+    
+        public VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream)
+        {
+            return _statementParser.ParseVariableDeclarationStatement(this, tokenStream);
+        }
+    
+        public Statement ParseStatement(ITokenStream tokenStream)
+        {
+            return _statementParser.ParseStatement(this, tokenStream);
+        }
+
+        public Type ParseType(ITokenStream tokenStream, int precedence = 0)
+        {
+            return _typeParser.ParseType(tokenStream);
+        }
+
+        public ExpressionList ParseExpressionList(ITokenStream tokenStream)
+        {
+            var expressions = new List<Expression>();
+
+            while (true)
             {
-                tokenStream.Consume(TokenType.RightBrace);
-                break;
+                expressions.Add(ParseExpression(tokenStream));
+
+                if (!tokenStream.Match(TokenType.Comma))
+                {
+                    break;
+                }
+
+                tokenStream.Consume(TokenType.Comma);
             }
+
+            return new ExpressionList { Expressions = expressions };
+        }
+    
+        public Scope ParseScope(ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.LeftBrace);
+
+            var statements = new List<Statement>();
+
+            while (true)
+            {
+                if (tokenStream.Match(TokenType.RightBrace))
+                {
+                    tokenStream.Consume(TokenType.RightBrace);
+                    break;
+                }
                 
-            statements.Add(ParseStatement(tokenStream));
-        }
-
-        return new Scope { Statements = statements };
-    }
-
-    public ConditionScope ParseConditionScope(ITokenStream tokenStream)
-    {
-        var condition = ParseExpression(tokenStream);
-        var scope = ParseScope(tokenStream);
-
-        return new ConditionScope(condition, scope);
-    }
-
-    public ParameterList ParseParameterList(ITokenStream tokenStream)
-    {
-        var parameters = new List<Parameter>();
-
-        while (true)
-        {
-            var identifier = tokenStream.Consume(TokenType.Identifier);
-
-            tokenStream.Consume(TokenType.Colon);
-
-            var type = ParseType(tokenStream);
-
-            parameters.Add(new Parameter(identifier, type));
-
-            if (!tokenStream.Match(TokenType.Comma))
-            {
-                break;
+                statements.Add(ParseStatement(tokenStream));
             }
 
-            tokenStream.Consume(TokenType.Comma);
+            return new Scope { Statements = statements };
         }
 
-        return new ParameterList { Parameters = parameters };
+        public ConditionScope ParseConditionScope(ITokenStream tokenStream)
+        {
+            var condition = ParseExpression(tokenStream);
+            var scope = ParseScope(tokenStream);
+
+            return new ConditionScope(condition, scope);
+        }
+
+        public ParameterList ParseParameterList(ITokenStream tokenStream)
+        {
+            var parameters = new List<Parameter>();
+
+            while (true)
+            {
+                var identifier = tokenStream.Consume(TokenType.Identifier);
+
+                tokenStream.Consume(TokenType.Colon);
+
+                var type = ParseType(tokenStream);
+
+                parameters.Add(new Parameter(identifier, type));
+
+                if (!tokenStream.Match(TokenType.Comma))
+                {
+                    break;
+                }
+
+                tokenStream.Consume(TokenType.Comma);
+            }
+
+            return new ParameterList { Parameters = parameters };
+        }
     }
 }

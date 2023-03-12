@@ -4,41 +4,42 @@ using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Model;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
 
-namespace ZenCode.Parser.Tests.Statements.Strategies;
-
-public class WhileStatementParsingStrategyTests
+namespace ZenCode.Parser.Tests.Statements.Strategies
 {
-    private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IParser> _parserMock = new();
-    private readonly WhileStatementParsingStrategy _sut;
-
-    public WhileStatementParsingStrategyTests()
+    public class WhileStatementParsingStrategyTests
     {
-        _sut = new WhileStatementParsingStrategy();
-    }
+        private readonly Fixture _fixture = new();
+        private readonly Mock<ITokenStream> _tokenStreamMock = new();
+        private readonly Mock<IParser> _parserMock = new();
+        private readonly WhileStatementParsingStrategy _sut;
 
-    [Fact]
-    public void Parse_ValidInput_ReturnsWhileStatement()
-    {
-        // Arrange
-        var conditionScope = _fixture.Create<ConditionScope>();
-        var expected = new WhileStatement(conditionScope);
+        public WhileStatementParsingStrategyTests()
+        {
+            _sut = new WhileStatementParsingStrategy();
+        }
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-            .Returns(conditionScope);
+        [Fact]
+        public void Parse_ValidInput_ReturnsWhileStatement()
+        {
+            // Arrange
+            var conditionScope = _fixture.Create<ConditionScope>();
+            var expected = new WhileStatement(conditionScope);
 
-        // Act
-        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+            _parserMock
+                .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+                .Returns(conditionScope);
 
-        // Assert
-        Assert.Equal(expected, actual);
+            // Act
+            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+
+            // Assert
+            Assert.Equal(expected, actual);
         
-        _tokenStreamMock.Verify(x => x.Consume(TokenType.While));
+            _tokenStreamMock.Verify(x => x.Consume(TokenType.While));
+        }
     }
 }

@@ -1,6 +1,7 @@
-namespace ZenCode.Lexer.Abstractions;
-
-public interface ITokenizerFactory
+namespace ZenCode.Lexer.Abstractions
 {
-    ITokenizer Create();
+    public interface ITokenizerFactory
+    {
+        ITokenizer Create();
+    }
 }

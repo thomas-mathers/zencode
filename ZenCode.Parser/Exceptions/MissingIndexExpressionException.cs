@@ -1,5 +1,6 @@
-namespace ZenCode.Parser.Exceptions;
-
-public class MissingIndexExpressionException : Exception
+namespace ZenCode.Parser.Exceptions
 {
+    public class MissingIndexExpressionException : Exception
+    {
+    }
 }

@@ -3,15 +3,16 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Expressions.Strategies;
-
-public class ParenthesisParsingStrategy
+namespace ZenCode.Parser.Expressions.Strategies
 {
-    public Expression Parse(IParser parser, ITokenStream tokenStream)
+    public class ParenthesisParsingStrategy : IParenthesisParsingStrategy
     {
-        tokenStream.Consume(TokenType.LeftParenthesis);
-        var innerExpression = parser.ParseExpression(tokenStream);
-        tokenStream.Consume(TokenType.RightParenthesis);
-        return innerExpression;
+        public Expression Parse(IParser parser, ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.LeftParenthesis);
+            var innerExpression = parser.ParseExpression(tokenStream);
+            tokenStream.Consume(TokenType.RightParenthesis);
+            return innerExpression;
+        }
     }
 }

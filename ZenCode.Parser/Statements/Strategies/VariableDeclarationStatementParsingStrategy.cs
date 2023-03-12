@@ -3,20 +3,21 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Statements.Strategies;
-
-public class VariableDeclarationStatementParsingStrategy
+namespace ZenCode.Parser.Statements.Strategies
 {
-    public VariableDeclarationStatement Parse(IParser parser, ITokenStream tokenStream)
+    public class VariableDeclarationStatementParsingStrategy : IVariableDeclarationStatementParsingStrategy
     {
-        tokenStream.Consume(TokenType.Var);
+        public VariableDeclarationStatement Parse(IParser parser, ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.Var);
 
-        var identifier = tokenStream.Consume(TokenType.Identifier);
+            var identifier = tokenStream.Consume(TokenType.Identifier);
 
-        tokenStream.Consume(TokenType.Assignment);
+            tokenStream.Consume(TokenType.Assignment);
 
-        var expression = parser.ParseExpression(tokenStream);
+            var expression = parser.ParseExpression(tokenStream);
 
-        return new VariableDeclarationStatement(identifier, expression);
+            return new VariableDeclarationStatement(identifier, expression);
+        }
     }
 }

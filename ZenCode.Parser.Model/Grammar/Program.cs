@@ -1,16 +1,17 @@
 ﻿using ZenCode.Parser.Model.Grammar.Statements;
 
-namespace ZenCode.Parser.Model.Grammar;
-
-public record Program(IReadOnlyList<Statement> Statements)
+namespace ZenCode.Parser.Model.Grammar
 {
-    public virtual bool Equals(Program? other)
+    public record Program(IReadOnlyList<Statement> Statements)
     {
-        return other != null && Statements.SequenceEqual(other.Statements);
-    }
+        public virtual bool Equals(Program? other)
+        {
+            return other != null && Statements.SequenceEqual(other.Statements);
+        }
 
-    public override int GetHashCode()
-    {
-        return Statements.GetHashCode();
+        public override int GetHashCode()
+        {
+            return Statements.GetHashCode();
+        }
     }
 }

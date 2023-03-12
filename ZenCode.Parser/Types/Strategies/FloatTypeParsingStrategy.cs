@@ -1,14 +1,15 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Model.Types;
+using ZenCode.Parser.Model.Grammar.Types;
 
-namespace ZenCode.Parser.Types.Strategies;
-
-public class FloatTypeParsingStrategy
+namespace ZenCode.Parser.Types.Strategies
 {
-    public FloatType Parse(ITokenStream tokenStream)
+    public class FloatTypeParsingStrategy : IFloatTypeParsingStrategy
     {
-        tokenStream.Consume(TokenType.Float);
-        return new FloatType();
+        public FloatType Parse(ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.Float);
+            return new FloatType();
+        }
     }
 }

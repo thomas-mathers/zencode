@@ -3,17 +3,18 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Expressions.Strategies;
-
-public class BinaryExpressionParsingStrategy
+namespace ZenCode.Parser.Expressions.Strategies
 {
-    public BinaryExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand,
-        TokenType operatorTokenType, int precedence, bool isRightAssociative)
+    public class BinaryExpressionParsingStrategy : IBinaryExpressionParsingStrategy
     {
-        var operatorToken = tokenStream.Consume(operatorTokenType);
+        public BinaryExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand,
+            TokenType operatorTokenType, int precedence, bool isRightAssociative)
+        {
+            var operatorToken = tokenStream.Consume(operatorTokenType);
 
-        var rOperand = parser.ParseExpression(tokenStream, isRightAssociative ? precedence - 1 : precedence);
+            var rOperand = parser.ParseExpression(tokenStream, isRightAssociative ? precedence - 1 : precedence);
 
-        return new BinaryExpression(lOperand, operatorToken, rOperand);
+            return new BinaryExpression(lOperand, operatorToken, rOperand);
+        }
     }
 }

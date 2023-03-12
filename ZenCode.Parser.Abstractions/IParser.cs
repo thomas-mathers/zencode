@@ -1,22 +1,22 @@
 ﻿using ZenCode.Lexer.Abstractions;
-using ZenCode.Parser.Model;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
-using Type = ZenCode.Parser.Model.Types.Type;
+using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
-namespace ZenCode.Parser.Abstractions;
-
-public interface IParser
+namespace ZenCode.Parser.Abstractions
 {
-    Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
-    ExpressionList ParseExpressionList(ITokenStream tokenStream);
-    AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream);
-    VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream);
-    Statement ParseStatement(ITokenStream tokenStream);
-    Type ParseType(ITokenStream tokenStream, int precedence = 0);
-    ConditionScope ParseConditionScope(ITokenStream tokenStream);
-    ParameterList ParseParameterList(ITokenStream tokenStream);
-    Scope ParseScope(ITokenStream tokenStream);
-    Program ParseProgram(ITokenStream tokenStream);
+    public interface IParser
+    {
+        Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
+        ExpressionList ParseExpressionList(ITokenStream tokenStream);
+        AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream);
+        VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream);
+        Statement ParseStatement(ITokenStream tokenStream);
+        Type ParseType(ITokenStream tokenStream, int precedence = 0);
+        ConditionScope ParseConditionScope(ITokenStream tokenStream);
+        ParameterList ParseParameterList(ITokenStream tokenStream);
+        Scope ParseScope(ITokenStream tokenStream);
+        Program ParseProgram(ITokenStream tokenStream);
+    }
 }

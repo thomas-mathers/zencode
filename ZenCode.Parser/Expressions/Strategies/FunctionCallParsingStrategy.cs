@@ -1,23 +1,24 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Model;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Expressions.Strategies;
-
-public class FunctionCallParsingStrategy
+namespace ZenCode.Parser.Expressions.Strategies
 {
-    public FunctionCallExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand)
+    public class FunctionCallParsingStrategy : IFunctionCallParsingStrategy
     {
-        tokenStream.Consume(TokenType.LeftParenthesis);
+        public FunctionCallExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand)
+        {
+            tokenStream.Consume(TokenType.LeftParenthesis);
 
-        var arguments = tokenStream.Match(TokenType.RightParenthesis)
-            ? new ExpressionList()
-            : parser.ParseExpressionList(tokenStream);
+            var arguments = tokenStream.Match(TokenType.RightParenthesis)
+                ? new ExpressionList()
+                : parser.ParseExpressionList(tokenStream);
 
-        tokenStream.Consume(TokenType.RightParenthesis);
+            tokenStream.Consume(TokenType.RightParenthesis);
 
-        return new FunctionCallExpression(lOperand) { Arguments = arguments };
+            return new FunctionCallExpression(lOperand) { Arguments = arguments };
+        }
     }
 }

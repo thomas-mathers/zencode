@@ -7,43 +7,44 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
-namespace ZenCode.Parser.Tests.Expressions.Strategies;
-
-public class NewExpressionParsingStrategyTests
+namespace ZenCode.Parser.Tests.Expressions.Strategies
 {
-    private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
-    private readonly Mock<IParser> _parserMock = new();
-    private readonly NewExpressionParsingStrategy _sut;
+    public class NewExpressionParsingStrategyTests
+    {
+        private readonly Fixture _fixture = new();
+        private readonly Mock<ITokenStream> _tokenStreamMock = new();
+        private readonly Mock<IParser> _parserMock = new();
+        private readonly NewExpressionParsingStrategy _sut;
     
     
-    public NewExpressionParsingStrategyTests()
-    {
-        _sut = new NewExpressionParsingStrategy();
-    }
+        public NewExpressionParsingStrategyTests()
+        {
+            _sut = new NewExpressionParsingStrategy();
+        }
 
-    [Fact]
-    public void Parse_AnyTypeAnyExpressionList_ReturnsNewExpression()
-    {
-        // Arrange
-        var expected = _fixture.Create<NewExpression>();
+        [Fact]
+        public void Parse_AnyTypeAnyExpressionList_ReturnsNewExpression()
+        {
+            // Arrange
+            var expected = _fixture.Create<NewExpression>();
 
-        _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
-            .Returns(expected.Type);
+            _parserMock
+                .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
+                .Returns(expected.Type);
 
-        _parserMock
-            .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
-            .Returns(expected.ExpressionList);
+            _parserMock
+                .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
+                .Returns(expected.ExpressionList);
 
-        // Act
-        var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
+            // Act
+            var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
         
-        // Assert
-        Assert.Equal(expected, actual);
+            // Assert
+            Assert.Equal(expected, actual);
         
-        _tokenStreamMock.Verify(x => x.Consume(TokenType.New));
-        _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftBracket));
-        _tokenStreamMock.Verify(x => x.Consume(TokenType.RightBracket));
+            _tokenStreamMock.Verify(x => x.Consume(TokenType.New));
+            _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftBracket));
+            _tokenStreamMock.Verify(x => x.Consume(TokenType.RightBracket));
+        }
     }
 }

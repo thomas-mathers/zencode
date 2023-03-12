@@ -1,14 +1,15 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
-using ZenCode.Parser.Model.Types;
+using ZenCode.Parser.Model.Grammar.Types;
 
-namespace ZenCode.Parser.Types.Strategies;
-
-public class VoidTypeParsingStrategy
+namespace ZenCode.Parser.Types.Strategies
 {
-    public VoidType Parse(ITokenStream tokenStream)
+    public class VoidTypeParsingStrategy : IVoidTypeParsingStrategy
     {
-        tokenStream.Consume(TokenType.Void);
-        return new VoidType();
+        public VoidType Parse(ITokenStream tokenStream)
+        {
+            tokenStream.Consume(TokenType.Void);
+            return new VoidType();
+        }
     }
 }
