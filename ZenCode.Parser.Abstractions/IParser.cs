@@ -8,6 +8,7 @@ namespace ZenCode.Parser.Abstractions;
 
 public interface IParser
 {
+    VariableReferenceExpression ParseVariableReferenceExpression(ITokenStream tokenStream);
     Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
     ExpressionList ParseExpressionList(ITokenStream tokenStream);
     AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream);

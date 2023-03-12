@@ -47,6 +47,11 @@ public class Parser : IParser
     {
         return _expressionParser.ParseExpression(this, tokenStream, precedence);
     }
+    
+    public VariableReferenceExpression ParseVariableReferenceExpression(ITokenStream tokenStream)
+    {
+        return _expressionParser.ParseVariableReferenceExpression(this, tokenStream);
+    }
 
     public AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream)
     {

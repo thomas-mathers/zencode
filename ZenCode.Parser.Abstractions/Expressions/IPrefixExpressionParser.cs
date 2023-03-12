@@ -6,4 +6,5 @@ namespace ZenCode.Parser.Abstractions.Expressions;
 public interface IPrefixExpressionParser
 {
     Expression ParsePrefixExpression(IParser parser, ITokenStream tokenStream);
+    VariableReferenceExpression ParseVariableReferenceExpression(IParser parser, ITokenStream tokenStream);
 }

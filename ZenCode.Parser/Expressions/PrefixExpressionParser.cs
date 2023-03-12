@@ -49,6 +49,11 @@ public class PrefixExpressionParser : IPrefixExpressionParser
             _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
         };
     }
+    
+    public VariableReferenceExpression ParseVariableReferenceExpression(IParser parser, ITokenStream tokenStream)
+    {
+        return _variableReferenceParsingStrategy.Parse(parser, tokenStream);
+    }
 
     private AnonymousFunctionDeclarationExpression ParseAnonymousFunctionDeclarationExpression(IParser parser,
         ITokenStream tokenStream)
@@ -89,10 +94,5 @@ public class PrefixExpressionParser : IPrefixExpressionParser
     private UnaryExpression ParseUnaryExpression(IParser parser, ITokenStream tokenStream, TokenType tokenType)
     {
         return _unaryExpressionParsingStrategy.Parse(parser, tokenStream, tokenType);
-    }
-
-    private VariableReferenceExpression ParseVariableReferenceExpression(IParser parser, ITokenStream tokenStream)
-    {
-        return _variableReferenceParsingStrategy.Parse(parser, tokenStream);
     }
 }

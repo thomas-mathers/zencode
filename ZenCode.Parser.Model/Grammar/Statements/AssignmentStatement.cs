@@ -3,4 +3,4 @@
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
 public record AssignmentStatement
-    (Expression VariableReferenceExpression, Expression Expression) : Statement;
+    (VariableReferenceExpression VariableReferenceExpression, Expression Expression) : Statement;

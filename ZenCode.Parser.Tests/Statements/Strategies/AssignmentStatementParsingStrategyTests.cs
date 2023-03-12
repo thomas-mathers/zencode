@@ -4,10 +4,8 @@ using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
-using ZenCode.Parser.Tests.Extensions;
 
 namespace ZenCode.Parser.Tests.Statements.Strategies;
 
@@ -27,16 +25,15 @@ public class AssignmentStatementParsingStrategyTests
     public void Parse_AssignmentToConstant_ReturnsAssignmentStatement()
     {
         // Arrange
-        var variableReferenceExpression = _fixture.Create<VariableReferenceExpression>();
-        var expression = _fixture.Create<Expression>();
-        
-        var expected = new AssignmentStatement(
-            variableReferenceExpression,
-            expression);
+        var expected = _fixture.Create<AssignmentStatement>();
 
         _parserMock
+            .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
+            .Returns(expected.VariableReferenceExpression);
+        
+        _parserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .ReturnsSequence(variableReferenceExpression, expression);
+            .Returns(expected.Expression);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

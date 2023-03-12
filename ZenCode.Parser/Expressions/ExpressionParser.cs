@@ -30,4 +30,9 @@ public class ExpressionParser : IExpressionParser
 
         return lExpression;
     }
+
+    public VariableReferenceExpression ParseVariableReferenceExpression(IParser parser, ITokenStream tokenStream)
+    {
+        return _prefixExpressionParser.ParseVariableReferenceExpression(parser, tokenStream);
+    }
 }
