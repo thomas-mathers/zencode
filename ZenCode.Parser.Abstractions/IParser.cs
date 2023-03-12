@@ -14,7 +14,8 @@ public interface IParser
     AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream);
     VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream);
     Statement ParseStatement(ITokenStream tokenStream);
-    Type ParseType(ITokenStream tokenStream, int precedence = 0);
+    Type ParseType(ITokenStream tokenStream);
+    TypeList ParseTypeList(ITokenStream tokenStream);
     ConditionScope ParseConditionScope(ITokenStream tokenStream);
     ParameterList ParseParameterList(ITokenStream tokenStream);
     Scope ParseScope(ITokenStream tokenStream);

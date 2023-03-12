@@ -1,6 +1,7 @@
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Types;
 using ZenCode.Parser.Model.Grammar.Types;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
@@ -14,31 +15,35 @@ public class TypeParser : ITypeParser
     private readonly IIntegerTypeParsingStrategy _integerTypeParsingStrategy;
     private readonly IStringTypeParsingStrategy _stringTypeParsingStrategy;
     private readonly IVoidTypeParsingStrategy _voidTypeParsingStrategy;
-    
+    private readonly IArrayTypeParsingStrategy _arrayTypeParsingStrategy;
+    private readonly IFunctionTypeParsingStrategy _functionTypeParsingStrategy;
+
     public TypeParser(
         IBooleanTypeParsingStrategy booleanTypeParsingStrategy,
         IFloatTypeParsingStrategy floatTypeParsingStrategy,
         IIntegerTypeParsingStrategy integerTypeParsingStrategy,
         IStringTypeParsingStrategy stringTypeParsingStrategy,
-        IVoidTypeParsingStrategy voidTypeParsingStrategy)
+        IVoidTypeParsingStrategy voidTypeParsingStrategy,
+        IArrayTypeParsingStrategy arrayTypeParsingStrategy, 
+        IFunctionTypeParsingStrategy functionTypeParsingStrategy)
     {
         _booleanTypeParsingStrategy = booleanTypeParsingStrategy;
         _floatTypeParsingStrategy = floatTypeParsingStrategy;
         _integerTypeParsingStrategy = integerTypeParsingStrategy;
         _stringTypeParsingStrategy = stringTypeParsingStrategy;
         _voidTypeParsingStrategy = voidTypeParsingStrategy;
+        _arrayTypeParsingStrategy = arrayTypeParsingStrategy;
+        _functionTypeParsingStrategy = functionTypeParsingStrategy;
     }
     
-    public Type ParseType(ITokenStream tokenStream, int precedence = 0)
+    public Type ParseType(IParser parser, ITokenStream tokenStream)
     {
-        var type = ParsePrefixType(tokenStream);
+        var type = ParsePrefixType(parser, tokenStream);
 
-        while (tokenStream.Peek(0)?.Type == TokenType.LeftBracket && tokenStream.Peek(1)?.Type == TokenType.RightBracket)
+        while (tokenStream.Peek(0)?.Type == TokenType.LeftBracket && 
+               tokenStream.Peek(1)?.Type == TokenType.RightBracket)
         {
-            tokenStream.Consume(TokenType.LeftBracket);
-            tokenStream.Consume(TokenType.RightBracket);
-            
-            type = new ArrayType(type);
+            type = _arrayTypeParsingStrategy.Parse(tokenStream, type);
         }
 
         return type;
@@ -68,8 +73,13 @@ public class TypeParser : ITypeParser
     {
         return _voidTypeParsingStrategy.Parse(tokenStream);
     }
+    
+    private FunctionType ParseFunctionType(IParser parser, ITokenStream tokenStream)
+    {
+        return _functionTypeParsingStrategy.Parse(parser, tokenStream);
+    }
 
-    private Type ParsePrefixType(ITokenStream tokenStream) =>
+    private Type ParsePrefixType(IParser parser, ITokenStream tokenStream) =>
         tokenStream.Current.Type switch
         {
             TokenType.Boolean => ParseBooleanType(tokenStream),
@@ -77,6 +87,7 @@ public class TypeParser : ITypeParser
             TokenType.Integer => ParseIntegerType(tokenStream),
             TokenType.String => ParseStringType(tokenStream),
             TokenType.Void => ParseVoidType(tokenStream),
+            TokenType.LeftParenthesis => ParseFunctionType(parser, tokenStream),
             _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
-        };    
+        };
 }

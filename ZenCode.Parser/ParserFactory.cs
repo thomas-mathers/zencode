@@ -44,8 +44,11 @@ public class ParserFactory
                 new FloatTypeParsingStrategy(), 
                 new IntegerTypeParsingStrategy(), 
                 new StringTypeParsingStrategy(), 
-                new VoidTypeParsingStrategy()
-            )
+                new VoidTypeParsingStrategy(),
+                new ArrayTypeParsingStrategy(),
+                new FunctionTypeParsingStrategy()
+            ),
+            new TypeListParser()
         );
 
         return parser;

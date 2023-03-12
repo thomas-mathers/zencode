@@ -29,7 +29,7 @@ public class NewExpressionParsingStrategyTests
         var expected = _fixture.Create<NewExpression>();
 
         _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
             .Returns(expected.Type);
 
         _parserMock

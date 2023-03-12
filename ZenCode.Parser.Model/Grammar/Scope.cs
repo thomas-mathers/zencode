@@ -13,6 +13,6 @@ public record Scope
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(base.GetHashCode(), Statements);
+        return Statements.GetHashCode();
     }
 }

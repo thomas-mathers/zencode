@@ -27,7 +27,7 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
         var expected = _fixture.Create<AnonymousFunctionDeclarationExpression>();
 
         _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
             .Returns(expected.ReturnType);
         
         _parserMock

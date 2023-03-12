@@ -18,10 +18,16 @@ public class Parser : IParser
     private readonly IScopeParser _scopeParser;
     private readonly IStatementParser _statementParser;
     private readonly ITypeParser _typeParser;
+    private readonly ITypeListParser _typeListParser;
 
-    public Parser(IExpressionListParser expressionListParser, IExpressionParser expressionParser,
-        IParameterListParser parameterListParser, IScopeParser scopeParser, IStatementParser statementParser,
-        ITypeParser typeParser)
+    public Parser(
+        IExpressionListParser expressionListParser, 
+        IExpressionParser expressionParser,
+        IParameterListParser parameterListParser, 
+        IScopeParser scopeParser, 
+        IStatementParser statementParser,
+        ITypeParser typeParser,
+        ITypeListParser typeListParser)
     {
         _expressionListParser = expressionListParser;
         _expressionParser = expressionParser;
@@ -29,6 +35,7 @@ public class Parser : IParser
         _scopeParser = scopeParser;
         _statementParser = statementParser;
         _typeParser = typeParser;
+        _typeListParser = typeListParser;
     }
 
     public Program ParseProgram(ITokenStream tokenStream)
@@ -68,9 +75,14 @@ public class Parser : IParser
         return _statementParser.ParseStatement(this, tokenStream);
     }
 
-    public Type ParseType(ITokenStream tokenStream, int precedence = 0)
+    public Type ParseType(ITokenStream tokenStream)
     {
-        return _typeParser.ParseType(tokenStream);
+        return _typeParser.ParseType(this, tokenStream);
+    }
+
+    public TypeList ParseTypeList(ITokenStream tokenStream)
+    {
+        return _typeListParser.ParseTypeList(this, tokenStream);
     }
 
     public ExpressionList ParseExpressionList(ITokenStream tokenStream)

@@ -13,6 +13,6 @@ public record ExpressionList
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(base.GetHashCode(), Expressions);
+        return Expressions.GetHashCode();
     }
 }

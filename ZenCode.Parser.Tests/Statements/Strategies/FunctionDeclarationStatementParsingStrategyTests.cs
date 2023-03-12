@@ -38,7 +38,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
             .Returns(true);
 
         _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
             .Returns(type);
 
         _parserMock
@@ -68,7 +68,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
             .Returns(false);
 
         _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object, 0))
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
             .Returns(expected.ReturnType);
 
         _parserMock

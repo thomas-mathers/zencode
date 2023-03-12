@@ -5,5 +5,5 @@ namespace ZenCode.Parser.Abstractions.Types;
 
 public interface ITypeParser
 {
-    Type ParseType(ITokenStream tokenStream, int precedence = 0);
+    Type ParseType(IParser parser, ITokenStream tokenStream);
 }
