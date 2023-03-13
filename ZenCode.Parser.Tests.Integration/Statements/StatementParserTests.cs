@@ -391,6 +391,42 @@ public class StatementParserTests
     }
 
     [Fact]
+    public void Parse_Break_ReturnsBreakStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Break),
+        });
+
+        var expectedStatement = new BreakStatement();
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+    
+    [Fact]
+    public void Parse_Continue_ReturnsBreakStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Continue),
+        });
+
+        var expectedStatement = new ContinueStatement();
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+    
+    [Fact]
     public void Parse_ForStatement_ReturnsForStatement()
     {
         // Arrange
@@ -810,6 +846,56 @@ public class StatementParserTests
         });
 
         var expectedStatement = new PrintStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+    
+    [Fact]
+    public void Parse_ReadIntoVariable_ReturnsReadStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Read),
+            new Token(TokenType.Identifier)
+        });
+
+        var expectedStatement = new ReadStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+
+        // Act
+        var actualStatement = _sut.ParseStatement(tokenStream);
+
+        // Assert
+        Assert.Equal(expectedStatement, actualStatement);
+    }
+    
+    [Fact]
+    public void Parse_ReadIntoArrayElement_ReturnsReadStatement()
+    {
+        // Arrange
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Read),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBracket),
+        });
+
+        var expectedStatement = new ReadStatement(new VariableReferenceExpression(new Token(TokenType.Identifier))
+        {
+            Indices = new ExpressionList()
+            {
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            }
+        });
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

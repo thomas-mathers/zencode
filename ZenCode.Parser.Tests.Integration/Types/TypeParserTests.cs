@@ -284,5 +284,4 @@ public class TypeParserTests
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
 }

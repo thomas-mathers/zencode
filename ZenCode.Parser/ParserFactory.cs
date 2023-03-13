@@ -31,10 +31,13 @@ public class ParserFactory
             new ScopeParser(),
             new StatementParser(
                 new AssignmentStatementParsingStrategy(), 
+                new BreakStatementParsingStrategy(),
+                new ContinueStatementParsingStrategy(),
                 new ForStatementParsingStrategy(), 
                 new FunctionDeclarationStatementParsingStrategy(), 
                 new IfStatementParsingStrategy(), 
                 new PrintStatementParsingStrategy(), 
+                new ReadStatementParsingStrategy(),
                 new ReturnStatementParsingStrategy(), 
                 new VariableDeclarationStatementParsingStrategy(), 
                 new WhileStatementParsingStrategy()

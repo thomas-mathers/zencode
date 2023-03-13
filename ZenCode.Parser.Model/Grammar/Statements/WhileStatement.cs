@@ -1,3 +1,3 @@
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
-public record WhileStatement(ConditionScope ConditionScope) : Statement;
+public record WhileStatement(ConditionScope ConditionScope) : CompoundStatement;

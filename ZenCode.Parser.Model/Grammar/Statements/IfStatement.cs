@@ -1,6 +1,6 @@
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
-public record IfStatement(ConditionScope ThenScope) : Statement
+public record IfStatement(ConditionScope ThenScope) : CompoundStatement
 {
     public IReadOnlyList<ConditionScope> ElseIfScopes { get; init; } = Array.Empty<ConditionScope>();
     public Scope? ElseScope { get; init; }
@@ -15,6 +15,6 @@ public record IfStatement(ConditionScope ThenScope) : Statement
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(base.GetHashCode(), ElseIfScopes, ElseScope, ThenScope);
+        return HashCode.Combine(ElseIfScopes, ElseScope, ThenScope);
     }
 }

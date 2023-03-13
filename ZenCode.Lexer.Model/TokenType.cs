@@ -2,13 +2,14 @@
 
 public enum TokenType
 {
-    Plus,
     And,
     Assignment,
     Boolean,
     BooleanLiteral,
+    Break,
     Colon,
     Comma,
+    Continue,
     Division,
     Else,
     ElseIf,
@@ -29,13 +30,16 @@ public enum TokenType
     LeftParenthesis,
     LessThan,
     LessThanOrEqual,
+    Minus,
     Modulus,
     Multiplication,
     New,
     Not,
     NotEquals,
     Or,
+    Plus,
     Print,
+    Read,
     Return,
     RightArrow,
     RightBrace,
@@ -44,8 +48,7 @@ public enum TokenType
     Semicolon,
     String,
     StringLiteral,
-    Minus,
     Var,
     Void,
-    While
+    While,
 }
