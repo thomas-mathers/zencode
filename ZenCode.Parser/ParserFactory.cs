@@ -12,45 +12,51 @@ public class ParserFactory
 {
     public IParser Create()
     {
+        var prefixExpressionParser = new PrefixExpressionParser(
+            new AnonymousFunctionDeclarationParsingStrategy(),
+            new LiteralParsingStrategy(),
+            new NewExpressionParsingStrategy(),
+            new ParenthesisParsingStrategy(),
+            new UnaryExpressionParsingStrategy(),
+            new VariableReferenceParsingStrategy()
+        );
+        
+        var infixExpressionParser = new InfixExpressionParser(
+            new BinaryExpressionParsingStrategy(), new FunctionCallParsingStrategy());
+        
+        var expressionParser = new ExpressionParser(prefixExpressionParser, infixExpressionParser);
+        
+        var statementParser = new StatementParser(
+            new AssignmentStatementParsingStrategy(), 
+            new BreakStatementParsingStrategy(),
+            new ContinueStatementParsingStrategy(),
+            new ForStatementParsingStrategy(), 
+            new FunctionDeclarationStatementParsingStrategy(), 
+            new IfStatementParsingStrategy(), 
+            new PrintStatementParsingStrategy(), 
+            new ReadStatementParsingStrategy(),
+            new ReturnStatementParsingStrategy(), 
+            new VariableDeclarationStatementParsingStrategy(), 
+            new WhileStatementParsingStrategy()
+        );
+        
+        var typeParser = new TypeParser(
+            new BooleanTypeParsingStrategy(), 
+            new FloatTypeParsingStrategy(), 
+            new IntegerTypeParsingStrategy(), 
+            new StringTypeParsingStrategy(), 
+            new VoidTypeParsingStrategy(),
+            new ArrayTypeParsingStrategy(),
+            new FunctionTypeParsingStrategy()
+        );
+        
         var parser = new Parser(
             new ExpressionListParser(),
-            new ExpressionParser(
-                new PrefixExpressionParser(
-                    new AnonymousFunctionDeclarationParsingStrategy(),
-                    new LiteralParsingStrategy(),
-                    new NewExpressionParsingStrategy(),
-                    new ParenthesisParsingStrategy(),
-                    new UnaryExpressionParsingStrategy(),
-                    new VariableReferenceParsingStrategy()
-                ),
-                new InfixExpressionParser(
-                    new BinaryExpressionParsingStrategy(), 
-                    new FunctionCallParsingStrategy())
-            ),
+            expressionParser,
             new ParameterListParser(),
             new ScopeParser(),
-            new StatementParser(
-                new AssignmentStatementParsingStrategy(), 
-                new BreakStatementParsingStrategy(),
-                new ContinueStatementParsingStrategy(),
-                new ForStatementParsingStrategy(), 
-                new FunctionDeclarationStatementParsingStrategy(), 
-                new IfStatementParsingStrategy(), 
-                new PrintStatementParsingStrategy(), 
-                new ReadStatementParsingStrategy(),
-                new ReturnStatementParsingStrategy(), 
-                new VariableDeclarationStatementParsingStrategy(), 
-                new WhileStatementParsingStrategy()
-            ),
-            new TypeParser(
-                new BooleanTypeParsingStrategy(), 
-                new FloatTypeParsingStrategy(), 
-                new IntegerTypeParsingStrategy(), 
-                new StringTypeParsingStrategy(), 
-                new VoidTypeParsingStrategy(),
-                new ArrayTypeParsingStrategy(),
-                new FunctionTypeParsingStrategy()
-            ),
+            statementParser,
+            typeParser,
             new TypeListParser()
         );
 
