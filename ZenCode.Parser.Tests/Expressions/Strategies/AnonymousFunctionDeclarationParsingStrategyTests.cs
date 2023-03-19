@@ -1,10 +1,14 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Grammar.Statements;
+using ZenCode.Parser.Tests.Mocks;
+using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
@@ -18,6 +22,16 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
     public AnonymousFunctionDeclarationParsingStrategyTests()
     {
         _sut = new AnonymousFunctionDeclarationParsingStrategy();
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Type),
+                typeof(TypeMock)));
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Statement),
+                typeof(StatementMock)));
     }
 
     [Fact]

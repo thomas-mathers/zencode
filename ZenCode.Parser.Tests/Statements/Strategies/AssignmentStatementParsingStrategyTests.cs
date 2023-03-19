@@ -1,11 +1,14 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
+using ZenCode.Parser.Tests.Mocks;
 
 namespace ZenCode.Parser.Tests.Statements.Strategies;
 
@@ -19,10 +22,15 @@ public class AssignmentStatementParsingStrategyTests
     public AssignmentStatementParsingStrategyTests()
     {
         _sut = new AssignmentStatementParsingStrategy();
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Expression),
+                typeof(ExpressionMock)));
     }
 
     [Fact]
-    public void Parse_AssignmentToConstant_ReturnsAssignmentStatement()
+    public void Parse_AssignmentToExpression_ReturnsAssignmentStatement()
     {
         // Arrange
         var expected = _fixture.Create<AssignmentStatement>();

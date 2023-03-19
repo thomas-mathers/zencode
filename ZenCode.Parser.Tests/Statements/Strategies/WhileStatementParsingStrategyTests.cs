@@ -1,12 +1,15 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
+using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
+using ZenCode.Parser.Tests.Mocks;
 
 namespace ZenCode.Parser.Tests.Statements.Strategies;
 
@@ -20,6 +23,16 @@ public class WhileStatementParsingStrategyTests
     public WhileStatementParsingStrategyTests()
     {
         _sut = new WhileStatementParsingStrategy();
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Expression),
+                typeof(ExpressionMock)));
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Statement),
+                typeof(StatementMock)));
     }
 
     [Fact]

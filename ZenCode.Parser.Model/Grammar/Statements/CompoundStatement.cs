@@ -1,3 +1,3 @@
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
-public record CompoundStatement : Statement;
+public abstract record CompoundStatement : Statement;

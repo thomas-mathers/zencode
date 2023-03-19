@@ -1,12 +1,15 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
+using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
+using ZenCode.Parser.Tests.Mocks;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Tests.Statements.Strategies;
@@ -22,6 +25,16 @@ public class FunctionDeclarationStatementParsingStrategyTests
     public FunctionDeclarationStatementParsingStrategyTests()
     {
         _sut = new FunctionDeclarationStatementParsingStrategy();
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Type),
+                typeof(TypeMock)));
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Statement),
+                typeof(StatementMock)));
     }
     
     [Fact]

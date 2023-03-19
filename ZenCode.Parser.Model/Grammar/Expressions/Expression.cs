@@ -2,4 +2,4 @@
 
 namespace ZenCode.Parser.Model.Grammar.Expressions;
 
-public record Expression : SimpleStatement;
+public abstract record Expression : SimpleStatement;

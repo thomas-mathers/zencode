@@ -1,4 +1,5 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
@@ -7,6 +8,7 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
+using ZenCode.Parser.Tests.Mocks;
 
 namespace ZenCode.Parser.Tests.Statements.Strategies;
 
@@ -16,6 +18,14 @@ public class ReadStatementParsingStrategyTests
     private readonly Mock<IParser> _parserMock = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly ReadStatementParsingStrategy _sut = new();
+
+    public ReadStatementParsingStrategyTests()
+    {
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Expression),
+                typeof(ExpressionMock)));
+    }
 
     [Fact]
     public void Parse_ReadStatement_ReturnsBreakStatement()

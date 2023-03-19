@@ -6,6 +6,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Tests.TestData;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
@@ -22,8 +23,8 @@ public class BinaryExpressionParsingStrategyTests
     public void Parse_ExpressionOpExpression_ReturnsBinaryExpression(TokenType operatorTokenType)
     {
         // Arrange
-        var lExpression = _fixture.Create<Expression>();
-        var rExpression = _fixture.Create<Expression>();
+        var lExpression = _fixture.Create<ExpressionMock>();
+        var rExpression = _fixture.Create<ExpressionMock>();
 
         var expected = new BinaryExpression(
             lExpression,

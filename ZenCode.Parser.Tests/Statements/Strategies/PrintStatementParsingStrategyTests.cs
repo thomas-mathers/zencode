@@ -1,11 +1,14 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Statements.Strategies;
+using ZenCode.Parser.Tests.Mocks;
 
 namespace ZenCode.Parser.Tests.Statements.Strategies;
 
@@ -19,6 +22,11 @@ public class PrintStatementParsingStrategyTests
     public PrintStatementParsingStrategyTests()
     {
         _sut = new PrintStatementParsingStrategy();
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Expression),
+                typeof(ExpressionMock)));
     }
 
     [Fact]

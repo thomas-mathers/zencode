@@ -1,4 +1,5 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
@@ -7,6 +8,7 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Tests.Mocks;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
@@ -23,6 +25,11 @@ public class FunctionCallParsingStrategyTests
         _sut = new FunctionCallParsingStrategy();
         _variableReferenceExpression =
             new VariableReferenceExpression(new Token(TokenType.Identifier));
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Expression),
+                typeof(ExpressionMock)));
     }
 
     [Fact]

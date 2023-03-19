@@ -1,11 +1,15 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
+using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Types.Strategies;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
@@ -17,6 +21,19 @@ public class FunctionTypeParsingStrategyTests
     private readonly Mock<IParser> _parserMock = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly FunctionTypeParsingStrategy _sut = new();
+
+    public FunctionTypeParsingStrategyTests()
+    {
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Expression),
+                typeof(ExpressionMock)));
+        
+        _fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(Type),
+                typeof(TypeMock)));
+    }
 
     [Fact]
     public void Parse_NoParameters_ReturnsFunctionType()
