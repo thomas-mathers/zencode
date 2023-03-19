@@ -1,6 +1,6 @@
 namespace ZenCode.Parser.Model.Grammar;
 
-public record ParameterList
+public record ParameterList : AstNode
 {
     public IReadOnlyList<Parameter> Parameters { get; init; } = Array.Empty<Parameter>();
 
@@ -12,5 +12,10 @@ public record ParameterList
     public override int GetHashCode()
     {
         return Parameters.GetHashCode();
+    }
+    
+    public override string ToString()
+    {
+        return string.Join(", ", Parameters);
     }
 }

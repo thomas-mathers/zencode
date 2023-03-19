@@ -3,4 +3,10 @@
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
 public record AssignmentStatement
-    (VariableReferenceExpression VariableReferenceExpression, Expression Expression) : SimpleStatement;
+    (VariableReferenceExpression VariableReferenceExpression, Expression Expression) : SimpleStatement
+{
+    public override string ToString()
+    {
+        return $"{VariableReferenceExpression} := {Expression}";
+    }
+}

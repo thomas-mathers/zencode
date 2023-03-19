@@ -12,7 +12,7 @@ public class FunctionDeclarationStatementParsingStrategy : IFunctionDeclarationS
     public FunctionDeclarationStatement Parse(IParser parser, ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Function);
-        tokenStream.Consume(TokenType.Identifier);
+        var identifier = tokenStream.Consume(TokenType.Identifier);
         tokenStream.Consume(TokenType.LeftParenthesis);
         
         var parameters = tokenStream.Match(TokenType.RightParenthesis) 
@@ -27,6 +27,6 @@ public class FunctionDeclarationStatementParsingStrategy : IFunctionDeclarationS
 
         var scope = parser.ParseScope(tokenStream);
 
-        return new FunctionDeclarationStatement(returnType, parameters, scope);
+        return new FunctionDeclarationStatement(returnType, identifier, parameters, scope);
     }
 }

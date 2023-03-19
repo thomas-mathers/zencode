@@ -24,9 +24,11 @@ public class WhileStatementParsingTests
         var tokenStream = new TokenStream(new[]
         {
             new Token(TokenType.While),
+            new Token(TokenType.LeftParenthesis),
             new Token(TokenType.Identifier),
             new Token(TokenType.GreaterThan),
             new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightParenthesis),
             new Token(TokenType.LeftBrace),
             new Token(TokenType.Identifier),
             new Token(TokenType.Assignment),

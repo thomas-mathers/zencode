@@ -28,4 +28,8 @@
         <ProjectReference Include="..\ZenCode.Parser\ZenCode.Parser.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Grammar\Statements" />
+    </ItemGroup>
+
 </Project>

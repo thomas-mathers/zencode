@@ -7,6 +7,11 @@ public record Token(TokenType Type)
     public int StartingColumn { get; init; }
     public string Text { get; init; } = string.Empty;
 
+    public override string ToString()
+    {
+        return Text;
+    }
+
     public virtual bool Equals(Token? other)
     {
         return other != null && Type == other.Type;

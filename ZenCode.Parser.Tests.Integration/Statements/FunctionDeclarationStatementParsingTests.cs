@@ -33,7 +33,7 @@ public class FunctionDeclarationStatementParsingTests
             new Token(TokenType.RightBrace),
         });
 
-        var expectedStatement = new FunctionDeclarationStatement(new VoidType(), new ParameterList(), new Scope());
+        var expectedStatement = new FunctionDeclarationStatement(new VoidType(), new Token(TokenType.Identifier), new ParameterList(), new Scope());
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

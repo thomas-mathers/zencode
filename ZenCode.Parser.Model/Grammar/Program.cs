@@ -2,7 +2,7 @@
 
 namespace ZenCode.Parser.Model.Grammar;
 
-public record Program(IReadOnlyList<Statement> Statements)
+public record Program(IReadOnlyList<Statement> Statements) : AstNode
 {
     public virtual bool Equals(Program? other)
     {
@@ -12,5 +12,10 @@ public record Program(IReadOnlyList<Statement> Statements)
     public override int GetHashCode()
     {
         return Statements.GetHashCode();
+    }
+    
+    public override string ToString()
+    {
+        return string.Join("\n", Statements);
     }
 }

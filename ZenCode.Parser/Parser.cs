@@ -1,4 +1,5 @@
 ﻿using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Abstractions.Statements;
@@ -97,7 +98,12 @@ public class Parser : IParser
 
     public ConditionScope ParseConditionScope(ITokenStream tokenStream)
     {
+        tokenStream.Consume(TokenType.LeftParenthesis);
+        
         var condition = ParseExpression(tokenStream);
+        
+        tokenStream.Consume(TokenType.RightParenthesis);
+        
         var scope = ParseScope(tokenStream);
 
         return new ConditionScope(condition, scope);

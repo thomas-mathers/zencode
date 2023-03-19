@@ -42,10 +42,15 @@ public class FunctionDeclarationStatementParsingStrategyTests
     {
         // Arrange
         var type = _fixture.Create<Type>();
+        var identifier = new Token(TokenType.Identifier);
         var parameters = new ParameterList();
         var scope = _fixture.Create<Scope>();
-        var expected = new FunctionDeclarationStatement(type, parameters, scope);
+        var expected = new FunctionDeclarationStatement(type, identifier, parameters, scope);
 
+        _tokenStreamMock
+            .Setup(x => x.Consume(TokenType.Identifier))
+            .Returns(identifier);
+        
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
             .Returns(true);
@@ -75,6 +80,10 @@ public class FunctionDeclarationStatementParsingStrategyTests
     {
         // Arrange
         var expected = _fixture.Create<FunctionDeclarationStatement>();
+        
+        _tokenStreamMock
+            .Setup(x => x.Consume(TokenType.Identifier))
+            .Returns(expected.Identifier);
         
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
