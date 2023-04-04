@@ -17,17 +17,23 @@ public record IfStatement(ConditionScope ThenScope) : CompoundStatement
     {
         var stringBuilder = new StringBuilder();
 
+        stringBuilder.Append("if");
+        stringBuilder.Append(' ');
         stringBuilder.Append(ThenScope);
 
         foreach (var scope in ElseIfScopes)
         {
+            stringBuilder.AppendLine();
+            stringBuilder.Append("else if");
             stringBuilder.Append(' ');
             stringBuilder.Append(scope);
         }
 
         if (ElseScope != null)
         {
-            stringBuilder.Append(' ');
+            stringBuilder.AppendLine();
+            stringBuilder.Append("else");
+            stringBuilder.AppendLine();
             stringBuilder.Append(ElseScope);
         }
 
