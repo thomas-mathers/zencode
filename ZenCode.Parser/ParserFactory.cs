@@ -20,36 +20,36 @@ public class ParserFactory
             new UnaryExpressionParsingStrategy(),
             new VariableReferenceParsingStrategy()
         );
-        
+
         var infixExpressionParser = new InfixExpressionParser(
             new BinaryExpressionParsingStrategy(), new FunctionCallParsingStrategy());
-        
+
         var expressionParser = new ExpressionParser(prefixExpressionParser, infixExpressionParser);
-        
+
         var statementParser = new StatementParser(
-            new AssignmentStatementParsingStrategy(), 
+            new AssignmentStatementParsingStrategy(),
             new BreakStatementParsingStrategy(),
             new ContinueStatementParsingStrategy(),
-            new ForStatementParsingStrategy(), 
-            new FunctionDeclarationStatementParsingStrategy(), 
-            new IfStatementParsingStrategy(), 
-            new PrintStatementParsingStrategy(), 
+            new ForStatementParsingStrategy(),
+            new FunctionDeclarationStatementParsingStrategy(),
+            new IfStatementParsingStrategy(),
+            new PrintStatementParsingStrategy(),
             new ReadStatementParsingStrategy(),
-            new ReturnStatementParsingStrategy(), 
-            new VariableDeclarationStatementParsingStrategy(), 
+            new ReturnStatementParsingStrategy(),
+            new VariableDeclarationStatementParsingStrategy(),
             new WhileStatementParsingStrategy()
         );
-        
+
         var typeParser = new TypeParser(
-            new BooleanTypeParsingStrategy(), 
-            new FloatTypeParsingStrategy(), 
-            new IntegerTypeParsingStrategy(), 
-            new StringTypeParsingStrategy(), 
+            new BooleanTypeParsingStrategy(),
+            new FloatTypeParsingStrategy(),
+            new IntegerTypeParsingStrategy(),
+            new StringTypeParsingStrategy(),
             new VoidTypeParsingStrategy(),
             new ArrayTypeParsingStrategy(),
             new FunctionTypeParsingStrategy()
         );
-        
+
         var parser = new Parser(
             new ExpressionListParser(),
             expressionParser,

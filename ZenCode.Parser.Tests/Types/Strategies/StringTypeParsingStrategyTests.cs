@@ -9,8 +9,8 @@ namespace ZenCode.Parser.Tests.Types.Strategies;
 
 public class StringTypeParsingStrategyTests
 {
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly StringTypeParsingStrategy _sut = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     [Fact]
     public void Parse_String_ReturnsStringType()
@@ -23,7 +23,7 @@ public class StringTypeParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.String));
     }
 }

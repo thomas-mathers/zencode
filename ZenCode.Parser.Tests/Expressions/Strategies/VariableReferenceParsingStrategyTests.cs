@@ -14,14 +14,14 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class VariableReferenceParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly VariableReferenceParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public VariableReferenceParsingStrategyTests()
     {
         _sut = new VariableReferenceParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
@@ -50,11 +50,11 @@ public class VariableReferenceParsingStrategyTests
     {
         // Arrange
         var expected = _fixture.Create<VariableReferenceExpression>();
-        
+
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.Identifier))
             .Returns(expected.Identifier);
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.LeftBracket))
             .Returns(true);

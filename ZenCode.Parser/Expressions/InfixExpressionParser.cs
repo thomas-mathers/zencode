@@ -9,9 +9,6 @@ namespace ZenCode.Parser.Expressions;
 
 public class InfixExpressionParser : IInfixExpressionParser
 {
-    private readonly IBinaryExpressionParsingStrategy _binaryExpressionParsingStrategy;
-    private readonly IFunctionCallParsingStrategy _functionCallParsingStrategy;
-
     private static readonly IReadOnlyDictionary<TokenType, int> OperatorPrecedences = new Dictionary<TokenType, int>
     {
         [TokenType.Or] = 1,
@@ -30,6 +27,9 @@ public class InfixExpressionParser : IInfixExpressionParser
         [TokenType.Exponentiation] = 6,
         [TokenType.LeftParenthesis] = 7
     };
+
+    private readonly IBinaryExpressionParsingStrategy _binaryExpressionParsingStrategy;
+    private readonly IFunctionCallParsingStrategy _functionCallParsingStrategy;
 
     public InfixExpressionParser(IBinaryExpressionParsingStrategy binaryExpressionParsingStrategy,
         IFunctionCallParsingStrategy functionCallParsingStrategy)

@@ -15,7 +15,7 @@ public record ExpressionList : AstNode
     {
         return Expressions.GetHashCode();
     }
-    
+
     public override string ToString()
     {
         return string.Join(", ", Expressions);

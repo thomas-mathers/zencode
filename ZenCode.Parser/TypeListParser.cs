@@ -16,14 +16,11 @@ public class TypeListParser : ITypeListParser
         {
             types.Add(parser.ParseType(tokenStream));
 
-            if (!tokenStream.Match(TokenType.Comma))
-            {
-                break;
-            }
+            if (!tokenStream.Match(TokenType.Comma)) break;
 
             tokenStream.Consume(TokenType.Comma);
         }
 
-        return new TypeList() { Types = types };
+        return new TypeList { Types = types };
     }
 }

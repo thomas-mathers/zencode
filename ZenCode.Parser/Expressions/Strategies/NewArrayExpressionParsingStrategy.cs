@@ -11,13 +11,13 @@ public class NewArrayExpressionParsingStrategy : INewExpressionParsingStrategy
     public NewArrayExpression Parse(IParser parser, ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.New);
-        
+
         var type = parser.ParseType(tokenStream);
         tokenStream.Consume(TokenType.LeftBracket);
-        
+
         var size = parser.ParseExpression(tokenStream);
         tokenStream.Consume(TokenType.RightBracket);
-        
+
         return new NewArrayExpression(type, size);
     }
 }

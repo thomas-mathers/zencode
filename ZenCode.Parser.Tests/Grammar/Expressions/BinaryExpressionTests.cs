@@ -18,10 +18,10 @@ public class BinaryExpressionTests
         var op = new Token(operatorToken);
         var binaryExpression = new BinaryExpression(lExpression, op, rExpression);
         var expected = $"{{Expression}} {operatorToken} {{Expression}}";
-        
+
         // Act
         var actual = binaryExpression.ToString();
-        
+
         // Expected
         Assert.Equal(expected, actual);
     }

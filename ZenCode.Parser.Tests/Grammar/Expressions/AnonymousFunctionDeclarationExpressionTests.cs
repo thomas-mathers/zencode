@@ -17,20 +17,20 @@ public class AnonymousFunctionDeclarationExpressionTests
         var scope = new Scope();
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function () => {Type}
         {
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_NoParametersOneStatement_ReturnsCorrectString()
     {
@@ -46,21 +46,21 @@ public class AnonymousFunctionDeclarationExpressionTests
         };
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function () => {Type}
         {
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_NoParametersThreeStatement_ReturnsCorrectString()
     {
@@ -78,7 +78,7 @@ public class AnonymousFunctionDeclarationExpressionTests
         };
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function () => {Type}
         {
@@ -87,14 +87,14 @@ public class AnonymousFunctionDeclarationExpressionTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_OneParameterNoStatements_ReturnsCorrectString()
     {
@@ -110,20 +110,20 @@ public class AnonymousFunctionDeclarationExpressionTests
         var scope = new Scope();
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function (x : {Type}) => {Type}
         {
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_OneParameterOneStatement_ReturnsCorrectString()
     {
@@ -145,21 +145,21 @@ public class AnonymousFunctionDeclarationExpressionTests
         };
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function (x : {Type}) => {Type}
         {
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_OneParameterThreeStatement_ReturnsCorrectString()
     {
@@ -183,7 +183,7 @@ public class AnonymousFunctionDeclarationExpressionTests
         };
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function (x : {Type}) => {Type}
         {
@@ -192,14 +192,14 @@ public class AnonymousFunctionDeclarationExpressionTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_MultipleParameterNoStatements_ReturnsCorrectString()
     {
@@ -217,20 +217,20 @@ public class AnonymousFunctionDeclarationExpressionTests
         var scope = new Scope();
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function (x : {Type}, y : {Type}, z : {Type}) => {Type}
         {
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_MultipleParameterOneStatement_ReturnsCorrectString()
     {
@@ -254,21 +254,21 @@ public class AnonymousFunctionDeclarationExpressionTests
         };
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function (x : {Type}, y : {Type}, z : {Type}) => {Type}
         {
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_MultipleParameterThreeStatement_ReturnsCorrectString()
     {
@@ -294,7 +294,7 @@ public class AnonymousFunctionDeclarationExpressionTests
         };
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
-        
+
         var expected = """
         function (x : {Type}, y : {Type}, z : {Type}) => {Type}
         {
@@ -303,10 +303,10 @@ public class AnonymousFunctionDeclarationExpressionTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = anonymousFunctionDeclarationExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

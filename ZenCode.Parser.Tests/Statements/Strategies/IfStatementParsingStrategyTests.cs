@@ -17,19 +17,19 @@ namespace ZenCode.Parser.Tests.Statements.Strategies;
 public class IfStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly IfStatementParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public IfStatementParsingStrategyTests()
     {
         _sut = new IfStatementParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
                 typeof(ExpressionMock)));
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Statement),
@@ -53,7 +53,7 @@ public class IfStatementParsingStrategyTests
 
         // Act
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
     }
 
@@ -84,7 +84,7 @@ public class IfStatementParsingStrategyTests
 
         // Act
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
     }
 
@@ -103,7 +103,7 @@ public class IfStatementParsingStrategyTests
                 conditionScopes[3]
             }
         };
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.ElseIf))
             .ReturnsSequence(true, true, true, false);
@@ -111,13 +111,13 @@ public class IfStatementParsingStrategyTests
         _parserMock
             .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
             .ReturnsSequence(conditionScopes);
-        
+
         // Arrange
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
 
         // Act
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
     }
 
@@ -133,7 +133,7 @@ public class IfStatementParsingStrategyTests
             ElseIfScopes = Array.Empty<ConditionScope>(),
             ElseScope = scope
         };
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.Else))
             .Returns(true);
@@ -151,7 +151,7 @@ public class IfStatementParsingStrategyTests
 
         // Act
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
     }
 
@@ -170,11 +170,11 @@ public class IfStatementParsingStrategyTests
             },
             ElseScope = scope
         };
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.ElseIf))
             .ReturnsSequence(true, false);
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.Else))
             .Returns(true);
@@ -192,7 +192,7 @@ public class IfStatementParsingStrategyTests
 
         // Act
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
     }
 
@@ -213,11 +213,11 @@ public class IfStatementParsingStrategyTests
             },
             ElseScope = scope
         };
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.ElseIf))
             .ReturnsSequence(true, true, true, false);
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.Else))
             .Returns(true);
@@ -235,7 +235,7 @@ public class IfStatementParsingStrategyTests
 
         // Act
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.If));
     }
 }

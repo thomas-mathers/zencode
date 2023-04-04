@@ -13,8 +13,8 @@ namespace ZenCode.Parser.Tests.Types.Strategies;
 public class ArrayTypeParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly ArrayTypeParsingStrategy _sut = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public ArrayTypeParsingStrategyTests()
     {
@@ -23,7 +23,7 @@ public class ArrayTypeParsingStrategyTests
                 typeof(Type),
                 typeof(TypeMock)));
     }
-    
+
     [Fact]
     public void Parse_SomeBaseType_ReturnsArrayType()
     {
@@ -32,7 +32,7 @@ public class ArrayTypeParsingStrategyTests
 
         // Act
         var actual = _sut.Parse(_tokenStreamMock.Object, expectedType.BaseType);
-        
+
         // Assert
         Assert.Equal(expectedType, actual);
     }

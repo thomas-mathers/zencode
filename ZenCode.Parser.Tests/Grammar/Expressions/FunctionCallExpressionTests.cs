@@ -13,10 +13,10 @@ public class FunctionCallExpressionTests
         // Arrange
         var functionCallExpression = new FunctionCallExpression(new ExpressionMock());
         var expected = "{Expression}()";
-        
+
         // Act
         var actual = functionCallExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
@@ -36,14 +36,14 @@ public class FunctionCallExpressionTests
             }
         };
         var expected = "{Expression}({Expression})";
-        
+
         // Act
         var actual = functionCallExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_ThreeParameters_ReturnsCorrectString()
     {
@@ -61,10 +61,10 @@ public class FunctionCallExpressionTests
             }
         };
         var expected = "{Expression}({Expression}, {Expression}, {Expression})";
-        
+
         // Act
         var actual = functionCallExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

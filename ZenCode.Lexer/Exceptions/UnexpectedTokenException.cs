@@ -8,6 +8,7 @@ public class UnexpectedTokenException : Exception
         $"Expected {expectedTokenType} but received {receivedTokenType}")
     {
     }
+
     public UnexpectedTokenException(TokenType receivedTokenType) : base(
         $"Unexpected token {receivedTokenType}")
     {

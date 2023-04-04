@@ -16,8 +16,8 @@ public class ReadStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IParser> _parserMock = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly ReadStatementParsingStrategy _sut = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public ReadStatementParsingStrategyTests()
     {
@@ -36,13 +36,13 @@ public class ReadStatementParsingStrategyTests
         _parserMock
             .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
             .Returns(variableReferenceExpression);
-        
+
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-        
+
         // Assert
         Assert.IsType<ReadStatement>(actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Read));
     }
 }

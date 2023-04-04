@@ -20,7 +20,7 @@ public class StatementParser : IStatementParser
     private readonly IReturnStatementParsingStrategy _returnStatementParsingStrategy;
     private readonly IVariableDeclarationStatementParsingStrategy _variableDeclarationStatementParsingStrategy;
     private readonly IWhileStatementParsingStrategy _whileStatementParsingStrategy;
-    
+
     public StatementParser(
         IAssignmentStatementParsingStrategy assignmentStatementParsingStrategy,
         IBreakStatementParsingStrategy breakStatementParsingStrategy,
@@ -31,7 +31,7 @@ public class StatementParser : IStatementParser
         IPrintStatementParsingStrategy printStatementParsingStrategy,
         IReadStatementParsingStrategy readStatementParsingStrategy,
         IReturnStatementParsingStrategy returnStatementParsingStrategy,
-        IVariableDeclarationStatementParsingStrategy variableDeclarationStatementParsingStrategy, 
+        IVariableDeclarationStatementParsingStrategy variableDeclarationStatementParsingStrategy,
         IWhileStatementParsingStrategy whileStatementParsingStrategy)
     {
         _assignmentStatementParsingStrategy = assignmentStatementParsingStrategy;
@@ -46,9 +46,10 @@ public class StatementParser : IStatementParser
         _variableDeclarationStatementParsingStrategy = variableDeclarationStatementParsingStrategy;
         _whileStatementParsingStrategy = whileStatementParsingStrategy;
     }
-    
-    public Statement ParseStatement(IParser parser, ITokenStream tokenStream) =>
-        tokenStream.Current.Type switch
+
+    public Statement ParseStatement(IParser parser, ITokenStream tokenStream)
+    {
+        return tokenStream.Current.Type switch
         {
             TokenType.Identifier => ParseAssignmentStatement(parser, tokenStream),
             TokenType.Break => ParseBreakStatement(tokenStream),
@@ -63,25 +64,26 @@ public class StatementParser : IStatementParser
             TokenType.While => ParseWhileStatement(parser, tokenStream),
             _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
         };
-    
+    }
+
     public AssignmentStatement ParseAssignmentStatement(IParser parser, ITokenStream tokenStream)
     {
         return _assignmentStatementParsingStrategy.Parse(parser, tokenStream);
     }
-    
+
+    public VariableDeclarationStatement ParseVariableDeclarationStatement(IParser parser, ITokenStream tokenStream)
+    {
+        return _variableDeclarationStatementParsingStrategy.Parse(parser, tokenStream);
+    }
+
     private BreakStatement ParseBreakStatement(ITokenStream tokenStream)
     {
         return _breakStatementParsingStrategy.Parse(tokenStream);
-    }    
+    }
 
     private ContinueStatement ParseContinueStatement(ITokenStream tokenStream)
     {
         return _continueStatementParsingStrategy.Parse(tokenStream);
-    }
-    
-    public VariableDeclarationStatement ParseVariableDeclarationStatement(IParser parser, ITokenStream tokenStream)
-    {
-        return _variableDeclarationStatementParsingStrategy.Parse(parser, tokenStream);
     }
 
     private ForStatement ParseForStatement(IParser parser, ITokenStream tokenStream)
@@ -103,7 +105,7 @@ public class StatementParser : IStatementParser
     {
         return _printStatementParsingStrategy.Parse(parser, tokenStream);
     }
-    
+
     private ReadStatement ParseReadStatement(IParser parser, ITokenStream tokenStream)
     {
         return _readStatementParsingStrategy.Parse(parser, tokenStream);

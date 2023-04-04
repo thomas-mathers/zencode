@@ -6,7 +6,7 @@ namespace ZenCode.Parser.Model.Grammar;
 public record Scope : AstNode
 {
     public IReadOnlyList<Statement> Statements { get; init; } = Array.Empty<Statement>();
-    
+
     public virtual bool Equals(Scope? other)
     {
         return other != null && Statements.SequenceEqual(other.Statements);
@@ -16,7 +16,7 @@ public record Scope : AstNode
     {
         return Statements.GetHashCode();
     }
-    
+
     public override string ToString()
     {
         var stringBuilder = new StringBuilder();

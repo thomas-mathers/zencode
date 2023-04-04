@@ -16,7 +16,7 @@ public record ArrayIndexExpressionList : AstNode
     {
         return Expressions.GetHashCode();
     }
-    
+
     public override string ToString()
     {
         var stringBuilder = new StringBuilder();
@@ -27,7 +27,7 @@ public record ArrayIndexExpressionList : AstNode
             stringBuilder.Append(expression);
             stringBuilder.Append(']');
         }
-        
+
         return stringBuilder.ToString();
     }
 }

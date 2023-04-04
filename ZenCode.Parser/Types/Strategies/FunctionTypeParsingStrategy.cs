@@ -21,7 +21,7 @@ public class FunctionTypeParsingStrategy : IFunctionTypeParsingStrategy
         tokenStream.Consume(TokenType.RightArrow);
 
         var returnType = parser.ParseType(tokenStream);
-        
+
         return new FunctionType(returnType, typeList);
     }
 }

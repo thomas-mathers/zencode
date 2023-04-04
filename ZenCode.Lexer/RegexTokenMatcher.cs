@@ -20,10 +20,7 @@ public class RegexTokenMatcher : ITokenMatcher
     {
         var match = _regex.Match(input, startingIndex);
 
-        if (!match.Success || match.Index != startingIndex)
-        {
-            return null;
-        }
+        if (!match.Success || match.Index != startingIndex) return null;
 
         return match.Value;
     }

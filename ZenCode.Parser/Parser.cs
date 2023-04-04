@@ -13,21 +13,21 @@ namespace ZenCode.Parser;
 
 public class Parser : IParser
 {
+    private readonly IArrayIndexExpressionListParser _arrayIndexExpressionListParser;
     private readonly IExpressionListParser _expressionListParser;
     private readonly IExpressionParser _expressionParser;
     private readonly IParameterListParser _parameterListParser;
-    private readonly IArrayIndexExpressionListParser _arrayIndexExpressionListParser;
     private readonly IScopeParser _scopeParser;
     private readonly IStatementParser _statementParser;
-    private readonly ITypeParser _typeParser;
     private readonly ITypeListParser _typeListParser;
+    private readonly ITypeParser _typeParser;
 
     public Parser(
-        IExpressionListParser expressionListParser, 
+        IExpressionListParser expressionListParser,
         IExpressionParser expressionParser,
-        IParameterListParser parameterListParser, 
+        IParameterListParser parameterListParser,
         IArrayIndexExpressionListParser arrayIndexExpressionListParser,
-        IScopeParser scopeParser, 
+        IScopeParser scopeParser,
         IStatementParser statementParser,
         ITypeParser typeParser,
         ITypeListParser typeListParser)
@@ -46,10 +46,7 @@ public class Parser : IParser
     {
         var statements = new List<Statement>();
 
-        while (tokenStream.Peek(0) != null)
-        {
-            statements.Add(ParseStatement(tokenStream));
-        }
+        while (tokenStream.Peek(0) != null) statements.Add(ParseStatement(tokenStream));
 
         return new Program(statements);
     }
@@ -63,7 +60,7 @@ public class Parser : IParser
     {
         return _expressionParser.ParseExpression(this, tokenStream, precedence);
     }
-    
+
     public VariableReferenceExpression ParseVariableReferenceExpression(ITokenStream tokenStream)
     {
         return _expressionParser.ParseVariableReferenceExpression(this, tokenStream);
@@ -107,11 +104,11 @@ public class Parser : IParser
     public ConditionScope ParseConditionScope(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.LeftParenthesis);
-        
+
         var condition = ParseExpression(tokenStream);
-        
+
         tokenStream.Consume(TokenType.RightParenthesis);
-        
+
         var scope = ParseScope(tokenStream);
 
         return new ConditionScope(condition, scope);

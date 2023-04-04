@@ -16,19 +16,19 @@ namespace ZenCode.Parser.Tests.Statements.Strategies;
 public class WhileStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly WhileStatementParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public WhileStatementParsingStrategyTests()
     {
         _sut = new WhileStatementParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
                 typeof(ExpressionMock)));
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Statement),
@@ -51,7 +51,7 @@ public class WhileStatementParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.While));
     }
 }

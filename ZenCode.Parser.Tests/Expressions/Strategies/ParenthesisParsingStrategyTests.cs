@@ -14,14 +14,14 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class ParenthesisParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly ParenthesisParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public ParenthesisParsingStrategyTests()
     {
         _sut = new ParenthesisParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
@@ -43,7 +43,7 @@ public class ParenthesisParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftParenthesis));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.RightParenthesis));
     }

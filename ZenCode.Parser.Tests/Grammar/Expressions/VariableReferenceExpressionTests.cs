@@ -18,11 +18,11 @@ public class VariableReferenceExpressionTests
 
         // Act
         var actual = variableReferenceExpression.ToString();
-        
+
         // Assert
         Assert.Equal(identifierText, actual);
     }
-    
+
     [Fact]
     public void ToString_ArrayReferenceSingleIndexExpression_ReturnsCorrectString()
     {
@@ -39,14 +39,14 @@ public class VariableReferenceExpressionTests
             }
         };
         const string expected = "x[{Expression}]";
-        
+
         // Act
         var actual = variableReferenceExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_ArrayReferenceThreeIndexExpression_ReturnsCorrectString()
     {
@@ -65,10 +65,10 @@ public class VariableReferenceExpressionTests
             }
         };
         const string expected = "x[{Expression}][{Expression}][{Expression}]";
-        
+
         // Act
         var actual = variableReferenceExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

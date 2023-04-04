@@ -13,7 +13,7 @@ public record ParameterList : AstNode
     {
         return Parameters.GetHashCode();
     }
-    
+
     public override string ToString()
     {
         return string.Join(", ", Parameters);

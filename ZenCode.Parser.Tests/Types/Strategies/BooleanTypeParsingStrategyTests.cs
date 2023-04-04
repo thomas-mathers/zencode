@@ -9,8 +9,8 @@ namespace ZenCode.Parser.Tests.Types.Strategies;
 
 public class BooleanTypeParsingStrategyTests
 {
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly BooleanTypeParsingStrategy _sut = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     [Fact]
     public void Parse_Boolean_ReturnsBooleanType()
@@ -23,7 +23,7 @@ public class BooleanTypeParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Boolean));
     }
 }

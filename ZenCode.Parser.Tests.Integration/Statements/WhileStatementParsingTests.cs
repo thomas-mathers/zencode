@@ -16,7 +16,7 @@ public class WhileStatementParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void Parse_WhileBinaryExpressionAssignmentStatement_ReturnsWhileStatement()
     {

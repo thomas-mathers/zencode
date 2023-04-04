@@ -14,8 +14,8 @@ public class AnonymousFunctionDeclarationParsingStrategy : IAnonymousFunctionDec
         tokenStream.Consume(TokenType.Function);
         tokenStream.Consume(TokenType.LeftParenthesis);
 
-        var parameters = tokenStream.Match(TokenType.RightParenthesis) 
-            ? new ParameterList() 
+        var parameters = tokenStream.Match(TokenType.RightParenthesis)
+            ? new ParameterList()
             : parser.ParseParameterList(tokenStream);
 
         tokenStream.Consume(TokenType.RightParenthesis);

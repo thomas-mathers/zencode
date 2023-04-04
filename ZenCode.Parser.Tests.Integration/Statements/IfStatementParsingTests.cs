@@ -16,7 +16,7 @@ public class IfStatementParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void Parse_IfBinaryExpressionThenAssignmentStatement_ReturnsIfStatement()
     {

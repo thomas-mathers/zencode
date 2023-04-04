@@ -9,10 +9,8 @@ public class Environment
     public void DefineSymbol(Symbol symbol)
     {
         if (_symbols.TryGetValue(symbol.Token.Text, out var value))
-        {
             throw new DuplicateVariableDeclarationException(value.Token);
-        }
-        
+
         _symbols[symbol.Token.Text] = symbol;
     }
 

@@ -14,14 +14,14 @@ public class ContinueStatementParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void Parse_Continue_ReturnsBreakStatement()
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Continue),
+            new Token(TokenType.Continue)
         });
 
         var expectedStatement = new ContinueStatement();

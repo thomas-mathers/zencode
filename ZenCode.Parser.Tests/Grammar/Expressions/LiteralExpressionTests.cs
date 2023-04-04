@@ -20,10 +20,10 @@ public class LiteralExpressionTests
     {
         // Arrange
         var literalExpression = new LiteralExpression(new Token(tokenType) { Text = tokenText });
-        
+
         // Act
         var actual = literalExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

@@ -22,11 +22,11 @@ public class ForStatementParsingStrategy : IForStatementParsingStrategy
         tokenStream.Consume(TokenType.Semicolon);
 
         var iterator = parser.ParseAssignmentStatement(tokenStream);
-        
+
         tokenStream.Consume(TokenType.RightParenthesis);
 
         var scope = parser.ParseScope(tokenStream);
-        
+
         return new ForStatement(initializer, condition, iterator, scope);
     }
 }

@@ -17,7 +17,7 @@ public class AnonymousFunctionExpressionParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void ParseExpression_AnonFuncNoParamsNoStatements_ReturnsAnonFuncDeclarationExpression()
     {

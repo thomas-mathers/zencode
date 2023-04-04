@@ -72,10 +72,7 @@ public class Tokenizer : ITokenizer
         {
             var match = matcher.Match(_text, _currentIndex);
 
-            if (match == null)
-            {
-                continue;
-            }
+            if (match == null) continue;
 
             var token = new Token(matcher.TokenType)
             {

@@ -16,14 +16,11 @@ public class SymbolTable
 
     public void PopEnvironment()
     {
-        if (_environments.Count == 1)
-        {
-            throw new InvalidOperationException();
-        }
-        
+        if (_environments.Count == 1) throw new InvalidOperationException();
+
         _environments.Pop();
     }
-    
+
     public void DefineSymbol(Symbol symbol)
     {
         _environments.Peek().DefineSymbol(symbol);
@@ -35,10 +32,7 @@ public class SymbolTable
         {
             var symbol = environment.ResolveSymbol(identifier);
 
-            if (symbol != null)
-            {
-                return symbol;
-            }
+            if (symbol != null) return symbol;
         }
 
         return null;

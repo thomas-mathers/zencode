@@ -13,7 +13,7 @@ public record Program(IReadOnlyList<Statement> Statements) : AstNode
     {
         return Statements.GetHashCode();
     }
-    
+
     public override string ToString()
     {
         return string.Join("\n", Statements);

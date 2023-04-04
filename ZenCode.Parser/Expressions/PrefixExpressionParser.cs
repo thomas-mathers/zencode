@@ -10,9 +10,9 @@ namespace ZenCode.Parser.Expressions;
 public class PrefixExpressionParser : IPrefixExpressionParser
 {
     private readonly IAnonymousFunctionDeclarationParsingStrategy _anonymousFunctionDeclarationParsingStrategy;
+    private readonly ILiteralParsingStrategy _literalParsingStrategy;
     private readonly INewExpressionParsingStrategy _newExpressionParsingStrategy;
     private readonly IParenthesisParsingStrategy _parenthesisParsingStrategy;
-    private readonly ILiteralParsingStrategy _literalParsingStrategy;
     private readonly IUnaryExpressionParsingStrategy _unaryExpressionParsingStrategy;
     private readonly IVariableReferenceParsingStrategy _variableReferenceParsingStrategy;
 
@@ -31,7 +31,7 @@ public class PrefixExpressionParser : IPrefixExpressionParser
         _unaryExpressionParsingStrategy = unaryExpressionParsingStrategy;
         _variableReferenceParsingStrategy = variableReferenceParsingStrategy;
     }
-    
+
     public Expression ParsePrefixExpression(IParser parser, ITokenStream tokenStream)
     {
         return tokenStream.Current.Type switch
@@ -49,7 +49,7 @@ public class PrefixExpressionParser : IPrefixExpressionParser
             _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
         };
     }
-    
+
     public VariableReferenceExpression ParseVariableReferenceExpression(IParser parser, ITokenStream tokenStream)
     {
         return _variableReferenceParsingStrategy.Parse(parser, tokenStream);

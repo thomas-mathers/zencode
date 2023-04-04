@@ -15,7 +15,7 @@ public class VariableDeclarationStatementParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void Parse_DeclareVariableAndAssignBinaryExpression_ReturnsVariableDeclarationStatement()
     {
@@ -29,7 +29,7 @@ public class VariableDeclarationStatementParsingTests
             new Token(TokenType.Plus),
             new Token(TokenType.IntegerLiteral)
         });
-        
+
         var identifier = new Token(TokenType.Identifier);
 
         var expression = new BinaryExpression(
@@ -61,7 +61,7 @@ public class VariableDeclarationStatementParsingTests
             new Token(TokenType.Assignment),
             new Token(tokenType)
         });
-        
+
         var identifier = new Token(TokenType.Identifier);
 
         var expression = new LiteralExpression(new Token(tokenType));
@@ -115,7 +115,7 @@ public class VariableDeclarationStatementParsingTests
             new Token(TokenType.StringLiteral),
             new Token(TokenType.RightParenthesis)
         });
-        
+
         var identifier = new Token(TokenType.Identifier);
 
         var expression = new LiteralExpression(new Token(TokenType.StringLiteral));
@@ -143,7 +143,7 @@ public class VariableDeclarationStatementParsingTests
         });
 
         var identifier = new Token(TokenType.Identifier);
-        
+
         var expression = new UnaryExpression(
             new Token(TokenType.Minus),
             new LiteralExpression(new Token(TokenType.FloatLiteral)));
@@ -168,11 +168,11 @@ public class VariableDeclarationStatementParsingTests
             new Token(TokenType.Assignment),
             new Token(TokenType.Identifier)
         });
-        
+
         var identifier = new Token(TokenType.Identifier);
 
         var expression = new VariableReferenceExpression(new Token(TokenType.Identifier));
-        
+
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
         // Act

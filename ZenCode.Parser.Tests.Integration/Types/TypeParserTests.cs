@@ -10,22 +10,22 @@ namespace ZenCode.Parser.Tests.Integration.Types;
 
 public class TypeParserTests
 {
-    private readonly IParser _sut;
-
     public static readonly IEnumerable<object[]> PrimitiveReturnTypes = new List<object[]>
     {
         new object[] { TokenType.Void, new VoidType() },
         new object[] { TokenType.Boolean, new BooleanType() },
         new object[] { TokenType.Integer, new IntegerType() },
         new object[] { TokenType.Float, new FloatType() },
-        new object[] { TokenType.String, new StringType() },
+        new object[] { TokenType.String, new StringType() }
     };
+
+    private readonly IParser _sut;
 
     public TypeParserTests()
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_PrimitiveType_ReturnsPrimitiveType(TokenType tokenType, Type expectedType)
@@ -35,14 +35,14 @@ public class TypeParserTests
         {
             new Token(tokenType)
         });
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_Array_ReturnsArrayType(TokenType tokenType, Type type)
@@ -56,14 +56,14 @@ public class TypeParserTests
         });
 
         var expectedType = new ArrayType(type);
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_JaggedArray_ReturnsArrayType(TokenType tokenType, Type type)
@@ -81,14 +81,14 @@ public class TypeParserTests
         });
 
         var expectedType = new ArrayType(new ArrayType(new ArrayType(type)));
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_FunctionWithNoParameters_ReturnsFunctionType(TokenType tokenType, Type type)
@@ -99,18 +99,18 @@ public class TypeParserTests
             new Token(TokenType.LeftParenthesis),
             new Token(TokenType.RightParenthesis),
             new Token(TokenType.RightArrow),
-            new Token(tokenType),
+            new Token(tokenType)
         });
 
         var expectedType = new FunctionType(type, new TypeList());
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_FunctionWithOneParameter_ReturnsFunctionType(TokenType tokenType, Type type)
@@ -122,18 +122,18 @@ public class TypeParserTests
             new Token(tokenType),
             new Token(TokenType.RightParenthesis),
             new Token(TokenType.RightArrow),
-            new Token(tokenType),
+            new Token(tokenType)
         });
 
-        var expectedType = new FunctionType(type, new TypeList { Types = new[] { type }});
-        
+        var expectedType = new FunctionType(type, new TypeList { Types = new[] { type } });
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_FunctionWithMultipleParameters_ReturnsFunctionType(TokenType tokenType, Type type)
@@ -149,11 +149,11 @@ public class TypeParserTests
             new Token(tokenType),
             new Token(TokenType.RightParenthesis),
             new Token(TokenType.RightArrow),
-            new Token(tokenType),
+            new Token(tokenType)
         });
 
         var expectedType = new FunctionType(
-            type, 
+            type,
             new TypeList
             {
                 Types = new[]
@@ -163,14 +163,14 @@ public class TypeParserTests
                     type
                 }
             });
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_FunctionWithFunctionParameter_ReturnsFunctionType(TokenType tokenType, Type type)
@@ -193,7 +193,7 @@ public class TypeParserTests
         });
 
         var innerInnerFunctionType = new FunctionType(type, new TypeList());
-        
+
         var innerFunctionType = new FunctionType(
             type,
             new TypeList
@@ -205,7 +205,7 @@ public class TypeParserTests
             });
 
         var expectedType = new FunctionType(
-            type, 
+            type,
             new TypeList
             {
                 Types = new[]
@@ -213,14 +213,14 @@ public class TypeParserTests
                     innerFunctionType
                 }
             });
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
     public void Parse_FunctionWithFunctionReturnType_ReturnsFunctionType(TokenType tokenType, Type type)
@@ -234,23 +234,24 @@ public class TypeParserTests
             new Token(TokenType.LeftParenthesis),
             new Token(TokenType.RightParenthesis),
             new Token(TokenType.RightArrow),
-            new Token(tokenType),
+            new Token(tokenType)
         });
 
         var expectedType = new FunctionType(
-            new FunctionType(type, new TypeList()), 
+            new FunctionType(type, new TypeList()),
             new TypeList());
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }
-    
+
     [Theory]
     [MemberData(nameof(PrimitiveReturnTypes))]
-    public void Parse_FunctionWithFunctionParameterAndFunctionReturnType_ReturnsFunctionType(TokenType tokenType, Type type)
+    public void Parse_FunctionWithFunctionParameterAndFunctionReturnType_ReturnsFunctionType(TokenType tokenType,
+        Type type)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -265,11 +266,11 @@ public class TypeParserTests
             new Token(TokenType.LeftParenthesis),
             new Token(TokenType.RightParenthesis),
             new Token(TokenType.RightArrow),
-            new Token(tokenType),
+            new Token(tokenType)
         });
 
         var expectedType = new FunctionType(
-            new FunctionType(type, new TypeList()), 
+            new FunctionType(type, new TypeList()),
             new TypeList
             {
                 Types = new[]
@@ -277,10 +278,10 @@ public class TypeParserTests
                     new FunctionType(type, new TypeList())
                 }
             });
-        
+
         // Act
         var actualType = _sut.ParseType(tokenStream);
-        
+
         // Assert
         Assert.Equal(expectedType, actualType);
     }

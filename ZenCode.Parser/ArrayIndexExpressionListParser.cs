@@ -17,7 +17,7 @@ public class ArrayIndexExpressionListParser : IArrayIndexExpressionListParser
             tokenStream.Consume(TokenType.LeftBracket);
 
             var indexExpression = parser.ParseExpression(tokenStream);
-            
+
             indexExpressions.Add(indexExpression);
 
             tokenStream.Consume(TokenType.RightBracket);

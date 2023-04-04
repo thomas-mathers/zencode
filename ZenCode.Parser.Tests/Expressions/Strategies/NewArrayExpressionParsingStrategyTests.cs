@@ -15,19 +15,19 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class NewArrayExpressionParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly NewArrayExpressionParsingStrategy _sut;
-    
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
+
     public NewArrayExpressionParsingStrategyTests()
     {
         _sut = new NewArrayExpressionParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
                 typeof(ExpressionMock)));
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Type),
@@ -50,10 +50,10 @@ public class NewArrayExpressionParsingStrategyTests
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-        
+
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.New));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftBracket));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.RightBracket));

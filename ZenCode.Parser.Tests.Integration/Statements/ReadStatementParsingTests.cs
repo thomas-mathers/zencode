@@ -16,7 +16,7 @@ public class ReadStatementParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void Parse_ReadIntoVariable_ReturnsReadStatement()
     {
@@ -35,7 +35,7 @@ public class ReadStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_ReadIntoArrayElement_ReturnsReadStatement()
     {
@@ -46,7 +46,7 @@ public class ReadStatementParsingTests
             new Token(TokenType.Identifier),
             new Token(TokenType.LeftBracket),
             new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket),
+            new Token(TokenType.RightBracket)
         });
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
@@ -59,7 +59,7 @@ public class ReadStatementParsingTests
                 }
             }
         };
-        
+
         var expectedStatement = new ReadStatement(variableReferenceExpression);
 
         // Act

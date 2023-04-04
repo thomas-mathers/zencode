@@ -9,8 +9,8 @@ namespace ZenCode.Parser.Tests.Types.Strategies;
 
 public class VoidTypeParsingStrategyTests
 {
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly VoidTypeParsingStrategy _sut = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     [Fact]
     public void Parse_Void_ReturnsVoidType()
@@ -23,7 +23,7 @@ public class VoidTypeParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Void));
     }
 }

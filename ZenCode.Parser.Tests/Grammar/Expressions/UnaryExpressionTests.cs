@@ -13,10 +13,10 @@ public class UnaryExpressionTests
         // Arrange
         var unaryExpression = new UnaryExpression(new Token(TokenType.Not), new ExpressionMock());
         const string expected = "Not {Expression}";
-        
+
         // Act
         var actual = unaryExpression.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

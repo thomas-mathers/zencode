@@ -50,5 +50,5 @@ public enum TokenType
     StringLiteral,
     Var,
     Void,
-    While,
+    While
 }

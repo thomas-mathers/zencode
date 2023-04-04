@@ -21,7 +21,7 @@ public class ScopeParser : IScopeParser
                 tokenStream.Consume(TokenType.RightBrace);
                 break;
             }
-                
+
             statements.Add(parser.ParseStatement(tokenStream));
         }
 

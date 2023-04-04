@@ -14,9 +14,9 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class BinaryExpressionParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly BinaryExpressionParsingStrategy _sut = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     [Theory]
     [ClassData(typeof(BinaryOperators))]

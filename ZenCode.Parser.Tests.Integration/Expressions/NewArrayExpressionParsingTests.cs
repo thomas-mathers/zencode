@@ -2,7 +2,6 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 
@@ -16,7 +15,7 @@ public class NewArrayExpressionParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void ParseExpression_NewBooleanArray_ReturnsNewExpression()
     {

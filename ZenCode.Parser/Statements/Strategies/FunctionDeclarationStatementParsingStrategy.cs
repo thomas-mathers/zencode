@@ -14,8 +14,8 @@ public class FunctionDeclarationStatementParsingStrategy : IFunctionDeclarationS
         tokenStream.Consume(TokenType.Function);
         var identifier = tokenStream.Consume(TokenType.Identifier);
         tokenStream.Consume(TokenType.LeftParenthesis);
-        
-        var parameters = tokenStream.Match(TokenType.RightParenthesis) 
+
+        var parameters = tokenStream.Match(TokenType.RightParenthesis)
             ? new ParameterList()
             : parser.ParseParameterList(tokenStream);
 

@@ -21,7 +21,7 @@ public class BreakStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Break),
+            new Token(TokenType.Break)
         });
 
         var expectedStatement = new BreakStatement();

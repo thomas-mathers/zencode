@@ -15,7 +15,7 @@ public class BinaryExpressionParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Theory]
     [ClassData(typeof(LeftAssociativeBinaryOperators))]
     public void ParseExpression_LeftAssociativeOperator_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
@@ -45,7 +45,7 @@ public class BinaryExpressionParsingTests
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [InlineData(TokenType.Exponentiation)]
     public void ParseExpression_RightAssociativeOperator_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
@@ -75,7 +75,7 @@ public class BinaryExpressionParsingTests
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void ParseExpression_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
@@ -137,7 +137,7 @@ public class BinaryExpressionParsingTests
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void

@@ -30,10 +30,11 @@ public class FunctionDeclarationStatementParsingTests
             new Token(TokenType.RightArrow),
             new Token(TokenType.Void),
             new Token(TokenType.LeftBrace),
-            new Token(TokenType.RightBrace),
+            new Token(TokenType.RightBrace)
         });
 
-        var expectedStatement = new FunctionDeclarationStatement(new VoidType(), new Token(TokenType.Identifier), new ParameterList(), new Scope());
+        var expectedStatement = new FunctionDeclarationStatement(new VoidType(), new Token(TokenType.Identifier),
+            new ParameterList(), new Scope());
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

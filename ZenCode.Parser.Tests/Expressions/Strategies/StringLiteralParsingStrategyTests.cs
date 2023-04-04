@@ -9,8 +9,8 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
 public class LiteralParsingStrategyTests
 {
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly LiteralParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public LiteralParsingStrategyTests()
     {

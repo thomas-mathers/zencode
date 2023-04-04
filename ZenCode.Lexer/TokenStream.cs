@@ -21,15 +21,9 @@ public class TokenStream : ITokenStream
     {
         var token = TryConsumeToken();
 
-        if (token == null)
-        {
-            throw new InvalidOperationException();
-        }
+        if (token == null) throw new InvalidOperationException();
 
-        if (token.Type != tokenType)
-        {
-            throw new UnexpectedTokenException(tokenType, token.Type);
-        }
+        if (token.Type != tokenType) throw new UnexpectedTokenException(tokenType, token.Type);
 
         return token;
     }
@@ -38,20 +32,14 @@ public class TokenStream : ITokenStream
     {
         var token = TryConsumeToken();
 
-        if (token == null)
-        {
-            throw new InvalidOperationException();
-        }
+        if (token == null) throw new InvalidOperationException();
 
         return _tokenEnumerator.Current;
     }
 
     public Token? Peek(byte numTokens)
     {
-        if (numTokens < _peekedTokens.Count)
-        {
-            return GetPeekedToken(numTokens);
-        }
+        if (numTokens < _peekedTokens.Count) return GetPeekedToken(numTokens);
 
         var numRemainingTokensToConsume = numTokens - _peekedTokens.Count;
 
@@ -59,10 +47,7 @@ public class TokenStream : ITokenStream
         {
             var token = _tokenEnumerator.MoveNext() ? _tokenEnumerator.Current : null;
 
-            if (token == null)
-            {
-                return null;
-            }
+            if (token == null) return null;
 
             _peekedTokens.AddLast(token);
         }
@@ -70,7 +55,10 @@ public class TokenStream : ITokenStream
         return _peekedTokens.Last();
     }
 
-    public bool Match(TokenType tokenType) => Peek(0)?.Type == tokenType;
+    public bool Match(TokenType tokenType)
+    {
+        return Peek(0)?.Type == tokenType;
+    }
 
     public IEnumerator<Token> GetEnumerator()
     {
@@ -84,10 +72,7 @@ public class TokenStream : ITokenStream
 
     private Token? TryConsumeToken()
     {
-        if (_peekedTokens.Any())
-        {
-            return PopPeakedToken();
-        }
+        if (_peekedTokens.Any()) return PopPeakedToken();
 
         return !_tokenEnumerator.MoveNext() ? null : _tokenEnumerator.Current;
     }

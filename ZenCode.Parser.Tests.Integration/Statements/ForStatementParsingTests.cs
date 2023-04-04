@@ -16,7 +16,7 @@ public class ForStatementParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void Parse_ForStatement_ReturnsForStatement()
     {
@@ -53,34 +53,34 @@ public class ForStatementParsingTests
         var initialization = new VariableDeclarationStatement(
             new Token(TokenType.Identifier),
             new LiteralExpression(new Token(TokenType.IntegerLiteral)));
-        
+
         var condition = new BinaryExpression(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new Token(TokenType.LessThan),
             new LiteralExpression(new Token(TokenType.IntegerLiteral)));
-        
+
         var iterator = new AssignmentStatement(
             new VariableReferenceExpression(new Token(TokenType.Identifier)),
             new BinaryExpression(
                 new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 new Token(TokenType.Plus),
                 new LiteralExpression(new Token(TokenType.IntegerLiteral))));
-        
+
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))   
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
         };
-        
+
         var expression = new LiteralExpression(new Token(TokenType.IntegerLiteral));
-        
+
         var scopeStatement = new AssignmentStatement(variableReferenceExpression, expression);
-        
+
         var scope = new Scope
         {
             Statements = new[]
@@ -88,7 +88,7 @@ public class ForStatementParsingTests
                 scopeStatement
             }
         };
-        
+
         var expectedStatement = new ForStatement(initialization, condition, iterator, scope);
 
         // Act

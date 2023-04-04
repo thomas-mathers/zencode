@@ -12,16 +12,16 @@ public class ArrayTypeTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>(() => new ArrayType(null!));
     }
-    
+
     [Fact]
     public void ToString_AnyBaseType_ReturnsCorrectString()
     {
         // Arrange
         var arrayType = new ArrayType(new TypeMock());
-        
+
         // Act
         var actual = arrayType.ToString();
-        
+
         // Assert
         Assert.Equal("{Type}[]", actual);
     }

@@ -15,9 +15,9 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class FunctionCallParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly FunctionCallParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly VariableReferenceExpression _variableReferenceExpression;
 
     public FunctionCallParsingStrategyTests()
@@ -25,7 +25,7 @@ public class FunctionCallParsingStrategyTests
         _sut = new FunctionCallParsingStrategy();
         _variableReferenceExpression =
             new VariableReferenceExpression(new Token(TokenType.Identifier));
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
@@ -37,7 +37,7 @@ public class FunctionCallParsingStrategyTests
     {
         // Arrange
         var expected = new FunctionCallExpression(_variableReferenceExpression);
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
             .Returns(true);
@@ -59,7 +59,7 @@ public class FunctionCallParsingStrategyTests
         {
             Arguments = arguments
         };
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
             .Returns(false);

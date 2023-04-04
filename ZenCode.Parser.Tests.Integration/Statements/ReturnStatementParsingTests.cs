@@ -15,7 +15,7 @@ public class ReturnStatementParsingTests
     {
         _sut = new ParserFactory().Create();
     }
-    
+
     [Fact]
     public void Parse_ReturnNothing_ReturnsReturnStatement()
     {

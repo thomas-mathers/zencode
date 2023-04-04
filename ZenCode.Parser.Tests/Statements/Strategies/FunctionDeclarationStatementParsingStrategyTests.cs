@@ -16,26 +16,26 @@ namespace ZenCode.Parser.Tests.Statements.Strategies;
 public class FunctionDeclarationStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly FunctionDeclarationStatementParsingStrategy _sut;
-    
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
+
 
     public FunctionDeclarationStatementParsingStrategyTests()
     {
         _sut = new FunctionDeclarationStatementParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Type),
                 typeof(TypeMock)));
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Statement),
                 typeof(StatementMock)));
     }
-    
+
     [Fact]
     public void Parse_NoParameters_ReturnsFunctionDeclarationStatement()
     {
@@ -49,7 +49,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.Identifier))
             .Returns(identifier);
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
             .Returns(true);
@@ -61,29 +61,29 @@ public class FunctionDeclarationStatementParsingStrategyTests
         _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
             .Returns(scope);
-        
+
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-        
+
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Function));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Identifier));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftParenthesis));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.RightArrow));
     }
-    
+
     [Fact]
     public void Parse_HasParameters_ReturnsFunctionDeclarationStatement()
     {
         // Arrange
         var expected = _fixture.Create<FunctionDeclarationStatement>();
-        
+
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.Identifier))
             .Returns(expected.Identifier);
-        
+
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
             .Returns(false);
@@ -99,13 +99,13 @@ public class FunctionDeclarationStatementParsingStrategyTests
         _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
             .Returns(expected.Scope);
-        
+
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-        
+
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Function));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Identifier));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftParenthesis));

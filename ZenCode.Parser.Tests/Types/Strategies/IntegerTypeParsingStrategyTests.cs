@@ -9,8 +9,8 @@ namespace ZenCode.Parser.Tests.Types.Strategies;
 
 public class IntegerTypeParsingStrategyTests
 {
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly IntegerTypeParsingStrategy _sut = new();
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     [Fact]
     public void Parse_Integer_ReturnsIntegerType()
@@ -23,7 +23,7 @@ public class IntegerTypeParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Integer));
     }
 }

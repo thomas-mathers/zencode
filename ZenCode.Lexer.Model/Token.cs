@@ -7,6 +7,11 @@ public record Token(TokenType Type)
     public int StartingColumn { get; init; }
     public string Text { get; init; } = string.Empty;
 
+    public virtual bool Equals(Token? other)
+    {
+        return other != null && Type == other.Type;
+    }
+
     public override string ToString()
     {
         return Type is TokenType.Identifier
@@ -16,11 +21,6 @@ public record Token(TokenType Type)
             or TokenType.StringLiteral
             ? Text
             : Type.ToString();
-    }
-
-    public virtual bool Equals(Token? other)
-    {
-        return other != null && Type == other.Type;
     }
 
     public override int GetHashCode()

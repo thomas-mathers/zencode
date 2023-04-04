@@ -15,14 +15,14 @@ namespace ZenCode.Parser.Tests.Statements.Strategies;
 public class ReturnStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly ReturnStatementParsingStrategy _sut;
-    
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
+
     public ReturnStatementParsingStrategyTests()
     {
         _sut = new ReturnStatementParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
@@ -36,16 +36,16 @@ public class ReturnStatementParsingStrategyTests
         var expected = new ReturnStatement();
 
         _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(true);
-        
+
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-        
+
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Return));
     }
-    
+
     [Fact]
     public void Parse_ReturnAnyExpression_ReturnsReturnStatement()
     {
@@ -55,17 +55,17 @@ public class ReturnStatementParsingStrategyTests
         var expected = new ReturnStatement { Expression = expression };
 
         _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(false);
-        
+
         _parserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
             .Returns(expression);
-        
+
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
-        
+
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Return));
     }
 }

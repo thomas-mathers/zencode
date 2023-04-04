@@ -15,7 +15,7 @@ public record TypeList : AstNode
     {
         return Types.GetHashCode();
     }
-    
+
     public override string ToString()
     {
         return string.Join(", ", Types);

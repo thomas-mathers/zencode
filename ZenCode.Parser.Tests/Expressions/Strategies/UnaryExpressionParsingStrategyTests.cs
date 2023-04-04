@@ -15,14 +15,14 @@ namespace ZenCode.Parser.Tests.Expressions.Strategies;
 public class UnaryExpressionParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly UnaryExpressionParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public UnaryExpressionParsingStrategyTests()
     {
         _sut = new UnaryExpressionParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),

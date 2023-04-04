@@ -15,14 +15,14 @@ namespace ZenCode.Parser.Tests.Statements.Strategies;
 public class AssignmentStatementParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
-    private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
     private readonly AssignmentStatementParsingStrategy _sut;
+    private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
     public AssignmentStatementParsingStrategyTests()
     {
         _sut = new AssignmentStatementParsingStrategy();
-        
+
         _fixture.Customizations.Add(
             new TypeRelay(
                 typeof(Expression),
@@ -38,7 +38,7 @@ public class AssignmentStatementParsingStrategyTests
         _parserMock
             .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
             .Returns(expected.VariableReferenceExpression);
-        
+
         _parserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
             .Returns(expected.Expression);
@@ -48,7 +48,7 @@ public class AssignmentStatementParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
-        
+
         _tokenStreamMock.Verify(x => x.Consume(TokenType.Assignment));
     }
 }
