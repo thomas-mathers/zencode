@@ -6,6 +6,6 @@ public record UnaryExpression(Token Operator, Expression Expression) : Expressio
 {
     public override string ToString()
     {
-        return $"{Operator}{Expression}";
+        return $"{Operator} {Expression}";
     }
 }

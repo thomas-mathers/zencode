@@ -81,7 +81,7 @@ public class PrefixExpressionParser : IPrefixExpressionParser
         return _literalParsingStrategy.Parse(tokenStream, TokenType.StringLiteral);
     }
 
-    private NewExpression ParseNewExpression(IParser parser, ITokenStream tokenStream)
+    private NewArrayExpression ParseNewExpression(IParser parser, ITokenStream tokenStream)
     {
         return _newExpressionParsingStrategy.Parse(parser, tokenStream);
     }

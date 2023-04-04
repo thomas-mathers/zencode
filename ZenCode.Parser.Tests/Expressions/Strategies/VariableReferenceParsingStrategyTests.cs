@@ -5,9 +5,7 @@ using Xunit;
 using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
-using ZenCode.Parser.Exceptions;
 using ZenCode.Parser.Expressions.Strategies;
-using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Tests.Mocks;
 
@@ -48,51 +46,22 @@ public class VariableReferenceParsingStrategyTests
     }
 
     [Fact]
-    public void Parse_ZeroDimensionalArrayReference_ThrowsException()
-    {
-        // Arrange
-        _tokenStreamMock
-            .Setup(x => x.Consume())
-            .Returns(new Token(TokenType.Identifier));
-        
-        _tokenStreamMock
-            .Setup(x => x.Match(TokenType.LeftBracket))
-            .Returns(true);
-        
-        _tokenStreamMock
-            .Setup(x => x.Match(TokenType.RightBracket))
-            .Returns(true);
-
-        // Act + Assert
-        Assert.Throws<MissingIndexExpressionException>(() => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object));
-    }
-
-    [Fact]
     public void Parse_ArrayReference_ReturnsVariableReferenceExpression()
     {
         // Arrange
-        var indices = _fixture.Create<ExpressionList>();
-
-        var expected = new VariableReferenceExpression(new Token(TokenType.Identifier))
-        {
-            Indices = indices
-        };
+        var expected = _fixture.Create<VariableReferenceExpression>();
         
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.Identifier))
-            .Returns(new Token(TokenType.Identifier));
+            .Returns(expected.Identifier);
         
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.LeftBracket))
             .Returns(true);
-        
-        _tokenStreamMock
-            .Setup(x => x.Match(TokenType.RightBracket))
-            .Returns(false);
 
         _parserMock
-            .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
-            .Returns(indices);
+            .Setup(x => x.ParseArrayIndexExpressionList(_tokenStreamMock.Object))
+            .Returns(expected.Indices);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

@@ -35,7 +35,7 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ExpressionList
+            Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
@@ -78,7 +78,7 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ExpressionList
+            Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
@@ -116,7 +116,7 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ExpressionList
+            Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
@@ -153,7 +153,7 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ExpressionList
+            Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
@@ -189,7 +189,7 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ExpressionList
+            Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
@@ -226,7 +226,7 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ExpressionList
+            Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {

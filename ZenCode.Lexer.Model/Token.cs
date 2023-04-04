@@ -9,7 +9,13 @@ public record Token(TokenType Type)
 
     public override string ToString()
     {
-        return Text;
+        return Type is TokenType.Identifier
+            or TokenType.BooleanLiteral
+            or TokenType.IntegerLiteral
+            or TokenType.FloatLiteral
+            or TokenType.StringLiteral
+            ? Text
+            : Type.ToString();
     }
 
     public virtual bool Equals(Token? other)
@@ -19,6 +25,6 @@ public record Token(TokenType Type)
 
     public override int GetHashCode()
     {
-        return (int)Type;
+        return Type.GetHashCode();
     }
 }

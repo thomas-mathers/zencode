@@ -15,7 +15,7 @@ public class ParserFactory
         var prefixExpressionParser = new PrefixExpressionParser(
             new AnonymousFunctionDeclarationParsingStrategy(),
             new LiteralParsingStrategy(),
-            new NewExpressionParsingStrategy(),
+            new NewArrayExpressionParsingStrategy(),
             new ParenthesisParsingStrategy(),
             new UnaryExpressionParsingStrategy(),
             new VariableReferenceParsingStrategy()
@@ -54,6 +54,7 @@ public class ParserFactory
             new ExpressionListParser(),
             expressionParser,
             new ParameterListParser(),
+            new ArrayIndexExpressionListParser(),
             new ScopeParser(),
             statementParser,
             typeParser,

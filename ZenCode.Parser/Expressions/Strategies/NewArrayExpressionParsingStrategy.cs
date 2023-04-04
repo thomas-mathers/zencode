@@ -6,15 +6,18 @@ using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Expressions.Strategies;
 
-public class NewExpressionParsingStrategy : INewExpressionParsingStrategy
+public class NewArrayExpressionParsingStrategy : INewExpressionParsingStrategy
 {
-    public NewExpression Parse(IParser parser, ITokenStream tokenStream)
+    public NewArrayExpression Parse(IParser parser, ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.New);
+        
         var type = parser.ParseType(tokenStream);
         tokenStream.Consume(TokenType.LeftBracket);
-        var expressionList = parser.ParseExpressionList(tokenStream);
+        
+        var size = parser.ParseExpression(tokenStream);
         tokenStream.Consume(TokenType.RightBracket);
-        return new NewExpression(type, expressionList);
+        
+        return new NewArrayExpression(type, size);
     }
 }

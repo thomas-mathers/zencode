@@ -1,3 +1,4 @@
+using System.Text;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Model.Grammar.Expressions;
@@ -7,6 +8,20 @@ public record AnonymousFunctionDeclarationExpression
 {
     public override string ToString()
     {
-        return $"function ({Parameters}) => {ReturnType} {Scope}";
+        var stringBuilder = new StringBuilder();
+
+        stringBuilder.Append("function");
+        stringBuilder.Append(' ');
+        stringBuilder.Append('(');
+        stringBuilder.Append(Parameters);
+        stringBuilder.Append(')');
+        stringBuilder.Append(' ');
+        stringBuilder.Append("=>");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(ReturnType);
+        stringBuilder.AppendLine();
+        stringBuilder.Append(Scope);
+
+        return stringBuilder.ToString();
     }
 }

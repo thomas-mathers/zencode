@@ -1,3 +1,4 @@
+using System.Text;
 using ZenCode.Parser.Model.Grammar.Statements;
 
 namespace ZenCode.Parser.Model.Grammar;
@@ -18,6 +19,19 @@ public record Scope : AstNode
     
     public override string ToString()
     {
-        return $"{{ {string.Join('\n', Statements)} }}";
+        var stringBuilder = new StringBuilder();
+
+        stringBuilder.AppendLine("{");
+
+        foreach (var statement in Statements)
+        {
+            stringBuilder.Append("    ");
+            stringBuilder.Append(statement);
+            stringBuilder.AppendLine();
+        }
+
+        stringBuilder.Append('}');
+
+        return stringBuilder.ToString();
     }
 }

@@ -49,16 +49,18 @@ public class ReadStatementParsingTests
             new Token(TokenType.RightBracket),
         });
 
-        var expectedStatement = new ReadStatement(new VariableReferenceExpression(new Token(TokenType.Identifier))
+        var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ExpressionList()
+            Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
                     new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             }
-        });
+        };
+        
+        var expectedStatement = new ReadStatement(variableReferenceExpression);
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

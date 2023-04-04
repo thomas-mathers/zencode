@@ -11,6 +11,7 @@ public interface IParser
     VariableReferenceExpression ParseVariableReferenceExpression(ITokenStream tokenStream);
     Expression ParseExpression(ITokenStream tokenStream, int precedence = 0);
     ExpressionList ParseExpressionList(ITokenStream tokenStream);
+    ArrayIndexExpressionList ParseArrayIndexExpressionList(ITokenStream tokenStream);
     AssignmentStatement ParseAssignmentStatement(ITokenStream tokenStream);
     VariableDeclarationStatement ParseVariableDeclarationStatement(ITokenStream tokenStream);
     Statement ParseStatement(ITokenStream tokenStream);

@@ -5,5 +5,5 @@ namespace ZenCode.Parser.Abstractions.Expressions;
 
 public interface INewExpressionParsingStrategy
 {
-    NewExpression Parse(IParser parser, ITokenStream tokenStream);
+    NewArrayExpression Parse(IParser parser, ITokenStream tokenStream);
 }

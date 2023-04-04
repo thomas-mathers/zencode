@@ -8,11 +8,11 @@ using ZenCode.Parser.Model.Grammar.Types;
 
 namespace ZenCode.Parser.Tests.Integration.Expressions;
 
-public class NewExpressionParsingTests
+public class NewArrayExpressionParsingTests
 {
     private readonly IParser _sut;
 
-    public NewExpressionParsingTests()
+    public NewArrayExpressionParsingTests()
     {
         _sut = new ParserFactory().Create();
     }
@@ -30,15 +30,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new BooleanType(), expressionList);
+        var expected = new NewArrayExpression(new BooleanType(), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -60,15 +54,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new IntegerType(), expressionList);
+        var expected = new NewArrayExpression(new IntegerType(), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -90,15 +78,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new FloatType(), expressionList);
+        var expected = new NewArrayExpression(new FloatType(), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -120,15 +102,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new StringType(), expressionList);
+        var expected = new NewArrayExpression(new StringType(), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -154,15 +130,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new BooleanType())), expressionList);
+        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new BooleanType())), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -188,15 +158,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new IntegerType())), expressionList);
+        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new IntegerType())), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -222,15 +186,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new FloatType())), expressionList);
+        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new FloatType())), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -256,15 +214,9 @@ public class NewExpressionParsingTests
             new Token(TokenType.RightBracket)
         });
 
-        var expressionList = new ExpressionList
-        {
-            Expressions = new[]
-            {
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            }
-        };
+        var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewExpression(new ArrayType(new ArrayType(new StringType())), expressionList);
+        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new StringType())), size);
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);

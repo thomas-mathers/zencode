@@ -3,6 +3,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Exceptions;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Expressions.Strategies;
@@ -13,22 +14,15 @@ public class VariableReferenceParsingStrategy : IVariableReferenceParsingStrateg
     {
         var identifierToken = tokenStream.Consume(TokenType.Identifier);
 
-        if (!tokenStream.Match(TokenType.LeftBracket))
+        var indices = tokenStream.Match(TokenType.LeftBracket)
+            ? parser.ParseArrayIndexExpressionList(tokenStream)
+            : new ArrayIndexExpressionList();
+
+        var variableReferenceExpression = new VariableReferenceExpression(identifierToken)
         {
-            return new VariableReferenceExpression(identifierToken);
-        }
+            Indices = indices
+        };
 
-        tokenStream.Consume(TokenType.LeftBracket);
-
-        if (tokenStream.Match(TokenType.RightBracket))
-        {
-            throw new MissingIndexExpressionException();
-        }
-
-        var indexExpressions = parser.ParseExpressionList(tokenStream);
-
-        tokenStream.Consume(TokenType.RightBracket);
-
-        return new VariableReferenceExpression(identifierToken) { Indices = indexExpressions };
+        return variableReferenceExpression;
     }
 }

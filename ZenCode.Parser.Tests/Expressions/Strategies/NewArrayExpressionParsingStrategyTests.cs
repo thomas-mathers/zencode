@@ -12,17 +12,16 @@ using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 
-public class NewExpressionParsingStrategyTests
+public class NewArrayExpressionParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly Mock<IParser> _parserMock = new();
-    private readonly NewExpressionParsingStrategy _sut;
+    private readonly NewArrayExpressionParsingStrategy _sut;
     
-    
-    public NewExpressionParsingStrategyTests()
+    public NewArrayExpressionParsingStrategyTests()
     {
-        _sut = new NewExpressionParsingStrategy();
+        _sut = new NewArrayExpressionParsingStrategy();
         
         _fixture.Customizations.Add(
             new TypeRelay(
@@ -39,15 +38,15 @@ public class NewExpressionParsingStrategyTests
     public void Parse_AnyTypeAnyExpressionList_ReturnsNewExpression()
     {
         // Arrange
-        var expected = _fixture.Create<NewExpression>();
+        var expected = _fixture.Create<NewArrayExpression>();
 
         _parserMock
             .Setup(x => x.ParseType(_tokenStreamMock.Object))
             .Returns(expected.Type);
 
         _parserMock
-            .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
-            .Returns(expected.ExpressionList);
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(expected.Size);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
