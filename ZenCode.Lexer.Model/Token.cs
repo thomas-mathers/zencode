@@ -14,11 +14,8 @@ public record Token(TokenType Type)
 
     public override string ToString()
     {
-        return Type is TokenType.Identifier
-            or TokenType.BooleanLiteral
-            or TokenType.IntegerLiteral
-            or TokenType.FloatLiteral
-            or TokenType.StringLiteral
+        return Type is TokenType.Identifier or TokenType.BooleanLiteral or TokenType.IntegerLiteral
+            or TokenType.FloatLiteral or TokenType.StringLiteral
             ? Text
             : Type.ToString();
     }

@@ -16,7 +16,10 @@ public class ExpressionListParser : IExpressionListParser
         {
             expressions.Add(parser.ParseExpression(tokenStream));
 
-            if (!tokenStream.Match(TokenType.Comma)) break;
+            if (!tokenStream.Match(TokenType.Comma))
+            {
+                break;
+            }
 
             tokenStream.Consume(TokenType.Comma);
         }

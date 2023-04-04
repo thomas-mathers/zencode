@@ -23,15 +23,9 @@ public class NewArrayExpressionParsingStrategyTests
     {
         _sut = new NewArrayExpressionParsingStrategy();
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Type),
-                typeof(TypeMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Type), typeof(TypeMock)));
     }
 
     [Fact]
@@ -40,13 +34,9 @@ public class NewArrayExpressionParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<NewArrayExpression>();
 
-        _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object))
-            .Returns(expected.Type);
+        _parserMock.Setup(x => x.ParseType(_tokenStreamMock.Object)).Returns(expected.Type);
 
-        _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .Returns(expected.Size);
+        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expected.Size);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

@@ -23,10 +23,7 @@ public class ReturnStatementParsingStrategyTests
     {
         _sut = new ReturnStatementParsingStrategy();
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
     }
 
     [Fact]
@@ -56,9 +53,7 @@ public class ReturnStatementParsingStrategyTests
 
         _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(false);
 
-        _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .Returns(expression);
+        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expression);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

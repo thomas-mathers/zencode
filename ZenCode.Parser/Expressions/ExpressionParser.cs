@@ -10,8 +10,7 @@ public class ExpressionParser : IExpressionParser
     private readonly IInfixExpressionParser _infixExpressionParser;
     private readonly IPrefixExpressionParser _prefixExpressionParser;
 
-    public ExpressionParser(
-        IPrefixExpressionParser prefixExpressionParser,
+    public ExpressionParser(IPrefixExpressionParser prefixExpressionParser,
         IInfixExpressionParser infixExpressionParser)
     {
         _prefixExpressionParser = prefixExpressionParser;
@@ -23,7 +22,9 @@ public class ExpressionParser : IExpressionParser
         var lExpression = _prefixExpressionParser.ParsePrefixExpression(parser, tokenStream);
 
         while (precedence < InfixExpressionParser.GetPrecedence(tokenStream.Peek(0)?.Type))
+        {
             lExpression = _infixExpressionParser.ParseInfixExpression(parser, tokenStream, lExpression);
+        }
 
         return lExpression;
     }

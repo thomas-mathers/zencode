@@ -32,10 +32,8 @@ public class VariableDeclarationStatementParsingTests
 
         var identifier = new Token(TokenType.Identifier);
 
-        var expression = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(TokenType.Plus),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        var expression = new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            new Token(TokenType.Plus), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
@@ -144,8 +142,7 @@ public class VariableDeclarationStatementParsingTests
 
         var identifier = new Token(TokenType.Identifier);
 
-        var expression = new UnaryExpression(
-            new Token(TokenType.Minus),
+        var expression = new UnaryExpression(new Token(TokenType.Minus),
             new LiteralExpression(new Token(TokenType.FloatLiteral)));
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);

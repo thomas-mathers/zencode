@@ -36,11 +36,8 @@ public class WhileStatementParsingTests
             new Token(TokenType.RightBrace)
         });
 
-        var condition = new BinaryExpression(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.GreaterThan),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        var condition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.GreaterThan), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         var scope = new Scope
         {
             Statements = new[]

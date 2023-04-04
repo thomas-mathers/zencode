@@ -50,21 +50,15 @@ public class ForStatementParsingTests
             new Token(TokenType.RightBrace)
         });
 
-        var initialization = new VariableDeclarationStatement(
-            new Token(TokenType.Identifier),
+        var initialization = new VariableDeclarationStatement(new Token(TokenType.Identifier),
             new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
-        var condition = new BinaryExpression(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.LessThan),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        var condition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.LessThan), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
-        var iterator = new AssignmentStatement(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new BinaryExpression(
-                new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new Token(TokenType.Plus),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
+        var iterator = new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                new Token(TokenType.Plus), new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {

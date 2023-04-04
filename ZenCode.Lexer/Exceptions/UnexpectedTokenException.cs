@@ -9,8 +9,7 @@ public class UnexpectedTokenException : Exception
     {
     }
 
-    public UnexpectedTokenException(TokenType receivedTokenType) : base(
-        $"Unexpected token {receivedTokenType}")
+    public UnexpectedTokenException(TokenType receivedTokenType) : base($"Unexpected token {receivedTokenType}")
     {
     }
 }

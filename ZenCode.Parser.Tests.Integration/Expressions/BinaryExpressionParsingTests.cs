@@ -32,11 +32,8 @@ public class BinaryExpressionParsingTests
         });
 
         var expected = new BinaryExpression(
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(op),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))),
-            new Token(op),
+            new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(op),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))), new Token(op),
             new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
@@ -61,12 +58,8 @@ public class BinaryExpressionParsingTests
             new Token(TokenType.IntegerLiteral)
         });
 
-        var expected = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(op),
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(op),
+        var expected = new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(op),
+            new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(op),
                 new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
@@ -79,8 +72,7 @@ public class BinaryExpressionParsingTests
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void ParseExpression_LoPrecedenceOpThenHiPrecedenceOp_ReturnsBinaryExpressionWithLastTwoTermsGroupedFirst(
-        TokenType loOp,
-        TokenType hiOp)
+        TokenType loOp, TokenType hiOp)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -92,12 +84,8 @@ public class BinaryExpressionParsingTests
             new Token(TokenType.IntegerLiteral)
         });
 
-        var expected = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(loOp),
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(hiOp),
+        var expected = new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(loOp),
+            new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(hiOp),
                 new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
@@ -110,8 +98,7 @@ public class BinaryExpressionParsingTests
     [Theory]
     [ClassData(typeof(LowPrecedenceOperatorHighPrecedenceOperatorPairs))]
     public void ParseExpression_HiPrecedenceOpThenLoPrecedenceOp_ReturnsBinaryExpressionWithFirstTwoTermsGroupedFirst(
-        TokenType loOp,
-        TokenType hiOp)
+        TokenType loOp, TokenType hiOp)
     {
         // Arrange
         var tokenStream = new TokenStream(new[]
@@ -124,11 +111,8 @@ public class BinaryExpressionParsingTests
         });
 
         var expected = new BinaryExpression(
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(hiOp),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))),
-            new Token(loOp),
+            new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(hiOp),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))), new Token(loOp),
             new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
@@ -156,12 +140,8 @@ public class BinaryExpressionParsingTests
             new Token(TokenType.RightParenthesis)
         });
 
-        var expected = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(hiOp),
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(loOp),
+        var expected = new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(hiOp),
+            new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(loOp),
                 new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act

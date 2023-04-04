@@ -11,10 +11,10 @@ public class ContinueStatementTests
         // Arrange
         var breakStatement = new ContinueStatement();
         const string expected = "continue";
-        
+
         // Act
         var actual = breakStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

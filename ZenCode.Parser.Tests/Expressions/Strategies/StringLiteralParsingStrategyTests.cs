@@ -27,9 +27,7 @@ public class LiteralParsingStrategyTests
         // Arrange
         var expected = new LiteralExpression(new Token(tokenType));
 
-        _tokenStreamMock
-            .Setup(x => x.Consume(tokenType))
-            .Returns(new Token(tokenType));
+        _tokenStreamMock.Setup(x => x.Consume(tokenType)).Returns(new Token(tokenType));
 
         // Act
         var actual = _sut.Parse(_tokenStreamMock.Object, tokenType);

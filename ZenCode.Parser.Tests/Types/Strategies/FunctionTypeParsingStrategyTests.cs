@@ -23,15 +23,9 @@ public class FunctionTypeParsingStrategyTests
 
     public FunctionTypeParsingStrategyTests()
     {
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Type),
-                typeof(TypeMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Type), typeof(TypeMock)));
     }
 
     [Fact]
@@ -41,13 +35,9 @@ public class FunctionTypeParsingStrategyTests
         var returnType = _fixture.Create<Type>();
         var expected = new FunctionType(returnType, new TypeList());
 
-        _tokenStreamMock
-            .Setup(x => x.Match(TokenType.RightParenthesis))
-            .Returns(true);
+        _tokenStreamMock.Setup(x => x.Match(TokenType.RightParenthesis)).Returns(true);
 
-        _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object))
-            .Returns(returnType);
+        _parserMock.Setup(x => x.ParseType(_tokenStreamMock.Object)).Returns(returnType);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
@@ -62,17 +52,11 @@ public class FunctionTypeParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<FunctionType>();
 
-        _tokenStreamMock
-            .Setup(x => x.Match(TokenType.RightParenthesis))
-            .Returns(false);
+        _tokenStreamMock.Setup(x => x.Match(TokenType.RightParenthesis)).Returns(false);
 
-        _parserMock
-            .Setup(x => x.ParseTypeList(_tokenStreamMock.Object))
-            .Returns(expected.ParameterTypes);
+        _parserMock.Setup(x => x.ParseTypeList(_tokenStreamMock.Object)).Returns(expected.ParameterTypes);
 
-        _parserMock
-            .Setup(x => x.ParseType(_tokenStreamMock.Object))
-            .Returns(expected.ReturnType);
+        _parserMock.Setup(x => x.ParseType(_tokenStreamMock.Object)).Returns(expected.ReturnType);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

@@ -18,10 +18,7 @@ public class ArrayTypeParsingStrategyTests
 
     public ArrayTypeParsingStrategyTests()
     {
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Type),
-                typeof(TypeMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Type), typeof(TypeMock)));
     }
 
     [Fact]

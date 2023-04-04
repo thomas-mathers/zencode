@@ -24,15 +24,9 @@ public class WhileStatementParsingStrategyTests
     {
         _sut = new WhileStatementParsingStrategy();
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Statement),
-                typeof(StatementMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Statement), typeof(StatementMock)));
     }
 
     [Fact]
@@ -42,9 +36,7 @@ public class WhileStatementParsingStrategyTests
         var conditionScope = _fixture.Create<ConditionScope>();
         var expected = new WhileStatement(conditionScope);
 
-        _parserMock
-            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-            .Returns(conditionScope);
+        _parserMock.Setup(x => x.ParseConditionScope(_tokenStreamMock.Object)).Returns(conditionScope);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

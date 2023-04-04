@@ -21,7 +21,10 @@ public class ParameterListParser : IParameterListParser
 
             parameters.Add(new Parameter(identifier, type));
 
-            if (!tokenStream.Match(TokenType.Comma)) break;
+            if (!tokenStream.Match(TokenType.Comma))
+            {
+                break;
+            }
 
             tokenStream.Consume(TokenType.Comma);
         }

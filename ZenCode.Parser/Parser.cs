@@ -22,14 +22,9 @@ public class Parser : IParser
     private readonly ITypeListParser _typeListParser;
     private readonly ITypeParser _typeParser;
 
-    public Parser(
-        IExpressionListParser expressionListParser,
-        IExpressionParser expressionParser,
-        IParameterListParser parameterListParser,
-        IArrayIndexExpressionListParser arrayIndexExpressionListParser,
-        IScopeParser scopeParser,
-        IStatementParser statementParser,
-        ITypeParser typeParser,
+    public Parser(IExpressionListParser expressionListParser, IExpressionParser expressionParser,
+        IParameterListParser parameterListParser, IArrayIndexExpressionListParser arrayIndexExpressionListParser,
+        IScopeParser scopeParser, IStatementParser statementParser, ITypeParser typeParser,
         ITypeListParser typeListParser)
     {
         _expressionListParser = expressionListParser;
@@ -46,7 +41,10 @@ public class Parser : IParser
     {
         var statements = new List<Statement>();
 
-        while (tokenStream.Peek(0) != null) statements.Add(ParseStatement(tokenStream));
+        while (tokenStream.Peek(0) != null)
+        {
+            statements.Add(ParseStatement(tokenStream));
+        }
 
         return new Program(statements);
     }

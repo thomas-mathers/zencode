@@ -18,8 +18,7 @@ public class PrefixExpressionParser : IPrefixExpressionParser
 
     public PrefixExpressionParser(
         IAnonymousFunctionDeclarationParsingStrategy anonymousFunctionDeclarationParsingStrategy,
-        ILiteralParsingStrategy literalParsingStrategy,
-        INewExpressionParsingStrategy newExpressionParsingStrategy,
+        ILiteralParsingStrategy literalParsingStrategy, INewExpressionParsingStrategy newExpressionParsingStrategy,
         IParenthesisParsingStrategy parenthesisParsingStrategy,
         IUnaryExpressionParsingStrategy unaryExpressionParsingStrategy,
         IVariableReferenceParsingStrategy variableReferenceParsingStrategy)

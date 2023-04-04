@@ -23,13 +23,9 @@ public class FunctionCallParsingStrategyTests
     public FunctionCallParsingStrategyTests()
     {
         _sut = new FunctionCallParsingStrategy();
-        _variableReferenceExpression =
-            new VariableReferenceExpression(new Token(TokenType.Identifier));
+        _variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
     }
 
     [Fact]
@@ -38,9 +34,7 @@ public class FunctionCallParsingStrategyTests
         // Arrange
         var expected = new FunctionCallExpression(_variableReferenceExpression);
 
-        _tokenStreamMock
-            .Setup(x => x.Match(TokenType.RightParenthesis))
-            .Returns(true);
+        _tokenStreamMock.Setup(x => x.Match(TokenType.RightParenthesis)).Returns(true);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);
@@ -60,13 +54,9 @@ public class FunctionCallParsingStrategyTests
             Arguments = arguments
         };
 
-        _tokenStreamMock
-            .Setup(x => x.Match(TokenType.RightParenthesis))
-            .Returns(false);
+        _tokenStreamMock.Setup(x => x.Match(TokenType.RightParenthesis)).Returns(false);
 
-        _parserMock
-            .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
-            .Returns(arguments);
+        _parserMock.Setup(x => x.ParseExpressionList(_tokenStreamMock.Object)).Returns(arguments);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression);

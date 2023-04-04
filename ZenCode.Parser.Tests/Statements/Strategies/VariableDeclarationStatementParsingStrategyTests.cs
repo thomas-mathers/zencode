@@ -23,10 +23,7 @@ public class VariableDeclarationStatementParsingStrategyTests
     {
         _sut = new VariableDeclarationStatementParsingStrategy();
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
     }
 
     [Fact]
@@ -35,13 +32,9 @@ public class VariableDeclarationStatementParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<VariableDeclarationStatement>();
 
-        _tokenStreamMock
-            .Setup(x => x.Consume(TokenType.Identifier))
-            .Returns(expected.Identifier);
+        _tokenStreamMock.Setup(x => x.Consume(TokenType.Identifier)).Returns(expected.Identifier);
 
-        _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .Returns(expected.Expression);
+        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expected.Expression);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

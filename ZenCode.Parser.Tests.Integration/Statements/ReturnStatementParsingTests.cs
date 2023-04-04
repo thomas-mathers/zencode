@@ -50,10 +50,8 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(TokenType.Plus),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+            Expression = new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                new Token(TokenType.Plus), new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
         // Act
@@ -103,12 +101,10 @@ public class ReturnStatementParsingTests
             new Token(TokenType.Semicolon)
         });
 
-        var expectedStatement =
-            new ReturnStatement
-            {
-                Expression =
-                    new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
-            };
+        var expectedStatement = new ReturnStatement
+        {
+            Expression = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -130,11 +126,10 @@ public class ReturnStatementParsingTests
             new Token(TokenType.Semicolon)
         });
 
-        var expectedStatement =
-            new ReturnStatement
-            {
-                Expression = new LiteralExpression(new Token(TokenType.StringLiteral))
-            };
+        var expectedStatement = new ReturnStatement
+        {
+            Expression = new LiteralExpression(new Token(TokenType.StringLiteral))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -155,12 +150,11 @@ public class ReturnStatementParsingTests
             new Token(TokenType.Semicolon)
         });
 
-        var expectedStatement =
-            new ReturnStatement
-            {
-                Expression = new UnaryExpression(new Token(TokenType.Minus),
-                    new LiteralExpression(new Token(TokenType.FloatLiteral)))
-            };
+        var expectedStatement = new ReturnStatement
+        {
+            Expression = new UnaryExpression(new Token(TokenType.Minus),
+                new LiteralExpression(new Token(TokenType.FloatLiteral)))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

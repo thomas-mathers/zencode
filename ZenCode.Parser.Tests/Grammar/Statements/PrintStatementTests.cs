@@ -12,10 +12,10 @@ public class PrintStatementTests
         // Arrange
         var printStatement = new PrintStatement(new ExpressionMock());
         const string expected = "print {Expression}";
-        
+
         // Act
         var actual = printStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

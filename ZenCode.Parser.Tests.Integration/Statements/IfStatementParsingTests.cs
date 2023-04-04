@@ -36,11 +36,8 @@ public class IfStatementParsingTests
             new Token(TokenType.RightBrace)
         });
 
-        var thenCondition = new BinaryExpression(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         var thenScope = new Scope
         {
             Statements = new[]
@@ -85,11 +82,8 @@ public class IfStatementParsingTests
             new Token(TokenType.RightBrace)
         });
 
-        var thenCondition = new BinaryExpression(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         var thenScope = new Scope
         {
             Statements = new[]
@@ -158,11 +152,8 @@ public class IfStatementParsingTests
             new Token(TokenType.RightBrace)
         });
 
-        var thenCondition = new BinaryExpression(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         var thenScope = new Scope
         {
             Statements = new[]
@@ -173,11 +164,8 @@ public class IfStatementParsingTests
         };
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
 
-        var elseIfCondition = new BinaryExpression(
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        var elseIfCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
         var elseIfScope = new Scope
         {
             Statements = new[]

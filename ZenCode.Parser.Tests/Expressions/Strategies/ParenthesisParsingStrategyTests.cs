@@ -22,10 +22,7 @@ public class ParenthesisParsingStrategyTests
     {
         _sut = new ParenthesisParsingStrategy();
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
     }
 
     [Fact]
@@ -34,9 +31,7 @@ public class ParenthesisParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<Expression>();
 
-        _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .Returns(expected);
+        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expected);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

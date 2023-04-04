@@ -12,7 +12,10 @@ public class ReturnStatementParsingStrategy : IReturnStatementParsingStrategy
     {
         tokenStream.Consume(TokenType.Return);
 
-        if (tokenStream.Match(TokenType.Semicolon)) return new ReturnStatement();
+        if (tokenStream.Match(TokenType.Semicolon))
+        {
+            return new ReturnStatement();
+        }
 
         var expression = parser.ParseExpression(tokenStream);
 

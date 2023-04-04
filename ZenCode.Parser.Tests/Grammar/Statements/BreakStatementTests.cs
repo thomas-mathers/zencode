@@ -11,10 +11,10 @@ public class BreakStatementTests
         // Arrange
         var breakStatement = new BreakStatement();
         const string expected = "break";
-        
+
         // Act
         var actual = breakStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

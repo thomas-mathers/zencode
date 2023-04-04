@@ -26,18 +26,11 @@ public class BinaryExpressionParsingStrategyTests
         var lExpression = _fixture.Create<ExpressionMock>();
         var rExpression = _fixture.Create<ExpressionMock>();
 
-        var expected = new BinaryExpression(
-            lExpression,
-            new Token(operatorTokenType),
-            rExpression);
+        var expected = new BinaryExpression(lExpression, new Token(operatorTokenType), rExpression);
 
-        _tokenStreamMock
-            .Setup(x => x.Consume(operatorTokenType))
-            .Returns(new Token(operatorTokenType));
+        _tokenStreamMock.Setup(x => x.Consume(operatorTokenType)).Returns(new Token(operatorTokenType));
 
-        _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, It.IsAny<int>()))
-            .Returns(rExpression);
+        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, It.IsAny<int>())).Returns(rExpression);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, lExpression, operatorTokenType, 0, false);

@@ -27,7 +27,9 @@ public class IfStatementParsingStrategy : IIfStatementParsingStrategy
         }
 
         if (!tokenStream.Match(TokenType.Else))
+        {
             return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes };
+        }
 
         tokenStream.Consume(TokenType.Else);
 

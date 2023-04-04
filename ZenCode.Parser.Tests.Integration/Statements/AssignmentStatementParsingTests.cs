@@ -44,10 +44,8 @@ public class AssignmentStatementParsingTests
             }
         };
 
-        var expression = new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.FloatLiteral)),
-            new Token(TokenType.Plus),
-            new LiteralExpression(new Token(TokenType.FloatLiteral)));
+        var expression = new BinaryExpression(new LiteralExpression(new Token(TokenType.FloatLiteral)),
+            new Token(TokenType.Plus), new LiteralExpression(new Token(TokenType.FloatLiteral)));
 
         var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
 
@@ -259,10 +257,10 @@ public class AssignmentStatementParsingTests
             new Token(TokenType.FloatLiteral)
         });
 
-        var expectedStatement =
-            new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new BinaryExpression(new LiteralExpression(new Token(TokenType.FloatLiteral)),
-                    new Token(TokenType.Plus), new LiteralExpression(new Token(TokenType.FloatLiteral))));
+        var expectedStatement = new AssignmentStatement(
+            new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new BinaryExpression(new LiteralExpression(new Token(TokenType.FloatLiteral)), new Token(TokenType.Plus),
+                new LiteralExpression(new Token(TokenType.FloatLiteral))));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

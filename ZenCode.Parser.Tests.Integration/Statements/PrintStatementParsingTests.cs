@@ -28,11 +28,9 @@ public class PrintStatementParsingTests
             new Token(TokenType.IntegerLiteral)
         });
 
-        var expectedStatement = new PrintStatement(
-            new BinaryExpression(
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(TokenType.Plus),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))));
+        var expectedStatement = new PrintStatement(new BinaryExpression(
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(TokenType.Plus),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -99,8 +97,7 @@ public class PrintStatementParsingTests
             new Token(TokenType.RightParenthesis)
         });
 
-        var expectedStatement =
-            new PrintStatement(new LiteralExpression(new Token(TokenType.StringLiteral)));
+        var expectedStatement = new PrintStatement(new LiteralExpression(new Token(TokenType.StringLiteral)));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -120,9 +117,8 @@ public class PrintStatementParsingTests
             new Token(TokenType.FloatLiteral)
         });
 
-        var expectedStatement =
-            new PrintStatement(new UnaryExpression(new Token(TokenType.Minus),
-                new LiteralExpression(new Token(TokenType.FloatLiteral))));
+        var expectedStatement = new PrintStatement(new UnaryExpression(new Token(TokenType.Minus),
+            new LiteralExpression(new Token(TokenType.FloatLiteral))));
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

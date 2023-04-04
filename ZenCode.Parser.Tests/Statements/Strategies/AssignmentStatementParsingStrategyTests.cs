@@ -23,10 +23,7 @@ public class AssignmentStatementParsingStrategyTests
     {
         _sut = new AssignmentStatementParsingStrategy();
 
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
     }
 
     [Fact]
@@ -35,13 +32,10 @@ public class AssignmentStatementParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<AssignmentStatement>();
 
-        _parserMock
-            .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
+        _parserMock.Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
             .Returns(expected.VariableReferenceExpression);
 
-        _parserMock
-            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
-            .Returns(expected.Expression);
+        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expected.Expression);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

@@ -21,10 +21,7 @@ public class ReadStatementParsingStrategyTests
 
     public ReadStatementParsingStrategyTests()
     {
-        _fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(Expression),
-                typeof(ExpressionMock)));
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
     }
 
     [Fact]
@@ -33,8 +30,7 @@ public class ReadStatementParsingStrategyTests
         // Arrange
         var variableReferenceExpression = _fixture.Create<VariableReferenceExpression>();
 
-        _parserMock
-            .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
+        _parserMock.Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
             .Returns(variableReferenceExpression);
 
         // Act
