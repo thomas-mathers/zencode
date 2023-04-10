@@ -1,3 +1,4 @@
+using System.Text;
 using ZenCode.Lexer.Model;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
@@ -8,6 +9,21 @@ public record FunctionDeclarationStatement
 {
     public override string ToString()
     {
-        return $"function {Identifier}({Parameters}) => {ReturnType} {Scope}";
+        var stringBuilder = new StringBuilder();
+
+        stringBuilder.Append("function");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(Identifier);
+        stringBuilder.Append('(');
+        stringBuilder.Append(Parameters);
+        stringBuilder.Append(')');
+        stringBuilder.Append(' ');
+        stringBuilder.Append("=>");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(ReturnType);
+        stringBuilder.AppendLine();
+        stringBuilder.Append(Scope);
+
+        return stringBuilder.ToString();
     }
 }

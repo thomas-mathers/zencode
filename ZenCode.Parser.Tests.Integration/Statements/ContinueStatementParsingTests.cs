@@ -19,10 +19,7 @@ public class ContinueStatementParsingTests
     public void Parse_Continue_ReturnsBreakStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Continue)
-        });
+        var tokenStream = new TokenStream(new[] { new Token(TokenType.Continue) });
 
         var expectedStatement = new ContinueStatement();
 

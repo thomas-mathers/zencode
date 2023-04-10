@@ -31,10 +31,7 @@ public class TypeParserTests
     public void Parse_PrimitiveType_ReturnsPrimitiveType(TokenType tokenType, Type expectedType)
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(tokenType)
-        });
+        var tokenStream = new TokenStream(new[] { new Token(tokenType) });
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -50,9 +47,7 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(tokenType),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket)
+            new Token(tokenType), new Token(TokenType.LeftBracket), new Token(TokenType.RightBracket)
         });
 
         var expectedType = new ArrayType(type);
@@ -71,12 +66,8 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(tokenType),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
+            new Token(tokenType), new Token(TokenType.LeftBracket), new Token(TokenType.RightBracket),
+            new Token(TokenType.LeftBracket), new Token(TokenType.RightBracket), new Token(TokenType.LeftBracket),
             new Token(TokenType.RightBracket)
         });
 
@@ -96,10 +87,8 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType)
+            new Token(TokenType.LeftParenthesis), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow), new Token(tokenType)
         });
 
         var expectedType = new FunctionType(type, new TypeList());
@@ -118,11 +107,8 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.LeftParenthesis),
-            new Token(tokenType),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType)
+            new Token(TokenType.LeftParenthesis), new Token(tokenType), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow), new Token(tokenType)
         });
 
         var expectedType = new FunctionType(type, new TypeList { Types = new[] { type } });
@@ -141,26 +127,12 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.LeftParenthesis),
-            new Token(tokenType),
-            new Token(TokenType.Comma),
-            new Token(tokenType),
-            new Token(TokenType.Comma),
-            new Token(tokenType),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType)
+            new Token(TokenType.LeftParenthesis), new Token(tokenType), new Token(TokenType.Comma),
+            new Token(tokenType), new Token(TokenType.Comma), new Token(tokenType),
+            new Token(TokenType.RightParenthesis), new Token(TokenType.RightArrow), new Token(tokenType)
         });
 
-        var expectedType = new FunctionType(type, new TypeList
-        {
-            Types = new[]
-            {
-                type,
-                type,
-                type
-            }
-        });
+        var expectedType = new FunctionType(type, new TypeList { Types = new[] { type, type, type } });
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -176,37 +148,18 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType)
+            new Token(TokenType.LeftParenthesis), new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.LeftParenthesis), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow), new Token(tokenType), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow), new Token(tokenType), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow), new Token(tokenType)
         });
 
         var innerInnerFunctionType = new FunctionType(type, new TypeList());
 
-        var innerFunctionType = new FunctionType(type, new TypeList
-        {
-            Types = new[]
-            {
-                innerInnerFunctionType
-            }
-        });
+        var innerFunctionType = new FunctionType(type, new TypeList { Types = new[] { innerInnerFunctionType } });
 
-        var expectedType = new FunctionType(type, new TypeList
-        {
-            Types = new[]
-            {
-                innerFunctionType
-            }
-        });
+        var expectedType = new FunctionType(type, new TypeList { Types = new[] { innerFunctionType } });
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -222,13 +175,9 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType)
+            new Token(TokenType.LeftParenthesis), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow), new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis), new Token(TokenType.RightArrow), new Token(tokenType)
         });
 
         var expectedType = new FunctionType(new FunctionType(type, new TypeList()), new TypeList());
@@ -248,26 +197,15 @@ public class TypeParserTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(tokenType)
+            new Token(TokenType.LeftParenthesis), new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis), new Token(TokenType.RightArrow), new Token(tokenType),
+            new Token(TokenType.RightParenthesis), new Token(TokenType.RightArrow),
+            new Token(TokenType.LeftParenthesis), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow), new Token(tokenType)
         });
 
-        var expectedType = new FunctionType(new FunctionType(type, new TypeList()), new TypeList
-        {
-            Types = new[]
-            {
-                new FunctionType(type, new TypeList())
-            }
-        });
+        var expectedType = new FunctionType(new FunctionType(type, new TypeList()),
+            new TypeList { Types = new[] { new FunctionType(type, new TypeList()) } });
 
         // Act
         var actualType = _sut.ParseType(tokenStream);

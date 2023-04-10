@@ -22,11 +22,8 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Boolean),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.Boolean), new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
@@ -46,11 +43,8 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Integer),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.Integer), new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
@@ -70,11 +64,8 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Float),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.Float), new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
@@ -94,11 +85,8 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.String),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.String), new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
@@ -118,15 +106,9 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Boolean),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.Boolean), new Token(TokenType.LeftBracket),
+            new Token(TokenType.RightBracket), new Token(TokenType.LeftBracket), new Token(TokenType.RightBracket),
+            new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
@@ -146,15 +128,9 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Integer),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.Integer), new Token(TokenType.LeftBracket),
+            new Token(TokenType.RightBracket), new Token(TokenType.LeftBracket), new Token(TokenType.RightBracket),
+            new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
@@ -174,15 +150,9 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.Float),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.Float), new Token(TokenType.LeftBracket),
+            new Token(TokenType.RightBracket), new Token(TokenType.LeftBracket), new Token(TokenType.RightBracket),
+            new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
@@ -202,15 +172,9 @@ public class NewArrayExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.New),
-            new Token(TokenType.String),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.RightBracket),
-            new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket)
+            new Token(TokenType.New), new Token(TokenType.String), new Token(TokenType.LeftBracket),
+            new Token(TokenType.RightBracket), new Token(TokenType.LeftBracket), new Token(TokenType.RightBracket),
+            new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
         });
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));

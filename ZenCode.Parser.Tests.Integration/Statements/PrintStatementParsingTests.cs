@@ -22,9 +22,7 @@ public class PrintStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Print),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.Plus),
+            new Token(TokenType.Print), new Token(TokenType.IntegerLiteral), new Token(TokenType.Plus),
             new Token(TokenType.IntegerLiteral)
         });
 
@@ -47,11 +45,7 @@ public class PrintStatementParsingTests
     public void Parse_PrintLiteral_ReturnsPrintStatement(TokenType tokenType)
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print),
-            new Token(tokenType)
-        });
+        var tokenStream = new TokenStream(new[] { new Token(TokenType.Print), new Token(tokenType) });
 
         var expectedStatement = new PrintStatement(new LiteralExpression(new Token(tokenType)));
 
@@ -68,9 +62,7 @@ public class PrintStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Print),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Print), new Token(TokenType.Identifier), new Token(TokenType.LeftParenthesis),
             new Token(TokenType.RightParenthesis)
         });
 
@@ -91,9 +83,7 @@ public class PrintStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Print),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.StringLiteral),
+            new Token(TokenType.Print), new Token(TokenType.LeftParenthesis), new Token(TokenType.StringLiteral),
             new Token(TokenType.RightParenthesis)
         });
 
@@ -112,9 +102,7 @@ public class PrintStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Print),
-            new Token(TokenType.Minus),
-            new Token(TokenType.FloatLiteral)
+            new Token(TokenType.Print), new Token(TokenType.Minus), new Token(TokenType.FloatLiteral)
         });
 
         var expectedStatement = new PrintStatement(new UnaryExpression(new Token(TokenType.Minus),
@@ -131,11 +119,7 @@ public class PrintStatementParsingTests
     public void Parse_PrintVariableReference_ReturnsPrintStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print),
-            new Token(TokenType.Identifier)
-        });
+        var tokenStream = new TokenStream(new[] { new Token(TokenType.Print), new Token(TokenType.Identifier) });
 
         var expectedStatement = new PrintStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
 

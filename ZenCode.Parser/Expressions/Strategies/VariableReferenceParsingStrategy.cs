@@ -17,10 +17,7 @@ public class VariableReferenceParsingStrategy : IVariableReferenceParsingStrateg
             ? parser.ParseArrayIndexExpressionList(tokenStream)
             : new ArrayIndexExpressionList();
 
-        var variableReferenceExpression = new VariableReferenceExpression(identifierToken)
-        {
-            Indices = indices
-        };
+        var variableReferenceExpression = new VariableReferenceExpression(identifierToken) { Indices = indices };
 
         return variableReferenceExpression;
     }

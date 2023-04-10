@@ -27,13 +27,7 @@ public class FunctionCallExpressionTests
         // Arrange
         var functionCallExpression = new FunctionCallExpression(new ExpressionMock())
         {
-            Arguments = new ExpressionList
-            {
-                Expressions = new[]
-                {
-                    new ExpressionMock()
-                }
-            }
+            Arguments = new ExpressionList { Expressions = new[] { new ExpressionMock() } }
         };
         var expected = "{Expression}({Expression})";
 
@@ -52,12 +46,7 @@ public class FunctionCallExpressionTests
         {
             Arguments = new ExpressionList
             {
-                Expressions = new[]
-                {
-                    new ExpressionMock(),
-                    new ExpressionMock(),
-                    new ExpressionMock()
-                }
+                Expressions = new[] { new ExpressionMock(), new ExpressionMock(), new ExpressionMock() }
             }
         };
         var expected = "{Expression}({Expression}, {Expression}, {Expression})";

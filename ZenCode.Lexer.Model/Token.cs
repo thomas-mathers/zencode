@@ -1,10 +1,22 @@
 ﻿namespace ZenCode.Lexer.Model;
 
-public record Token(TokenType Type)
+public record Token
 {
-    public int EndingColumn => StartingColumn + Text.Length;
+    public Token(TokenType type)
+    {
+        Type = type;
+    }
+
+    public Token(TokenType type, string text)
+    {
+        Type = type;
+        Text = text;
+    }
+
+    public TokenType Type { get; init; }
     public int Line { get; init; }
     public int StartingColumn { get; init; }
+    public int EndingColumn => StartingColumn + Text.Length;
     public string Text { get; init; } = string.Empty;
 
     public virtual bool Equals(Token? other)

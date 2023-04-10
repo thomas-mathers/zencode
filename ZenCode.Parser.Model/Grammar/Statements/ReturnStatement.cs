@@ -1,3 +1,4 @@
+using System.Text;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Model.Grammar.Statements;
@@ -8,6 +9,16 @@ public record ReturnStatement : SimpleStatement
 
     public override string ToString()
     {
-        return $"return {Expression}";
+        var stringBuilder = new StringBuilder();
+
+        stringBuilder.Append("return");
+
+        if (Expression != null)
+        {
+            stringBuilder.Append(' ');
+            stringBuilder.Append(Expression);
+        }
+
+        return stringBuilder.ToString();
     }
 }

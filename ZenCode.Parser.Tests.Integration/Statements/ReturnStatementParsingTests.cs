@@ -20,11 +20,7 @@ public class ReturnStatementParsingTests
     public void Parse_ReturnNothing_ReturnsReturnStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Return),
-            new Token(TokenType.Semicolon)
-        });
+        var tokenStream = new TokenStream(new[] { new Token(TokenType.Return), new Token(TokenType.Semicolon) });
 
         var expectedStatement = new ReturnStatement();
 
@@ -41,11 +37,8 @@ public class ReturnStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Return),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.Plus),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.Semicolon)
+            new Token(TokenType.Return), new Token(TokenType.IntegerLiteral), new Token(TokenType.Plus),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.Semicolon)
         });
 
         var expectedStatement = new ReturnStatement
@@ -71,15 +64,10 @@ public class ReturnStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Return),
-            new Token(tokenType),
-            new Token(TokenType.Semicolon)
+            new Token(TokenType.Return), new Token(tokenType), new Token(TokenType.Semicolon)
         });
 
-        var expectedStatement = new ReturnStatement
-        {
-            Expression = new LiteralExpression(new Token(tokenType))
-        };
+        var expectedStatement = new ReturnStatement { Expression = new LiteralExpression(new Token(tokenType)) };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -94,16 +82,14 @@ public class ReturnStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Return),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.Semicolon)
+            new Token(TokenType.Return), new Token(TokenType.Identifier), new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis), new Token(TokenType.Semicolon)
         });
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+            Expression =
+                new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
         };
 
         // Act
@@ -119,11 +105,8 @@ public class ReturnStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Return),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.StringLiteral),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.Semicolon)
+            new Token(TokenType.Return), new Token(TokenType.LeftParenthesis), new Token(TokenType.StringLiteral),
+            new Token(TokenType.RightParenthesis), new Token(TokenType.Semicolon)
         });
 
         var expectedStatement = new ReturnStatement
@@ -144,9 +127,7 @@ public class ReturnStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Return),
-            new Token(TokenType.Minus),
-            new Token(TokenType.FloatLiteral),
+            new Token(TokenType.Return), new Token(TokenType.Minus), new Token(TokenType.FloatLiteral),
             new Token(TokenType.Semicolon)
         });
 
@@ -169,9 +150,7 @@ public class ReturnStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Return),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Semicolon)
+            new Token(TokenType.Return), new Token(TokenType.Identifier), new Token(TokenType.Semicolon)
         });
 
         var expectedStatement = new ReturnStatement

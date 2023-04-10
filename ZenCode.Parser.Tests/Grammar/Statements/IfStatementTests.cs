@@ -17,19 +17,16 @@ public class IfStatementTests
         _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
         _fixture.Customizations.Add(new TypeRelay(typeof(Statement), typeof(StatementMock)));
     }
-    
+
     [Fact]
     public void ToString_NoElseIfNoElse_ReturnsCorrectString()
     {
         // Arrange
         var thenCondition = _fixture.Create<Expression>();
-        var thenScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
-        
+        var thenScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
+
         var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope));
-        
+
         const string expected = """
         if ({Expression})
         {
@@ -38,38 +35,29 @@ public class IfStatementTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = ifStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_OneElseIfNoElse_ReturnsCorrectString()
     {
         // Arrange
         var thenCondition = _fixture.Create<Expression>();
-        var thenScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
-        
+        var thenScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
+
         var elseIfCondition = _fixture.Create<Expression>();
-        var elseIfScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
+        var elseIfScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
         var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
         {
-            ElseIfScopes = new[]
-            {
-                new ConditionScope(elseIfCondition, elseIfScope)
-            }
+            ElseIfScopes = new[] { new ConditionScope(elseIfCondition, elseIfScope) }
         };
-        
+
         const string expected = """
         if ({Expression})
         {
@@ -84,29 +72,23 @@ public class IfStatementTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = ifStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_ThreeElseIfNoElse_ReturnsCorrectString()
     {
         // Arrange
         var thenCondition = _fixture.Create<Expression>();
-        var thenScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
-        
+        var thenScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
+
         var elseIfCondition = _fixture.Create<Expression>();
-        var elseIfScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
+        var elseIfScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
         var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
         {
@@ -117,7 +99,7 @@ public class IfStatementTests
                 new ConditionScope(elseIfCondition, elseIfScope)
             }
         };
-        
+
         const string expected = """
         if ({Expression})
         {
@@ -144,34 +126,25 @@ public class IfStatementTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = ifStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_NoElseIf_ReturnsCorrectString()
     {
         // Arrange
         var thenCondition = _fixture.Create<Expression>();
-        var thenScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
+        var thenScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var elseScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
+        var elseScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
-        {
-            ElseScope = elseScope
-        };
-        
+        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope)) { ElseScope = elseScope };
+
         const string expected = """
         if ({Expression})
         {
@@ -186,44 +159,31 @@ public class IfStatementTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = ifStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_OneElseIf_ReturnsCorrectString()
     {
         // Arrange
         var thenCondition = _fixture.Create<Expression>();
-        var thenScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
-        
+        var thenScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
+
         var elseIfCondition = _fixture.Create<Expression>();
-        var elseIfScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
-        
-        var elseScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
+        var elseIfScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
+
+        var elseScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
         var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
         {
-            ElseIfScopes = new[]
-            {
-                new ConditionScope(elseIfCondition, elseIfScope)
-            },
-            ElseScope = elseScope
+            ElseIfScopes = new[] { new ConditionScope(elseIfCondition, elseIfScope) }, ElseScope = elseScope
         };
-        
+
         const string expected = """
         if ({Expression})
         {
@@ -244,34 +204,25 @@ public class IfStatementTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = ifStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ToString_ThreeElseIf_ReturnsCorrectString()
     {
         // Arrange
         var thenCondition = _fixture.Create<Expression>();
-        var thenScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
-        
+        var thenScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
+
         var elseIfCondition = _fixture.Create<Expression>();
-        var elseIfScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
-        
-        var elseScope = new Scope
-        {
-            Statements = _fixture.CreateMany<Statement>(3).ToArray()
-        };
+        var elseIfScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
+
+        var elseScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
         var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
         {
@@ -283,7 +234,7 @@ public class IfStatementTests
             },
             ElseScope = elseScope
         };
-        
+
         const string expected = """
         if ({Expression})
         {
@@ -316,10 +267,10 @@ public class IfStatementTests
             {Statement}
         }
         """;
-        
+
         // Act
         var actual = ifStatement.ToString();
-        
+
         // Assert
         Assert.Equal(expected, actual);
     }

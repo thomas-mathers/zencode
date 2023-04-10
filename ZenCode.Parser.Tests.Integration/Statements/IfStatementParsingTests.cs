@@ -23,17 +23,10 @@ public class IfStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Equals),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace)
+            new Token(TokenType.If), new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier),
+            new Token(TokenType.Equals), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace)
         });
 
         var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
@@ -63,23 +56,12 @@ public class IfStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Equals),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace),
-            new Token(TokenType.Else),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace)
+            new Token(TokenType.If), new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier),
+            new Token(TokenType.Equals), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace), new Token(TokenType.Else),
+            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace)
         });
 
         var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
@@ -103,10 +85,7 @@ public class IfStatementParsingTests
             }
         };
 
-        var expectedStatement = new IfStatement(thenConditionScope)
-        {
-            ElseScope = elseScope
-        };
+        var expectedStatement = new IfStatement(thenConditionScope) { ElseScope = elseScope };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -122,34 +101,16 @@ public class IfStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Equals),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace),
-            new Token(TokenType.ElseIf),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Equals),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace),
-            new Token(TokenType.Else),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace)
+            new Token(TokenType.If), new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier),
+            new Token(TokenType.Equals), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace), new Token(TokenType.ElseIf),
+            new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier), new Token(TokenType.Equals),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace), new Token(TokenType.Else),
+            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace)
         });
 
         var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
@@ -187,11 +148,7 @@ public class IfStatementParsingTests
 
         var expectedStatement = new IfStatement(thenConditionScope)
         {
-            ElseIfScopes = new[]
-            {
-                elseIfConditionScope
-            },
-            ElseScope = elseScope
+            ElseIfScopes = new[] { elseIfConditionScope }, ElseScope = elseScope
         };
 
         // Act
