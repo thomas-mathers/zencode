@@ -12,7 +12,7 @@ public class FunctionCallExpressionTests
     {
         // Arrange
         var functionCallExpression = new FunctionCallExpression(new ExpressionMock());
-        var expected = "{Expression}()";
+        const string expected = "{Expression}()";
 
         // Act
         var actual = functionCallExpression.ToString();
@@ -27,9 +27,15 @@ public class FunctionCallExpressionTests
         // Arrange
         var functionCallExpression = new FunctionCallExpression(new ExpressionMock())
         {
-            Arguments = new ExpressionList { Expressions = new[] { new ExpressionMock() } }
+            Arguments = new ExpressionList
+            {
+                Expressions = new[]
+                {
+                    new ExpressionMock()
+                }
+            }
         };
-        var expected = "{Expression}({Expression})";
+        const string expected = "{Expression}({Expression})";
 
         // Act
         var actual = functionCallExpression.ToString();
@@ -49,7 +55,7 @@ public class FunctionCallExpressionTests
                 Expressions = new[] { new ExpressionMock(), new ExpressionMock(), new ExpressionMock() }
             }
         };
-        var expected = "{Expression}({Expression}, {Expression}, {Expression})";
+        const string expected = "{Expression}({Expression}, {Expression}, {Expression})";
 
         // Act
         var actual = functionCallExpression.ToString();

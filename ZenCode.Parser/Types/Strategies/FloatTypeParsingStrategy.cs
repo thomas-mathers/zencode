@@ -10,6 +10,7 @@ public class FloatTypeParsingStrategy : IFloatTypeParsingStrategy
     public FloatType Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Float);
+        
         return new FloatType();
     }
 }

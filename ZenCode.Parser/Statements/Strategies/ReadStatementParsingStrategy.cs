@@ -11,7 +11,9 @@ public class ReadStatementParsingStrategy : IReadStatementParsingStrategy
     public ReadStatement Parse(IParser parser, ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Read);
+        
         var variableReferenceExpression = parser.ParseVariableReferenceExpression(tokenStream);
+        
         return new ReadStatement(variableReferenceExpression);
     }
 }

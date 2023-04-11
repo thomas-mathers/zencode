@@ -40,7 +40,10 @@ public class ReadStatementTests
         // Arrange
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier, "x"))
         {
-            Indices = new ArrayIndexExpressionList { Expressions = _fixture.CreateMany<Expression>(3).ToArray() }
+            Indices = new ArrayIndexExpressionList
+            {
+                Expressions = _fixture.CreateMany<Expression>(3).ToArray()
+            }
         };
         var readStatement = new ReadStatement(variableReferenceExpression);
 

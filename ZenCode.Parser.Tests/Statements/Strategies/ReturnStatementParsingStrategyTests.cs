@@ -32,7 +32,9 @@ public class ReturnStatementParsingStrategyTests
         // Arrange
         var expected = new ReturnStatement();
 
-        _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(true);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.Semicolon))
+            .Returns(true);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
@@ -51,9 +53,13 @@ public class ReturnStatementParsingStrategyTests
 
         var expected = new ReturnStatement { Expression = expression };
 
-        _tokenStreamMock.Setup(x => x.Match(TokenType.Semicolon)).Returns(false);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.Semicolon))
+            .Returns(false);
 
-        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expression);
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(expression);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

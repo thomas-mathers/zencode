@@ -23,16 +23,24 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket), new Token(TokenType.Assignment), new Token(TokenType.FloatLiteral),
-            new Token(TokenType.Plus), new Token(TokenType.FloatLiteral)
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBracket), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.FloatLiteral),
+            new Token(TokenType.Plus), 
+            new Token(TokenType.FloatLiteral)
         });
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ArrayIndexExpressionList
             {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             }
         };
 
@@ -58,15 +66,22 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket), new Token(TokenType.Assignment), new Token(tokenType)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.LeftBracket), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBracket), 
+            new Token(TokenType.Assignment),
+            new Token(tokenType)
         });
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ArrayIndexExpressionList
             {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             }
         };
 
@@ -87,16 +102,24 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket), new Token(TokenType.Assignment), new Token(TokenType.Identifier),
-            new Token(TokenType.LeftParenthesis), new Token(TokenType.RightParenthesis)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.LeftBracket), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBracket),
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis)
         });
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ArrayIndexExpressionList
             {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             }
         };
 
@@ -116,9 +139,13 @@ public class AssignmentStatementParsingTests
     {
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket), new Token(TokenType.Assignment),
-            new Token(TokenType.LeftParenthesis), new Token(TokenType.StringLiteral),
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBracket), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.LeftParenthesis), 
+            new Token(TokenType.StringLiteral),
             new Token(TokenType.RightParenthesis)
         });
 
@@ -126,7 +153,10 @@ public class AssignmentStatementParsingTests
         {
             Indices = new ArrayIndexExpressionList
             {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             }
         };
 
@@ -146,8 +176,12 @@ public class AssignmentStatementParsingTests
     {
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket), new Token(TokenType.Assignment), new Token(TokenType.Minus),
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.LeftBracket), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBracket), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.Minus),
             new Token(TokenType.IntegerLiteral)
         });
 
@@ -155,7 +189,10 @@ public class AssignmentStatementParsingTests
         {
             Indices = new ArrayIndexExpressionList
             {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             }
         };
 
@@ -177,15 +214,22 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.LeftBracket), new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBracket), new Token(TokenType.Assignment), new Token(TokenType.Identifier)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.LeftBracket), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBracket), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.Identifier)
         });
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ArrayIndexExpressionList
             {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             }
         };
 
@@ -206,8 +250,11 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.Assignment), new Token(TokenType.FloatLiteral),
-            new Token(TokenType.Plus), new Token(TokenType.FloatLiteral)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.FloatLiteral),
+            new Token(TokenType.Plus), 
+            new Token(TokenType.FloatLiteral)
         });
 
         var expectedStatement = new AssignmentStatement(
@@ -232,7 +279,9 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.Assignment), new Token(tokenType)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment), 
+            new Token(tokenType)
         });
 
         var expectedStatement =
@@ -252,8 +301,11 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.Assignment), new Token(TokenType.Identifier),
-            new Token(TokenType.LeftParenthesis), new Token(TokenType.RightParenthesis)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftParenthesis), 
+            new Token(TokenType.RightParenthesis)
         });
 
         var expectedStatement =
@@ -272,8 +324,11 @@ public class AssignmentStatementParsingTests
     {
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.Assignment), new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.StringLiteral), new Token(TokenType.RightParenthesis)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.StringLiteral), 
+            new Token(TokenType.RightParenthesis)
         });
 
         var expectedStatement =
@@ -292,7 +347,9 @@ public class AssignmentStatementParsingTests
     {
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.Assignment), new Token(TokenType.Minus),
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.Minus),
             new Token(TokenType.IntegerLiteral)
         });
 
@@ -314,7 +371,9 @@ public class AssignmentStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Identifier), new Token(TokenType.Assignment), new Token(TokenType.Identifier)
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.Identifier)
         });
 
         var expectedStatement =

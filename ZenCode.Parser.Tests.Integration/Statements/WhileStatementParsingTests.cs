@@ -23,10 +23,17 @@ public class WhileStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.While), new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier),
-            new Token(TokenType.GreaterThan), new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightParenthesis), new Token(TokenType.LeftBrace), new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace)
+            new Token(TokenType.While), 
+            new Token(TokenType.LeftParenthesis), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.GreaterThan), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightParenthesis), 
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.Assignment), 
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightBrace)
         });
 
         var condition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),

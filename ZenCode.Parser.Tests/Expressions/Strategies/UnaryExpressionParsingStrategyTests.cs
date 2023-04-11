@@ -35,9 +35,13 @@ public class UnaryExpressionParsingStrategyTests
 
         var expected = new UnaryExpression(new Token(operatorToken), expression);
 
-        _tokenStreamMock.Setup(x => x.Consume(operatorToken)).Returns(new Token(operatorToken));
+        _tokenStreamMock
+            .Setup(x => x.Consume(operatorToken))
+            .Returns(new Token(operatorToken));
 
-        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expression);
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(expression);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object, operatorToken);

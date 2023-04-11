@@ -25,7 +25,10 @@ public class AssignmentStatementTests
         // Arrange
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier, "A"))
         {
-            Indices = new ArrayIndexExpressionList { Expressions = _fixture.CreateMany<Expression>(3).ToArray() }
+            Indices = new ArrayIndexExpressionList
+            {
+                Expressions = _fixture.CreateMany<Expression>(3).ToArray()
+            }
         };
 
         var assignmentStatement = new AssignmentStatement(variableReferenceExpression, _fixture.Create<Expression>());

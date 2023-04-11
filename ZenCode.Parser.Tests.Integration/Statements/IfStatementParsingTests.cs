@@ -23,10 +23,17 @@ public class IfStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If), new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier),
-            new Token(TokenType.Equals), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace)
+            new Token(TokenType.If), 
+            new Token(TokenType.LeftParenthesis), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.Equals), 
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBrace)
         });
 
         var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
@@ -56,12 +63,23 @@ public class IfStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If), new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier),
-            new Token(TokenType.Equals), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace), new Token(TokenType.Else),
-            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace)
+            new Token(TokenType.If), 
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.Equals), 
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightBrace), 
+            new Token(TokenType.Else),
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightBrace)
         });
 
         var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
@@ -101,16 +119,34 @@ public class IfStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.If), new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier),
-            new Token(TokenType.Equals), new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace), new Token(TokenType.ElseIf),
-            new Token(TokenType.LeftParenthesis), new Token(TokenType.Identifier), new Token(TokenType.Equals),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace), new Token(TokenType.Else),
-            new Token(TokenType.LeftBrace), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBrace)
+            new Token(TokenType.If), 
+            new Token(TokenType.LeftParenthesis), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.Equals), 
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBrace), 
+            new Token(TokenType.ElseIf),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Equals),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightBrace),
+            new Token(TokenType.Else),
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.RightBrace)
         });
 
         var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),

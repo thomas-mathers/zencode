@@ -24,7 +24,10 @@ public class BinaryExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.IntegerLiteral), new Token(op), new Token(TokenType.IntegerLiteral), new Token(op),
+            new Token(TokenType.IntegerLiteral),
+            new Token(op), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(op),
             new Token(TokenType.IntegerLiteral)
         });
 
@@ -48,7 +51,10 @@ public class BinaryExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.IntegerLiteral), new Token(op), new Token(TokenType.IntegerLiteral), new Token(op),
+            new Token(TokenType.IntegerLiteral),
+            new Token(op), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(op),
             new Token(TokenType.IntegerLiteral)
         });
 
@@ -71,8 +77,11 @@ public class BinaryExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.IntegerLiteral), new Token(loOp), new Token(TokenType.IntegerLiteral),
-            new Token(hiOp), new Token(TokenType.IntegerLiteral)
+            new Token(TokenType.IntegerLiteral), 
+            new Token(loOp), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(hiOp), 
+            new Token(TokenType.IntegerLiteral)
         });
 
         var expected = new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(loOp),
@@ -94,8 +103,11 @@ public class BinaryExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.IntegerLiteral), new Token(hiOp), new Token(TokenType.IntegerLiteral),
-            new Token(loOp), new Token(TokenType.IntegerLiteral)
+            new Token(TokenType.IntegerLiteral), 
+            new Token(hiOp), 
+            new Token(TokenType.IntegerLiteral),
+            new Token(loOp), 
+            new Token(TokenType.IntegerLiteral)
         });
 
         var expected = new BinaryExpression(
@@ -119,8 +131,12 @@ public class BinaryExpressionParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.IntegerLiteral), new Token(hiOp), new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.IntegerLiteral), new Token(loOp), new Token(TokenType.IntegerLiteral),
+            new Token(TokenType.IntegerLiteral), 
+            new Token(hiOp), 
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.IntegerLiteral), 
+            new Token(loOp), 
+            new Token(TokenType.IntegerLiteral),
             new Token(TokenType.RightParenthesis)
         });
 

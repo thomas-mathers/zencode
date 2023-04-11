@@ -10,6 +10,7 @@ public class ContinueStatementParsingStrategy : IContinueStatementParsingStrateg
     public ContinueStatement Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Continue);
+        
         return new ContinueStatement();
     }
 }

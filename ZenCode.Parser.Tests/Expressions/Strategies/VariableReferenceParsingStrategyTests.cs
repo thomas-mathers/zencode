@@ -31,7 +31,9 @@ public class VariableReferenceParsingStrategyTests
         // Arrange
         var expected = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
-        _tokenStreamMock.Setup(x => x.Consume(TokenType.Identifier)).Returns(new Token(TokenType.Identifier));
+        _tokenStreamMock
+            .Setup(x => x.Consume(TokenType.Identifier))
+            .Returns(new Token(TokenType.Identifier));
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
@@ -46,11 +48,17 @@ public class VariableReferenceParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<VariableReferenceExpression>();
 
-        _tokenStreamMock.Setup(x => x.Consume(TokenType.Identifier)).Returns(expected.Identifier);
+        _tokenStreamMock
+            .Setup(x => x.Consume(TokenType.Identifier))
+            .Returns(expected.Identifier);
 
-        _tokenStreamMock.Setup(x => x.Match(TokenType.LeftBracket)).Returns(true);
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.LeftBracket))
+            .Returns(true);
 
-        _parserMock.Setup(x => x.ParseArrayIndexExpressionList(_tokenStreamMock.Object)).Returns(expected.Indices);
+        _parserMock
+            .Setup(x => x.ParseArrayIndexExpressionList(_tokenStreamMock.Object))
+            .Returns(expected.Indices);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

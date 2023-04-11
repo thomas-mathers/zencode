@@ -10,6 +10,7 @@ public class IntegerTypeParsingStrategy : IIntegerTypeParsingStrategy
     public IntegerType Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Integer);
+        
         return new IntegerType();
     }
 }

@@ -21,7 +21,11 @@ public class ReadStatementParsingTests
     public void Parse_ReadIntoVariable_ReturnsReadStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[] { new Token(TokenType.Read), new Token(TokenType.Identifier) });
+        var tokenStream = new TokenStream(new[]
+        {
+            new Token(TokenType.Read),
+            new Token(TokenType.Identifier)
+        });
 
         var expectedStatement = new ReadStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
 
@@ -38,15 +42,21 @@ public class ReadStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Read), new Token(TokenType.Identifier), new Token(TokenType.LeftBracket),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.RightBracket)
+            new Token(TokenType.Read),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftBracket),
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.RightBracket)
         });
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
             Indices = new ArrayIndexExpressionList
             {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
+                Expressions = new[]
+                {
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             }
         };
 

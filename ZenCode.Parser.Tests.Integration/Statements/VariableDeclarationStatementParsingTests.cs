@@ -22,8 +22,12 @@ public class VariableDeclarationStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Var), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), new Token(TokenType.Plus), new Token(TokenType.IntegerLiteral)
+            new Token(TokenType.Var), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.IntegerLiteral), 
+            new Token(TokenType.Plus), 
+            new Token(TokenType.IntegerLiteral)
         });
 
         var identifier = new Token(TokenType.Identifier);
@@ -50,7 +54,9 @@ public class VariableDeclarationStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Var), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.Var), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
             new Token(tokenType)
         });
 
@@ -73,8 +79,11 @@ public class VariableDeclarationStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Var), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.Identifier), new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.Var),
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftParenthesis),
             new Token(TokenType.RightParenthesis)
         });
 
@@ -97,8 +106,11 @@ public class VariableDeclarationStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Var), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.LeftParenthesis), new Token(TokenType.StringLiteral),
+            new Token(TokenType.Var), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.LeftParenthesis), 
+            new Token(TokenType.StringLiteral),
             new Token(TokenType.RightParenthesis)
         });
 
@@ -121,8 +133,11 @@ public class VariableDeclarationStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Var), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
-            new Token(TokenType.Minus), new Token(TokenType.FloatLiteral)
+            new Token(TokenType.Var), 
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
+            new Token(TokenType.Minus), 
+            new Token(TokenType.FloatLiteral)
         });
 
         var identifier = new Token(TokenType.Identifier);
@@ -145,7 +160,9 @@ public class VariableDeclarationStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Var), new Token(TokenType.Identifier), new Token(TokenType.Assignment),
+            new Token(TokenType.Var),
+            new Token(TokenType.Identifier), 
+            new Token(TokenType.Assignment),
             new Token(TokenType.Identifier)
         });
 

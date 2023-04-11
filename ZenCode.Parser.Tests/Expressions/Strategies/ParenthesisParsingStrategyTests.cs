@@ -31,7 +31,9 @@ public class ParenthesisParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<Expression>();
 
-        _parserMock.Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0)).Returns(expected);
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Returns(expected);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

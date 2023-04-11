@@ -23,9 +23,14 @@ public class FunctionDeclarationStatementParsingTests
         // Arrange
         var tokenStream = new TokenStream(new[]
         {
-            new Token(TokenType.Function), new Token(TokenType.Identifier), new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis), new Token(TokenType.RightArrow), new Token(TokenType.Void),
-            new Token(TokenType.LeftBrace), new Token(TokenType.RightBrace)
+            new Token(TokenType.Function), 
+            new Token(TokenType.Identifier),
+            new Token(TokenType.LeftParenthesis),
+            new Token(TokenType.RightParenthesis),
+            new Token(TokenType.RightArrow),
+            new Token(TokenType.Void),
+            new Token(TokenType.LeftBrace), 
+            new Token(TokenType.RightBrace)
         });
 
         var expectedStatement = new FunctionDeclarationStatement(new VoidType(), new Token(TokenType.Identifier),

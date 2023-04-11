@@ -23,11 +23,17 @@ public class ForStatementTests
     public void ToString_ForStatementEmptyBlock_ReturnsCorrectString()
     {
         // Arrange
+        var identifier = new Token(TokenType.Identifier, "i");
+        var variableDeclarationStatement = new VariableDeclarationStatement(identifier, _fixture.Create<Expression>());
+        var iterator = _fixture.Create<Expression>();
+        var assignmentStatement = new AssignmentStatement(new VariableReferenceExpression(identifier), 
+            _fixture.Create<Expression>());
+        var scope = new Scope();
         var forStatement = new ForStatement(
-            new VariableDeclarationStatement(new Token(TokenType.Identifier, "i"), _fixture.Create<Expression>()),
-            _fixture.Create<Expression>(),
-            new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier, "i")),
-                _fixture.Create<Expression>()), new Scope());
+            variableDeclarationStatement,
+            iterator,
+            assignmentStatement, 
+            scope);
 
         const string expected = """
         for (var i := {Expression}; {Expression}; i := {Expression})
@@ -46,11 +52,20 @@ public class ForStatementTests
     public void ToString_ForStatement_ReturnsCorrectString()
     {
         // Arrange
+        var identifier = new Token(TokenType.Identifier, "i");
+        var variableDeclarationStatement = new VariableDeclarationStatement(identifier, _fixture.Create<Expression>());
+        var iterator = _fixture.Create<Expression>();
+        var assignmentStatement = new AssignmentStatement(new VariableReferenceExpression(identifier), 
+            _fixture.Create<Expression>());
+        var scope = new Scope
+        {
+            Statements = _fixture.CreateMany<Statement>(3).ToArray()
+        };
         var forStatement = new ForStatement(
-            new VariableDeclarationStatement(new Token(TokenType.Identifier, "i"), _fixture.Create<Expression>()),
-            _fixture.Create<Expression>(),
-            new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier, "i")),
-                _fixture.Create<Expression>()), new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() });
+            variableDeclarationStatement,
+            iterator,
+            assignmentStatement, 
+            scope);
 
         const string expected = """
         for (var i := {Expression}; {Expression}; i := {Expression})

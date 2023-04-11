@@ -40,7 +40,13 @@ public class FunctionTypeTests
     public void ToString_OneParameter_ReturnsCorrectString()
     {
         // Arrange
-        var parameterTypes = new TypeList { Types = new[] { new TypeMock() } };
+        var parameterTypes = new TypeList
+        {
+            Types = new[]
+            {
+                new TypeMock()
+            }
+        };
         var functionType = new FunctionType(new TypeMock(), parameterTypes);
 
         // Act
@@ -54,7 +60,15 @@ public class FunctionTypeTests
     public void ToString_ThreeParameters_ReturnsCorrectString()
     {
         // Arrange
-        var parameterTypes = new TypeList { Types = new[] { new TypeMock(), new TypeMock(), new TypeMock() } };
+        var parameterTypes = new TypeList
+        { 
+            Types = new[]
+            {
+                new TypeMock(), 
+                new TypeMock(), 
+                new TypeMock()
+            }
+        };
         var functionType = new FunctionType(new TypeMock(), parameterTypes);
 
         // Act

@@ -30,7 +30,8 @@ public class ReadStatementParsingStrategyTests
         // Arrange
         var variableReferenceExpression = _fixture.Create<VariableReferenceExpression>();
 
-        _parserMock.Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
+        _parserMock
+            .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
             .Returns(variableReferenceExpression);
 
         // Act

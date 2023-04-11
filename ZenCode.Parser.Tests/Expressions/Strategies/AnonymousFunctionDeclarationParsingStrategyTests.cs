@@ -24,7 +24,6 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
         _sut = new AnonymousFunctionDeclarationParsingStrategy();
 
         _fixture.Customizations.Add(new TypeRelay(typeof(Type), typeof(TypeMock)));
-
         _fixture.Customizations.Add(new TypeRelay(typeof(Statement), typeof(StatementMock)));
     }
 
@@ -34,11 +33,17 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
         // Arrange
         var expected = _fixture.Create<AnonymousFunctionDeclarationExpression>();
 
-        _parserMock.Setup(x => x.ParseType(_tokenStreamMock.Object)).Returns(expected.ReturnType);
+        _parserMock
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
+            .Returns(expected.ReturnType);
 
-        _parserMock.Setup(x => x.ParseParameterList(_tokenStreamMock.Object)).Returns(expected.Parameters);
+        _parserMock
+            .Setup(x => x.ParseParameterList(_tokenStreamMock.Object))
+            .Returns(expected.Parameters);
 
-        _parserMock.Setup(x => x.ParseScope(_tokenStreamMock.Object)).Returns(expected.Scope);
+        _parserMock
+            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
+            .Returns(expected.Scope);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

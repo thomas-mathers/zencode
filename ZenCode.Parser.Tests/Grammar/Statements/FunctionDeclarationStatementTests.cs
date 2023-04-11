@@ -23,8 +23,15 @@ public class FunctionDeclarationStatementTests
     public void ToString_NoParametersEmptyBody_ReturnsCorrectString()
     {
         // Arrange
-        var functionDeclarationStatement = new FunctionDeclarationStatement(_fixture.Create<Type>(),
-            new Token(TokenType.Identifier, "f"), new ParameterList(), new Scope());
+        var returnType = _fixture.Create<Type>();
+        var functionName = new Token(TokenType.Identifier, "f");
+        var parameterList = new ParameterList();
+        var scope = new Scope();
+        var functionDeclarationStatement = new FunctionDeclarationStatement(
+            returnType,
+            functionName, 
+            parameterList, 
+            scope);
 
         const string expected = """
         function f() => {Type}
@@ -43,17 +50,23 @@ public class FunctionDeclarationStatementTests
     public void ToString_ThreeParametersEmptyBody_ReturnsCorrectString()
     {
         // Arrange
-        var functionDeclarationStatement = new FunctionDeclarationStatement(_fixture.Create<Type>(),
-            new Token(TokenType.Identifier, "f"),
-            new ParameterList
+        var returnType = _fixture.Create<Type>();
+        var functionName = new Token(TokenType.Identifier, "f");
+        var parameterList = new ParameterList
+        {
+            Parameters = new[]
             {
-                Parameters = new[]
-                {
-                    new Parameter(new Token(TokenType.Identifier, "a"), _fixture.Create<Type>()),
-                    new Parameter(new Token(TokenType.Identifier, "b"), _fixture.Create<Type>()),
-                    new Parameter(new Token(TokenType.Identifier, "c"), _fixture.Create<Type>())
-                }
-            }, new Scope());
+                new Parameter(new Token(TokenType.Identifier, "a"), _fixture.Create<Type>()),
+                new Parameter(new Token(TokenType.Identifier, "b"), _fixture.Create<Type>()),
+                new Parameter(new Token(TokenType.Identifier, "c"), _fixture.Create<Type>())
+            }
+        };
+        var scope = new Scope();
+        var functionDeclarationStatement = new FunctionDeclarationStatement(
+            returnType,
+            functionName,
+            parameterList, 
+            scope);
 
         const string expected = """
         function f(a : {Type}, b : {Type}, c : {Type}) => {Type}
@@ -72,9 +85,18 @@ public class FunctionDeclarationStatementTests
     public void ToString_NoParameters_ReturnsCorrectString()
     {
         // Arrange
-        var functionDeclarationStatement = new FunctionDeclarationStatement(_fixture.Create<Type>(),
-            new Token(TokenType.Identifier, "f"), new ParameterList(),
-            new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() });
+        var returnType = _fixture.Create<Type>();
+        var functionName = new Token(TokenType.Identifier, "f");
+        var parameterList = new ParameterList();
+        var scope = new Scope
+        {
+            Statements = _fixture.CreateMany<Statement>(3).ToArray()
+        };
+        var functionDeclarationStatement = new FunctionDeclarationStatement(
+            returnType,
+            functionName,
+            parameterList, 
+            scope);
 
         const string expected = """
         function f() => {Type}
@@ -96,17 +118,26 @@ public class FunctionDeclarationStatementTests
     public void ToString_ThreeParameters_ReturnsCorrectString()
     {
         // Arrange
-        var functionDeclarationStatement = new FunctionDeclarationStatement(_fixture.Create<Type>(),
-            new Token(TokenType.Identifier, "f"),
-            new ParameterList
+        var returnType = _fixture.Create<Type>();
+        var functionName = new Token(TokenType.Identifier, "f");
+        var parameterList = new ParameterList
+        {
+            Parameters = new[]
             {
-                Parameters = new[]
-                {
-                    new Parameter(new Token(TokenType.Identifier, "a"), _fixture.Create<Type>()),
-                    new Parameter(new Token(TokenType.Identifier, "b"), _fixture.Create<Type>()),
-                    new Parameter(new Token(TokenType.Identifier, "c"), _fixture.Create<Type>())
-                }
-            }, new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() });
+                new Parameter(new Token(TokenType.Identifier, "a"), _fixture.Create<Type>()),
+                new Parameter(new Token(TokenType.Identifier, "b"), _fixture.Create<Type>()),
+                new Parameter(new Token(TokenType.Identifier, "c"), _fixture.Create<Type>())
+            }
+        };
+        var scope = new Scope
+        {
+            Statements = _fixture.CreateMany<Statement>(3).ToArray()
+        };
+        var functionDeclarationStatement = new FunctionDeclarationStatement(
+            returnType,
+            functionName,
+            parameterList, 
+            scope);
 
         const string expected = """
         function f(a : {Type}, b : {Type}, c : {Type}) => {Type}
