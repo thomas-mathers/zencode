@@ -6,6 +6,16 @@ public record ExpressionList : AstNode
 {
     public IReadOnlyList<Expression> Expressions { get; init; } = Array.Empty<Expression>();
 
+    public ExpressionList()
+    {
+        
+    }
+    
+    public ExpressionList(params Expression[] expressions)
+    {
+        Expressions = expressions;
+    }
+
     public virtual bool Equals(ExpressionList? other)
     {
         return other != null && Expressions.SequenceEqual(other.Expressions);
