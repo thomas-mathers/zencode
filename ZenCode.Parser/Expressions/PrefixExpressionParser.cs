@@ -36,6 +36,11 @@ public class PrefixExpressionParser : IPrefixExpressionParser
 
     public Expression ParsePrefixExpression(IParser parser, ITokenStream tokenStream)
     {
+        if (tokenStream.Current == null)
+        {
+            throw new UnexpectedTokenException();
+        }
+        
         return tokenStream.Current.Type switch
         {
             TokenType.Function => ParseAnonymousFunctionDeclarationExpression(parser, tokenStream),

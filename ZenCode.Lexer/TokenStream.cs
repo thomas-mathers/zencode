@@ -26,7 +26,7 @@ public class TokenStream : ITokenStream
 
         if (token == null)
         {
-            throw new InvalidOperationException();
+            throw new UnexpectedTokenException();
         }
 
         if (token.Type != tokenType)

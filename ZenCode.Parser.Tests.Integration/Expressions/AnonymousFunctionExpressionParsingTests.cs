@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
@@ -175,5 +176,214 @@ public class AnonymousFunctionExpressionParsingTests
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingLeftParenthesis_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected '(', got 'Identifier'", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingParameter_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected 'Identifier', got ':'", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingRightParenthesis_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected ')', got '=>'", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingRightArrow_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected '=>', got 'int'", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingReturnType_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token '{'", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingLeftBrace_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Integer),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected '{', got 'return'", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingRightBrace_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token EOF", exception.Message);
     }
 }

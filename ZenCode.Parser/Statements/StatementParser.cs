@@ -51,6 +51,11 @@ public class StatementParser : IStatementParser
 
     public Statement ParseStatement(IParser parser, ITokenStream tokenStream)
     {
+        if (tokenStream.Current == null)
+        {
+            throw new UnexpectedTokenException();
+        }
+        
         return tokenStream.Current.Type switch
         {
             TokenType.Identifier => ParseAssignmentStatement(parser, tokenStream),

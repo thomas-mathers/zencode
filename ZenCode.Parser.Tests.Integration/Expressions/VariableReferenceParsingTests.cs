@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
@@ -62,6 +63,51 @@ public class VariableReferenceParsingTests
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingIndexExpression_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Identifier),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _parser.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token ']'", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingLastDimensionIndexExpression_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Identifier),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _parser.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token ']'", exception.Message);
     }
     
     [Fact]

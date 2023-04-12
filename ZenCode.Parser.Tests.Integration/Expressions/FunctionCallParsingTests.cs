@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
@@ -100,5 +101,55 @@ public class FunctionCallParsingTests
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingRightParenthesis_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Identifier),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.Comma),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.Comma),
+                new Token(TokenType.IntegerLiteral)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token EOF", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingArgument_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Identifier),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.Comma),
+                new Token(TokenType.Comma),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token ','", exception.Message);
     }
 }

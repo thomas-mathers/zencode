@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
@@ -246,5 +247,72 @@ public class NewArrayExpressionParsingTests
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingType_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBracket)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token '['", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingRightBracket_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.LeftBracket),
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected ']', got '['", exception.Message);
+    }
+    
+    [Fact]
+    public void ParseExpression_MissingArraySize_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.New),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBracket),
+                new Token(TokenType.RightBracket),
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token EOF", exception.Message);
     }
 }

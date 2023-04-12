@@ -43,6 +43,11 @@ public class InfixExpressionParser : IInfixExpressionParser
 
     public Expression ParseInfixExpression(IParser parser, ITokenStream tokenStream, Expression lOperand)
     {
+        if (tokenStream.Current == null)
+        {
+            throw new UnexpectedTokenException();
+        }
+        
         switch (tokenStream.Current.Type)
         {
             case TokenType.Plus:
