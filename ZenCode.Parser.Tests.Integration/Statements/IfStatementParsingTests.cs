@@ -21,31 +21,43 @@ public class IfStatementParsingTests
     public void Parse_IfBinaryExpressionThenAssignmentStatement_ReturnsIfStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.If), 
-            new Token(TokenType.LeftParenthesis), 
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Equals), 
-            new Token(TokenType.IntegerLiteral), 
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), 
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.If),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Equals),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
 
-        var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        var thenCondition = new BinaryExpression
+        (
+            new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        );
+
         var thenScope = new Scope
         {
             Statements = new[]
             {
-                new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+                new AssignmentStatement
+                (
+                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                )
             }
         };
+
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
 
         var expectedStatement = new IfStatement(thenConditionScope);
@@ -61,45 +73,60 @@ public class IfStatementParsingTests
     public void Parse_IfBinaryExpressionThenAssignmentStatementElseAssignmentStatement_ReturnsIfStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.If), 
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Equals), 
-            new Token(TokenType.IntegerLiteral), 
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), 
-            new Token(TokenType.RightBrace), 
-            new Token(TokenType.Else),
-            new Token(TokenType.LeftBrace), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), 
-            new Token(TokenType.RightBrace)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.If),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Equals),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace),
+                new Token(TokenType.Else),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
 
-        var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        var thenCondition = new BinaryExpression
+        (
+            new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        );
+
         var thenScope = new Scope
         {
             Statements = new[]
             {
-                new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+                new AssignmentStatement
+                (
+                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                )
             }
         };
+
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
 
         var elseScope = new Scope
         {
             Statements = new[]
             {
-                new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+                new AssignmentStatement
+                (
+                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                )
             }
         };
 
@@ -117,68 +144,92 @@ public class IfStatementParsingTests
         Parse_IfBinaryExpressionThenAssignmentStatementElseIfBinaryExpressionThenAssignmentStatementElseAssignmentStatement_ReturnsIfStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.If), 
-            new Token(TokenType.LeftParenthesis), 
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Equals), 
-            new Token(TokenType.IntegerLiteral), 
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace), 
-            new Token(TokenType.ElseIf),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Equals),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.LeftBrace), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), 
-            new Token(TokenType.RightBrace),
-            new Token(TokenType.Else),
-            new Token(TokenType.LeftBrace), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.RightBrace)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.If),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Equals),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace),
+                new Token(TokenType.ElseIf),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Equals),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace),
+                new Token(TokenType.Else),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
 
-        var thenCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        var thenCondition = new BinaryExpression
+        (
+            new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        );
+
         var thenScope = new Scope
         {
             Statements = new[]
             {
-                new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+                new AssignmentStatement
+                (
+                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                )
             }
         };
+
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
 
-        var elseIfCondition = new BinaryExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        var elseIfCondition = new BinaryExpression
+        (
+            new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            new Token(TokenType.Equals),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        );
+
         var elseIfScope = new Scope
         {
             Statements = new[]
             {
-                new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+                new AssignmentStatement
+                (
+                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                )
             }
         };
+
         var elseIfConditionScope = new ConditionScope(elseIfCondition, elseIfScope);
 
         var elseScope = new Scope
         {
             Statements = new[]
             {
-                new AssignmentStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+                new AssignmentStatement
+                (
+                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                )
             }
         };
 

@@ -47,6 +47,7 @@ public class FunctionTypeTests
                 new TypeMock()
             }
         };
+
         var functionType = new FunctionType(new TypeMock(), parameterTypes);
 
         // Act
@@ -61,14 +62,15 @@ public class FunctionTypeTests
     {
         // Arrange
         var parameterTypes = new TypeList
-        { 
+        {
             Types = new[]
             {
-                new TypeMock(), 
-                new TypeMock(), 
+                new TypeMock(),
+                new TypeMock(),
                 new TypeMock()
             }
         };
+
         var functionType = new FunctionType(new TypeMock(), parameterTypes);
 
         // Act

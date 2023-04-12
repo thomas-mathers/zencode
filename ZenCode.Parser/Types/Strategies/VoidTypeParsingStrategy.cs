@@ -10,7 +10,7 @@ public class VoidTypeParsingStrategy : IVoidTypeParsingStrategy
     public VoidType Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Void);
-        
+
         return new VoidType();
     }
 }

@@ -45,6 +45,7 @@ public class ReadStatementTests
                 Expressions = _fixture.CreateMany<Expression>(3).ToArray()
             }
         };
+
         var readStatement = new ReadStatement(variableReferenceExpression);
 
         const string expected = "read x[{Expression}][{Expression}][{Expression}]";

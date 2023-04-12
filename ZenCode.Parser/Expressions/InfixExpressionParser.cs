@@ -31,8 +31,11 @@ public class InfixExpressionParser : IInfixExpressionParser
     private readonly IBinaryExpressionParsingStrategy _binaryExpressionParsingStrategy;
     private readonly IFunctionCallParsingStrategy _functionCallParsingStrategy;
 
-    public InfixExpressionParser(IBinaryExpressionParsingStrategy binaryExpressionParsingStrategy,
-        IFunctionCallParsingStrategy functionCallParsingStrategy)
+    public InfixExpressionParser
+    (
+        IBinaryExpressionParsingStrategy binaryExpressionParsingStrategy,
+        IFunctionCallParsingStrategy functionCallParsingStrategy
+    )
     {
         _binaryExpressionParsingStrategy = binaryExpressionParsingStrategy;
         _functionCallParsingStrategy = functionCallParsingStrategy;
@@ -71,16 +74,27 @@ public class InfixExpressionParser : IInfixExpressionParser
             : 0;
     }
 
-    private FunctionCallExpression ParseFunctionCallExpression(IParser parser, ITokenStream tokenStream,
-        Expression lOperand)
+    private FunctionCallExpression ParseFunctionCallExpression
+    (
+        IParser parser,
+        ITokenStream tokenStream,
+        Expression lOperand
+    )
     {
         return _functionCallParsingStrategy.Parse(parser, tokenStream, lOperand);
     }
 
     private BinaryExpression ParseBinaryExpression(IParser parser, ITokenStream tokenStream, Expression lOperand)
     {
-        return _binaryExpressionParsingStrategy.Parse(parser, tokenStream, lOperand, tokenStream.Current.Type,
-            GetPrecedence(tokenStream.Current.Type), IsRightAssociative(tokenStream.Current.Type));
+        return _binaryExpressionParsingStrategy.Parse
+        (
+            parser,
+            tokenStream,
+            lOperand,
+            tokenStream.Current.Type,
+            GetPrecedence(tokenStream.Current.Type),
+            IsRightAssociative(tokenStream.Current.Type)
+        );
     }
 
     private static bool IsRightAssociative(TokenType tokenType)

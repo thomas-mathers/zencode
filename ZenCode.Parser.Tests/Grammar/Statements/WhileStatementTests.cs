@@ -42,12 +42,14 @@ public class WhileStatementTests
     public void ToString_WhileStatement_ReturnsCorrectString()
     {
         // Arrange
-        var conditionScope = new ConditionScope(
+        var conditionScope = new ConditionScope
+        (
             _fixture.Create<Expression>(),
             new Scope
             {
                 Statements = _fixture.CreateMany<Statement>(3).ToArray()
-            });
+            }
+        );
 
         var whileStatement = new WhileStatement(conditionScope);
 

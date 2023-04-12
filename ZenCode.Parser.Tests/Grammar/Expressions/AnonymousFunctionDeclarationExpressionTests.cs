@@ -15,6 +15,7 @@ public class AnonymousFunctionDeclarationExpressionTests
         var returnType = new TypeMock();
         var parameterList = new ParameterList();
         var scope = new Scope();
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -37,6 +38,7 @@ public class AnonymousFunctionDeclarationExpressionTests
         // Arrange
         var returnType = new TypeMock();
         var parameterList = new ParameterList();
+
         var scope = new Scope
         {
             Statements = new[]
@@ -44,6 +46,7 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new StatementMock()
             }
         };
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -67,15 +70,17 @@ public class AnonymousFunctionDeclarationExpressionTests
         // Arrange
         var returnType = new TypeMock();
         var parameterList = new ParameterList();
+
         var scope = new Scope
         {
             Statements = new[]
             {
-                new StatementMock(), 
-                new StatementMock(), 
+                new StatementMock(),
+                new StatementMock(),
                 new StatementMock()
             }
         };
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -100,6 +105,7 @@ public class AnonymousFunctionDeclarationExpressionTests
     {
         // Arrange
         var returnType = new TypeMock();
+
         var parameterList = new ParameterList
         {
             Parameters = new[]
@@ -107,7 +113,9 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new Parameter(new Token(TokenType.Identifier) { Text = "x" }, new TypeMock())
             }
         };
+
         var scope = new Scope();
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -129,6 +137,7 @@ public class AnonymousFunctionDeclarationExpressionTests
     {
         // Arrange
         var returnType = new TypeMock();
+
         var parameterList = new ParameterList
         {
             Parameters = new[]
@@ -136,6 +145,7 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new Parameter(new Token(TokenType.Identifier) { Text = "x" }, new TypeMock())
             }
         };
+
         var scope = new Scope
         {
             Statements = new[]
@@ -143,6 +153,7 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new StatementMock()
             }
         };
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -165,6 +176,7 @@ public class AnonymousFunctionDeclarationExpressionTests
     {
         // Arrange
         var returnType = new TypeMock();
+
         var parameterList = new ParameterList
         {
             Parameters = new[]
@@ -172,6 +184,7 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new Parameter(new Token(TokenType.Identifier) { Text = "x" }, new TypeMock())
             }
         };
+
         var scope = new Scope
         {
             Statements = new[]
@@ -181,6 +194,7 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new StatementMock()
             }
         };
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -205,6 +219,7 @@ public class AnonymousFunctionDeclarationExpressionTests
     {
         // Arrange
         var returnType = new TypeMock();
+
         var parameterList = new ParameterList
         {
             Parameters = new[]
@@ -214,7 +229,9 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new Parameter(new Token(TokenType.Identifier) { Text = "z" }, new TypeMock())
             }
         };
+
         var scope = new Scope();
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -236,6 +253,7 @@ public class AnonymousFunctionDeclarationExpressionTests
     {
         // Arrange
         var returnType = new TypeMock();
+
         var parameterList = new ParameterList
         {
             Parameters = new[]
@@ -245,6 +263,7 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new Parameter(new Token(TokenType.Identifier) { Text = "z" }, new TypeMock())
             }
         };
+
         var scope = new Scope
         {
             Statements = new[]
@@ -252,6 +271,7 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new StatementMock()
             }
         };
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 
@@ -274,6 +294,7 @@ public class AnonymousFunctionDeclarationExpressionTests
     {
         // Arrange
         var returnType = new TypeMock();
+
         var parameterList = new ParameterList
         {
             Parameters = new[]
@@ -283,15 +304,17 @@ public class AnonymousFunctionDeclarationExpressionTests
                 new Parameter(new Token(TokenType.Identifier) { Text = "z" }, new TypeMock())
             }
         };
+
         var scope = new Scope
         {
             Statements = new[]
             {
-                new StatementMock(), 
+                new StatementMock(),
                 new StatementMock(),
                 new StatementMock()
             }
         };
+
         var anonymousFunctionDeclarationExpression =
             new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
 

@@ -9,7 +9,9 @@ public record IfStatement(ConditionScope ThenScope) : CompoundStatement
 
     public virtual bool Equals(IfStatement? other)
     {
-        return other != null && ThenScope.Equals(other.ThenScope) && ElseIfScopes.SequenceEqual(other.ElseIfScopes) &&
+        return other != null &&
+            ThenScope.Equals(other.ThenScope) &&
+            ElseIfScopes.SequenceEqual(other.ElseIfScopes) &&
             Equals(ElseScope, other.ElseScope);
     }
 

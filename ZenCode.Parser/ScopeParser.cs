@@ -19,6 +19,7 @@ public class ScopeParser : IScopeParser
             if (tokenStream.Match(TokenType.RightBrace))
             {
                 tokenStream.Consume(TokenType.RightBrace);
+
                 break;
             }
 

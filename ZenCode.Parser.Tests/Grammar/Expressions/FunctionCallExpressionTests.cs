@@ -35,6 +35,7 @@ public class FunctionCallExpressionTests
                 }
             }
         };
+
         const string expected = "{Expression}({Expression})";
 
         // Act
@@ -55,6 +56,7 @@ public class FunctionCallExpressionTests
                 Expressions = new[] { new ExpressionMock(), new ExpressionMock(), new ExpressionMock() }
             }
         };
+
         const string expected = "{Expression}({Expression}, {Expression}, {Expression})";
 
         // Act

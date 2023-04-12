@@ -10,8 +10,11 @@ public class ExpressionParser : IExpressionParser
     private readonly IInfixExpressionParser _infixExpressionParser;
     private readonly IPrefixExpressionParser _prefixExpressionParser;
 
-    public ExpressionParser(IPrefixExpressionParser prefixExpressionParser,
-        IInfixExpressionParser infixExpressionParser)
+    public ExpressionParser
+    (
+        IPrefixExpressionParser prefixExpressionParser,
+        IInfixExpressionParser infixExpressionParser
+    )
     {
         _prefixExpressionParser = prefixExpressionParser;
         _infixExpressionParser = infixExpressionParser;

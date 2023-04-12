@@ -11,11 +11,11 @@ public class AssignmentStatementParsingStrategy : IAssignmentStatementParsingStr
     public AssignmentStatement Parse(IParser parser, ITokenStream tokenStream)
     {
         var variableReferenceExpression = parser.ParseVariableReferenceExpression(tokenStream);
-        
+
         tokenStream.Consume(TokenType.Assignment);
-        
+
         var expression = parser.ParseExpression(tokenStream);
-        
+
         return new AssignmentStatement(variableReferenceExpression, expression);
     }
 }

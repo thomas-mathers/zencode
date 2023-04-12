@@ -10,7 +10,7 @@ public class BooleanTypeParsingStrategy : IBooleanTypeParsingStrategy
     public BooleanType Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.Boolean);
-        
+
         return new BooleanType();
     }
 }

@@ -16,12 +16,15 @@ public class PrefixExpressionParser : IPrefixExpressionParser
     private readonly IUnaryExpressionParsingStrategy _unaryExpressionParsingStrategy;
     private readonly IVariableReferenceParsingStrategy _variableReferenceParsingStrategy;
 
-    public PrefixExpressionParser(
+    public PrefixExpressionParser
+    (
         IAnonymousFunctionDeclarationParsingStrategy anonymousFunctionDeclarationParsingStrategy,
-        ILiteralParsingStrategy literalParsingStrategy, INewExpressionParsingStrategy newExpressionParsingStrategy,
+        ILiteralParsingStrategy literalParsingStrategy,
+        INewExpressionParsingStrategy newExpressionParsingStrategy,
         IParenthesisParsingStrategy parenthesisParsingStrategy,
         IUnaryExpressionParsingStrategy unaryExpressionParsingStrategy,
-        IVariableReferenceParsingStrategy variableReferenceParsingStrategy)
+        IVariableReferenceParsingStrategy variableReferenceParsingStrategy
+    )
     {
         _anonymousFunctionDeclarationParsingStrategy = anonymousFunctionDeclarationParsingStrategy;
         _newExpressionParsingStrategy = newExpressionParsingStrategy;
@@ -54,8 +57,11 @@ public class PrefixExpressionParser : IPrefixExpressionParser
         return _variableReferenceParsingStrategy.Parse(parser, tokenStream);
     }
 
-    private AnonymousFunctionDeclarationExpression ParseAnonymousFunctionDeclarationExpression(IParser parser,
-        ITokenStream tokenStream)
+    private AnonymousFunctionDeclarationExpression ParseAnonymousFunctionDeclarationExpression
+    (
+        IParser parser,
+        ITokenStream tokenStream
+    )
     {
         return _anonymousFunctionDeclarationParsingStrategy.Parse(parser, tokenStream);
     }

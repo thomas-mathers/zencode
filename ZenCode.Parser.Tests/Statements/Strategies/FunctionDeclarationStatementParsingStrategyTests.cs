@@ -20,7 +20,6 @@ public class FunctionDeclarationStatementParsingStrategyTests
     private readonly FunctionDeclarationStatementParsingStrategy _sut;
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
 
-
     public FunctionDeclarationStatementParsingStrategyTests()
     {
         _sut = new FunctionDeclarationStatementParsingStrategy();

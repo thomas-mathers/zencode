@@ -20,17 +20,26 @@ public class PrintStatementParsingTests
     public void Parse_PrintBinaryExpression_ReturnsPrintStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print), 
-            new Token(TokenType.IntegerLiteral),
-            new Token(TokenType.Plus),
-            new Token(TokenType.IntegerLiteral)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Print),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.Plus),
+                new Token(TokenType.IntegerLiteral)
+            }
+        );
 
-        var expectedStatement = new PrintStatement(new BinaryExpression(
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)), new Token(TokenType.Plus),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))));
+        var expectedStatement = new PrintStatement
+        (
+            new BinaryExpression
+            (
+                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                new Token(TokenType.Plus),
+                new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            )
+        );
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -47,11 +56,14 @@ public class PrintStatementParsingTests
     public void Parse_PrintLiteral_ReturnsPrintStatement(TokenType tokenType)
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print), 
-            new Token(tokenType)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Print),
+                new Token(tokenType)
+            }
+        );
 
         var expectedStatement = new PrintStatement(new LiteralExpression(new Token(tokenType)));
 
@@ -66,17 +78,22 @@ public class PrintStatementParsingTests
     public void Parse_PrintFunctionCallExpression_ReturnsPrintStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Print),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.RightParenthesis)
+            }
+        );
 
         var expectedStatement =
-            new PrintStatement(
-                new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier))));
+            new PrintStatement
+            (
+                new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+            );
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -89,13 +106,16 @@ public class PrintStatementParsingTests
     public void Parse_PrintParenthesisExpression_ReturnsPrintStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print), 
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.StringLiteral),
-            new Token(TokenType.RightParenthesis)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Print),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.StringLiteral),
+                new Token(TokenType.RightParenthesis)
+            }
+        );
 
         var expectedStatement = new PrintStatement(new LiteralExpression(new Token(TokenType.StringLiteral)));
 
@@ -110,15 +130,24 @@ public class PrintStatementParsingTests
     public void Parse_PrintUnaryExpression_ReturnsPrintStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print), 
-            new Token(TokenType.Minus), 
-            new Token(TokenType.FloatLiteral)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Print),
+                new Token(TokenType.Minus),
+                new Token(TokenType.FloatLiteral)
+            }
+        );
 
-        var expectedStatement = new PrintStatement(new UnaryExpression(new Token(TokenType.Minus),
-            new LiteralExpression(new Token(TokenType.FloatLiteral))));
+        var expectedStatement = new PrintStatement
+        (
+            new UnaryExpression
+            (
+                new Token(TokenType.Minus),
+                new LiteralExpression(new Token(TokenType.FloatLiteral))
+            )
+        );
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -131,11 +160,14 @@ public class PrintStatementParsingTests
     public void Parse_PrintVariableReference_ReturnsPrintStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Print), 
-            new Token(TokenType.Identifier)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Print),
+                new Token(TokenType.Identifier)
+            }
+        );
 
         var expectedStatement = new PrintStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
 

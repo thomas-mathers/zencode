@@ -21,8 +21,11 @@ public class VariableDeclarationStatementTests
     private void ToString_VariableDeclaration_ReturnsCorrectString()
     {
         // Arrange
-        var variableDeclarationStatement = new VariableDeclarationStatement(
-            new Token(TokenType.Identifier, "x"), _fixture.Create<Expression>());
+        var variableDeclarationStatement = new VariableDeclarationStatement
+        (
+            new Token(TokenType.Identifier, "x"),
+            _fixture.Create<Expression>()
+        );
 
         const string expected = "var x := {Expression}";
 

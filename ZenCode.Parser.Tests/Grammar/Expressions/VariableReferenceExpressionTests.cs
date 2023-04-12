@@ -28,6 +28,7 @@ public class VariableReferenceExpressionTests
     {
         // Arrange
         var identifier = new Token(TokenType.Identifier) { Text = "x" };
+
         var variableReferenceExpression = new VariableReferenceExpression(identifier)
         {
             Indices = new ArrayIndexExpressionList
@@ -38,6 +39,7 @@ public class VariableReferenceExpressionTests
                 }
             }
         };
+
         const string expected = "x[{Expression}]";
 
         // Act
@@ -52,18 +54,20 @@ public class VariableReferenceExpressionTests
     {
         // Arrange
         var identifier = new Token(TokenType.Identifier) { Text = "x" };
+
         var variableReferenceExpression = new VariableReferenceExpression(identifier)
         {
             Indices = new ArrayIndexExpressionList
             {
                 Expressions = new[]
                 {
-                    new ExpressionMock(), 
-                    new ExpressionMock(), 
+                    new ExpressionMock(),
+                    new ExpressionMock(),
                     new ExpressionMock()
                 }
             }
         };
+
         const string expected = "x[{Expression}][{Expression}][{Expression}]";
 
         // Act

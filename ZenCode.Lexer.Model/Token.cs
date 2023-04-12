@@ -16,7 +16,12 @@ public record Token
     public TokenType Type { get; init; }
     public int Line { get; init; }
     public int StartingColumn { get; init; }
-    public int EndingColumn => StartingColumn + Text.Length;
+
+    public int EndingColumn
+    {
+        get => StartingColumn + Text.Length;
+    }
+
     public string Text { get; init; } = string.Empty;
 
     public virtual bool Equals(Token? other)
@@ -26,8 +31,11 @@ public record Token
 
     public override string ToString()
     {
-        return Type is TokenType.Identifier or TokenType.BooleanLiteral or TokenType.IntegerLiteral
-            or TokenType.FloatLiteral or TokenType.StringLiteral
+        return Type is TokenType.Identifier
+            or TokenType.BooleanLiteral
+            or TokenType.IntegerLiteral
+            or TokenType.FloatLiteral
+            or TokenType.StringLiteral
             ? Text
             : Type.ToString();
     }

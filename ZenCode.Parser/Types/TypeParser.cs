@@ -18,10 +18,16 @@ public class TypeParser : ITypeParser
     private readonly IStringTypeParsingStrategy _stringTypeParsingStrategy;
     private readonly IVoidTypeParsingStrategy _voidTypeParsingStrategy;
 
-    public TypeParser(IBooleanTypeParsingStrategy booleanTypeParsingStrategy,
-        IFloatTypeParsingStrategy floatTypeParsingStrategy, IIntegerTypeParsingStrategy integerTypeParsingStrategy,
-        IStringTypeParsingStrategy stringTypeParsingStrategy, IVoidTypeParsingStrategy voidTypeParsingStrategy,
-        IArrayTypeParsingStrategy arrayTypeParsingStrategy, IFunctionTypeParsingStrategy functionTypeParsingStrategy)
+    public TypeParser
+    (
+        IBooleanTypeParsingStrategy booleanTypeParsingStrategy,
+        IFloatTypeParsingStrategy floatTypeParsingStrategy,
+        IIntegerTypeParsingStrategy integerTypeParsingStrategy,
+        IStringTypeParsingStrategy stringTypeParsingStrategy,
+        IVoidTypeParsingStrategy voidTypeParsingStrategy,
+        IArrayTypeParsingStrategy arrayTypeParsingStrategy,
+        IFunctionTypeParsingStrategy functionTypeParsingStrategy
+    )
     {
         _booleanTypeParsingStrategy = booleanTypeParsingStrategy;
         _floatTypeParsingStrategy = floatTypeParsingStrategy;
@@ -37,7 +43,7 @@ public class TypeParser : ITypeParser
         var type = ParsePrefixType(parser, tokenStream);
 
         while (tokenStream.Peek(0)?.Type == TokenType.LeftBracket &&
-               tokenStream.Peek(1)?.Type == TokenType.RightBracket)
+            tokenStream.Peek(1)?.Type == TokenType.RightBracket)
         {
             type = _arrayTypeParsingStrategy.Parse(tokenStream, type);
         }

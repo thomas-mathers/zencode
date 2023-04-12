@@ -10,7 +10,7 @@ public class StringTypeParsingStrategy : IStringTypeParsingStrategy
     public StringType Parse(ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.String);
-        
+
         return new StringType();
     }
 }

@@ -41,12 +41,14 @@ public class Tokenizer : ITokenizer
                     _currentIndex += 2;
                     _currentLine++;
                     _currentColumn = 0;
+
                     break;
                 case '\n':
                 case '\r':
                     _currentIndex++;
                     _currentLine++;
                     _currentColumn = 0;
+
                     break;
                 default:
                 {

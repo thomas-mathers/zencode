@@ -8,8 +8,15 @@ namespace ZenCode.Parser.Expressions.Strategies;
 
 public class BinaryExpressionParsingStrategy : IBinaryExpressionParsingStrategy
 {
-    public BinaryExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand,
-        TokenType operatorTokenType, int precedence, bool isRightAssociative)
+    public BinaryExpression Parse
+    (
+        IParser parser,
+        ITokenStream tokenStream,
+        Expression lOperand,
+        TokenType operatorTokenType,
+        int precedence,
+        bool isRightAssociative
+    )
     {
         var operatorToken = tokenStream.Consume(operatorTokenType);
 

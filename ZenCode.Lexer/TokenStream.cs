@@ -15,7 +15,10 @@ public class TokenStream : ITokenStream
         _tokenEnumerator = tokenEnumerator.GetEnumerator();
     }
 
-    public Token Current => Peek(0)!;
+    public Token Current
+    {
+        get => Peek(0)!;
+    }
 
     public Token Consume(TokenType tokenType)
     {
@@ -112,6 +115,7 @@ public class TokenStream : ITokenStream
     {
         var token = _peekedTokens.First();
         _peekedTokens.RemoveFirst();
+
         return token;
     }
 }

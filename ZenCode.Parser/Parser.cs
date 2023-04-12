@@ -22,10 +22,17 @@ public class Parser : IParser
     private readonly ITypeListParser _typeListParser;
     private readonly ITypeParser _typeParser;
 
-    public Parser(IExpressionListParser expressionListParser, IExpressionParser expressionParser,
-        IParameterListParser parameterListParser, IArrayIndexExpressionListParser arrayIndexExpressionListParser,
-        IScopeParser scopeParser, IStatementParser statementParser, ITypeParser typeParser,
-        ITypeListParser typeListParser)
+    public Parser
+    (
+        IExpressionListParser expressionListParser,
+        IExpressionParser expressionParser,
+        IParameterListParser parameterListParser,
+        IArrayIndexExpressionListParser arrayIndexExpressionListParser,
+        IScopeParser scopeParser,
+        IStatementParser statementParser,
+        ITypeParser typeParser,
+        ITypeListParser typeListParser
+    )
     {
         _expressionListParser = expressionListParser;
         _expressionParser = expressionParser;

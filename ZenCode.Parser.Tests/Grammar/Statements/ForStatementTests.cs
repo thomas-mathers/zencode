@@ -26,14 +26,22 @@ public class ForStatementTests
         var identifier = new Token(TokenType.Identifier, "i");
         var variableDeclarationStatement = new VariableDeclarationStatement(identifier, _fixture.Create<Expression>());
         var iterator = _fixture.Create<Expression>();
-        var assignmentStatement = new AssignmentStatement(new VariableReferenceExpression(identifier), 
-            _fixture.Create<Expression>());
+
+        var assignmentStatement = new AssignmentStatement
+        (
+            new VariableReferenceExpression(identifier),
+            _fixture.Create<Expression>()
+        );
+
         var scope = new Scope();
-        var forStatement = new ForStatement(
+
+        var forStatement = new ForStatement
+        (
             variableDeclarationStatement,
             iterator,
-            assignmentStatement, 
-            scope);
+            assignmentStatement,
+            scope
+        );
 
         const string expected = """
         for (var i := {Expression}; {Expression}; i := {Expression})
@@ -55,17 +63,25 @@ public class ForStatementTests
         var identifier = new Token(TokenType.Identifier, "i");
         var variableDeclarationStatement = new VariableDeclarationStatement(identifier, _fixture.Create<Expression>());
         var iterator = _fixture.Create<Expression>();
-        var assignmentStatement = new AssignmentStatement(new VariableReferenceExpression(identifier), 
-            _fixture.Create<Expression>());
+
+        var assignmentStatement = new AssignmentStatement
+        (
+            new VariableReferenceExpression(identifier),
+            _fixture.Create<Expression>()
+        );
+
         var scope = new Scope
         {
             Statements = _fixture.CreateMany<Statement>(3).ToArray()
         };
-        var forStatement = new ForStatement(
+
+        var forStatement = new ForStatement
+        (
             variableDeclarationStatement,
             iterator,
-            assignmentStatement, 
-            scope);
+            assignmentStatement,
+            scope
+        );
 
         const string expected = """
         for (var i := {Expression}; {Expression}; i := {Expression})

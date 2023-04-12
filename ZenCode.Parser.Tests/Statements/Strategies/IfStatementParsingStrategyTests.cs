@@ -65,9 +65,8 @@ public class IfStatementParsingStrategyTests
             .Setup(x => x.Match(TokenType.ElseIf))
             .ReturnsSequence(true, false);
 
-        _parserMock.
-            Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-            .ReturnsSequence(conditionScopes);
+        _parserMock.Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+                   .ReturnsSequence(conditionScopes);
 
         // Arrange
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);
@@ -88,8 +87,8 @@ public class IfStatementParsingStrategyTests
         {
             ElseIfScopes = new[]
             {
-                conditionScopes[1], 
-                conditionScopes[2], 
+                conditionScopes[1],
+                conditionScopes[2],
                 conditionScopes[3]
             }
         };
@@ -120,7 +119,7 @@ public class IfStatementParsingStrategyTests
 
         var expected = new IfStatement(conditionScopes[0])
         {
-            ElseIfScopes = Array.Empty<ConditionScope>(), 
+            ElseIfScopes = Array.Empty<ConditionScope>(),
             ElseScope = scope
         };
 
@@ -157,7 +156,7 @@ public class IfStatementParsingStrategyTests
             ElseIfScopes = new[]
             {
                 conditionScopes[1]
-            }, 
+            },
             ElseScope = scope
         };
 
@@ -198,9 +197,9 @@ public class IfStatementParsingStrategyTests
             ElseIfScopes = new[]
             {
                 conditionScopes[1],
-                conditionScopes[2], 
+                conditionScopes[2],
                 conditionScopes[3]
-            }, 
+            },
             ElseScope = scope
         };
 

@@ -22,16 +22,19 @@ public class AnonymousFunctionExpressionParsingTests
     public void ParseExpression_AnonFuncNoParamsNoStatements_ReturnsAnonFuncDeclarationExpression()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Function), 
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis), 
-            new Token(TokenType.RightArrow), 
-            new Token(TokenType.Void),
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.RightBrace)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Void),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.RightBrace)
+            }
+        );
 
         var expected = new AnonymousFunctionDeclarationExpression(new VoidType(), new ParameterList(), new Scope());
 
@@ -46,22 +49,25 @@ public class AnonymousFunctionExpressionParsingTests
     public void ParseExpression_AnonFuncOneParamOneStatement_ReturnsAnonFuncDeclarationExpression()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Function),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon), 
-            new Token(TokenType.Integer), 
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow),
-            new Token(TokenType.Integer), 
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Return), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Semicolon),
-            new Token(TokenType.RightBrace)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Integer),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
 
         var returnType = new IntegerType();
 
@@ -97,38 +103,41 @@ public class AnonymousFunctionExpressionParsingTests
     public void ParseExpression_AnonFuncMultipleParamMultipleStatement_ReturnsAnonFuncDeclarationExpression()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Function), 
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon), 
-            new Token(TokenType.Boolean), 
-            new Token(TokenType.Comma),
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Colon), 
-            new Token(TokenType.Integer),
-            new Token(TokenType.Comma), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Colon),
-            new Token(TokenType.Float), 
-            new Token(TokenType.Comma), 
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Colon), 
-            new Token(TokenType.String), 
-            new Token(TokenType.RightParenthesis),
-            new Token(TokenType.RightArrow), 
-            new Token(TokenType.Float), 
-            new Token(TokenType.LeftBrace),
-            new Token(TokenType.Var),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Assignment),
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Return), 
-            new Token(TokenType.Identifier),
-            new Token(TokenType.Semicolon), 
-            new Token(TokenType.RightBrace)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Function),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Boolean),
+                new Token(TokenType.Comma),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Integer),
+                new Token(TokenType.Comma),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.Float),
+                new Token(TokenType.Comma),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Colon),
+                new Token(TokenType.String),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.RightArrow),
+                new Token(TokenType.Float),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Return),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Semicolon),
+                new Token(TokenType.RightBrace)
+            }
+        );
 
         var returnType = new FloatType();
 
@@ -147,8 +156,11 @@ public class AnonymousFunctionExpressionParsingTests
         {
             Statements = new Statement[]
             {
-                new VariableDeclarationStatement(new Token(TokenType.Identifier),
-                    new VariableReferenceExpression(new Token(TokenType.Identifier))),
+                new VariableDeclarationStatement
+                (
+                    new Token(TokenType.Identifier),
+                    new VariableReferenceExpression(new Token(TokenType.Identifier))
+                ),
                 new ReturnStatement
                 {
                     Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))

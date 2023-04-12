@@ -21,7 +21,9 @@ public class StatementParser : IStatementParser
     private readonly IVariableDeclarationStatementParsingStrategy _variableDeclarationStatementParsingStrategy;
     private readonly IWhileStatementParsingStrategy _whileStatementParsingStrategy;
 
-    public StatementParser(IAssignmentStatementParsingStrategy assignmentStatementParsingStrategy,
+    public StatementParser
+    (
+        IAssignmentStatementParsingStrategy assignmentStatementParsingStrategy,
         IBreakStatementParsingStrategy breakStatementParsingStrategy,
         IContinueStatementParsingStrategy continueStatementParsingStrategy,
         IForStatementParsingStrategy forStatementParsingStrategy,
@@ -31,7 +33,8 @@ public class StatementParser : IStatementParser
         IReadStatementParsingStrategy readStatementParsingStrategy,
         IReturnStatementParsingStrategy returnStatementParsingStrategy,
         IVariableDeclarationStatementParsingStrategy variableDeclarationStatementParsingStrategy,
-        IWhileStatementParsingStrategy whileStatementParsingStrategy)
+        IWhileStatementParsingStrategy whileStatementParsingStrategy
+    )
     {
         _assignmentStatementParsingStrategy = assignmentStatementParsingStrategy;
         _breakStatementParsingStrategy = breakStatementParsingStrategy;

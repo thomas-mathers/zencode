@@ -11,11 +11,11 @@ public class ParenthesisParsingStrategy : IParenthesisParsingStrategy
     public Expression Parse(IParser parser, ITokenStream tokenStream)
     {
         tokenStream.Consume(TokenType.LeftParenthesis);
-        
+
         var innerExpression = parser.ParseExpression(tokenStream);
-        
+
         tokenStream.Consume(TokenType.RightParenthesis);
-        
+
         return innerExpression;
     }
 }

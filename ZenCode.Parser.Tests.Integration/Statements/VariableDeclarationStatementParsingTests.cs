@@ -20,20 +20,27 @@ public class VariableDeclarationStatementParsingTests
     public void Parse_DeclareVariableAndAssignBinaryExpression_ReturnsVariableDeclarationStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Var), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.IntegerLiteral), 
-            new Token(TokenType.Plus), 
-            new Token(TokenType.IntegerLiteral)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.Plus),
+                new Token(TokenType.IntegerLiteral)
+            }
+        );
 
         var identifier = new Token(TokenType.Identifier);
 
-        var expression = new BinaryExpression(new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(TokenType.Plus), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        var expression = new BinaryExpression
+        (
+            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            new Token(TokenType.Plus),
+            new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        );
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
@@ -52,13 +59,16 @@ public class VariableDeclarationStatementParsingTests
     public void Parse_DeclareVariableAndAssignLiteral_ReturnsVariableDeclarationStatement(TokenType tokenType)
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Var), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(tokenType)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(tokenType)
+            }
+        );
 
         var identifier = new Token(TokenType.Identifier);
 
@@ -77,15 +87,18 @@ public class VariableDeclarationStatementParsingTests
     public void Parse_DeclareVariableAndAssignFunctionCallExpression_ReturnsVariableDeclarationStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Var),
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.Identifier),
-            new Token(TokenType.LeftParenthesis),
-            new Token(TokenType.RightParenthesis)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.RightParenthesis)
+            }
+        );
 
         var identifier = new Token(TokenType.Identifier);
 
@@ -104,15 +117,18 @@ public class VariableDeclarationStatementParsingTests
     public void Parse_DeclareVariableAndAssignParenthesisExpression_ReturnsVariableDeclarationStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Var), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.LeftParenthesis), 
-            new Token(TokenType.StringLiteral),
-            new Token(TokenType.RightParenthesis)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.StringLiteral),
+                new Token(TokenType.RightParenthesis)
+            }
+        );
 
         var identifier = new Token(TokenType.Identifier);
 
@@ -131,19 +147,25 @@ public class VariableDeclarationStatementParsingTests
     public void Parse_DeclareVariableAndAssignUnaryExpression_ReturnsVariableDeclarationStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Var), 
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.Minus), 
-            new Token(TokenType.FloatLiteral)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.Minus),
+                new Token(TokenType.FloatLiteral)
+            }
+        );
 
         var identifier = new Token(TokenType.Identifier);
 
-        var expression = new UnaryExpression(new Token(TokenType.Minus),
-            new LiteralExpression(new Token(TokenType.FloatLiteral)));
+        var expression = new UnaryExpression
+        (
+            new Token(TokenType.Minus),
+            new LiteralExpression(new Token(TokenType.FloatLiteral))
+        );
 
         var expectedStatement = new VariableDeclarationStatement(identifier, expression);
 
@@ -158,13 +180,16 @@ public class VariableDeclarationStatementParsingTests
     public void Parse_DeclareVariableAndAssignVariableReferenceExpression_ReturnsVariableDeclarationStatement()
     {
         // Arrange
-        var tokenStream = new TokenStream(new[]
-        {
-            new Token(TokenType.Var),
-            new Token(TokenType.Identifier), 
-            new Token(TokenType.Assignment),
-            new Token(TokenType.Identifier)
-        });
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.Identifier)
+            }
+        );
 
         var identifier = new Token(TokenType.Identifier);
 
