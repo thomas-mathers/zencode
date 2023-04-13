@@ -7,6 +7,16 @@ public record Scope : AstNode
 {
     public IReadOnlyList<Statement> Statements { get; init; } = Array.Empty<Statement>();
 
+    public Scope()
+    {
+        
+    }
+
+    public Scope(params Statement[] statements)
+    {
+        Statements = statements;
+    }
+    
     public virtual bool Equals(Scope? other)
     {
         return other != null && Statements.SequenceEqual(other.Statements);

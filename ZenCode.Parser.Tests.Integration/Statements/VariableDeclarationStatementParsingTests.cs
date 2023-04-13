@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
@@ -202,5 +203,68 @@ public class VariableDeclarationStatementParsingTests
 
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
+    }
+
+    [Fact]
+    public void Parse_MissingIdentifier_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected 'Identifier', got ':='", exception.Message);
+    }
+    
+    [Fact]
+    public void Parse_MissingAssignment_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.IntegerLiteral)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected ':=', got 'IntegerLiteral'", exception.Message);
+    }
+    
+    [Fact]
+    public void Parse_MissingExpression_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Var),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token EOF", exception.Message);
     }
 }

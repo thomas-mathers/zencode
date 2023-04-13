@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
@@ -452,5 +453,25 @@ public class AssignmentStatementParsingTests
 
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
+    }
+    
+    [Fact]
+    public void Parse_MissingRightHandSide_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token EOF", exception.Message);
     }
 }

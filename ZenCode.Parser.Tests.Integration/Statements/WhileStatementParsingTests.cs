@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
@@ -67,5 +68,117 @@ public class WhileStatementParsingTests
 
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
+    }
+    
+    [Fact]
+    public void Parse_MissingLeftParenthesis_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.While),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.GreaterThan),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected '(', got 'Identifier'", exception.Message);
+    }
+    
+    [Fact]
+    public void Parse_MissingRightParenthesis_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.While),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.GreaterThan),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected ')', got '{'", exception.Message);
+    }
+
+    [Fact]
+    public void Parse_MissingLeftBrace_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.While),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.GreaterThan),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected '{', got 'Identifier'", exception.Message);
+    }
+    
+    [Fact]
+    public void Parse_MissingRightBrace_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.While),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.GreaterThan),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token EOF", exception.Message);
     }
 }

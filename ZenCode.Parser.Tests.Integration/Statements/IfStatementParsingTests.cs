@@ -1,5 +1,6 @@
 using Xunit;
 using ZenCode.Lexer;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar;
@@ -243,5 +244,124 @@ public class IfStatementParsingTests
 
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
+    }
+    
+    [Fact]
+    public void Parse_MissingLeftParenthesis_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.If),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Equals),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected '(', got 'Identifier'", exception.Message);
+    }
+
+    [Fact]
+    public void Parse_MissingRightParenthesis_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.If),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Equals),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Expected ')', got '{'", exception.Message);
+    }
+    
+    [Fact]
+    public void Parse_MissingIfCondition_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.If),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token ')'", exception.Message);
+    }
+    
+    [Fact]
+    public void Parse_MissingElseIfCondition_ThrowsException()
+    {
+        // Arrange
+        var tokenStream = new TokenStream
+        (
+            new[]
+            {
+                new Token(TokenType.If),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Equals),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace),
+                new Token(TokenType.ElseIf),
+                new Token(TokenType.LeftParenthesis),
+                new Token(TokenType.RightParenthesis),
+                new Token(TokenType.LeftBrace),
+                new Token(TokenType.Identifier),
+                new Token(TokenType.Assignment),
+                new Token(TokenType.IntegerLiteral),
+                new Token(TokenType.RightBrace)
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+
+        // Assert
+        Assert.Equal("Unexpected token ')'", exception.Message);
     }
 }
