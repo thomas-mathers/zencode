@@ -10,6 +10,9 @@ public class PrintStatementParsingStrategy : IPrintStatementParsingStrategy
 {
     public PrintStatement Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Print);
 
         var expression = parser.ParseExpression(tokenStream);

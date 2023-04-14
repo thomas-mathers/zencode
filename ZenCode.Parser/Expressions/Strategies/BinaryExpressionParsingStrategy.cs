@@ -18,6 +18,10 @@ public class BinaryExpressionParsingStrategy : IBinaryExpressionParsingStrategy
         bool isRightAssociative
     )
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        ArgumentNullException.ThrowIfNull(lOperand);
+        
         var operatorToken = tokenStream.Consume(operatorTokenType);
 
         var rOperand = parser.ParseExpression(tokenStream, isRightAssociative ? precedence - 1 : precedence);

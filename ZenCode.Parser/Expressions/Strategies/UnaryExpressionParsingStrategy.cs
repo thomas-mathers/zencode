@@ -10,6 +10,9 @@ public class UnaryExpressionParsingStrategy : IUnaryExpressionParsingStrategy
 {
     public UnaryExpression Parse(IParser parser, ITokenStream tokenStream, TokenType operatorType)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         var operatorToken = tokenStream.Consume(operatorType);
 
         var expression = parser.ParseExpression(tokenStream);

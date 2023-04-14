@@ -9,6 +9,8 @@ public class VoidTypeParsingStrategy : IVoidTypeParsingStrategy
 {
     public VoidType Parse(ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Void);
 
         return new VoidType();

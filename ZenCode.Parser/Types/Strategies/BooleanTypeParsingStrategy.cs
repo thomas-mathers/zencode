@@ -9,6 +9,8 @@ public class BooleanTypeParsingStrategy : IBooleanTypeParsingStrategy
 {
     public BooleanType Parse(ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Boolean);
 
         return new BooleanType();

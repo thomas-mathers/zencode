@@ -10,6 +10,9 @@ public class ReadStatementParsingStrategy : IReadStatementParsingStrategy
 {
     public ReadStatement Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Read);
 
         var variableReferenceExpression = parser.ParseVariableReferenceExpression(tokenStream);

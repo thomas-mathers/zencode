@@ -56,4 +56,17 @@ public class LiteralParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(null, It.IsAny<TokenType>())
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

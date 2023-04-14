@@ -9,6 +9,8 @@ public class ContinueStatementParsingStrategy : IContinueStatementParsingStrateg
 {
     public ContinueStatement Parse(ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Continue);
 
         return new ContinueStatement();

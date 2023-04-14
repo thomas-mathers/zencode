@@ -10,6 +10,9 @@ public class NewArrayExpressionParsingStrategy : INewExpressionParsingStrategy
 {
     public NewArrayExpression Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.New);
 
         var type = parser.ParseType(tokenStream);

@@ -11,6 +11,10 @@ public class FunctionCallParsingStrategy : IFunctionCallParsingStrategy
 {
     public FunctionCallExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        ArgumentNullException.ThrowIfNull(lOperand);
+        
         tokenStream.Consume(TokenType.LeftParenthesis);
 
         var arguments = tokenStream.Match(TokenType.RightParenthesis)

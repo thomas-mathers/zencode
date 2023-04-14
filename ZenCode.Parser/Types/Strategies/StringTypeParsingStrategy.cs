@@ -9,6 +9,8 @@ public class StringTypeParsingStrategy : IStringTypeParsingStrategy
 {
     public StringType Parse(ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.String);
 
         return new StringType();

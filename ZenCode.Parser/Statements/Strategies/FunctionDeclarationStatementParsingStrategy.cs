@@ -11,6 +11,9 @@ public class FunctionDeclarationStatementParsingStrategy : IFunctionDeclarationS
 {
     public FunctionDeclarationStatement Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Function);
 
         var identifier = tokenStream.Consume(TokenType.Identifier);

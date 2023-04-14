@@ -10,6 +10,9 @@ public class AssignmentStatementParsingStrategy : IAssignmentStatementParsingStr
 {
     public AssignmentStatement Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         var variableReferenceExpression = parser.ParseVariableReferenceExpression(tokenStream);
 
         tokenStream.Consume(TokenType.Assignment);

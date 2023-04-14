@@ -68,4 +68,32 @@ public class UnaryExpressionParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_NullParser_ThrowsArgumentNullException()
+    {
+        // Arrange
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(null!, _tokenStreamMock.Object, It.IsAny<TokenType>())
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(_parserMock.Object, null!, It.IsAny<TokenType>())
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

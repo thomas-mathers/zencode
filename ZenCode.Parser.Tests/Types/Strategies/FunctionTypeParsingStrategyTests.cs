@@ -93,4 +93,17 @@ public class FunctionTypeParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange + Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(_parserMock.Object, It.IsAny<ITokenStream>())
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

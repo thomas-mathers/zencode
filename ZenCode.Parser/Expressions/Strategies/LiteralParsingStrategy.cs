@@ -9,6 +9,8 @@ public class LiteralParsingStrategy : ILiteralParsingStrategy
 {
     public LiteralExpression Parse(ITokenStream tokenStream, TokenType tokenType)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         return new LiteralExpression(tokenStream.Consume(tokenType));
     }
 }

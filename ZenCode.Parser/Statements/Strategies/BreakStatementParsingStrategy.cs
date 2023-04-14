@@ -9,6 +9,8 @@ public class BreakStatementParsingStrategy : IBreakStatementParsingStrategy
 {
     public BreakStatement Parse(ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Break);
 
         return new BreakStatement();

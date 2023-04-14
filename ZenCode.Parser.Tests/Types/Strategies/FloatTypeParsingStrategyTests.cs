@@ -45,4 +45,20 @@ public class FloatTypeParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange
+        ITokenStream? tokenStream = null;
+
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(tokenStream!)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

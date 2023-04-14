@@ -10,6 +10,9 @@ public class ArrayTypeParsingStrategy : IArrayTypeParsingStrategy
 {
     public ArrayType Parse(ITokenStream tokenStream, Type baseType)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        ArgumentNullException.ThrowIfNull(baseType);
+        
         tokenStream.Consume(TokenType.LeftBracket);
         tokenStream.Consume(TokenType.RightBracket);
 

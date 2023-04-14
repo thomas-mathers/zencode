@@ -42,4 +42,17 @@ public class ContinueStatementParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_NullParser_ThrowsArgumentNullException()
+    {
+        // Arrange + Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(null!)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

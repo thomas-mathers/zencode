@@ -11,6 +11,9 @@ public class IfStatementParsingStrategy : IIfStatementParsingStrategy
 {
     public IfStatement Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.If);
 
         var thenConditionScope = parser.ParseConditionScope(tokenStream);

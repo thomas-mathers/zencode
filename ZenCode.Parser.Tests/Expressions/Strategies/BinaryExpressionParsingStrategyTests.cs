@@ -1,4 +1,5 @@
 using AutoFixture;
+using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
@@ -7,6 +8,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Tests.TestData;
 
@@ -18,6 +20,11 @@ public class BinaryExpressionParsingStrategyTests
     private readonly Mock<IParser> _parserMock = new();
     private readonly BinaryExpressionParsingStrategy _sut = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
+    
+    public BinaryExpressionParsingStrategyTests()
+    {
+        _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
+    }
 
     [Theory]
     [ClassData(typeof(BinaryOperators))]
@@ -52,11 +59,61 @@ public class BinaryExpressionParsingStrategyTests
             .Setup(x => x.Consume(It.IsAny<TokenType>()))
             .Throws<UnexpectedTokenException>();
 
+        var lOperand = _fixture.Create<Expression>();
+
         // Act
         var actual = Assert.Throws<UnexpectedTokenException>
         (
             () => _sut.Parse
-                (_parserMock.Object, _tokenStreamMock.Object, It.IsAny<Expression>(), It.IsAny<TokenType>(), 0, false)
+                (_parserMock.Object, _tokenStreamMock.Object, lOperand, It.IsAny<TokenType>(), 0, false)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullParser_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var lOperand = _fixture.Create<Expression>();
+
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse
+                (null, _tokenStreamMock.Object, lOperand, It.IsAny<TokenType>(), 0, false)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var lOperand = _fixture.Create<Expression>();
+
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse
+                (_parserMock.Object, null, lOperand, It.IsAny<TokenType>(), 0, false)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullLOperand_ThrowsArgumentNullException()
+    {
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse
+                (_parserMock.Object, _tokenStreamMock.Object, null, It.IsAny<TokenType>(), 0, false)
         );
 
         // Assert

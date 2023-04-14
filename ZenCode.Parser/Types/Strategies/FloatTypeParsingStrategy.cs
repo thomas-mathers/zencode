@@ -9,6 +9,8 @@ public class FloatTypeParsingStrategy : IFloatTypeParsingStrategy
 {
     public FloatType Parse(ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Float);
 
         return new FloatType();

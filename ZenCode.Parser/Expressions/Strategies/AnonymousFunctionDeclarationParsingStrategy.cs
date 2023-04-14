@@ -11,6 +11,9 @@ public class AnonymousFunctionDeclarationParsingStrategy : IAnonymousFunctionDec
 {
     public AnonymousFunctionDeclarationExpression Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Function);
         tokenStream.Consume(TokenType.LeftParenthesis);
 

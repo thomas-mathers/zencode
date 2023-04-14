@@ -42,4 +42,17 @@ public class BreakStatementParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange + Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(null!)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

@@ -40,6 +40,8 @@ public class ArrayTypeParsingStrategyTests
     public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
     {
         // Arrange
+        var baseType = _fixture.Create<Type>();
+        
         _tokenStreamMock
             .Setup(x => x.Consume(It.IsAny<TokenType>()))
             .Throws<UnexpectedTokenException>();
@@ -47,7 +49,25 @@ public class ArrayTypeParsingStrategyTests
         // Act
         var actual = Assert.Throws<UnexpectedTokenException>
         (
-            () => _sut.Parse(_tokenStreamMock.Object, It.IsAny<Type>())
+            () => _sut.Parse(_tokenStreamMock.Object, baseType)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var baseType = _fixture.Create<Type>();
+        
+        ITokenStream? tokenStream = null;
+
+        // Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(tokenStream!, baseType)
         );
 
         // Assert

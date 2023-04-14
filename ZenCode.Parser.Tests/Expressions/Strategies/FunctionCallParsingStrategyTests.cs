@@ -17,13 +17,12 @@ public class FunctionCallParsingStrategyTests
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IParser> _parserMock = new();
-    private readonly FunctionCallParsingStrategy _sut;
+    private readonly FunctionCallParsingStrategy _sut = new();
     private readonly Mock<ITokenStream> _tokenStreamMock = new();
     private readonly VariableReferenceExpression _variableReferenceExpression;
 
     public FunctionCallParsingStrategyTests()
     {
-        _sut = new FunctionCallParsingStrategy();
         _variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
         _fixture.Customizations.Add(new TypeRelay(typeof(Expression), typeof(ExpressionMock)));
@@ -82,6 +81,48 @@ public class FunctionCallParsingStrategyTests
         (
             () => _sut.Parse
                 (_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullParser_ThrowsArgumentNullException()
+    {
+        // Arrange + Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse
+                (null!, _tokenStreamMock.Object, _variableReferenceExpression)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange + Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse
+                (_parserMock.Object, null!, _variableReferenceExpression)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullVariableReferenceExpression_ThrowsArgumentNullException()
+    {
+        // Arrange + Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse
+                (_parserMock.Object, _tokenStreamMock.Object, null!)
         );
 
         // Assert

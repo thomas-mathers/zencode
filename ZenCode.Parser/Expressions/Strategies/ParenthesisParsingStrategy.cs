@@ -10,6 +10,9 @@ public class ParenthesisParsingStrategy : IParenthesisParsingStrategy
 {
     public Expression Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.LeftParenthesis);
 
         var innerExpression = parser.ParseExpression(tokenStream);

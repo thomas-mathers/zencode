@@ -10,6 +10,9 @@ public class ReturnStatementParsingStrategy : IReturnStatementParsingStrategy
 {
     public ReturnStatement Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.Return);
 
         if (tokenStream.Match(TokenType.Semicolon))

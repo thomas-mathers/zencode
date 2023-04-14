@@ -11,6 +11,9 @@ public class VariableReferenceParsingStrategy : IVariableReferenceParsingStrateg
 {
     public VariableReferenceExpression Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         var identifierToken = tokenStream.Consume(TokenType.Identifier);
 
         var indices = tokenStream.Match(TokenType.LeftBracket)

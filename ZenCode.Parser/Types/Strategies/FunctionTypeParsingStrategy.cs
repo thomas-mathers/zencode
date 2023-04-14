@@ -11,6 +11,9 @@ public class FunctionTypeParsingStrategy : IFunctionTypeParsingStrategy
 {
     public FunctionType Parse(IParser parser, ITokenStream tokenStream)
     {
+        ArgumentNullException.ThrowIfNull(parser);
+        ArgumentNullException.ThrowIfNull(tokenStream);
+        
         tokenStream.Consume(TokenType.LeftParenthesis);
 
         var typeList = tokenStream.Match(TokenType.RightParenthesis)
