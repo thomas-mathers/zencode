@@ -93,4 +93,44 @@ public class AssignmentStatementParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_ParseVariableReferenceExpressionThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseExpressionThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
+            .Returns(_fixture.Create<VariableReferenceExpression>());
+
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

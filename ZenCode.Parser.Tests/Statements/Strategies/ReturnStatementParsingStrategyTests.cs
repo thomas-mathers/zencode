@@ -72,11 +72,11 @@ public class ReturnStatementParsingStrategyTests
     }
     
     [Fact]
-    public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
+    public void Parse_MissingReturn_ThrowsUnexpectedTokenException()
     {
         // Arrange
         _tokenStreamMock
-            .Setup(x => x.Consume(It.IsAny<TokenType>()))
+            .Setup(x => x.Consume(TokenType.Return))
             .Throws<UnexpectedTokenException>();
 
         // Act
@@ -109,6 +109,28 @@ public class ReturnStatementParsingStrategyTests
         var actual = Assert.Throws<ArgumentNullException>
         (
             () => _sut.Parse(_parserMock.Object, null!)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseExpressionThrowsException_ThrowsException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.Semicolon))
+            .Returns(false);
+
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
         );
 
         // Assert

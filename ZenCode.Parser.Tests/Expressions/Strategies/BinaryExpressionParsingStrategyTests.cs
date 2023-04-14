@@ -8,7 +8,6 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Tests.TestData;
 
@@ -114,6 +113,27 @@ public class BinaryExpressionParsingStrategyTests
         (
             () => _sut.Parse
                 (_parserMock.Object, _tokenStreamMock.Object, null, It.IsAny<TokenType>(), 0, false)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseExpressionThrowsException_ThrowsException()
+    {
+        // Arrange
+        var lOperand = _fixture.Create<Expression>();
+
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, It.IsAny<int>()))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse
+                (_parserMock.Object, _tokenStreamMock.Object, lOperand, It.IsAny<TokenType>(), 0, false)
         );
 
         // Assert

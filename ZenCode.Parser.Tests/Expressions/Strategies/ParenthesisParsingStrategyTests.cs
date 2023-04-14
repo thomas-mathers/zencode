@@ -89,4 +89,22 @@ public class ParenthesisParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_ParseExpressionThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

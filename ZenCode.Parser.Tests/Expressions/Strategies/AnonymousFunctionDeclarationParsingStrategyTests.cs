@@ -7,6 +7,7 @@ using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Tests.Mocks;
@@ -90,6 +91,76 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
         (
             () => _sut.Parse(_parserMock.Object, null!)
         );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_NullParserAndTokenStream_ThrowsArgumentNullException()
+    {
+        // Arrange + Act
+        var actual = Assert.Throws<ArgumentNullException>
+        (
+            () => _sut.Parse(null!, null!)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseTypeThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>(() => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object));
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseParameterListThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
+            .Returns(_fixture.Create<Type>());
+
+        _parserMock
+            .Setup(x => x.ParseParameterList(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>(() => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object));
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseScopeThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseType(_tokenStreamMock.Object))
+            .Returns(_fixture.Create<Type>());
+
+        _parserMock
+            .Setup(x => x.ParseParameterList(_tokenStreamMock.Object))
+            .Returns(_fixture.Create<ParameterList>());
+
+        _parserMock
+            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>(() => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object));
 
         // Assert
         Assert.NotNull(actual);

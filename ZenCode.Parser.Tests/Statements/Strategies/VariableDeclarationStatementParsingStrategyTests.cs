@@ -52,11 +52,47 @@ public class VariableDeclarationStatementParsingStrategyTests
     }
     
     [Fact]
-    public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
+    public void Parse_MissingVar_ThrowsUnexpectedTokenException()
     {
         // Arrange
         _tokenStreamMock
-            .Setup(x => x.Consume(It.IsAny<TokenType>()))
+            .Setup(x => x.Consume(TokenType.Var))
+            .Throws<UnexpectedTokenException>();
+
+        // Act
+        var actual = Assert.Throws<UnexpectedTokenException>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_MissingIdentifier_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Consume(TokenType.Identifier))
+            .Throws<UnexpectedTokenException>();
+
+        // Act
+        var actual = Assert.Throws<UnexpectedTokenException>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_MissingAssignment_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Consume(TokenType.Assignment))
             .Throws<UnexpectedTokenException>();
 
         // Act
@@ -89,6 +125,24 @@ public class VariableDeclarationStatementParsingStrategyTests
         var actual = Assert.Throws<ArgumentNullException>
         (
             () => _sut.Parse(_parserMock.Object, null!)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseExpressionThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
         );
 
         // Assert

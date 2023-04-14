@@ -128,4 +128,27 @@ public class FunctionCallParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_ParseExpressionListThrowsException_ThrowsException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.RightParenthesis))
+            .Returns(false);
+
+        _parserMock
+            .Setup(x => x.ParseExpressionList(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse
+                (_parserMock.Object, _tokenStreamMock.Object, _variableReferenceExpression)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

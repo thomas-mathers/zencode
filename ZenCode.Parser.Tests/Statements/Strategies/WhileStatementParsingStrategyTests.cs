@@ -50,11 +50,11 @@ public class WhileStatementParsingStrategyTests
     }
     
     [Fact]
-    public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
+    public void Parse_MissingWhile_ThrowsUnexpectedTokenException()
     {
         // Arrange
         _tokenStreamMock
-            .Setup(x => x.Consume(It.IsAny<TokenType>()))
+            .Setup(x => x.Consume(TokenType.While))
             .Throws<UnexpectedTokenException>();
 
         // Act
@@ -87,6 +87,24 @@ public class WhileStatementParsingStrategyTests
         var actual = Assert.Throws<ArgumentNullException>
         (
             () => _sut.Parse(_parserMock.Object, null!)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+    
+    [Fact]
+    public void Parse_ParseConditionScopeThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
         );
 
         // Assert

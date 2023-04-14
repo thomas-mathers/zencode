@@ -272,4 +272,44 @@ public class IfStatementParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_ParseConditionScopeThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
+
+    [Fact]
+    public void Parse_ParseScopeThrowsException_ThrowsException()
+    {
+        // Arrange
+        _parserMock
+            .Setup(x => x.ParseScope(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.Else))
+            .Returns(true);
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }

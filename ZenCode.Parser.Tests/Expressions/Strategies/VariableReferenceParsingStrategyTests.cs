@@ -111,4 +111,30 @@ public class VariableReferenceParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
+    
+    [Fact]
+    public void Parse_ParseArrayIndexExpressionListThrowsException_ThrowsException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Consume(TokenType.Identifier))
+            .Returns(new Token(TokenType.Identifier));
+
+        _tokenStreamMock
+            .Setup(x => x.Match(TokenType.LeftBracket))
+            .Returns(true);
+
+        _parserMock
+            .Setup(x => x.ParseArrayIndexExpressionList(_tokenStreamMock.Object))
+            .Throws<Exception>();
+
+        // Act
+        var actual = Assert.Throws<Exception>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
+    }
 }
