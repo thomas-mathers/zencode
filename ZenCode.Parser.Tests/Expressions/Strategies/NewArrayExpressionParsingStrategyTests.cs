@@ -3,6 +3,7 @@ using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
@@ -50,5 +51,23 @@ public class NewArrayExpressionParsingStrategyTests
         _tokenStreamMock.Verify(x => x.Consume(TokenType.New));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.LeftBracket));
         _tokenStreamMock.Verify(x => x.Consume(TokenType.RightBracket));
+    }
+    
+    [Fact]
+    public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Consume(It.IsAny<TokenType>()))
+            .Throws<UnexpectedTokenException>();
+
+        // Act
+        var actual = Assert.Throws<UnexpectedTokenException>
+        (
+            () => _sut.Parse(_parserMock.Object, _tokenStreamMock.Object)
+        );
+
+        // Assert
+        Assert.NotNull(actual);
     }
 }

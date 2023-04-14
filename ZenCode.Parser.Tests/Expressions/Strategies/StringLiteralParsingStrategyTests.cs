@@ -1,6 +1,7 @@
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
@@ -36,5 +37,23 @@ public class LiteralParsingStrategyTests
 
         // Assert
         Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Consume(It.IsAny<TokenType>()))
+            .Throws<UnexpectedTokenException>();
+
+        // Act
+        var actual = Assert.Throws<UnexpectedTokenException>
+        (
+            () => _sut.Parse(_tokenStreamMock.Object, It.IsAny<TokenType>())
+        );
+
+        // Assert
+        Assert.NotNull(actual);
     }
 }

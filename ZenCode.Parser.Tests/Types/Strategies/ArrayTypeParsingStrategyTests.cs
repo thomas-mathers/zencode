@@ -3,6 +3,8 @@ using AutoFixture.Kernel;
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Abstractions;
+using ZenCode.Lexer.Exceptions;
+using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Types.Strategies;
@@ -32,5 +34,23 @@ public class ArrayTypeParsingStrategyTests
 
         // Assert
         Assert.Equal(expectedType, actual);
+    }
+    
+    [Fact]
+    public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
+    {
+        // Arrange
+        _tokenStreamMock
+            .Setup(x => x.Consume(It.IsAny<TokenType>()))
+            .Throws<UnexpectedTokenException>();
+
+        // Act
+        var actual = Assert.Throws<UnexpectedTokenException>
+        (
+            () => _sut.Parse(_tokenStreamMock.Object, It.IsAny<Type>())
+        );
+
+        // Assert
+        Assert.NotNull(actual);
     }
 }
