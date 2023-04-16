@@ -381,9 +381,9 @@ public class AnonymousFunctionExpressionParsingTests
         );
 
         // Act
-        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseExpression(tokenStream));
+        var exception = Assert.Throws<EndOfTokenStreamException>(() => _sut.ParseExpression(tokenStream));
 
         // Assert
-        Assert.Equal("Unexpected token EOF", exception.Message);
+        Assert.NotNull(exception);
     }
 }

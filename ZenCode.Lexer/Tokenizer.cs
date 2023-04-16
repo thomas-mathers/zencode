@@ -92,6 +92,6 @@ public class Tokenizer : ITokenizer
             return token;
         }
 
-        throw new TokenParseException();
+        throw new TokenParseException(_currentLine, _currentColumn);
     }
 }

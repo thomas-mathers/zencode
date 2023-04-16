@@ -53,7 +53,7 @@ public class StatementParser : IStatementParser
     {
         if (tokenStream.Current == null)
         {
-            throw new UnexpectedTokenException();
+            throw new EndOfTokenStreamException();
         }
         
         return tokenStream.Current.Type switch
@@ -69,7 +69,7 @@ public class StatementParser : IStatementParser
             TokenType.Return => ParseReturnStatement(parser, tokenStream),
             TokenType.Var => ParseVariableDeclarationStatement(parser, tokenStream),
             TokenType.While => ParseWhileStatement(parser, tokenStream),
-            _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
+            _ => throw new UnexpectedTokenException(tokenStream.Current)
         };
     }
 

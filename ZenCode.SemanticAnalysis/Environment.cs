@@ -10,7 +10,7 @@ public class Environment
     {
         if (_symbols.TryGetValue(symbol.Token.Text, out var value))
         {
-            throw new DuplicateVariableDeclarationException(value.Token);
+            throw new DuplicateIdentifierException(value.Token);
         }
 
         _symbols[symbol.Token.Text] = symbol;

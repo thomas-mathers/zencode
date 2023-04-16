@@ -45,7 +45,7 @@ public class InfixExpressionParser : IInfixExpressionParser
     {
         if (tokenStream.Current == null)
         {
-            throw new UnexpectedTokenException();
+            throw new EndOfTokenStreamException();
         }
         
         switch (tokenStream.Current.Type)
@@ -68,7 +68,7 @@ public class InfixExpressionParser : IInfixExpressionParser
             case TokenType.LeftParenthesis:
                 return ParseFunctionCallExpression(parser, tokenStream, lOperand);
             default:
-                throw new UnexpectedTokenException(tokenStream.Current.Type);
+                throw new UnexpectedTokenException(tokenStream.Current);
         }
     }
 

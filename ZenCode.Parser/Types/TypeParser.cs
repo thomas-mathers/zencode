@@ -43,7 +43,7 @@ public class TypeParser : ITypeParser
         var type = ParsePrefixType(parser, tokenStream);
 
         while (tokenStream.Peek(0)?.Type == TokenType.LeftBracket &&
-            tokenStream.Peek(1)?.Type == TokenType.RightBracket)
+               tokenStream.Peek(1)?.Type == TokenType.RightBracket)
         {
             type = _arrayTypeParsingStrategy.Parse(tokenStream, type);
         }
@@ -91,7 +91,7 @@ public class TypeParser : ITypeParser
             TokenType.String => ParseStringType(tokenStream),
             TokenType.Void => ParseVoidType(tokenStream),
             TokenType.LeftParenthesis => ParseFunctionType(parser, tokenStream),
-            _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
+            _ => throw new UnexpectedTokenException(tokenStream.Current)
         };
     }
 }

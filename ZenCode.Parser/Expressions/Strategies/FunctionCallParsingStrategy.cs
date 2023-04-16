@@ -15,7 +15,7 @@ public class FunctionCallParsingStrategy : IFunctionCallParsingStrategy
         ArgumentNullException.ThrowIfNull(tokenStream);
         ArgumentNullException.ThrowIfNull(lOperand);
         
-        tokenStream.Consume(TokenType.LeftParenthesis);
+        var lParenthesis = tokenStream.Consume(TokenType.LeftParenthesis);
 
         var arguments = tokenStream.Match(TokenType.RightParenthesis)
             ? new ExpressionList()
@@ -23,6 +23,6 @@ public class FunctionCallParsingStrategy : IFunctionCallParsingStrategy
 
         tokenStream.Consume(TokenType.RightParenthesis);
 
-        return new FunctionCallExpression(lOperand) { Arguments = arguments };
+        return new FunctionCallExpression(lOperand) { LeftParenthesis = lParenthesis, Arguments = arguments };
     }
 }

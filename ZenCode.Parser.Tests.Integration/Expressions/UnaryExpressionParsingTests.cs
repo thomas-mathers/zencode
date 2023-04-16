@@ -52,9 +52,9 @@ public class UnaryExpressionParsingTests
         );
 
         // Act
-        var exception = Assert.Throws<UnexpectedTokenException>(() => _parser.ParseExpression(tokenStream));
+        var exception = Assert.Throws<EndOfTokenStreamException>(() => _parser.ParseExpression(tokenStream));
 
         // Assert
-        Assert.Equal("Unexpected token EOF", exception.Message);
+        Assert.NotNull(exception);
     }
 }

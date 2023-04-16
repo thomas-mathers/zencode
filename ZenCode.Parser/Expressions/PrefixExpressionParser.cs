@@ -38,7 +38,7 @@ public class PrefixExpressionParser : IPrefixExpressionParser
     {
         if (tokenStream.Current == null)
         {
-            throw new UnexpectedTokenException();
+            throw new EndOfTokenStreamException();
         }
         
         return tokenStream.Current.Type switch
@@ -53,7 +53,7 @@ public class PrefixExpressionParser : IPrefixExpressionParser
             TokenType.Minus => ParseUnaryExpression(parser, tokenStream, TokenType.Minus),
             TokenType.Not => ParseUnaryExpression(parser, tokenStream, TokenType.Not),
             TokenType.Identifier => ParseVariableReferenceExpression(parser, tokenStream),
-            _ => throw new UnexpectedTokenException(tokenStream.Current.Type)
+            _ => throw new UnexpectedTokenException(tokenStream.Current)
         };
     }
 

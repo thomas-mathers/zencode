@@ -176,9 +176,9 @@ public class WhileStatementParsingTests
         );
 
         // Act
-        var exception = Assert.Throws<UnexpectedTokenException>(() => _sut.ParseStatement(tokenStream));
+        var exception = Assert.Throws<EndOfTokenStreamException>(() => _sut.ParseStatement(tokenStream));
 
         // Assert
-        Assert.Equal("Unexpected token EOF", exception.Message);
+        Assert.NotNull(exception);
     }
 }

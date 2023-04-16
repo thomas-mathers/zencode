@@ -22,13 +22,13 @@ public class TokenStreamTests
     }
 
     [Fact]
-    public void Consume_EmptyStream_ThrowsInvalidOperationException()
+    public void Consume_EmptyStream_ThrowsEndOfTokenStreamException()
     {
         // Arrange
         var sut = new TokenStream(Enumerable.Empty<Token>());
 
         // Act + Assert
-        Assert.Throws<InvalidOperationException>(() => sut.Consume());
+        Assert.Throws<EndOfTokenStreamException>(() => sut.Consume());
     }
 
     [Fact]

@@ -3,22 +3,28 @@ using ZenCode.Lexer.Model;
 
 namespace ZenCode.Lexer.Exceptions;
 
-public class UnexpectedTokenException : Exception
+public class UnexpectedTokenException : LexerException
 {
-    public UnexpectedTokenException(TokenType expectedTokenType, TokenType receivedTokenType) : base
+    public UnexpectedTokenException()
+    {
+        
+    }
+    
+    public UnexpectedTokenException(Token receivedToken) : base
     (
-        $"Expected '{expectedTokenType.GetText()}', got '{receivedTokenType.GetText()}'"
+        receivedToken.Line,
+        receivedToken.StartingColumn,
+        $"Unexpected token '{receivedToken.Type.GetText()}'"
     )
     {
     }
-
-    public UnexpectedTokenException(TokenType receivedTokenType) : base
-        ($"Unexpected token '{receivedTokenType.GetText()}'")
-    {
-    }
     
-    public UnexpectedTokenException() : base
-        ($"Unexpected token EOF")
+    public UnexpectedTokenException(Token receivedToken, TokenType expectedTokenType) : base
+    (
+        receivedToken.Line,
+        receivedToken.StartingColumn,
+        $"Expected '{expectedTokenType.GetText()}', got '{receivedToken.Type.GetText()}'"
+    )
     {
     }
 }

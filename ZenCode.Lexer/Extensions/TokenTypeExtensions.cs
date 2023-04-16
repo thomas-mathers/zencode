@@ -6,7 +6,6 @@ public static class TokenTypeExtensions
 {
     private static readonly IReadOnlyDictionary<TokenType, string> Keywords = new Dictionary<TokenType, string>
     {
-        [TokenType.Plus] = "+",
         [TokenType.And] = "and",
         [TokenType.Assignment] = ":=",
         [TokenType.Boolean] = "bool",
@@ -17,7 +16,6 @@ public static class TokenTypeExtensions
         [TokenType.Division] = "/",
         [TokenType.ElseIf] = "else if",
         [TokenType.Else] = "else",
-        [TokenType.RightArrow] = "=>",
         [TokenType.Equals] = "=",
         [TokenType.Exponentiation] = "^",
         [TokenType.Float] = "float",
@@ -32,22 +30,25 @@ public static class TokenTypeExtensions
         [TokenType.LeftParenthesis] = "(",
         [TokenType.LessThanOrEqual] = "<=",
         [TokenType.LessThan] = "<",
+        [TokenType.Minus] = "-",
         [TokenType.Modulus] = "mod",
         [TokenType.Multiplication] = "*",
         [TokenType.New] = "new",
-        [TokenType.Not] = "not",
         [TokenType.NotEquals] = "!=",
+        [TokenType.Not] = "not",
         [TokenType.Or] = "or",
+        [TokenType.Plus] = "+",
         [TokenType.Print] = "print",
         [TokenType.Read] = "read",
         [TokenType.Return] = "return",
+        [TokenType.RightArrow] = "=>",
         [TokenType.RightBrace] = "}",
         [TokenType.RightBracket] = "]",
         [TokenType.RightParenthesis] = ")",
         [TokenType.Semicolon] = ";",
         [TokenType.String] = "string",
-        [TokenType.Minus] = "-",
         [TokenType.Var] = "var",
+        [TokenType.Void] = "void",
         [TokenType.While] = "while",
     };
     
