@@ -1,22 +1,21 @@
+using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar;
+using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
+using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Exceptions;
+using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis;
 
 public class SemanticAnalyzer
 {
-    private readonly SymbolTable _symbolTable;
-    private readonly TypeChecker _typeChecker;
-
-    public SemanticAnalyzer(SymbolTable symbolTable, TypeChecker typeChecker)
-    {
-        _symbolTable = symbolTable;
-        _typeChecker = typeChecker;
-    }
+    private readonly SymbolTable _symbolTable = new();
     
     public void Analyze(Program program)
     {
+        ArgumentNullException.ThrowIfNull(program);
+        
         foreach (var statement in program.Statements)
         {
             Analyze(statement);
@@ -74,7 +73,7 @@ public class SemanticAnalyzer
             throw new UndeclaredIdentifierException(assignmentStatement.VariableReferenceExpression.Identifier);
         }
         
-        var expressionType = _typeChecker.DetermineType(assignmentStatement.Expression);
+        var expressionType = DetermineType(assignmentStatement.Expression);
         
         if (symbol.Type != expressionType)
         {
@@ -96,6 +95,16 @@ public class SemanticAnalyzer
 
     private void Analyze(FunctionDeclarationStatement functionDeclarationStatement)
     {
+        var type = new FunctionType
+        (
+            functionDeclarationStatement.ReturnType,
+            new TypeList
+                (functionDeclarationStatement.Parameters.Parameters.Select(parameter => parameter.Type).ToArray())
+        );
+
+        var symbol = new Symbol(functionDeclarationStatement.Identifier, type);
+        
+        _symbolTable.DefineSymbol(symbol);
     }
 
     private void Analyze(IfStatement ifStatement)
@@ -116,7 +125,7 @@ public class SemanticAnalyzer
 
     private void Analyze(VariableDeclarationStatement variableDeclarationStatement)
     {
-        var type = _typeChecker.DetermineType(variableDeclarationStatement.Expression);
+        var type = DetermineType(variableDeclarationStatement.Expression);
 
         var symbol = new Symbol(variableDeclarationStatement.Identifier, type);
         
@@ -144,4 +153,174 @@ public class SemanticAnalyzer
         
         _symbolTable.PopEnvironment();
     }
+    
+    private Type DetermineType(Expression expression)
+    {
+        switch (expression)
+        {
+            case AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression:
+                return DetermineType(anonymousFunctionDeclarationExpression);
+            case BinaryExpression binaryExpression:
+                return DetermineType(binaryExpression);
+            case FunctionCallExpression functionCallExpression:
+                return DetermineType(functionCallExpression);
+            case LiteralExpression literalExpression:
+                return DetermineType(literalExpression);
+            case NewArrayExpression newArrayExpression:
+                return DetermineType(newArrayExpression);
+            case UnaryExpression unaryExpression:
+                return DetermineType(unaryExpression);
+            case VariableReferenceExpression variableReferenceExpression:
+                return DetermineType(variableReferenceExpression);
+            default:
+                throw new InvalidOperationException();
+        }
+    }
+
+    private Type DetermineType(AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression)
+    {
+        return new FunctionType
+        (
+            anonymousFunctionDeclarationExpression.ReturnType,
+            new TypeList(anonymousFunctionDeclarationExpression.Parameters.Parameters.Select(t => t.Type).ToArray())
+        );
+    }
+    
+    private Type DetermineType(BinaryExpression binaryExpression)
+    {
+        var lType = DetermineType(binaryExpression.LeftOperand);
+        var rType = DetermineType(binaryExpression.RightOperand);
+
+        if (lType != rType)
+        {
+            throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
+        }
+
+        switch (binaryExpression.Operator.Type)
+        {
+            case TokenType.Plus:
+                switch (lType)
+                {
+                    case IntegerType:
+                        return new IntegerType();
+                    case FloatType:
+                        return new FloatType();
+                    case StringType:
+                        return new StringType();
+                    default:
+                        throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
+                }
+            case TokenType.Minus:
+            case TokenType.Multiplication:
+            case TokenType.Division:
+            case TokenType.Modulus:
+            case TokenType.Exponentiation:
+                switch (lType)
+                {
+                    case IntegerType:
+                        return new IntegerType();
+                    case FloatType:
+                        return new FloatType();
+                    default:
+                        throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
+                }
+            case TokenType.LessThan:
+            case TokenType.LessThanOrEqual:
+            case TokenType.GreaterThan:
+            case TokenType.GreaterThanOrEqual:
+                switch (lType)
+                {
+                    case IntegerType:
+                        return new IntegerType();
+                    case FloatType:
+                        return new FloatType();
+                    case StringType:
+                        return new StringType();
+                    default:
+                        throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
+                }
+            case TokenType.Equals:
+            case TokenType.NotEquals:
+                return new BooleanType();
+            case TokenType.And:
+            case TokenType.Or:
+                switch (lType)
+                {
+                    case BooleanType:
+                        return new IntegerType();
+                    default:
+                        throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
+                }
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private Type DetermineType(FunctionCallExpression functionCallExpression)
+    {
+        var expressionType = DetermineType(functionCallExpression.Expression);
+
+        if (expressionType is not FunctionType functionType)
+        {
+            throw new InvokingNonFunctionTypeException();
+        }
+        
+        if (functionType.ParameterTypes.Types.Count != functionCallExpression.Arguments.Expressions.Count)
+        {
+            throw new IncorrectNumberOfParametersException
+                (functionType.ParameterTypes.Types.Count, functionCallExpression.Arguments.Expressions.Count);
+        }
+
+        for (var i = 0; i < functionType.ParameterTypes.Types.Count; i++)
+        {
+            var parameterType = functionType.ParameterTypes.Types[i];
+            var argumentType = DetermineType(functionCallExpression.Arguments.Expressions[i]);
+
+            if (parameterType != argumentType)
+            {
+                throw new TypeMismatchException(parameterType, argumentType);
+            }
+        }
+
+        return functionType.ReturnType;
+    }
+
+    private Type DetermineType(LiteralExpression literalExpression)
+    {
+        switch (literalExpression.Token.Type)
+        {
+            case TokenType.BooleanLiteral:
+                return new BooleanType();
+            case TokenType.IntegerLiteral:
+                return new IntegerType();
+            case TokenType.FloatLiteral:
+                return new FloatType();
+            case TokenType.StringLiteral:
+                return new StringType();
+            default:
+                throw new InvalidOperationException();
+        }
+    }
+
+    private Type DetermineType(NewArrayExpression newArrayExpression)
+    {
+        return new ArrayType(newArrayExpression.Type);
+    }
+
+    private Type DetermineType(UnaryExpression unaryExpression)
+    {
+        return DetermineType(unaryExpression.Expression);
+    }
+
+    private Type DetermineType(VariableReferenceExpression variableReferenceExpression)
+    {
+        var symbol = _symbolTable.ResolveSymbol(variableReferenceExpression.Identifier.Text);
+
+        if (symbol == null)
+        {
+            throw new UndeclaredIdentifierException(variableReferenceExpression.Identifier);
+        }
+
+        return symbol.Type;
+    }    
 }
