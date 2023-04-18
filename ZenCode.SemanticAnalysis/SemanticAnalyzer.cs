@@ -1,17 +1,20 @@
-using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar;
-using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
-using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Exceptions;
-using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis;
 
 public class SemanticAnalyzer
 {
-    private readonly SymbolTable _symbolTable = new();
+    private readonly SymbolTable _symbolTable;
+    private readonly TypeChecker _typeChecker;
 
+    public SemanticAnalyzer(SymbolTable symbolTable, TypeChecker typeChecker)
+    {
+        _symbolTable = symbolTable;
+        _typeChecker = typeChecker;
+    }
+    
     public void Analyze(Program program)
     {
         foreach (var statement in program.Statements)
@@ -26,47 +29,36 @@ public class SemanticAnalyzer
         {
             case AssignmentStatement assignmentStatement:
                 Analyze(assignmentStatement);
-
                 break;
             case BreakStatement breakStatement:
                 Analyze(breakStatement);
-
                 break;
             case ContinueStatement continueStatement:
                 Analyze(continueStatement);
-
                 break;
             case ForStatement forStatement:
                 Analyze(forStatement);
-
                 break;
             case FunctionDeclarationStatement functionDeclarationStatement:
                 Analyze(functionDeclarationStatement);
-
                 break;
             case IfStatement ifStatement:
                 Analyze(ifStatement);
-
                 break;
             case PrintStatement printStatement:
                 Analyze(printStatement);
-
                 break;
             case ReadStatement readStatement:
                 Analyze(readStatement);
-
                 break;
             case ReturnStatement returnStatement:
                 Analyze(returnStatement);
-
                 break;
             case VariableDeclarationStatement variableDeclarationStatement:
                 Analyze(variableDeclarationStatement);
-
                 break;
             case WhileStatement whileStatement:
                 Analyze(whileStatement);
-
                 break;
             default:
                 throw new InvalidOperationException();
@@ -75,6 +67,19 @@ public class SemanticAnalyzer
 
     private void Analyze(AssignmentStatement assignmentStatement)
     {
+        var symbol = _symbolTable.ResolveSymbol(assignmentStatement.VariableReferenceExpression.Identifier.Text);
+        
+        if (symbol == null)
+        {
+            throw new UndeclaredIdentifierException(assignmentStatement.VariableReferenceExpression.Identifier);
+        }
+        
+        var expressionType = _typeChecker.DetermineType(assignmentStatement.Expression);
+        
+        if (symbol.Type != expressionType)
+        {
+            throw new TypeMismatchException(symbol.Type, expressionType);
+        }
     }
 
     private void Analyze(BreakStatement breakStatement)
@@ -99,99 +104,44 @@ public class SemanticAnalyzer
 
     private void Analyze(PrintStatement printStatement)
     {
-        Analyze(printStatement.Expression);
     }
 
     private void Analyze(ReadStatement readStatement)
     {
-        Analyze(readStatement.VariableReferenceExpression);
     }
 
     private void Analyze(ReturnStatement returnStatement)
     {
-        if (returnStatement.Expression != null)
-        {
-            Analyze(returnStatement.Expression);
-        }
     }
 
     private void Analyze(VariableDeclarationStatement variableDeclarationStatement)
     {
+        var type = _typeChecker.DetermineType(variableDeclarationStatement.Expression);
+
+        var symbol = new Symbol(variableDeclarationStatement.Identifier, type);
+        
+        _symbolTable.DefineSymbol(symbol);
     }
 
     private void Analyze(WhileStatement whileStatement)
     {
-        Analyze(whileStatement.ConditionScope);
     }
-
-    private void Analyze(Expression expression)
-    {
-        switch (expression)
-        {
-            case AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression:
-                Analyze(anonymousFunctionDeclarationExpression);
-
-                break;
-            case BinaryExpression binaryExpression:
-                Analyze(binaryExpression);
-
-                break;
-            case FunctionCallExpression functionCallExpression:
-                Analyze(functionCallExpression);
-
-                break;
-            case LiteralExpression literalExpression:
-                Analyze(literalExpression);
-
-                break;
-            case NewArrayExpression newArrayExpression:
-                Analyze(newArrayExpression);
-
-                break;
-            case UnaryExpression unaryExpression:
-                Analyze(unaryExpression);
-
-                break;
-            case VariableReferenceExpression variableReferenceExpression:
-                Analyze(variableReferenceExpression);
-
-                break;
-        }
-    }
-
-    private void Analyze(AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression)
-    {
-    }
-
-    private void Analyze(BinaryExpression binaryExpression)
-    {
-    }
-
-    private void Analyze(FunctionCallExpression functionCallExpression)
-    {
-    }
-
-    private void Analyze(LiteralExpression literalExpression)
-    {
-    }
-
-    private void Analyze(NewArrayExpression newArrayExpression)
-    {
-    }
-
-    private void Analyze(UnaryExpression unaryExpression)
-    {
-    }
-
-    private void Analyze(VariableReferenceExpression variableReferenceExpression)
-    {
-    }
-
+    
     private void Analyze(ConditionScope conditionScope)
     {
+        Analyze(conditionScope.Condition);
+        Analyze(conditionScope.Scope);
     }
 
     private void Analyze(Scope scope)
     {
+        _symbolTable.PushEnvironment();
+        
+        foreach (var statement in scope.Statements)
+        {
+            Analyze(statement);
+        }
+        
+        _symbolTable.PopEnvironment();
     }
 }

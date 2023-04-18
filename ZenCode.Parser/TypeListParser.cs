@@ -24,6 +24,6 @@ public class TypeListParser : ITypeListParser
             tokenStream.Consume(TokenType.Comma);
         }
 
-        return new TypeList { Types = types };
+        return new TypeList(types.ToArray());
     }
 }

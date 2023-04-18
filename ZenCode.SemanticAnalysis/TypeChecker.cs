@@ -9,129 +9,78 @@ namespace ZenCode.SemanticAnalysis;
 
 public class TypeChecker
 {
-    public static Type CheckType(SymbolTable symbolTable, Expression expression)
+    private readonly ISymbolTable _symbolTable;
+
+    public TypeChecker(ISymbolTable symbolTable)
+    {
+        _symbolTable = symbolTable;
+    }
+
+    public Type DetermineType(Expression expression)
     {
         switch (expression)
         {
             case AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression:
-                return CheckType(anonymousFunctionDeclarationExpression);
+                return DetermineType(anonymousFunctionDeclarationExpression);
             case BinaryExpression binaryExpression:
-                return CheckType(symbolTable, binaryExpression);
+                return DetermineType(binaryExpression);
             case FunctionCallExpression functionCallExpression:
-                return CheckType(symbolTable, functionCallExpression);
+                return DetermineType(functionCallExpression);
             case LiteralExpression literalExpression:
-                return CheckType(literalExpression);
+                return DetermineType(literalExpression);
             case NewArrayExpression newArrayExpression:
-                return CheckType(newArrayExpression);
+                return DetermineType(newArrayExpression);
             case UnaryExpression unaryExpression:
-                return CheckType(symbolTable, unaryExpression);
+                return DetermineType(unaryExpression);
             case VariableReferenceExpression variableReferenceExpression:
-                return CheckType(symbolTable, variableReferenceExpression);
+                return DetermineType(variableReferenceExpression);
             default:
                 throw new InvalidOperationException();
         }
     }
 
-    private static Type CheckType(AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression)
+    private Type DetermineType(AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression)
     {
         return new FunctionType
         (
             anonymousFunctionDeclarationExpression.ReturnType,
-            new TypeList
-            {
-                Types = anonymousFunctionDeclarationExpression.Parameters.Parameters.Select(t => t.Type).ToArray()
-            }
+            new TypeList(anonymousFunctionDeclarationExpression.Parameters.Parameters.Select(t => t.Type).ToArray())
         );
     }
 
-    private static Type CheckType(SymbolTable symbolTable, BinaryExpression binaryExpression)
+    private Type DetermineType(BinaryExpression binaryExpression)
     {
-        var lType = CheckType(symbolTable, binaryExpression.LeftOperand);
-        var rType = CheckType(symbolTable, binaryExpression.RightOperand);
+        var lType = DetermineType(binaryExpression.LeftOperand);
+        var rType = DetermineType(binaryExpression.RightOperand);
 
         if (lType != rType)
         {
             throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
         }
 
-        switch (binaryExpression.Operator.Type)
-        {
-            case TokenType.Plus:
-                if (lType is not IntegerType and not FloatType and not StringType)
-                {
-                    throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
-                }
-                
-                break;
-            case TokenType.Minus:
-            case TokenType.Multiplication:
-            case TokenType.Division:
-            case TokenType.Modulus:
-            case TokenType.Exponentiation:
-                if (lType is not IntegerType and not FloatType)
-                {
-                    throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
-                }
+        var isComparisonOperator = binaryExpression.Operator.Type is TokenType.LessThan
+            or TokenType.LessThanOrEqual
+            or TokenType.GreaterThan
+            or TokenType.GreaterThanOrEqual
+            or TokenType.Equals
+            or TokenType.NotEquals;
 
-                break;
-            case TokenType.LessThan:
-            case TokenType.LessThanOrEqual:
-            case TokenType.GreaterThan:
-            case TokenType.GreaterThanOrEqual:
-                if (lType is not IntegerType and not FloatType and not StringType)
-                {
-                    throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
-                }
-
-                break;
-            case TokenType.Equals:
-            case TokenType.NotEquals:
-                break;
-            case TokenType.And:
-            case TokenType.Or:
-                if (lType is not BooleanType)
-                {
-                    throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
-                }
-
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        return lType;
+        return isComparisonOperator ? new BooleanType() : lType;
     }
-    
-    private static Type CheckType(SymbolTable symbolTable, FunctionCallExpression functionCallExpression)
+
+    private Type DetermineType(FunctionCallExpression functionCallExpression)
     {
-        var expressionType = CheckType(symbolTable, functionCallExpression.Expression);
+        var expressionType = DetermineType(functionCallExpression.Expression);
 
         if (expressionType is not FunctionType functionType)
         {
             throw new InvokingNonFunctionTypeException();
         }
-        
-        if (functionType.ParameterTypes.Types.Count != functionCallExpression.Arguments.Expressions.Count)
-        {
-            throw new IncorrectNumberOfParametersException
-                (functionType.ParameterTypes.Types.Count, functionCallExpression.Arguments.Expressions.Count);
-        }
-
-        for (var i = 0; i < functionType.ParameterTypes.Types.Count; i++)
-        {
-            var parameterType = functionType.ParameterTypes.Types[i];
-            var argumentType = CheckType(symbolTable, functionCallExpression.Arguments.Expressions[i]);
-
-            if (parameterType != argumentType)
-            {
-                throw new TypeMismatchException(parameterType, argumentType);
-            }
-        }
 
         return functionType.ReturnType;
     }
 
-    private static Type CheckType(LiteralExpression literalExpression)
+    private Type DetermineType(LiteralExpression literalExpression)
     {
         switch (literalExpression.Token.Type)
         {
@@ -148,19 +97,19 @@ public class TypeChecker
         }
     }
 
-    private static Type CheckType(NewArrayExpression newArrayExpression)
+    private Type DetermineType(NewArrayExpression newArrayExpression)
     {
         return new ArrayType(newArrayExpression.Type);
     }
 
-    private static Type CheckType(SymbolTable symbolTable, UnaryExpression unaryExpression)
+    private Type DetermineType(UnaryExpression unaryExpression)
     {
-        return CheckType(symbolTable, unaryExpression.Expression);
+        return DetermineType(unaryExpression.Expression);
     }
 
-    private static Type CheckType(SymbolTable symbolTable, VariableReferenceExpression variableReferenceExpression)
+    private Type DetermineType(VariableReferenceExpression variableReferenceExpression)
     {
-        var symbol = symbolTable.ResolveSymbol(variableReferenceExpression.Identifier.Text);
+        var symbol = _symbolTable.ResolveSymbol(variableReferenceExpression.Identifier.Text);
 
         if (symbol == null)
         {

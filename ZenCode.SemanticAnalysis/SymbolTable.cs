@@ -1,8 +1,10 @@
 namespace ZenCode.SemanticAnalysis;
 
-public class SymbolTable
+public class SymbolTable : ISymbolTable
 {
     private readonly Stack<Environment> _environments = new();
+
+    public int EnvironmentCount => _environments.Count;
 
     public SymbolTable()
     {
@@ -26,6 +28,8 @@ public class SymbolTable
 
     public void DefineSymbol(Symbol symbol)
     {
+        ArgumentNullException.ThrowIfNull(symbol);
+        
         _environments.Peek().DefineSymbol(symbol);
     }
 
