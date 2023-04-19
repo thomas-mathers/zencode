@@ -36,8 +36,8 @@ public class BinaryExpressionParsingStrategyTests
         var expected = new BinaryExpression
         {
             Operator = new Token(operatorTokenType),
-            LeftOperand = lExpression,
-            RightOperand = rExpression
+            Left = lExpression,
+            Right = rExpression
         };
 
         _tokenStreamMock
@@ -86,7 +86,7 @@ public class BinaryExpressionParsingStrategyTests
         var actual = Assert.Throws<ArgumentNullException>
         (
             () => _sut.Parse
-                (null, _tokenStreamMock.Object, lOperand, It.IsAny<TokenType>(), 0, false)
+                (null!, _tokenStreamMock.Object, lOperand, It.IsAny<TokenType>(), 0, false)
         );
 
         // Assert
@@ -103,7 +103,7 @@ public class BinaryExpressionParsingStrategyTests
         var actual = Assert.Throws<ArgumentNullException>
         (
             () => _sut.Parse
-                (_parserMock.Object, null, lOperand, It.IsAny<TokenType>(), 0, false)
+                (_parserMock.Object, null!, lOperand, It.IsAny<TokenType>(), 0, false)
         );
 
         // Assert
@@ -117,7 +117,7 @@ public class BinaryExpressionParsingStrategyTests
         var actual = Assert.Throws<ArgumentNullException>
         (
             () => _sut.Parse
-                (_parserMock.Object, _tokenStreamMock.Object, null, It.IsAny<TokenType>(), 0, false)
+                (_parserMock.Object, _tokenStreamMock.Object, null!, It.IsAny<TokenType>(), 0, false)
         );
 
         // Assert

@@ -13,7 +13,7 @@ public class EnvironmentTests
     public void DefineSymbol_NullSymbol_ThrowsArgumentNullException()
     {
         // Act
-        var exception = Assert.Throws<ArgumentNullException>(() => _sut.DefineSymbol(null));
+        var exception = Assert.Throws<ArgumentNullException>(() => _sut.DefineSymbol(null!));
         
         // Assert
         Assert.NotNull(exception);
@@ -48,7 +48,7 @@ public class EnvironmentTests
     public void ResolveSymbol_NullIdentifier_ThrowsArgumentNullException()
     {
         // Act
-        var exception = Assert.Throws<ArgumentNullException>(() => _sut.ResolveSymbol(null));
+        var exception = Assert.Throws<ArgumentNullException>(() => _sut.ResolveSymbol(null!));
         
         // Assert
         Assert.NotNull(exception);

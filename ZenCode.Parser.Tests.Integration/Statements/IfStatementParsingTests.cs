@@ -42,16 +42,16 @@ public class IfStatementParsingTests
 
         var thenCondition = new BinaryExpression
         {
-            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Operator = new Token(TokenType.Equals),
-            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
         var thenScope = new Scope
         (
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
@@ -98,16 +98,16 @@ public class IfStatementParsingTests
 
         var thenCondition = new BinaryExpression
         {
-            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Operator = new Token(TokenType.Equals),
-            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
         var thenScope = new Scope
         (
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
@@ -118,7 +118,7 @@ public class IfStatementParsingTests
         (
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
@@ -178,16 +178,16 @@ public class IfStatementParsingTests
 
         var thenCondition = new BinaryExpression
         {
-            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Operator = new Token(TokenType.Equals),
-            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
         var thenScope = new Scope
         (
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
@@ -196,16 +196,16 @@ public class IfStatementParsingTests
 
         var elseIfCondition = new BinaryExpression
         {
-            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Operator = new Token(TokenType.Equals),
-            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
         var elseIfScope = new Scope
         (
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
@@ -216,7 +216,7 @@ public class IfStatementParsingTests
         (
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );

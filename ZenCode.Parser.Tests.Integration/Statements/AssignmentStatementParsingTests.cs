@@ -44,14 +44,14 @@ public class AssignmentStatementParsingTests
 
         var expression = new BinaryExpression
         {
-            LeftOperand = new LiteralExpression(new Token(TokenType.FloatLiteral)),
+            Left = new LiteralExpression(new Token(TokenType.FloatLiteral)),
             Operator = new Token(TokenType.Plus),
-            RightOperand = new LiteralExpression(new Token(TokenType.FloatLiteral))
+            Right = new LiteralExpression(new Token(TokenType.FloatLiteral))
         };
 
         var expectedStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression, 
+            VariableReference = variableReferenceExpression, 
             Value = expression
         };
 
@@ -90,7 +90,7 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression, 
+            VariableReference = variableReferenceExpression, 
             Value = new LiteralExpression(new Token(tokenType))
         };
 
@@ -138,7 +138,7 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression, 
+            VariableReference = variableReferenceExpression, 
             Value = expression
         };
 
@@ -176,7 +176,7 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression,
+            VariableReference = variableReferenceExpression,
             Value = expression
         };
 
@@ -217,7 +217,7 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression,
+            VariableReference = variableReferenceExpression,
             Value = expression
         };
 
@@ -254,7 +254,7 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression, 
+            VariableReference = variableReferenceExpression, 
             Value = expression
         };
 
@@ -283,12 +283,12 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement = new AssignmentStatement
         {
-            Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Value = new BinaryExpression
             {
-                LeftOperand = new LiteralExpression(new Token(TokenType.FloatLiteral)),
+                Left = new LiteralExpression(new Token(TokenType.FloatLiteral)),
                 Operator = new Token(TokenType.Plus),
-                RightOperand = new LiteralExpression(new Token(TokenType.FloatLiteral))
+                Right = new LiteralExpression(new Token(TokenType.FloatLiteral))
             }
         };
 
@@ -320,7 +320,7 @@ public class AssignmentStatementParsingTests
         var expectedStatement =
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(tokenType))
             };
 
@@ -350,7 +350,7 @@ public class AssignmentStatementParsingTests
         var expectedStatement =
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new FunctionCallExpression
                 {
                     FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
@@ -382,7 +382,7 @@ public class AssignmentStatementParsingTests
         var expectedStatement =
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.StringLiteral))
             };
 
@@ -410,7 +410,7 @@ public class AssignmentStatementParsingTests
         var expectedStatement =
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new UnaryExpression
                 (
                     new Token(TokenType.Minus),
@@ -442,7 +442,7 @@ public class AssignmentStatementParsingTests
         var expectedStatement =
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new VariableReferenceExpression(new Token(TokenType.Identifier))
             };
 

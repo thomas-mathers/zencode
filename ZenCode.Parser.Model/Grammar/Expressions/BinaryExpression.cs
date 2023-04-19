@@ -5,11 +5,11 @@ namespace ZenCode.Parser.Model.Grammar.Expressions;
 public record BinaryExpression : Expression
 {
     public required Token Operator { get; init; }
-    public required Expression LeftOperand { get; init; }
-    public required Expression RightOperand { get; init; }
+    public required Expression Left { get; init; }
+    public required Expression Right { get; init; }
 
     public override string ToString()
     {
-        return $"{LeftOperand} {Operator} {RightOperand}";
+        return $"{Left} {Operator} {Right}";
     }
 }

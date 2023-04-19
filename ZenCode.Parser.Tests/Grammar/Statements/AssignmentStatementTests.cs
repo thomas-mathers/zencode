@@ -33,7 +33,7 @@ public class AssignmentStatementTests
 
         var assignmentStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression,
+            VariableReference = variableReferenceExpression,
             Value = _fixture.Create<Expression>()
         };
 
@@ -54,7 +54,7 @@ public class AssignmentStatementTests
 
         var assignmentStatement = new AssignmentStatement
         {
-            Variable = variableReferenceExpression,
+            VariableReference = variableReferenceExpression,
             Value = _fixture.Create<Expression>()
         };
 

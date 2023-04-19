@@ -315,7 +315,7 @@ public class FunctionDeclarationStatementParsingTests
             (
                 new AssignmentStatement 
                 {
-                    Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                     Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             )

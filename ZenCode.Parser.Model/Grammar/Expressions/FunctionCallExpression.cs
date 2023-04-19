@@ -1,5 +1,3 @@
-using ZenCode.Lexer.Model;
-
 namespace ZenCode.Parser.Model.Grammar.Expressions;
 
 public record FunctionCallExpression : Expression
@@ -14,7 +12,7 @@ public record FunctionCallExpression : Expression
 
     public virtual bool Equals(FunctionCallExpression? other)
     {
-        return FunctionReference.Equals(other.FunctionReference) && Arguments.Equals(other.Arguments);
+        return other != null && FunctionReference.Equals(other.FunctionReference) && Arguments.Equals(other.Arguments);
     }
 
     public override int GetHashCode()

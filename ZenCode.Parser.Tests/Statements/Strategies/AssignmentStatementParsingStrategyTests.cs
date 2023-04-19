@@ -35,7 +35,7 @@ public class AssignmentStatementParsingStrategyTests
 
         _parserMock
             .Setup(x => x.ParseVariableReferenceExpression(_tokenStreamMock.Object))
-            .Returns(expected.Variable);
+            .Returns(expected.VariableReference);
 
         _parserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))

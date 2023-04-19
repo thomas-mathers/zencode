@@ -38,14 +38,14 @@ public class VariableDeclarationStatementParsingTests
 
         var expression = new BinaryExpression
         {
-            LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
             Operator = new Token(TokenType.Plus),
-            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
         var expectedStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = expression
         };
 
@@ -81,7 +81,7 @@ public class VariableDeclarationStatementParsingTests
 
         var expectedStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = expression
         };
 
@@ -118,7 +118,7 @@ public class VariableDeclarationStatementParsingTests
 
         var expectedStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = expression
         };
 
@@ -152,7 +152,7 @@ public class VariableDeclarationStatementParsingTests
 
         var expectedStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = expression
         };
 
@@ -189,7 +189,7 @@ public class VariableDeclarationStatementParsingTests
 
         var expectedStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = expression
         };
 
@@ -221,7 +221,7 @@ public class VariableDeclarationStatementParsingTests
 
         var expectedStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = expression
         };
 

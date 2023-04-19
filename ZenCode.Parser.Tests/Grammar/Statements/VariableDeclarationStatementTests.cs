@@ -23,7 +23,7 @@ public class VariableDeclarationStatementTests
         // Arrange
         var variableDeclarationStatement = new VariableDeclarationStatement
         {
-            Name = new Token(TokenType.Identifier, "x"),
+            VariableName = new Token(TokenType.Identifier, "x"),
             Value = _fixture.Create<Expression>()
         };
 

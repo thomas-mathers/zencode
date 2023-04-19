@@ -29,8 +29,8 @@ public class BinaryExpressionParsingStrategy : IBinaryExpressionParsingStrategy
         return new BinaryExpression
         {
             Operator = operatorToken,
-            LeftOperand = lOperand,
-            RightOperand = rOperand
+            Left = lOperand,
+            Right = rOperand
         };
     }
 }

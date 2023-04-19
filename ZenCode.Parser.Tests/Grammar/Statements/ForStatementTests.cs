@@ -27,7 +27,7 @@ public class ForStatementTests
 
         var variableDeclarationStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = _fixture.Create<Expression>()
         };
 
@@ -35,7 +35,7 @@ public class ForStatementTests
 
         var assignmentStatement = new AssignmentStatement
         {
-            Variable = new VariableReferenceExpression(identifier),
+            VariableReference = new VariableReferenceExpression(identifier),
             Value = _fixture.Create<Expression>()
         };
 
@@ -67,7 +67,7 @@ public class ForStatementTests
 
         var variableDeclarationStatement = new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = _fixture.Create<Expression>()
         };
 
@@ -75,7 +75,7 @@ public class ForStatementTests
 
         var assignmentStatement = new AssignmentStatement
         {
-            Variable = new VariableReferenceExpression(identifier),
+            VariableReference = new VariableReferenceExpression(identifier),
             Value = _fixture.Create<Expression>()
         };
 

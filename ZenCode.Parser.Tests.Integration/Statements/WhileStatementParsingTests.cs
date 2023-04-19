@@ -42,16 +42,16 @@ public class WhileStatementParsingTests
 
         var condition = new BinaryExpression
         {
-            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Operator = new Token(TokenType.GreaterThan),
-            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
         var scope = new Scope
         (
             new AssignmentStatement
             {
-                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );

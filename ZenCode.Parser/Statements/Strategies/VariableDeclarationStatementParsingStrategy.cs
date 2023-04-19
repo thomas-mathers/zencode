@@ -23,7 +23,7 @@ public class VariableDeclarationStatementParsingStrategy : IVariableDeclarationS
 
         return new VariableDeclarationStatement
         {
-            Name = identifier,
+            VariableName = identifier,
             Value = initializer
         };
     }

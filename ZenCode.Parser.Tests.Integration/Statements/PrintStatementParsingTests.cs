@@ -35,9 +35,9 @@ public class PrintStatementParsingTests
         (
             new BinaryExpression
             {
-                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 Operator = new Token(TokenType.Plus),
-                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
 

@@ -20,8 +20,8 @@ public class BinaryExpressionTests
         var binaryExpression = new BinaryExpression
         {
             Operator = op,
-            LeftOperand = lExpression,
-            RightOperand = rExpression
+            Left = lExpression,
+            Right = rExpression
         };
         
         var expected = $"{{Expression}} {operatorToken} {{Expression}}";

@@ -162,7 +162,7 @@ public class AnonymousFunctionExpressionParsingTests
         (
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier),
+                VariableName = new Token(TokenType.Identifier),
                 Value = new VariableReferenceExpression(new Token(TokenType.Identifier))
             },
             new ReturnStatement

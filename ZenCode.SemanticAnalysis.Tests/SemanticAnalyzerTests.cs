@@ -5,6 +5,7 @@ using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Exceptions;
+using ZenCode.SemanticAnalysis.Tests.TestData;
 
 namespace ZenCode.SemanticAnalysis.Tests;
 
@@ -16,10 +17,109 @@ public class SemanticAnalyzerTests
     public void Analyze_NullProgram_ThrowsArgumentNullException()
     {
         // Act
-        var exception = Assert.Throws<ArgumentNullException>(() => _sut.Analyze(null));
+        var exception = Assert.Throws<ArgumentNullException>(() => _sut.Analyze(null!));
 
         // Assert
         Assert.NotNull(exception);
+    }
+
+    [Theory]
+    [ClassData(typeof(BinaryOperatorUnsupportedTypes))]
+    public void Analyze_BinaryOperatorOperatorUnsupportedTypes_ThrowsBinaryOperatorUnsupportedTypesException
+        (TokenType op, TokenType leftType, TokenType rightType)
+    {
+        // Arrange
+        var program = new Program
+        (
+            new VariableDeclarationStatement
+            {
+                VariableName = new Token(TokenType.Identifier, "x"),
+                Value = new BinaryExpression
+                {
+                    Left = new LiteralExpression(new Token(leftType)),
+                    Operator = new Token(op),
+                    Right = new LiteralExpression(new Token(rightType))
+                }
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<BinaryOperatorUnsupportedTypesException>(() => _sut.Analyze(program));
+
+        // Assert
+        Assert.NotNull(exception);
+    }
+
+    [Fact]
+    public void Analyze_AssignIncorrectType_ThrowsTypeMismatchException()
+    {
+        // Arrange
+        var program = new Program
+        (
+            new VariableDeclarationStatement
+            {
+                VariableName = new Token(TokenType.Identifier, "x"),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            },
+            new AssignmentStatement
+            {
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                Value = new LiteralExpression(new Token(TokenType.StringLiteral))
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(program));
+
+        // Assert
+        Assert.NotNull(exception);
+    }
+
+    [Fact]
+    public void Analyze_AssignCorrectType_DoesNotThrow()
+    {
+        // Arrange
+        var program = new Program
+        (
+            new VariableDeclarationStatement
+            {
+                VariableName = new Token(TokenType.Identifier, "x"),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            },
+            new AssignmentStatement
+            {
+                VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
+        );
+
+        // Act
+        _sut.Analyze(program);
+    }
+
+    [Fact]
+    public void Analyze_DuplicateVariableDeclarationInDifferentScope_DoesNotThrow()
+    {
+        // Arrange
+        var program = new Program
+        (
+            new VariableDeclarationStatement
+            {
+                VariableName = new Token(TokenType.Identifier, "x"),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            },
+            new Scope
+            (
+                new VariableDeclarationStatement
+                {
+                    VariableName = new Token(TokenType.Identifier, "x"),
+                    Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
+            )
+        );
+
+        // Act
+        _sut.Analyze(program);
     }
 
     [Fact]
@@ -30,12 +130,12 @@ public class SemanticAnalyzerTests
         (
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier, "x"),
+                VariableName = new Token(TokenType.Identifier, "x"),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             },
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier, "x"),
+                VariableName = new Token(TokenType.Identifier, "x"),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
@@ -55,7 +155,7 @@ public class SemanticAnalyzerTests
         (
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier, "x"),
+                VariableName = new Token(TokenType.Identifier, "x"),
                 Value = new VariableReferenceExpression(new Token(TokenType.Identifier, "y"))
             }
         );
@@ -75,12 +175,12 @@ public class SemanticAnalyzerTests
         (
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier, "y"),
+                VariableName = new Token(TokenType.Identifier, "y"),
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             },
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier, "x"),
+                VariableName = new Token(TokenType.Identifier, "x"),
                 Value = new FunctionCallExpression
                 {
                     FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "y"))
@@ -112,7 +212,7 @@ public class SemanticAnalyzerTests
             },
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier, "x"),
+                VariableName = new Token(TokenType.Identifier, "x"),
                 Value = new FunctionCallExpression
                 {
                     FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "f")),
@@ -149,7 +249,7 @@ public class SemanticAnalyzerTests
             },
             new VariableDeclarationStatement
             {
-                Name = new Token(TokenType.Identifier, "x"),
+                VariableName = new Token(TokenType.Identifier, "x"),
                 Value = new FunctionCallExpression
                 {
                     FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "f")),

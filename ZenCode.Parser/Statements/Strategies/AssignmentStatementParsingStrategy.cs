@@ -21,7 +21,7 @@ public class AssignmentStatementParsingStrategy : IAssignmentStatementParsingStr
 
         return new AssignmentStatement 
         { 
-            Variable = variableReferenceExpression,
+            VariableReference = variableReferenceExpression,
             Value = expression
         };
     }

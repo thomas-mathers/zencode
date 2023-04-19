@@ -59,6 +59,9 @@ public class SemanticAnalyzer
             case WhileStatement whileStatement:
                 Analyze(whileStatement);
                 break;
+            case Scope scope:
+                Analyze(scope);
+                break;
             default:
                 throw new InvalidOperationException();
         }
@@ -66,11 +69,11 @@ public class SemanticAnalyzer
 
     private void Analyze(AssignmentStatement assignmentStatement)
     {
-        var symbol = _symbolTable.ResolveSymbol(assignmentStatement.Variable.Identifier.Text);
+        var symbol = _symbolTable.ResolveSymbol(assignmentStatement.VariableReference.Identifier.Text);
         
         if (symbol == null)
         {
-            throw new UndeclaredIdentifierException(assignmentStatement.Variable.Identifier);
+            throw new UndeclaredIdentifierException(assignmentStatement.VariableReference.Identifier);
         }
         
         var expressionType = DetermineType(assignmentStatement.Value);
@@ -99,7 +102,9 @@ public class SemanticAnalyzer
         (
             functionDeclarationStatement.ReturnType,
             new TypeList
-                (functionDeclarationStatement.Parameters.Parameters.Select(parameter => parameter.Type).ToArray())
+            (
+                functionDeclarationStatement.Parameters.Parameters.Select(parameter => parameter.Type).ToArray()
+            )
         );
 
         var symbol = new Symbol(functionDeclarationStatement.Name, type);
@@ -127,7 +132,7 @@ public class SemanticAnalyzer
     {
         var type = DetermineType(variableDeclarationStatement.Value);
 
-        var symbol = new Symbol(variableDeclarationStatement.Name, type);
+        var symbol = new Symbol(variableDeclarationStatement.VariableName, type);
         
         _symbolTable.DefineSymbol(symbol);
     }
@@ -188,8 +193,8 @@ public class SemanticAnalyzer
     
     private Type DetermineType(BinaryExpression binaryExpression)
     {
-        var lType = DetermineType(binaryExpression.LeftOperand);
-        var rType = DetermineType(binaryExpression.RightOperand);
+        var lType = DetermineType(binaryExpression.Left);
+        var rType = DetermineType(binaryExpression.Right);
 
         if (lType != rType)
         {

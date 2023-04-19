@@ -35,7 +35,7 @@ public class VariableDeclarationStatementParsingStrategyTests
 
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.Identifier))
-            .Returns(expected.Name);
+            .Returns(expected.VariableName);
 
         _parserMock
             .Setup(x => x.ParseExpression(_tokenStreamMock.Object, 0))

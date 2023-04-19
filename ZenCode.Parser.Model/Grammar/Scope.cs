@@ -3,7 +3,7 @@ using ZenCode.Parser.Model.Grammar.Statements;
 
 namespace ZenCode.Parser.Model.Grammar;
 
-public record Scope : AstNode
+public record Scope : Statement
 {
     public IReadOnlyList<Statement> Statements { get; init; } = Array.Empty<Statement>();
 

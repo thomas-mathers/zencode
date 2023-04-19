@@ -63,7 +63,7 @@ public class LiteralParsingStrategyTests
         // Act
         var actual = Assert.Throws<ArgumentNullException>
         (
-            () => _sut.Parse(null, It.IsAny<TokenType>())
+            () => _sut.Parse(null!, It.IsAny<TokenType>())
         );
 
         // Assert
