@@ -16,7 +16,7 @@ public class SemanticAnalyzer
     {
         ArgumentNullException.ThrowIfNull(program);
         
-        foreach (var statement in program.Statements)
+        foreach (var statement in program.Scope.Statements)
         {
             Analyze(statement);
         }
@@ -66,14 +66,14 @@ public class SemanticAnalyzer
 
     private void Analyze(AssignmentStatement assignmentStatement)
     {
-        var symbol = _symbolTable.ResolveSymbol(assignmentStatement.VariableReferenceExpression.Identifier.Text);
+        var symbol = _symbolTable.ResolveSymbol(assignmentStatement.Variable.Identifier.Text);
         
         if (symbol == null)
         {
-            throw new UndeclaredIdentifierException(assignmentStatement.VariableReferenceExpression.Identifier);
+            throw new UndeclaredIdentifierException(assignmentStatement.Variable.Identifier);
         }
         
-        var expressionType = DetermineType(assignmentStatement.Expression);
+        var expressionType = DetermineType(assignmentStatement.Value);
         
         if (symbol.Type != expressionType)
         {
@@ -102,7 +102,7 @@ public class SemanticAnalyzer
                 (functionDeclarationStatement.Parameters.Parameters.Select(parameter => parameter.Type).ToArray())
         );
 
-        var symbol = new Symbol(functionDeclarationStatement.Identifier, type);
+        var symbol = new Symbol(functionDeclarationStatement.Name, type);
         
         _symbolTable.DefineSymbol(symbol);
     }
@@ -125,9 +125,9 @@ public class SemanticAnalyzer
 
     private void Analyze(VariableDeclarationStatement variableDeclarationStatement)
     {
-        var type = DetermineType(variableDeclarationStatement.Expression);
+        var type = DetermineType(variableDeclarationStatement.Value);
 
-        var symbol = new Symbol(variableDeclarationStatement.Identifier, type);
+        var symbol = new Symbol(variableDeclarationStatement.Name, type);
         
         _symbolTable.DefineSymbol(symbol);
     }
@@ -258,7 +258,7 @@ public class SemanticAnalyzer
 
     private Type DetermineType(FunctionCallExpression functionCallExpression)
     {
-        var expressionType = DetermineType(functionCallExpression.Expression);
+        var expressionType = DetermineType(functionCallExpression.FunctionReference);
 
         if (expressionType is not FunctionType functionType)
         {

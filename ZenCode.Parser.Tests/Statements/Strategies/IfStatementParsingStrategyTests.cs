@@ -36,7 +36,7 @@ public class IfStatementParsingStrategyTests
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
 
-        var expected = new IfStatement(conditionScopes[0]);
+        var expected = new IfStatement { ThenScope = conditionScopes[0] };
 
         _parserMock
             .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
@@ -57,8 +57,9 @@ public class IfStatementParsingStrategyTests
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
 
-        var expected = new IfStatement(conditionScopes[0])
+        var expected = new IfStatement
         {
+            ThenScope = conditionScopes[0],
             ElseIfScopes = new[] { conditionScopes[1] }
         };
 
@@ -84,8 +85,9 @@ public class IfStatementParsingStrategyTests
         // Arrange
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
 
-        var expected = new IfStatement(conditionScopes[0])
+        var expected = new IfStatement
         {
+            ThenScope = conditionScopes[0],
             ElseIfScopes = new[]
             {
                 conditionScopes[1],
@@ -118,8 +120,9 @@ public class IfStatementParsingStrategyTests
         var conditionScopes = _fixture.CreateMany<ConditionScope>(1).ToArray();
         var scope = _fixture.Create<Scope>();
 
-        var expected = new IfStatement(conditionScopes[0])
+        var expected = new IfStatement
         {
+            ThenScope = conditionScopes[0],
             ElseIfScopes = Array.Empty<ConditionScope>(),
             ElseScope = scope
         };
@@ -152,8 +155,9 @@ public class IfStatementParsingStrategyTests
         var conditionScopes = _fixture.CreateMany<ConditionScope>(2).ToArray();
         var scope = _fixture.Create<Scope>();
 
-        var expected = new IfStatement(conditionScopes[0])
+        var expected = new IfStatement
         {
+            ThenScope = conditionScopes[0],
             ElseIfScopes = new[]
             {
                 conditionScopes[1]
@@ -193,8 +197,9 @@ public class IfStatementParsingStrategyTests
         var conditionScopes = _fixture.CreateMany<ConditionScope>(4).ToArray();
         var scope = _fixture.Create<Scope>();
 
-        var expected = new IfStatement(conditionScopes[0])
+        var expected = new IfStatement
         {
+            ThenScope = conditionScopes[0],
             ElseIfScopes = new[]
             {
                 conditionScopes[1],

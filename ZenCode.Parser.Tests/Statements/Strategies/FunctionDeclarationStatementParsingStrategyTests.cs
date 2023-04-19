@@ -33,15 +33,21 @@ public class FunctionDeclarationStatementParsingStrategyTests
     public void Parse_NoParameters_ReturnsFunctionDeclarationStatement()
     {
         // Arrange
-        var type = _fixture.Create<Type>();
-        var identifier = new Token(TokenType.Identifier);
+        var returnType = _fixture.Create<Type>();
+        var name = new Token(TokenType.Identifier);
         var parameters = new ParameterList();
         var scope = _fixture.Create<Scope>();
-        var expected = new FunctionDeclarationStatement(type, identifier, parameters, scope);
+        var expected = new FunctionDeclarationStatement
+        {
+            ReturnType = returnType,
+            Name = name,
+            Parameters = parameters,
+            Body = scope
+        };
 
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.Identifier))
-            .Returns(identifier);
+            .Returns(name);
 
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
@@ -49,7 +55,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
 
         _parserMock
             .Setup(x => x.ParseType(_tokenStreamMock.Object))
-            .Returns(type);
+            .Returns(returnType);
 
         _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
@@ -75,7 +81,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
 
         _tokenStreamMock
             .Setup(x => x.Consume(TokenType.Identifier))
-            .Returns(expected.Identifier);
+            .Returns(expected.Name);
 
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
@@ -91,7 +97,7 @@ public class FunctionDeclarationStatementParsingStrategyTests
 
         _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .Returns(expected.Scope);
+            .Returns(expected.Body);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

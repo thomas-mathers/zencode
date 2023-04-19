@@ -2,11 +2,13 @@
 
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
-public record AssignmentStatement
-    (VariableReferenceExpression VariableReferenceExpression, Expression Expression) : SimpleStatement
+public record AssignmentStatement : SimpleStatement
 {
+    public required VariableReferenceExpression Variable { get; init; }
+    public required Expression Value { get; init; }
+
     public override string ToString()
     {
-        return $"{VariableReferenceExpression} := {Expression}";
+        return $"{Variable} := {Value}";
     }
 }

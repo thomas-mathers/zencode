@@ -27,6 +27,12 @@ public class ForStatementParsingStrategy : IForStatementParsingStrategy
 
         var scope = parser.ParseScope(tokenStream);
 
-        return new ForStatement(initializer, condition, iterator, scope);
+        return new ForStatement
+        {
+            Initializer = initializer,
+            Condition = condition,
+            Iterator = iterator,
+            Body = scope
+        };
     }
 }

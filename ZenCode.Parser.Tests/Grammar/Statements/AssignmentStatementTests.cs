@@ -31,7 +31,12 @@ public class AssignmentStatementTests
             }
         };
 
-        var assignmentStatement = new AssignmentStatement(variableReferenceExpression, _fixture.Create<Expression>());
+        var assignmentStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression,
+            Value = _fixture.Create<Expression>()
+        };
+
         const string expected = "A[{Expression}][{Expression}][{Expression}] := {Expression}";
 
         // Act
@@ -46,7 +51,13 @@ public class AssignmentStatementTests
     {
         // Arrange
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier, "x"));
-        var assignmentStatement = new AssignmentStatement(variableReferenceExpression, _fixture.Create<Expression>());
+
+        var assignmentStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression,
+            Value = _fixture.Create<Expression>()
+        };
+
         const string expected = "x := {Expression}";
 
         // Act

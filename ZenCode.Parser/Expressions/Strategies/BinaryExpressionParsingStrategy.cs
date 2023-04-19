@@ -26,6 +26,11 @@ public class BinaryExpressionParsingStrategy : IBinaryExpressionParsingStrategy
 
         var rOperand = parser.ParseExpression(tokenStream, isRightAssociative ? precedence - 1 : precedence);
 
-        return new BinaryExpression(lOperand, operatorToken, rOperand);
+        return new BinaryExpression
+        {
+            Operator = operatorToken,
+            LeftOperand = lOperand,
+            RightOperand = rOperand
+        };
     }
 }

@@ -82,11 +82,11 @@ public class ParenthesisParsingTests
         );
 
         var expected = new BinaryExpression
-        (
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(TokenType.Plus),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            Operator = new Token(TokenType.Plus),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)) 
+        };
 
         // Act
         var actual = _parser.ParseExpression(tokenStream);
@@ -112,8 +112,9 @@ public class ParenthesisParsingTests
             }
         );
 
-        var expected = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+        var expected = new FunctionCallExpression
         {
+            FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Arguments = new ExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 

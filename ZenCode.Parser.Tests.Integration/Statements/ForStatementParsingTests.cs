@@ -55,44 +55,51 @@ public class ForStatementParsingTests
         );
 
         var initialization = new VariableDeclarationStatement
-        (
-            new Token(TokenType.Identifier),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            Name = new Token(TokenType.Identifier),
+            Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         var condition = new BinaryExpression
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.LessThan),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Operator = new Token(TokenType.LessThan),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         var iterator = new AssignmentStatement
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new BinaryExpression
-            (
-                new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new Token(TokenType.Plus),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            )
-        );
+        {
+            Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Value = new BinaryExpression
+            {
+                LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Operator = new Token(TokenType.Plus),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
+        };
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ArrayIndexExpressionList
-            {
-                Expressions = new[] { new LiteralExpression(new Token(TokenType.IntegerLiteral)) }
-            }
+            Indices = new ArrayIndexExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
         var expression = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var scopeStatement = new AssignmentStatement(variableReferenceExpression, expression);
+        var scopeStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression, 
+            Value = expression
+        };
 
         var scope = new Scope { Statements = new[] { scopeStatement } };
 
-        var expectedStatement = new ForStatement(initialization, condition, iterator, scope);
+        var expectedStatement = new ForStatement
+        {
+            Initializer = initialization,
+            Condition = condition,
+            Iterator = iterator,
+            Body = scope
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

@@ -53,7 +53,7 @@ public class Parser : IParser
             statements.Add(ParseStatement(tokenStream));
         }
 
-        return new Program(statements);
+        return new Program(new Scope(statements.ToArray()));
     }
 
     public ArrayIndexExpressionList ParseArrayIndexExpressionList(ITokenStream tokenStream)

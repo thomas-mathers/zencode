@@ -33,7 +33,12 @@ public class BinaryExpressionParsingStrategyTests
         var lExpression = _fixture.Create<ExpressionMock>();
         var rExpression = _fixture.Create<ExpressionMock>();
 
-        var expected = new BinaryExpression(lExpression, new Token(operatorTokenType), rExpression);
+        var expected = new BinaryExpression
+        {
+            Operator = new Token(operatorTokenType),
+            LeftOperand = lExpression,
+            RightOperand = rExpression
+        };
 
         _tokenStreamMock
             .Setup(x => x.Consume(operatorTokenType))

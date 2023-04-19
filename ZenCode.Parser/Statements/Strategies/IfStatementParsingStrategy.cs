@@ -31,13 +31,22 @@ public class IfStatementParsingStrategy : IIfStatementParsingStrategy
 
         if (!tokenStream.Match(TokenType.Else))
         {
-            return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes };
+            return new IfStatement
+            {
+                ThenScope = thenConditionScope,
+                ElseIfScopes = elseIfConditionScopes
+            };
         }
 
         tokenStream.Consume(TokenType.Else);
 
         var elseScope = parser.ParseScope(tokenStream);
 
-        return new IfStatement(thenConditionScope) { ElseIfScopes = elseIfConditionScopes, ElseScope = elseScope };
+        return new IfStatement
+        {
+            ThenScope = thenConditionScope,
+            ElseIfScopes = elseIfConditionScopes, 
+            ElseScope = elseScope
+        };
     }
 }

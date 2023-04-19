@@ -25,16 +25,12 @@ public class FunctionDeclarationStatementTests
         // Arrange
         var returnType = _fixture.Create<Type>();
         var functionName = new Token(TokenType.Identifier, "f");
-        var parameterList = new ParameterList();
-        var scope = new Scope();
 
         var functionDeclarationStatement = new FunctionDeclarationStatement
-        (
-            returnType,
-            functionName,
-            parameterList,
-            scope
-        );
+        {
+            Name = functionName,
+            ReturnType = returnType
+        };
 
         const string expected = """
         function f() => {Type}
@@ -66,15 +62,12 @@ public class FunctionDeclarationStatementTests
             }
         };
 
-        var scope = new Scope();
-
         var functionDeclarationStatement = new FunctionDeclarationStatement
-        (
-            returnType,
-            functionName,
-            parameterList,
-            scope
-        );
+        {
+            Name = functionName,
+            ReturnType = returnType,
+            Parameters = parameterList
+        };
 
         const string expected = """
         function f(a : {Type}, b : {Type}, c : {Type}) => {Type}
@@ -95,7 +88,6 @@ public class FunctionDeclarationStatementTests
         // Arrange
         var returnType = _fixture.Create<Type>();
         var functionName = new Token(TokenType.Identifier, "f");
-        var parameterList = new ParameterList();
 
         var scope = new Scope
         {
@@ -103,12 +95,11 @@ public class FunctionDeclarationStatementTests
         };
 
         var functionDeclarationStatement = new FunctionDeclarationStatement
-        (
-            returnType,
-            functionName,
-            parameterList,
-            scope
-        );
+        {
+            Name = functionName,
+            ReturnType = returnType,
+            Body = scope,
+        };
 
         const string expected = """
         function f() => {Type}
@@ -149,12 +140,12 @@ public class FunctionDeclarationStatementTests
         };
 
         var functionDeclarationStatement = new FunctionDeclarationStatement
-        (
-            returnType,
-            functionName,
-            parameterList,
-            scope
-        );
+        {
+            Name = functionName,
+            ReturnType = returnType,
+            Parameters = parameterList,
+            Body = scope,
+        };
 
         const string expected = """
         function f(a : {Type}, b : {Type}, c : {Type}) => {Type}

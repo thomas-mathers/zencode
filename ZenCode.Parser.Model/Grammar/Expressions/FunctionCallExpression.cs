@@ -2,23 +2,23 @@ using ZenCode.Lexer.Model;
 
 namespace ZenCode.Parser.Model.Grammar.Expressions;
 
-public record FunctionCallExpression(Expression Expression) : Expression
+public record FunctionCallExpression : Expression
 {
-    public Token LeftParenthesis { get; init; }
+    public required Expression FunctionReference { get; init; }
     public ExpressionList Arguments { get; init; } = new();
 
     public override string ToString()
     {
-        return $"{Expression}({Arguments})";
+        return $"{FunctionReference}({Arguments})";
     }
 
     public virtual bool Equals(FunctionCallExpression? other)
     {
-        return Expression.Equals(other.Expression) && Arguments.Equals(other.Arguments);
+        return FunctionReference.Equals(other.FunctionReference) && Arguments.Equals(other.Arguments);
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(base.GetHashCode(), Arguments, Expression);
+        return HashCode.Combine(base.GetHashCode(), Arguments, FunctionReference);
     }
 }

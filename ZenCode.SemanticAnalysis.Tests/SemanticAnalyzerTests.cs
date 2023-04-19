@@ -28,12 +28,15 @@ public class SemanticAnalyzerTests
         // Arrange
         var program = new Program
         (
-            new[]
+            new VariableDeclarationStatement
             {
-                new VariableDeclarationStatement
-                    (new Token(TokenType.Identifier, "x"), new LiteralExpression(new Token(TokenType.IntegerLiteral))),
-                new VariableDeclarationStatement
-                    (new Token(TokenType.Identifier, "x"), new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+                Name = new Token(TokenType.Identifier, "x"),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            },
+            new VariableDeclarationStatement
+            {
+                Name = new Token(TokenType.Identifier, "x"),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
 
@@ -50,13 +53,10 @@ public class SemanticAnalyzerTests
         // Arrange
         var program = new Program
         (
-            new[]
+            new VariableDeclarationStatement
             {
-                new VariableDeclarationStatement
-                (
-                    new Token(TokenType.Identifier, "x"),
-                    new VariableReferenceExpression(new Token(TokenType.Identifier, "y"))
-                )
+                Name = new Token(TokenType.Identifier, "x"),
+                Value = new VariableReferenceExpression(new Token(TokenType.Identifier, "y"))
             }
         );
 
@@ -66,28 +66,25 @@ public class SemanticAnalyzerTests
         // Assert
         Assert.NotNull(exception);
     }
-    
+
     [Fact]
     public void Analyze_InvokingNonFunction_ThrowsInvokingNonFunctionTypeException()
     {
         // Arrange
         var program = new Program
         (
-            new[]
+            new VariableDeclarationStatement
             {
-                new VariableDeclarationStatement
-                (
-                    new Token(TokenType.Identifier, "y"),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                ),
-                new VariableDeclarationStatement
-                (
-                    new Token(TokenType.Identifier, "x"),
-                    new FunctionCallExpression
-                    (
-                        new VariableReferenceExpression(new Token(TokenType.Identifier, "y"))
-                    )
-                )
+                Name = new Token(TokenType.Identifier, "y"),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            },
+            new VariableDeclarationStatement
+            {
+                Name = new Token(TokenType.Identifier, "x"),
+                Value = new FunctionCallExpression
+                {
+                    FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "y"))
+                }
             }
         );
 
@@ -104,33 +101,27 @@ public class SemanticAnalyzerTests
         // Arrange
         var program = new Program
         (
-            new Statement[]
+            new FunctionDeclarationStatement
             {
-                new FunctionDeclarationStatement
+                ReturnType = new VoidType(),
+                Name = new Token(TokenType.Identifier, "f"),
+                Parameters = new ParameterList
                 (
-                    new VoidType(),
-                    new Token(TokenType.Identifier, "f"),
-                    new ParameterList
-                    (
-                        new Parameter(new Token(TokenType.Identifier, "x"), new IntegerType())
-                    ),
-                    new Scope()
-                ),
-                new VariableDeclarationStatement
-                (
-                    new Token(TokenType.Identifier, "x"),
-                    new FunctionCallExpression
-                    (
-                        new VariableReferenceExpression(new Token(TokenType.Identifier, "f"))
-                    )
-                    {
-                        Arguments = new ExpressionList
-                        (
-                            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                        )
-                    }
+                    new Parameter(new Token(TokenType.Identifier, "x"), new IntegerType())
                 )
+            },
+            new VariableDeclarationStatement
+            {
+                Name = new Token(TokenType.Identifier, "x"),
+                Value = new FunctionCallExpression
+                {
+                    FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "f")),
+                    Arguments = new ExpressionList
+                    (
+                        new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                        new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                    )
+                }
             }
         );
 
@@ -140,39 +131,33 @@ public class SemanticAnalyzerTests
         // Assert
         Assert.NotNull(exception);
     }
-    
+
     [Fact]
     public void Analyze_FunctionCallWithIncorrectParameterType_ThrowsTypeMismatchException()
     {
         // Arrange
         var program = new Program
         (
-            new Statement[]
+            new FunctionDeclarationStatement
             {
-                new FunctionDeclarationStatement
+                ReturnType = new VoidType(),
+                Name = new Token(TokenType.Identifier, "f"),
+                Parameters = new ParameterList
                 (
-                    new VoidType(),
-                    new Token(TokenType.Identifier, "f"),
-                    new ParameterList
-                    (
-                        new Parameter(new Token(TokenType.Identifier, "x"), new IntegerType())
-                    ),
-                    new Scope()
-                ),
-                new VariableDeclarationStatement
-                (
-                    new Token(TokenType.Identifier, "x"),
-                    new FunctionCallExpression
-                    (
-                        new VariableReferenceExpression(new Token(TokenType.Identifier, "f"))
-                    )
-                    {
-                        Arguments = new ExpressionList
-                        (
-                            new LiteralExpression(new Token(TokenType.StringLiteral))
-                        )
-                    }
+                    new Parameter(new Token(TokenType.Identifier, "x"), new IntegerType())
                 )
+            },
+            new VariableDeclarationStatement
+            {
+                Name = new Token(TokenType.Identifier, "x"),
+                Value = new FunctionCallExpression
+                {
+                    FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "f")),
+                    Arguments = new ExpressionList
+                    (
+                        new LiteralExpression(new Token(TokenType.StringLiteral))
+                    )
+                }
             }
         );
 

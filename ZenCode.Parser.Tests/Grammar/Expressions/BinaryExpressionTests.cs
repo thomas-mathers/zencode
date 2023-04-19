@@ -16,7 +16,14 @@ public class BinaryExpressionTests
         var lExpression = new ExpressionMock();
         var rExpression = new ExpressionMock();
         var op = new Token(operatorToken);
-        var binaryExpression = new BinaryExpression(lExpression, op, rExpression);
+
+        var binaryExpression = new BinaryExpression
+        {
+            Operator = op,
+            LeftOperand = lExpression,
+            RightOperand = rExpression
+        };
+        
         var expected = $"{{Expression}} {operatorToken} {{Expression}}";
 
         // Act

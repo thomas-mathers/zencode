@@ -32,7 +32,7 @@ public class FunctionCallParsingStrategyTests
     public void Parse_FunctionCallNoParameters_ReturnsFunctionCallExpression()
     {
         // Arrange
-        var expected = new FunctionCallExpression(_variableReferenceExpression);
+        var expected = new FunctionCallExpression { FunctionReference = _variableReferenceExpression };
 
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
@@ -51,7 +51,8 @@ public class FunctionCallParsingStrategyTests
         // Arrange
         var arguments = _fixture.Create<ExpressionList>();
 
-        var expected = new FunctionCallExpression(_variableReferenceExpression) { Arguments = arguments };
+        var expected = new FunctionCallExpression
+            { FunctionReference = _variableReferenceExpression, Arguments = arguments };
 
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))
@@ -67,7 +68,7 @@ public class FunctionCallParsingStrategyTests
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void Parse_UnexpectedToken_ThrowsUnexpectedTokenException()
     {
@@ -86,7 +87,7 @@ public class FunctionCallParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
-    
+
     [Fact]
     public void Parse_NullParser_ThrowsArgumentNullException()
     {
@@ -100,7 +101,7 @@ public class FunctionCallParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
-    
+
     [Fact]
     public void Parse_NullTokenStream_ThrowsArgumentNullException()
     {
@@ -114,7 +115,7 @@ public class FunctionCallParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
-    
+
     [Fact]
     public void Parse_NullVariableReferenceExpression_ThrowsArgumentNullException()
     {
@@ -128,7 +129,7 @@ public class FunctionCallParsingStrategyTests
         // Assert
         Assert.NotNull(actual);
     }
-    
+
     [Fact]
     public void Parse_ParseExpressionListThrowsException_ThrowsException()
     {

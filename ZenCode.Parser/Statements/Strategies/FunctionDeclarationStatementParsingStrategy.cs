@@ -31,6 +31,7 @@ public class FunctionDeclarationStatementParsingStrategy : IFunctionDeclarationS
 
         var scope = parser.ParseScope(tokenStream);
 
-        return new FunctionDeclarationStatement(returnType, identifier, parameters, scope);
+        return new FunctionDeclarationStatement
+            { ReturnType = returnType, Name = identifier, Parameters = parameters, Body = scope };
     }
 }

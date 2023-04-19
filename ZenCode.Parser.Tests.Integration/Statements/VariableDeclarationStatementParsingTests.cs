@@ -37,13 +37,17 @@ public class VariableDeclarationStatementParsingTests
         var identifier = new Token(TokenType.Identifier);
 
         var expression = new BinaryExpression
-        (
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(TokenType.Plus),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            Operator = new Token(TokenType.Plus),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
-        var expectedStatement = new VariableDeclarationStatement(identifier, expression);
+        var expectedStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -75,7 +79,11 @@ public class VariableDeclarationStatementParsingTests
 
         var expression = new LiteralExpression(new Token(tokenType));
 
-        var expectedStatement = new VariableDeclarationStatement(identifier, expression);
+        var expectedStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -103,9 +111,16 @@ public class VariableDeclarationStatementParsingTests
 
         var identifier = new Token(TokenType.Identifier);
 
-        var expression = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+        var expression = new FunctionCallExpression
+        {
+            FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+        };
 
-        var expectedStatement = new VariableDeclarationStatement(identifier, expression);
+        var expectedStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -135,7 +150,11 @@ public class VariableDeclarationStatementParsingTests
 
         var expression = new LiteralExpression(new Token(TokenType.StringLiteral));
 
-        var expectedStatement = new VariableDeclarationStatement(identifier, expression);
+        var expectedStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -168,7 +187,11 @@ public class VariableDeclarationStatementParsingTests
             new LiteralExpression(new Token(TokenType.FloatLiteral))
         );
 
-        var expectedStatement = new VariableDeclarationStatement(identifier, expression);
+        var expectedStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -196,7 +219,11 @@ public class VariableDeclarationStatementParsingTests
 
         var expression = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
-        var expectedStatement = new VariableDeclarationStatement(identifier, expression);
+        var expectedStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -225,7 +252,7 @@ public class VariableDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Expected 'Identifier', got ':='", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingAssignment_ThrowsException()
     {
@@ -246,7 +273,7 @@ public class VariableDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Expected ':=', got 'IntegerLiteral'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingExpression_ThrowsException()
     {

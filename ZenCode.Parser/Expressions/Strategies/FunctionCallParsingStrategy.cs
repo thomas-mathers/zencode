@@ -9,13 +9,13 @@ namespace ZenCode.Parser.Expressions.Strategies;
 
 public class FunctionCallParsingStrategy : IFunctionCallParsingStrategy
 {
-    public FunctionCallExpression Parse(IParser parser, ITokenStream tokenStream, Expression lOperand)
+    public FunctionCallExpression Parse(IParser parser, ITokenStream tokenStream, Expression functionReference)
     {
         ArgumentNullException.ThrowIfNull(parser);
         ArgumentNullException.ThrowIfNull(tokenStream);
-        ArgumentNullException.ThrowIfNull(lOperand);
+        ArgumentNullException.ThrowIfNull(functionReference);
         
-        var lParenthesis = tokenStream.Consume(TokenType.LeftParenthesis);
+        tokenStream.Consume(TokenType.LeftParenthesis);
 
         var arguments = tokenStream.Match(TokenType.RightParenthesis)
             ? new ExpressionList()
@@ -23,6 +23,10 @@ public class FunctionCallParsingStrategy : IFunctionCallParsingStrategy
 
         tokenStream.Consume(TokenType.RightParenthesis);
 
-        return new FunctionCallExpression(lOperand) { LeftParenthesis = lParenthesis, Arguments = arguments };
+        return new FunctionCallExpression
+        {
+            FunctionReference = functionReference,
+            Arguments = arguments
+        };
     }
 }

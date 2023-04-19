@@ -46,7 +46,7 @@ public class AnonymousFunctionDeclarationParsingStrategyTests
 
         _parserMock
             .Setup(x => x.ParseScope(_tokenStreamMock.Object))
-            .Returns(expected.Scope);
+            .Returns(expected.Body);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

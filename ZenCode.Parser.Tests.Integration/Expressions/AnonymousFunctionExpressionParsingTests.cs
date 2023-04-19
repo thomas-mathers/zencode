@@ -37,7 +37,10 @@ public class AnonymousFunctionExpressionParsingTests
             }
         );
 
-        var expected = new AnonymousFunctionDeclarationExpression(new VoidType(), new ParameterList(), new Scope());
+        var expected = new AnonymousFunctionDeclarationExpression
+        {
+            ReturnType = new VoidType()
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -81,17 +84,19 @@ public class AnonymousFunctionExpressionParsingTests
         };
 
         var scope = new Scope
-        {
-            Statements = new[]
+        (
+            new ReturnStatement
             {
-                new ReturnStatement
-                {
-                    Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
-                }
+                Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
             }
-        };
+        );
 
-        var expected = new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
+        var expected = new AnonymousFunctionDeclarationExpression
+        {
+            ReturnType = returnType,
+            Parameters = parameterList,
+            Body = scope
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -154,22 +159,24 @@ public class AnonymousFunctionExpressionParsingTests
         };
 
         var scope = new Scope
-        {
-            Statements = new Statement[]
+        (
+            new VariableDeclarationStatement
             {
-                new VariableDeclarationStatement
-                (
-                    new Token(TokenType.Identifier),
-                    new VariableReferenceExpression(new Token(TokenType.Identifier))
-                ),
-                new ReturnStatement
-                {
-                    Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
-                }
+                Name = new Token(TokenType.Identifier),
+                Value = new VariableReferenceExpression(new Token(TokenType.Identifier))
+            },
+            new ReturnStatement
+            {
+                Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
             }
-        };
+        );
 
-        var expected = new AnonymousFunctionDeclarationExpression(returnType, parameterList, scope);
+        var expected = new AnonymousFunctionDeclarationExpression
+        {
+            ReturnType = returnType,
+            Parameters = parameterList,
+            Body = scope
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);

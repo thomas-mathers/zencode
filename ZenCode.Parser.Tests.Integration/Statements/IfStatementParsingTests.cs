@@ -41,27 +41,25 @@ public class IfStatementParsingTests
         );
 
         var thenCondition = new BinaryExpression
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
-
-        var thenScope = new Scope
         {
-            Statements = new[]
-            {
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
-            }
+            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Operator = new Token(TokenType.Equals),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
-        var thenConditionScope = new ConditionScope(thenCondition, thenScope);
+        var thenScope = new Scope
+        (
+            new AssignmentStatement
+            {
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
+        );
 
-        var expectedStatement = new IfStatement(thenConditionScope);
+        var expectedStatement = new IfStatement
+        {
+            ThenScope = new ConditionScope(thenCondition, thenScope)
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -99,39 +97,37 @@ public class IfStatementParsingTests
         );
 
         var thenCondition = new BinaryExpression
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Operator = new Token(TokenType.Equals),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         var thenScope = new Scope
-        {
-            Statements = new[]
+        (
+            new AssignmentStatement
             {
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
-        };
+        );
 
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
 
         var elseScope = new Scope
-        {
-            Statements = new[]
+        (
+            new AssignmentStatement
             {
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
-        };
+        );
 
-        var expectedStatement = new IfStatement(thenConditionScope) { ElseScope = elseScope };
+        var expectedStatement = new IfStatement
+        {
+            ThenScope = thenConditionScope,
+            ElseScope = elseScope
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -181,62 +177,55 @@ public class IfStatementParsingTests
         );
 
         var thenCondition = new BinaryExpression
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Operator = new Token(TokenType.Equals),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         var thenScope = new Scope
-        {
-            Statements = new[]
+        (
+            new AssignmentStatement
             {
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
-        };
+        );
 
         var thenConditionScope = new ConditionScope(thenCondition, thenScope);
 
         var elseIfCondition = new BinaryExpression
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.Equals),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Operator = new Token(TokenType.Equals),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         var elseIfScope = new Scope
-        {
-            Statements = new[]
+        (
+            new AssignmentStatement
             {
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
-        };
+        );
 
         var elseIfConditionScope = new ConditionScope(elseIfCondition, elseIfScope);
 
         var elseScope = new Scope
-        {
-            Statements = new[]
+        (
+            new AssignmentStatement
             {
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
-        };
+        );
 
-        var expectedStatement = new IfStatement(thenConditionScope)
+        var expectedStatement = new IfStatement
         {
-            ElseIfScopes = new[] { elseIfConditionScope }, ElseScope = elseScope
+            ThenScope = thenConditionScope,
+            ElseIfScopes = new[] { elseIfConditionScope },
+            ElseScope = elseScope
         };
 
         // Act
@@ -245,7 +234,7 @@ public class IfStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_MissingLeftParenthesis_ThrowsException()
     {
@@ -301,7 +290,7 @@ public class IfStatementParsingTests
         // Assert
         Assert.Equal("Expected ')', got '{'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingIfCondition_ThrowsException()
     {
@@ -327,7 +316,7 @@ public class IfStatementParsingTests
         // Assert
         Assert.Equal("Unexpected token ')'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingElseIfCondition_ThrowsException()
     {

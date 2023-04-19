@@ -41,23 +41,20 @@ public class WhileStatementParsingTests
         );
 
         var condition = new BinaryExpression
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new Token(TokenType.GreaterThan),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Operator = new Token(TokenType.GreaterThan),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         var scope = new Scope
-        {
-            Statements = new[]
+        (
+            new AssignmentStatement
             {
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
-        };
+        );
 
         var conditionScope = new ConditionScope(condition, scope);
 
@@ -69,7 +66,7 @@ public class WhileStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_MissingLeftParenthesis_ThrowsException()
     {
@@ -97,7 +94,7 @@ public class WhileStatementParsingTests
         // Assert
         Assert.Equal("Expected '(', got 'Identifier'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingRightParenthesis_ThrowsException()
     {
@@ -153,7 +150,7 @@ public class WhileStatementParsingTests
         // Assert
         Assert.Equal("Expected '{', got 'Identifier'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingRightBrace_ThrowsException()
     {

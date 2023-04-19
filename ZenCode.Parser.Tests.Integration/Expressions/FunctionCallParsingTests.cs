@@ -31,7 +31,10 @@ public class FunctionCallParsingTests
             }
         );
 
-        var expected = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+        var expected = new FunctionCallExpression
+        {
+            FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -55,8 +58,9 @@ public class FunctionCallParsingTests
             }
         );
 
-        var expected = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+        var expected = new FunctionCallExpression
         {
+            FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Arguments = new ExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
@@ -86,8 +90,9 @@ public class FunctionCallParsingTests
             }
         );
 
-        var expected = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+        var expected = new FunctionCallExpression
         {
+            FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
             Arguments = new ExpressionList
             (
                 new LiteralExpression(new Token(TokenType.IntegerLiteral)),

@@ -57,11 +57,11 @@ public class ReturnStatementParsingTests
         var expectedStatement = new ReturnStatement
         {
             Expression = new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(TokenType.Plus),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            )
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Operator = new Token(TokenType.Plus),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
         };
 
         // Act
@@ -116,8 +116,10 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression =
-                new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+            Expression = new FunctionCallExpression
+            {
+                FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+            }
         };
 
         // Act

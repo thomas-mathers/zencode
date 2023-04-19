@@ -2,20 +2,22 @@
 
 namespace ZenCode.Parser.Model.Grammar;
 
-public record Program(IReadOnlyList<Statement> Statements) : AstNode
+public record Program : AstNode
 {
-    public virtual bool Equals(Program? other)
+    public Scope Scope { get; } = new();
+    
+    public Program(Scope scope)
     {
-        return other != null && Statements.SequenceEqual(other.Statements);
+        Scope = scope;
     }
-
-    public override int GetHashCode()
+    
+    public Program(params Statement[] statements)
     {
-        return Statements.GetHashCode();
+        Scope = new Scope(statements);
     }
 
     public override string ToString()
     {
-        return string.Join("\n", Statements);
+        return Scope.ToString();
     }
 }

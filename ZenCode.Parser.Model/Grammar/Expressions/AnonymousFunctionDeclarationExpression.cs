@@ -3,9 +3,12 @@ using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Model.Grammar.Expressions;
 
-public record AnonymousFunctionDeclarationExpression
-    (Type ReturnType, ParameterList Parameters, Scope Scope) : Expression
+public record AnonymousFunctionDeclarationExpression : Expression
 {
+    public required Type ReturnType { get; init; }
+    public ParameterList Parameters { get; init; } = new();
+    public Scope Body { get; init; } = new();
+
     public override string ToString()
     {
         var stringBuilder = new StringBuilder();
@@ -20,7 +23,7 @@ public record AnonymousFunctionDeclarationExpression
         stringBuilder.Append(' ');
         stringBuilder.Append(ReturnType);
         stringBuilder.AppendLine();
-        stringBuilder.Append(Scope);
+        stringBuilder.Append(Body);
 
         return stringBuilder.ToString();
     }

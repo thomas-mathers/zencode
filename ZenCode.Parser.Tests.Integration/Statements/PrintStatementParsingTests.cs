@@ -34,11 +34,11 @@ public class PrintStatementParsingTests
         var expectedStatement = new PrintStatement
         (
             new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(TokenType.Plus),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            )
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Operator = new Token(TokenType.Plus),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
         );
 
         // Act
@@ -92,7 +92,10 @@ public class PrintStatementParsingTests
         var expectedStatement =
             new PrintStatement
             (
-                new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
+                new FunctionCallExpression
+                {
+                    FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                }
             );
 
         // Act

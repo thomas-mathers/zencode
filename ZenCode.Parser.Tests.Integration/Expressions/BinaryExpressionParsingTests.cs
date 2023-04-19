@@ -38,16 +38,16 @@ public class BinaryExpressionParsingTests
         );
 
         var expected = new BinaryExpression
-        (
-            new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(op),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            ),
-            new Token(op),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new BinaryExpression
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Operator = new Token(op),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            },
+            Operator = new Token(op),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -77,16 +77,16 @@ public class BinaryExpressionParsingTests
         );
 
         var expected = new BinaryExpression
-        (
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(op),
-            new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(op),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            )
-        );
+        {
+            LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            Operator = new Token(op),
+            RightOperand = new BinaryExpression
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Operator = new Token(op),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -117,16 +117,16 @@ public class BinaryExpressionParsingTests
         );
 
         var expected = new BinaryExpression
-        (
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(loOp),
-            new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(hiOp),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            )
-        );
+        {
+            LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            Operator = new Token(loOp),
+            RightOperand = new BinaryExpression
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Operator = new Token(hiOp),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -157,16 +157,16 @@ public class BinaryExpressionParsingTests
         );
 
         var expected = new BinaryExpression
-        (
-            new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(hiOp),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            ),
-            new Token(loOp),
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            LeftOperand = new BinaryExpression
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Operator = new Token(hiOp),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            },
+            Operator = new Token(loOp),
+            RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -200,16 +200,16 @@ public class BinaryExpressionParsingTests
         );
 
         var expected = new BinaryExpression
-        (
-            new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            new Token(hiOp),
-            new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                new Token(loOp),
-                new LiteralExpression(new Token(TokenType.IntegerLiteral))
-            )
-        );
+        {
+            LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+            Operator = new Token(hiOp),
+            RightOperand = new BinaryExpression
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                Operator = new Token(loOp),
+                RightOperand = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+            }
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -217,7 +217,7 @@ public class BinaryExpressionParsingTests
         // Assert
         Assert.Equal(expected, actual);
     }
-    
+
     [Fact]
     public void ParseExpression_MissingRightOperand_ThrowsException()
     {

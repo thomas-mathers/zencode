@@ -27,6 +27,11 @@ public class AnonymousFunctionDeclarationParsingStrategy : IAnonymousFunctionDec
         var returnType = parser.ParseType(tokenStream);
         var scope = parser.ParseScope(tokenStream);
 
-        return new AnonymousFunctionDeclarationExpression(returnType, parameters, scope);
+        return new AnonymousFunctionDeclarationExpression
+        {
+            ReturnType = returnType,
+            Parameters = parameters,
+            Body = scope
+        };
     }
 }

@@ -2,8 +2,9 @@ using System.Text;
 
 namespace ZenCode.Parser.Model.Grammar.Statements;
 
-public record IfStatement(ConditionScope ThenScope) : CompoundStatement
+public record IfStatement : CompoundStatement
 {
+    public required ConditionScope ThenScope { get; init; }
     public IReadOnlyList<ConditionScope> ElseIfScopes { get; init; } = Array.Empty<ConditionScope>();
     public Scope? ElseScope { get; init; }
 

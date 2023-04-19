@@ -39,23 +39,21 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ArrayIndexExpressionList
-            {
-                Expressions = new[]
-                {
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                }
-            }
+            Indices = new ArrayIndexExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
         var expression = new BinaryExpression
-        (
-            new LiteralExpression(new Token(TokenType.FloatLiteral)),
-            new Token(TokenType.Plus),
-            new LiteralExpression(new Token(TokenType.FloatLiteral))
-        );
+        {
+            LeftOperand = new LiteralExpression(new Token(TokenType.FloatLiteral)),
+            Operator = new Token(TokenType.Plus),
+            RightOperand = new LiteralExpression(new Token(TokenType.FloatLiteral))
+        };
 
-        var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
+        var expectedStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression, 
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -87,18 +85,14 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ArrayIndexExpressionList
-            {
-                Expressions = new[]
-                {
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                }
-            }
+            Indices = new ArrayIndexExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
-        var expression = new LiteralExpression(new Token(tokenType));
-
-        var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
+        var expectedStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression, 
+            Value = new LiteralExpression(new Token(tokenType))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -137,9 +131,16 @@ public class AssignmentStatementParsingTests
             }
         };
 
-        var expression = new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+        var expression = new FunctionCallExpression
+        {
+            FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+        };
 
-        var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
+        var expectedStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression, 
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -168,18 +169,16 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ArrayIndexExpressionList
-            {
-                Expressions = new[]
-                {
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                }
-            }
+            Indices = new ArrayIndexExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
         var expression = new LiteralExpression(new Token(TokenType.StringLiteral));
 
-        var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
+        var expectedStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -207,13 +206,7 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ArrayIndexExpressionList
-            {
-                Expressions = new[]
-                {
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                }
-            }
+            Indices = new ArrayIndexExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
         var expression = new UnaryExpression
@@ -222,7 +215,11 @@ public class AssignmentStatementParsingTests
             new LiteralExpression(new Token(TokenType.IntegerLiteral))
         );
 
-        var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
+        var expectedStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression,
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -250,18 +247,16 @@ public class AssignmentStatementParsingTests
 
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier))
         {
-            Indices = new ArrayIndexExpressionList
-            {
-                Expressions = new[]
-                {
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                }
-            }
+            Indices = new ArrayIndexExpressionList(new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         };
 
         var expression = new VariableReferenceExpression(new Token(TokenType.Identifier));
 
-        var expectedStatement = new AssignmentStatement(variableReferenceExpression, expression);
+        var expectedStatement = new AssignmentStatement
+        {
+            Variable = variableReferenceExpression, 
+            Value = expression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -287,15 +282,15 @@ public class AssignmentStatementParsingTests
         );
 
         var expectedStatement = new AssignmentStatement
-        (
-            new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            new BinaryExpression
-            (
-                new LiteralExpression(new Token(TokenType.FloatLiteral)),
-                new Token(TokenType.Plus),
-                new LiteralExpression(new Token(TokenType.FloatLiteral))
-            )
-        );
+        {
+            Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+            Value = new BinaryExpression
+            {
+                LeftOperand = new LiteralExpression(new Token(TokenType.FloatLiteral)),
+                Operator = new Token(TokenType.Plus),
+                RightOperand = new LiteralExpression(new Token(TokenType.FloatLiteral))
+            }
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -324,10 +319,10 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement =
             new AssignmentStatement
-            (
-                new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new LiteralExpression(new Token(tokenType))
-            );
+            {
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(tokenType))
+            };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -354,10 +349,13 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement =
             new AssignmentStatement
-            (
-                new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new FunctionCallExpression(new VariableReferenceExpression(new Token(TokenType.Identifier)))
-            );
+            {
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new FunctionCallExpression
+                {
+                    FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                }
+            };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -383,10 +381,10 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement =
             new AssignmentStatement
-            (
-                new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new LiteralExpression(new Token(TokenType.StringLiteral))
-            );
+            {
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new LiteralExpression(new Token(TokenType.StringLiteral))
+            };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -411,14 +409,14 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement =
             new AssignmentStatement
-            (
-                new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new UnaryExpression
+            {
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new UnaryExpression
                 (
                     new Token(TokenType.Minus),
                     new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 )
-            );
+            };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -443,10 +441,10 @@ public class AssignmentStatementParsingTests
 
         var expectedStatement =
             new AssignmentStatement
-            (
-                new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                new VariableReferenceExpression(new Token(TokenType.Identifier))
-            );
+            {
+                Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                Value = new VariableReferenceExpression(new Token(TokenType.Identifier))
+            };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -454,7 +452,7 @@ public class AssignmentStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_MissingRightHandSide_ThrowsException()
     {

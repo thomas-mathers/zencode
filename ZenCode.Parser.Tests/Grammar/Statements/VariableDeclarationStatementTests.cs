@@ -22,10 +22,10 @@ public class VariableDeclarationStatementTests
     {
         // Arrange
         var variableDeclarationStatement = new VariableDeclarationStatement
-        (
-            new Token(TokenType.Identifier, "x"),
-            _fixture.Create<Expression>()
-        );
+        {
+            Name = new Token(TokenType.Identifier, "x"),
+            Value = _fixture.Create<Expression>()
+        };
 
         const string expected = "var x := {Expression}";
 

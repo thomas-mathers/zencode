@@ -39,12 +39,10 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new VoidType(),
-            new Token(TokenType.Identifier),
-            new ParameterList(),
-            new Scope()
-        );
+        {
+            Name = new Token(TokenType.Identifier),
+            ReturnType = new VoidType(),
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -52,7 +50,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_FunctionWithOneParameter_ReturnFunctionDeclarationStatement()
     {
@@ -76,15 +74,14 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new VoidType(),
-            new Token(TokenType.Identifier),
-            new ParameterList
+        {
+            ReturnType = new VoidType(),
+            Name = new Token(TokenType.Identifier),
+            Parameters = new ParameterList
             (
                 new Parameter(new Token(TokenType.Identifier), new IntegerType())
             ),
-            new Scope()
-        );
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -92,7 +89,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_FunctionWithThreeParameters_ReturnFunctionDeclarationStatement()
     {
@@ -124,17 +121,16 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new VoidType(),
-            new Token(TokenType.Identifier),
-            new ParameterList
+        {
+            ReturnType = new VoidType(),
+            Name = new Token(TokenType.Identifier),
+            Parameters = new ParameterList
             (
                 new Parameter(new Token(TokenType.Identifier), new IntegerType()),
                 new Parameter(new Token(TokenType.Identifier), new IntegerType()),
                 new Parameter(new Token(TokenType.Identifier), new IntegerType())
-            ),
-            new Scope()
-        );
+            )
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -142,7 +138,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_FunctionReturningFunction_ReturnsFunctionDeclarationStatement()
     {
@@ -166,16 +162,14 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new FunctionType
+        {
+            ReturnType = new FunctionType
             (
                 new VoidType(),
                 new TypeList()
             ),
-            new Token(TokenType.Identifier),
-            new ParameterList(),
-            new Scope()
-        );
+            Name = new Token(TokenType.Identifier)
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -183,7 +177,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_FunctionParameter_ReturnsFunctionDeclarationStatement()
     {
@@ -210,10 +204,10 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new VoidType(),
-            new Token(TokenType.Identifier),
-            new ParameterList
+        {
+            ReturnType = new VoidType(),
+            Name = new Token(TokenType.Identifier),
+            Parameters = new ParameterList
             (
                 new Parameter
                 (
@@ -224,9 +218,8 @@ public class FunctionDeclarationStatementParsingTests
                         new TypeList()
                     )
                 )
-            ),
-            new Scope()
-        );
+            )
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -234,7 +227,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_FunctionParameterReturnsFunction_ReturnsFunctionDeclarationStatement()
     {
@@ -264,14 +257,14 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new FunctionType
+        {
+            ReturnType = new FunctionType
             (
                 new VoidType(),
                 new TypeList()
             ),
-            new Token(TokenType.Identifier),
-            new ParameterList
+            Name = new Token(TokenType.Identifier),
+            Parameters = new ParameterList
             (
                 new Parameter
                 (
@@ -282,9 +275,8 @@ public class FunctionDeclarationStatementParsingTests
                         new TypeList()
                     )
                 )
-            ),
-            new Scope()
-        );
+            )
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -292,7 +284,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_FunctionWithAssignmentStatement_ReturnsFunctionDeclarationStatement()
     {
@@ -316,19 +308,18 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new VoidType(),
-            new Token(TokenType.Identifier),
-            new ParameterList(),
-            new Scope
+        {
+            ReturnType = new VoidType(),
+            Name = new Token(TokenType.Identifier),
+            Body = new Scope
             (
-                new AssignmentStatement
-                (
-                    new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                new AssignmentStatement 
+                {
+                    Variable = new VariableReferenceExpression(new Token(TokenType.Identifier)),
+                    Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             )
-        );
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -336,7 +327,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_FunctionWithReturnStatement_ReturnsFunctionDeclarationStatement()
     {
@@ -360,18 +351,17 @@ public class FunctionDeclarationStatementParsingTests
         );
 
         var expectedStatement = new FunctionDeclarationStatement
-        (
-            new VoidType(),
-            new Token(TokenType.Identifier),
-            new ParameterList(),
-            new Scope
+        {
+            ReturnType = new VoidType(),
+            Name = new Token(TokenType.Identifier),
+            Body = new Scope
             (
                 new ReturnStatement
                 {
                     Expression = new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             )
-        );
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -379,7 +369,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal(expectedStatement, actualStatement);
     }
-    
+
     [Fact]
     public void Parse_MissingFunctionName_ThrowsException()
     {
@@ -404,7 +394,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Expected 'Identifier', got '('", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingLeftParenthesis_ThrowsException()
     {
@@ -429,7 +419,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Expected '(', got ')'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingParameterName_ThrowsException()
     {
@@ -457,7 +447,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Expected 'Identifier', got ':'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingParameterType_ThrowsException()
     {
@@ -510,7 +500,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Expected 'Identifier', got '=>'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingReturnType_ThrowsException()
     {
@@ -535,7 +525,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Unexpected token '{'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingRightArrow_ThrowsException()
     {
@@ -560,7 +550,7 @@ public class FunctionDeclarationStatementParsingTests
         // Assert
         Assert.Equal("Expected '=>', got 'void'", exception.Message);
     }
-    
+
     [Fact]
     public void Parse_MissingLeftBrace_ThrowsException()
     {

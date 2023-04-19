@@ -19,8 +19,12 @@ public class VariableDeclarationStatementParsingStrategy : IVariableDeclarationS
 
         tokenStream.Consume(TokenType.Assignment);
 
-        var expression = parser.ParseExpression(tokenStream);
+        var initializer = parser.ParseExpression(tokenStream);
 
-        return new VariableDeclarationStatement(identifier, expression);
+        return new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = initializer
+        };
     }
 }

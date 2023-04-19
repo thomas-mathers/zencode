@@ -24,24 +24,27 @@ public class ForStatementTests
     {
         // Arrange
         var identifier = new Token(TokenType.Identifier, "i");
-        var variableDeclarationStatement = new VariableDeclarationStatement(identifier, _fixture.Create<Expression>());
+
+        var variableDeclarationStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = _fixture.Create<Expression>()
+        };
+
         var iterator = _fixture.Create<Expression>();
 
         var assignmentStatement = new AssignmentStatement
-        (
-            new VariableReferenceExpression(identifier),
-            _fixture.Create<Expression>()
-        );
-
-        var scope = new Scope();
+        {
+            Variable = new VariableReferenceExpression(identifier),
+            Value = _fixture.Create<Expression>()
+        };
 
         var forStatement = new ForStatement
-        (
-            variableDeclarationStatement,
-            iterator,
-            assignmentStatement,
-            scope
-        );
+        {
+            Initializer = variableDeclarationStatement,
+            Condition = iterator,
+            Iterator = assignmentStatement
+        };
 
         const string expected = """
         for (var i := {Expression}; {Expression}; i := {Expression})
@@ -61,14 +64,20 @@ public class ForStatementTests
     {
         // Arrange
         var identifier = new Token(TokenType.Identifier, "i");
-        var variableDeclarationStatement = new VariableDeclarationStatement(identifier, _fixture.Create<Expression>());
+
+        var variableDeclarationStatement = new VariableDeclarationStatement
+        {
+            Name = identifier,
+            Value = _fixture.Create<Expression>()
+        };
+
         var iterator = _fixture.Create<Expression>();
 
         var assignmentStatement = new AssignmentStatement
-        (
-            new VariableReferenceExpression(identifier),
-            _fixture.Create<Expression>()
-        );
+        {
+            Variable = new VariableReferenceExpression(identifier),
+            Value = _fixture.Create<Expression>()
+        };
 
         var scope = new Scope
         {
@@ -76,12 +85,12 @@ public class ForStatementTests
         };
 
         var forStatement = new ForStatement
-        (
-            variableDeclarationStatement,
-            iterator,
-            assignmentStatement,
-            scope
-        );
+        {
+            Initializer = variableDeclarationStatement,
+            Condition = iterator,
+            Iterator = assignmentStatement,
+            Body = scope
+        };
 
         const string expected = """
         for (var i := {Expression}; {Expression}; i := {Expression})

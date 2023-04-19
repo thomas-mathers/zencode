@@ -1,6 +1,6 @@
 namespace ZenCode.SemanticAnalysis;
 
-public class SymbolTable : ISymbolTable
+public class SymbolTable
 {
     private readonly Stack<Environment> _environments = new();
 

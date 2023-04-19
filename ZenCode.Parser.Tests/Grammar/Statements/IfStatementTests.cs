@@ -25,7 +25,10 @@ public class IfStatementTests
         var thenCondition = _fixture.Create<Expression>();
         var thenScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope));
+        var ifStatement = new IfStatement
+        {
+            ThenScope = new ConditionScope(thenCondition, thenScope)
+        };
 
         const string expected = """
         if ({Expression})
@@ -53,8 +56,9 @@ public class IfStatementTests
         var elseIfCondition = _fixture.Create<Expression>();
         var elseIfScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
+        var ifStatement = new IfStatement
         {
+            ThenScope = new ConditionScope(thenCondition, thenScope),
             ElseIfScopes = new[] { new ConditionScope(elseIfCondition, elseIfScope) }
         };
 
@@ -90,8 +94,9 @@ public class IfStatementTests
         var elseIfCondition = _fixture.Create<Expression>();
         var elseIfScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
+        var ifStatement = new IfStatement
         {
+            ThenScope = new ConditionScope(thenCondition, thenScope),
             ElseIfScopes = new[]
             {
                 new ConditionScope(elseIfCondition, elseIfScope),
@@ -143,7 +148,11 @@ public class IfStatementTests
 
         var elseScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope)) { ElseScope = elseScope };
+        var ifStatement = new IfStatement
+        {
+            ThenScope = new ConditionScope(thenCondition, thenScope),
+            ElseScope = elseScope
+        };
 
         const string expected = """
         if ({Expression})
@@ -179,9 +188,11 @@ public class IfStatementTests
 
         var elseScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
+        var ifStatement = new IfStatement
         {
-            ElseIfScopes = new[] { new ConditionScope(elseIfCondition, elseIfScope) }, ElseScope = elseScope
+            ThenScope = new ConditionScope(thenCondition, thenScope),
+            ElseIfScopes = new[] { new ConditionScope(elseIfCondition, elseIfScope) }, 
+            ElseScope = elseScope
         };
 
         const string expected = """
@@ -224,8 +235,9 @@ public class IfStatementTests
 
         var elseScope = new Scope { Statements = _fixture.CreateMany<Statement>(3).ToArray() };
 
-        var ifStatement = new IfStatement(new ConditionScope(thenCondition, thenScope))
+        var ifStatement = new IfStatement
         {
+            ThenScope = new ConditionScope(thenCondition, thenScope),
             ElseIfScopes = new[]
             {
                 new ConditionScope(elseIfCondition, elseIfScope),

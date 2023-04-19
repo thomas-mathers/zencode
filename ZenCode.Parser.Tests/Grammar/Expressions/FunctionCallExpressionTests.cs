@@ -11,7 +11,7 @@ public class FunctionCallExpressionTests
     public void ToString_NoParameters_ReturnsCorrectString()
     {
         // Arrange
-        var functionCallExpression = new FunctionCallExpression(new ExpressionMock());
+        var functionCallExpression = new FunctionCallExpression { FunctionReference = new ExpressionMock() };
         const string expected = "{Expression}()";
 
         // Act
@@ -25,8 +25,9 @@ public class FunctionCallExpressionTests
     public void ToString_OneParameter_ReturnsCorrectString()
     {
         // Arrange
-        var functionCallExpression = new FunctionCallExpression(new ExpressionMock())
+        var functionCallExpression = new FunctionCallExpression
         {
+            FunctionReference = new ExpressionMock(),
             Arguments = new ExpressionList
             {
                 Expressions = new[]
@@ -49,12 +50,10 @@ public class FunctionCallExpressionTests
     public void ToString_ThreeParameters_ReturnsCorrectString()
     {
         // Arrange
-        var functionCallExpression = new FunctionCallExpression(new ExpressionMock())
+        var functionCallExpression = new FunctionCallExpression
         {
-            Arguments = new ExpressionList
-            {
-                Expressions = new[] { new ExpressionMock(), new ExpressionMock(), new ExpressionMock() }
-            }
+            FunctionReference = new ExpressionMock(),
+            Arguments = new ExpressionList(new ExpressionMock(), new ExpressionMock(), new ExpressionMock())
         };
 
         const string expected = "{Expression}({Expression}, {Expression}, {Expression})";

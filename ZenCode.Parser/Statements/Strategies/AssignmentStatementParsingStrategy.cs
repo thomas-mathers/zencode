@@ -19,6 +19,10 @@ public class AssignmentStatementParsingStrategy : IAssignmentStatementParsingStr
 
         var expression = parser.ParseExpression(tokenStream);
 
-        return new AssignmentStatement(variableReferenceExpression, expression);
+        return new AssignmentStatement 
+        { 
+            Variable = variableReferenceExpression,
+            Value = expression
+        };
     }
 }
