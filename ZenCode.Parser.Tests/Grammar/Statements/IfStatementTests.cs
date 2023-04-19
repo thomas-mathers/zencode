@@ -27,7 +27,11 @@ public class IfStatementTests
 
         var ifStatement = new IfStatement
         {
-            ThenScope = new ConditionScope(thenCondition, thenScope)
+            ThenScope = new ConditionScope
+            {
+                Condition = thenCondition,
+                Scope = thenScope
+            },
         };
 
         const string expected = """
@@ -58,8 +62,19 @@ public class IfStatementTests
 
         var ifStatement = new IfStatement
         {
-            ThenScope = new ConditionScope(thenCondition, thenScope),
-            ElseIfScopes = new[] { new ConditionScope(elseIfCondition, elseIfScope) }
+            ThenScope = new ConditionScope
+            {
+                Condition = thenCondition,
+                Scope = thenScope
+            },
+            ElseIfScopes = new[]
+            {
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                }
+            },
         };
 
         const string expected = """
@@ -96,13 +111,29 @@ public class IfStatementTests
 
         var ifStatement = new IfStatement
         {
-            ThenScope = new ConditionScope(thenCondition, thenScope),
+            ThenScope = new ConditionScope
+            {
+                Condition = thenCondition,
+                Scope = thenScope
+            },
             ElseIfScopes = new[]
             {
-                new ConditionScope(elseIfCondition, elseIfScope),
-                new ConditionScope(elseIfCondition, elseIfScope),
-                new ConditionScope(elseIfCondition, elseIfScope)
-            }
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                },
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                },
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                },
+            },
         };
 
         const string expected = """
@@ -150,7 +181,11 @@ public class IfStatementTests
 
         var ifStatement = new IfStatement
         {
-            ThenScope = new ConditionScope(thenCondition, thenScope),
+            ThenScope = new ConditionScope
+            {
+                Condition = thenCondition,
+                Scope = thenScope
+            },
             ElseScope = elseScope
         };
 
@@ -190,8 +225,19 @@ public class IfStatementTests
 
         var ifStatement = new IfStatement
         {
-            ThenScope = new ConditionScope(thenCondition, thenScope),
-            ElseIfScopes = new[] { new ConditionScope(elseIfCondition, elseIfScope) }, 
+            ThenScope = new ConditionScope
+            {
+                Condition = thenCondition,
+                Scope = thenScope
+            },
+            ElseIfScopes = new[]
+            {
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                }
+            },
             ElseScope = elseScope
         };
 
@@ -237,12 +283,28 @@ public class IfStatementTests
 
         var ifStatement = new IfStatement
         {
-            ThenScope = new ConditionScope(thenCondition, thenScope),
+            ThenScope = new ConditionScope
+            {
+                Condition = thenCondition,
+                Scope = thenScope
+            },
             ElseIfScopes = new[]
             {
-                new ConditionScope(elseIfCondition, elseIfScope),
-                new ConditionScope(elseIfCondition, elseIfScope),
-                new ConditionScope(elseIfCondition, elseIfScope)
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                },
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                },
+                new ConditionScope
+                {
+                    Condition = elseIfCondition,
+                    Scope = elseIfScope
+                },
             },
             ElseScope = elseScope
         };

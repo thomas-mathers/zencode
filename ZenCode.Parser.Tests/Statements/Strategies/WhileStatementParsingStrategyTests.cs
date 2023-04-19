@@ -33,12 +33,14 @@ public class WhileStatementParsingStrategyTests
     public void Parse_ValidInput_ReturnsWhileStatement()
     {
         // Arrange
-        var conditionScope = _fixture.Create<ConditionScope>();
-        var expected = new WhileStatement(conditionScope);
+        var expected = new WhileStatement
+        {
+            ConditionScope = _fixture.Create<ConditionScope>()
+        };
 
         _parserMock
             .Setup(x => x.ParseConditionScope(_tokenStreamMock.Object))
-            .Returns(conditionScope);
+            .Returns(expected.ConditionScope);
 
         // Act
         var actual = _sut.Parse(_parserMock.Object, _tokenStreamMock.Object);

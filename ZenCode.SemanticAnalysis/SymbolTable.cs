@@ -1,19 +1,21 @@
+using ZenCode.Parser.Model.Grammar.Statements;
+
 namespace ZenCode.SemanticAnalysis;
 
 public class SymbolTable
 {
     private readonly Stack<Environment> _environments = new();
 
-    public int EnvironmentCount => _environments.Count;
+    public IEnumerable<Environment> Environments => _environments;
 
     public SymbolTable()
     {
-        PushEnvironment();
+        PushEnvironment(null);
     }
 
-    public void PushEnvironment()
+    public void PushEnvironment(Statement? statement)
     {
-        _environments.Push(new Environment());
+        _environments.Push(new Environment(statement));
     }
 
     public void PopEnvironment()

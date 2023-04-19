@@ -21,9 +21,14 @@ public class WhileStatementTests
     [Fact]
     public void ToString_WhileStatementEmptyScope_ReturnsCorrectString()
     {
-        // Arrange
-        var conditionScope = new ConditionScope(_fixture.Create<Expression>(), new Scope());
-        var whileStatement = new WhileStatement(conditionScope);
+        // Arrange 
+        var whileStatement = new WhileStatement
+        {
+            ConditionScope = new ConditionScope
+            {
+                Condition = _fixture.Create<Expression>()
+            }
+        };
 
         const string expected = """
         while ({Expression})
@@ -42,16 +47,17 @@ public class WhileStatementTests
     public void ToString_WhileStatement_ReturnsCorrectString()
     {
         // Arrange
-        var conditionScope = new ConditionScope
-        (
-            _fixture.Create<Expression>(),
-            new Scope
+        var whileStatement = new WhileStatement
+        {
+            ConditionScope = new ConditionScope
             {
-                Statements = _fixture.CreateMany<Statement>(3).ToArray()
+                Condition = _fixture.Create<Expression>(),
+                Scope = new Scope
+                {
+                    Statements = _fixture.CreateMany<Statement>(3).ToArray()
+                }
             }
-        );
-
-        var whileStatement = new WhileStatement(conditionScope);
+        };
 
         const string expected = """
         while ({Expression})

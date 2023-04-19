@@ -1,23 +1,19 @@
+using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.SemanticAnalysis.Exceptions;
 
 namespace ZenCode.SemanticAnalysis;
 
 public class Environment
 {
-    private readonly IDictionary<string, Symbol> _symbols;
+    private readonly IDictionary<string, Symbol> _symbols = new Dictionary<string, Symbol>();
 
-    public Environment()
-    {
-        _symbols = new Dictionary<string, Symbol>();
-    }
+    public Statement? Statement { get; }
     
-    public Environment(IDictionary<string, Symbol> symbols)
+    public Environment(Statement? statement)
     {
-        ArgumentNullException.ThrowIfNull(symbols);
-        
-        _symbols = symbols;
+        Statement = statement;
     }
-    
+
     public void DefineSymbol(Symbol symbol)
     {
         ArgumentNullException.ThrowIfNull(symbol);

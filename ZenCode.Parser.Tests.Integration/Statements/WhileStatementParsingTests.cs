@@ -55,10 +55,15 @@ public class WhileStatementParsingTests
                 Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         );
-
-        var conditionScope = new ConditionScope(condition, scope);
-
-        var expectedStatement = new WhileStatement(conditionScope);
+        
+        var expectedStatement = new WhileStatement
+        {
+            ConditionScope = new ConditionScope
+            {
+                Condition = condition,
+                Scope = scope
+            }
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

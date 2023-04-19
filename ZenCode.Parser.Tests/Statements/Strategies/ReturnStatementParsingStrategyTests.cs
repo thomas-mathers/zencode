@@ -52,7 +52,7 @@ public class ReturnStatementParsingStrategyTests
         // Arrange
         var expression = _fixture.Create<Expression>();
 
-        var expected = new ReturnStatement { Expression = expression };
+        var expected = new ReturnStatement { Value = expression };
 
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.Semicolon))

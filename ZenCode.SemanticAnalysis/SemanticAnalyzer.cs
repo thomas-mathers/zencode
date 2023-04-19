@@ -11,11 +11,11 @@ namespace ZenCode.SemanticAnalysis;
 public class SemanticAnalyzer
 {
     private readonly SymbolTable _symbolTable = new();
-    
+
     public void Analyze(Program program)
     {
         ArgumentNullException.ThrowIfNull(program);
-        
+
         foreach (var statement in program.Scope.Statements)
         {
             Analyze(statement);
@@ -60,7 +60,28 @@ public class SemanticAnalyzer
                 Analyze(whileStatement);
                 break;
             case Scope scope:
-                Analyze(scope);
+                Analyze(scope, null);
+                break;
+            case AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression:
+                Analyze(anonymousFunctionDeclarationExpression);
+                break;
+            case BinaryExpression binaryExpression:
+                Analyze(binaryExpression);
+                break;
+            case FunctionCallExpression functionCallExpression:
+                Analyze(functionCallExpression);
+                break;
+            case LiteralExpression literalExpression:
+                Analyze(literalExpression);
+                break;
+            case NewArrayExpression newArrayExpression:
+                Analyze(newArrayExpression);
+                break;
+            case UnaryExpression unaryExpression:
+                Analyze(unaryExpression);
+                break;
+            case VariableReferenceExpression variableReferenceExpression:
+                Analyze(variableReferenceExpression);
                 break;
             default:
                 throw new InvalidOperationException();
@@ -70,14 +91,14 @@ public class SemanticAnalyzer
     private void Analyze(AssignmentStatement assignmentStatement)
     {
         var symbol = _symbolTable.ResolveSymbol(assignmentStatement.VariableReference.Identifier.Text);
-        
+
         if (symbol == null)
         {
             throw new UndeclaredIdentifierException(assignmentStatement.VariableReference.Identifier);
         }
-        
+
         var expressionType = DetermineType(assignmentStatement.Value);
-        
+
         if (symbol.Type != expressionType)
         {
             throw new TypeMismatchException(symbol.Type, expressionType);
@@ -86,14 +107,37 @@ public class SemanticAnalyzer
 
     private void Analyze(BreakStatement breakStatement)
     {
+        var environment = _symbolTable.Environments.FirstOrDefault(e => e.Statement is WhileStatement or ForStatement);
+
+        if (environment == null)
+        {
+            throw new InvalidBreakException();
+        }
     }
 
     private void Analyze(ContinueStatement continueStatement)
     {
+        var environment = _symbolTable.Environments.FirstOrDefault(e => e.Statement is WhileStatement or ForStatement);
+
+        if (environment == null)
+        {
+            throw new InvalidContinueException();
+        }
     }
 
     private void Analyze(ForStatement forStatement)
     {
+        Analyze(forStatement.Initializer);
+
+        var conditionType = DetermineType(forStatement.Condition);
+
+        if (conditionType is not BooleanType)
+        {
+            throw new TypeMismatchException(new BooleanType(), conditionType);
+        }
+
+        Analyze(forStatement.Iterator);
+        Analyze(forStatement.Body, forStatement);
     }
 
     private void Analyze(FunctionDeclarationStatement functionDeclarationStatement)
@@ -108,12 +152,25 @@ public class SemanticAnalyzer
         );
 
         var symbol = new Symbol(functionDeclarationStatement.Name, type);
-        
+
         _symbolTable.DefineSymbol(symbol);
+        
+        Analyze(functionDeclarationStatement.Body, functionDeclarationStatement);
     }
 
     private void Analyze(IfStatement ifStatement)
     {
+        Analyze(ifStatement.ThenScope, ifStatement);
+
+        foreach (var conditionScope in ifStatement.ElseIfScopes)
+        {
+            Analyze(conditionScope, ifStatement);
+        }
+
+        if (ifStatement.ElseScope != null)
+        {
+            Analyze(ifStatement.ElseScope, ifStatement);
+        }
     }
 
     private void Analyze(PrintStatement printStatement)
@@ -126,39 +183,100 @@ public class SemanticAnalyzer
 
     private void Analyze(ReturnStatement returnStatement)
     {
+        var environment = _symbolTable.Environments.FirstOrDefault
+            (e => e.Statement is FunctionDeclarationStatement or AnonymousFunctionDeclarationExpression);
+
+        if (environment == null)
+        {
+            throw new InvalidReturnException();
+        }
+        
+        var returnType = returnStatement.Value == null
+            ? new VoidType()
+            : DetermineType(returnStatement.Value);
+
+        var functionReturnType = environment.Statement switch
+        {
+            FunctionDeclarationStatement functionDeclarationStatement => functionDeclarationStatement.ReturnType,
+            AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression => anonymousFunctionDeclarationExpression.ReturnType,
+            _ => throw new InvalidOperationException()
+        };
+        
+        if (returnType != functionReturnType)
+        {
+            throw new TypeMismatchException(functionReturnType, returnType);
+        }
     }
 
     private void Analyze(VariableDeclarationStatement variableDeclarationStatement)
     {
+        Analyze(variableDeclarationStatement.Value);
+        
         var type = DetermineType(variableDeclarationStatement.Value);
 
         var symbol = new Symbol(variableDeclarationStatement.VariableName, type);
-        
+
         _symbolTable.DefineSymbol(symbol);
     }
 
     private void Analyze(WhileStatement whileStatement)
     {
-    }
-    
-    private void Analyze(ConditionScope conditionScope)
-    {
-        Analyze(conditionScope.Condition);
-        Analyze(conditionScope.Scope);
+        Analyze(whileStatement.ConditionScope, whileStatement);
     }
 
-    private void Analyze(Scope scope)
+    private void Analyze(ConditionScope conditionScope, Statement? statement)
     {
-        _symbolTable.PushEnvironment();
-        
-        foreach (var statement in scope.Statements)
+        var conditionType = DetermineType(conditionScope.Condition);
+
+        if (conditionType is not BooleanType)
         {
-            Analyze(statement);
+            throw new TypeMismatchException(new BooleanType(), conditionType);
         }
-        
+
+        Analyze(conditionScope.Scope, statement);
+    }
+
+    private void Analyze(Scope scope, Statement? statement)
+    {
+        _symbolTable.PushEnvironment(statement);
+
+        foreach (var s in scope.Statements)
+        {
+            Analyze(s);
+        }
+
         _symbolTable.PopEnvironment();
     }
     
+    private void Analyze(AnonymousFunctionDeclarationExpression anonymousFunctionDeclarationExpression)
+    {
+        Analyze(anonymousFunctionDeclarationExpression.Body, anonymousFunctionDeclarationExpression);
+    }
+    
+    private void Analyze(BinaryExpression binaryExpression)
+    {
+    }
+    
+    private void Analyze(FunctionCallExpression functionCallExpression)
+    {
+    }
+    
+    private void Analyze(LiteralExpression literalExpression)
+    {
+    }
+    
+    private void Analyze(NewArrayExpression newArrayExpression)
+    {
+    }
+    
+    private void Analyze(UnaryExpression unaryExpression)
+    {
+    }
+    
+    private void Analyze(VariableReferenceExpression variableReferenceExpression)
+    {
+    }
+
     private Type DetermineType(Expression expression)
     {
         switch (expression)
@@ -190,7 +308,7 @@ public class SemanticAnalyzer
             new TypeList(anonymousFunctionDeclarationExpression.Parameters.Parameters.Select(t => t.Type).ToArray())
         );
     }
-    
+
     private Type DetermineType(BinaryExpression binaryExpression)
     {
         var lType = DetermineType(binaryExpression.Left);
@@ -236,11 +354,11 @@ public class SemanticAnalyzer
                 switch (lType)
                 {
                     case IntegerType:
-                        return new IntegerType();
+                        return new BooleanType();
                     case FloatType:
-                        return new FloatType();
+                        return new BooleanType();
                     case StringType:
-                        return new StringType();
+                        return new BooleanType();
                     default:
                         throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
                 }
@@ -269,7 +387,7 @@ public class SemanticAnalyzer
         {
             throw new InvokingNonFunctionTypeException();
         }
-        
+
         if (functionType.ParameterTypes.Types.Count != functionCallExpression.Arguments.Expressions.Count)
         {
             throw new IncorrectNumberOfParametersException
@@ -327,5 +445,5 @@ public class SemanticAnalyzer
         }
 
         return symbol.Type;
-    }    
+    }
 }

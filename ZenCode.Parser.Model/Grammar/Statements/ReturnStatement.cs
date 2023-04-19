@@ -5,7 +5,7 @@ namespace ZenCode.Parser.Model.Grammar.Statements;
 
 public record ReturnStatement : SimpleStatement
 {
-    public Expression? Expression { get; init; } = null;
+    public Expression? Value { get; init; } = null;
 
     public override string ToString()
     {
@@ -13,10 +13,10 @@ public record ReturnStatement : SimpleStatement
 
         stringBuilder.Append("return");
 
-        if (Expression != null)
+        if (Value != null)
         {
             stringBuilder.Append(' ');
-            stringBuilder.Append(Expression);
+            stringBuilder.Append(Value);
         }
 
         return stringBuilder.ToString();

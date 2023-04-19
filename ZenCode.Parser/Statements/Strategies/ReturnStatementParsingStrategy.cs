@@ -24,6 +24,6 @@ public class ReturnStatementParsingStrategy : IReturnStatementParsingStrategy
 
         tokenStream.Consume(TokenType.Semicolon);
 
-        return new ReturnStatement { Expression = expression };
+        return new ReturnStatement { Value = expression };
     }
 }

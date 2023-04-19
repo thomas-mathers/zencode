@@ -87,7 +87,7 @@ public class AnonymousFunctionExpressionParsingTests
         (
             new ReturnStatement
             {
-                Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                Value = new VariableReferenceExpression(new Token(TokenType.Identifier))
             }
         );
 
@@ -167,7 +167,7 @@ public class AnonymousFunctionExpressionParsingTests
             },
             new ReturnStatement
             {
-                Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+                Value = new VariableReferenceExpression(new Token(TokenType.Identifier))
             }
         );
 

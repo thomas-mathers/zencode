@@ -58,7 +58,11 @@ public class IfStatementParsingTests
 
         var expectedStatement = new IfStatement
         {
-            ThenScope = new ConditionScope(thenCondition, thenScope)
+            ThenScope = new ConditionScope
+            {
+                Condition = thenCondition,
+                Scope = thenScope
+            }
         };
 
         // Act
@@ -112,7 +116,11 @@ public class IfStatementParsingTests
             }
         );
 
-        var thenConditionScope = new ConditionScope(thenCondition, thenScope);
+        var thenConditionScope = new ConditionScope
+        {
+            Condition = thenCondition,
+            Scope = thenScope
+        };
 
         var elseScope = new Scope
         (
@@ -192,7 +200,11 @@ public class IfStatementParsingTests
             }
         );
 
-        var thenConditionScope = new ConditionScope(thenCondition, thenScope);
+        var thenConditionScope = new ConditionScope
+        {
+            Condition = thenCondition,
+            Scope = thenScope
+        };
 
         var elseIfCondition = new BinaryExpression
         {
@@ -210,7 +222,11 @@ public class IfStatementParsingTests
             }
         );
 
-        var elseIfConditionScope = new ConditionScope(elseIfCondition, elseIfScope);
+        var elseIfConditionScope = new ConditionScope
+        {
+            Condition = elseIfCondition,
+            Scope = elseIfScope
+        };
 
         var elseScope = new Scope
         (

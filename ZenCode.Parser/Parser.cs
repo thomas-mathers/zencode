@@ -116,7 +116,11 @@ public class Parser : IParser
 
         var scope = ParseScope(tokenStream);
 
-        return new ConditionScope(condition, scope);
+        return new ConditionScope
+        {
+            Condition = condition, 
+            Scope = scope
+        };
     }
 
     public ParameterList ParseParameterList(ITokenStream tokenStream)

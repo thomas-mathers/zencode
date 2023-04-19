@@ -17,6 +17,9 @@ public class WhileStatementParsingStrategy : IWhileStatementParsingStrategy
 
         var conditionScope = parser.ParseConditionScope(tokenStream);
 
-        return new WhileStatement(conditionScope);
+        return new WhileStatement
+        {
+            ConditionScope = conditionScope
+        };
     }
 }

@@ -358,7 +358,7 @@ public class FunctionDeclarationStatementParsingTests
             (
                 new ReturnStatement
                 {
-                    Expression = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                    Value = new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 }
             )
         };

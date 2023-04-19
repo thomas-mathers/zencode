@@ -56,7 +56,7 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new BinaryExpression
+            Value = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 Operator = new Token(TokenType.Plus),
@@ -89,7 +89,7 @@ public class ReturnStatementParsingTests
             }
         );
 
-        var expectedStatement = new ReturnStatement { Expression = new LiteralExpression(new Token(tokenType)) };
+        var expectedStatement = new ReturnStatement { Value = new LiteralExpression(new Token(tokenType)) };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -116,7 +116,7 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new FunctionCallExpression
+            Value = new FunctionCallExpression
             {
                 FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
             }
@@ -147,7 +147,7 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new LiteralExpression(new Token(TokenType.StringLiteral))
+            Value = new LiteralExpression(new Token(TokenType.StringLiteral))
         };
 
         // Act
@@ -174,7 +174,7 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new UnaryExpression
+            Value = new UnaryExpression
             (
                 new Token(TokenType.Minus),
                 new LiteralExpression(new Token(TokenType.FloatLiteral))
@@ -204,7 +204,7 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+            Value = new VariableReferenceExpression(new Token(TokenType.Identifier))
         };
 
         // Act
