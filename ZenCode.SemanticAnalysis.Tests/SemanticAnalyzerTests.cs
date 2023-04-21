@@ -125,7 +125,7 @@ public class SemanticAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_DuplicateVariableDeclarationInDifferentScope_DoesNotThrow()
+    public void Analyze_DuplicateVariableDeclarationInDifferentScope_ThrowsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -146,7 +146,10 @@ public class SemanticAnalyzerTests
         );
 
         // Act
-        _sut.Analyze(program);
+        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(program));
+
+        // Assert
+        Assert.NotNull(exception);
     }
 
     [Fact]
@@ -174,6 +177,31 @@ public class SemanticAnalyzerTests
         Assert.NotNull(exception);
     }
 
+    [Fact]
+    public void Analyze_DuplicateFunctionDeclaration_ThrowsDuplicateIdentifierException()
+    {
+        // Arrange
+        var program = new Program
+        (
+            new FunctionDeclarationStatement
+            {
+                Name = new Token(TokenType.Identifier, "x"),
+                ReturnType = new VoidType(),
+            },
+            new FunctionDeclarationStatement
+            {
+                Name = new Token(TokenType.Identifier, "x"),
+                ReturnType = new VoidType(),
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(program));
+
+        // Assert
+        Assert.NotNull(exception);
+    }
+    
     [Fact]
     public void Analyze_UndeclaredVariableReference_ThrowsUndeclaredIdentifierException()
     {
@@ -634,6 +662,97 @@ public class SemanticAnalyzerTests
 
         // Act
         _sut.Analyze(program);
+    }
+    
+    [Fact]
+    public void Analyze_ForStatementReferenceIteratorInsideBody_DoesNotThrowException()
+    {
+        // Arrange
+        var program = new Program
+        (
+            new ForStatement
+            {
+                Initializer = new VariableDeclarationStatement
+                {
+                    VariableName = new Token(TokenType.Identifier, "x"),
+                    Value = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                },
+                Condition = new BinaryExpression
+                {
+                    Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                    Operator = new Token(TokenType.LessThan),
+                    Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                },
+                Iterator = new AssignmentStatement
+                {
+                    VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                    Value = new BinaryExpression
+                    {
+                        Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                        Operator = new Token(TokenType.Plus),
+                        Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    },
+                },
+                Body = new Scope
+                (
+                    new VariableDeclarationStatement
+                    {
+                        VariableName = new Token(TokenType.Identifier, "y"),
+                        Value = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                    }
+                )
+            }
+        );
+
+        // Act
+        _sut.Analyze(program);
+    }
+    
+    [Fact]
+    public void Analyze_ForStatementIteratorHasNameOfVariableAlreadyDefined_ThrowsDuplicateIdentifierException()
+    {
+        // Arrange
+        var program = new Program
+        (
+            new ForStatement
+            {
+                Initializer = new VariableDeclarationStatement
+                {
+                    VariableName = new Token(TokenType.Identifier, "x"),
+                    Value = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                },
+                Condition = new BinaryExpression
+                {
+                    Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                    Operator = new Token(TokenType.LessThan),
+                    Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                },
+                Iterator = new AssignmentStatement
+                {
+                    VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                    Value = new BinaryExpression
+                    {
+                        Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
+                        Operator = new Token(TokenType.Plus),
+                        Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    },
+                },
+                Body = new Scope
+                (
+                    new VariableDeclarationStatement
+                    {
+                        VariableName = new Token(TokenType.Identifier, "x"),
+                        Value = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
+                    }
+                )
+            }
+        );
+
+        // Act
+        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(program));
+
+        // Assert
+        Assert.NotNull(exception);
     }
 
     [Fact]

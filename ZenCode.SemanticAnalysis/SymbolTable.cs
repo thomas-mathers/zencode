@@ -1,4 +1,5 @@
 using ZenCode.Parser.Model.Grammar.Statements;
+using ZenCode.SemanticAnalysis.Exceptions;
 
 namespace ZenCode.SemanticAnalysis;
 
@@ -32,6 +33,13 @@ public class SymbolTable
     {
         ArgumentNullException.ThrowIfNull(symbol);
         
+        var existingSymbol = ResolveSymbol(symbol.Token.Text);
+        
+        if (existingSymbol != null)
+        {
+            throw new DuplicateIdentifierException(existingSymbol.Token);
+        }
+
         _environments.Peek().DefineSymbol(symbol);
     }
 
