@@ -1,4 +1,3 @@
-using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.SemanticAnalysis.Exceptions;
 
 namespace ZenCode.SemanticAnalysis;
@@ -7,16 +6,19 @@ public class SymbolTable
 {
     private readonly Stack<Environment> _environments = new();
 
-    public IEnumerable<Environment> Environments => _environments;
-
     public SymbolTable()
     {
-        PushEnvironment(null);
+        PushEnvironment();
     }
 
-    public void PushEnvironment(Statement? statement)
+    public IEnumerable<Environment> Environments
     {
-        _environments.Push(new Environment(statement));
+        get => _environments;
+    }
+
+    public void PushEnvironment()
+    {
+        _environments.Push(new Environment());
     }
 
     public void PopEnvironment()
@@ -32,9 +34,9 @@ public class SymbolTable
     public void DefineSymbol(Symbol symbol)
     {
         ArgumentNullException.ThrowIfNull(symbol);
-        
+
         var existingSymbol = ResolveSymbol(symbol.Token.Text);
-        
+
         if (existingSymbol != null)
         {
             throw new DuplicateIdentifierException(existingSymbol.Token);

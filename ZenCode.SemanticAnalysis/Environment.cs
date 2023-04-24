@@ -1,4 +1,3 @@
-using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.SemanticAnalysis.Exceptions;
 
 namespace ZenCode.SemanticAnalysis;
@@ -7,17 +6,10 @@ public class Environment
 {
     private readonly IDictionary<string, Symbol> _symbols = new Dictionary<string, Symbol>();
 
-    public Statement? Statement { get; }
-    
-    public Environment(Statement? statement)
-    {
-        Statement = statement;
-    }
-
     public void DefineSymbol(Symbol symbol)
     {
         ArgumentNullException.ThrowIfNull(symbol);
-        
+
         if (_symbols.TryGetValue(symbol.Token.Text, out var value))
         {
             throw new DuplicateIdentifierException(value.Token);
@@ -29,7 +21,7 @@ public class Environment
     public Symbol? ResolveSymbol(string identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-        
+
         return _symbols.TryGetValue(identifier, out var value) ? value : null;
     }
 }

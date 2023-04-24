@@ -7,7 +7,7 @@ namespace ZenCode.SemanticAnalysis.Tests;
 
 public class EnvironmentTests
 {
-    private readonly Environment _sut = new(null);
+    private readonly Environment _sut = new();
     
     [Fact]
     public void DefineSymbol_NullSymbol_ThrowsArgumentNullException()

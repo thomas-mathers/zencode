@@ -13,7 +13,7 @@ public class SymbolTableTests
     public void PushEnvironment_NoEnvironments_PushesEnvironment()
     {
         // Act
-        _sut.PushEnvironment(null);
+        _sut.PushEnvironment();
         
         // Assert
         Assert.Equal(2, _sut.Environments.Count());
@@ -33,13 +33,13 @@ public class SymbolTableTests
     public void PopEnvironment_TwoEnvironments_PopsEnvironment()
     {
         // Arrange
-        _sut.PushEnvironment(null);
+        _sut.PushEnvironment();
         
         // Act
         _sut.PopEnvironment();
         
         // Assert
-        Assert.Equal(1, _sut.Environments.Count());
+        Assert.Single(_sut.Environments);
     }
     
     [Fact]
@@ -83,7 +83,7 @@ public class SymbolTableTests
         // Arrange
         var symbol = new Symbol(new Token(TokenType.Identifier, "x"), new IntegerType());
         
-        _sut.PushEnvironment(null);
+        _sut.PushEnvironment();
         _sut.DefineSymbol(symbol);
         _sut.PopEnvironment();
         
@@ -134,7 +134,7 @@ public class SymbolTableTests
         var symbol = new Symbol(new Token(TokenType.Identifier, "x"), new IntegerType());
         
         _sut.DefineSymbol(symbol);
-        _sut.PushEnvironment(null);
+        _sut.PushEnvironment();
         _sut.DefineSymbol(new Symbol(new Token(TokenType.Identifier, "y"), new StringType()));
         
         // Act
@@ -151,7 +151,7 @@ public class SymbolTableTests
         // Arrange
         var symbol = new Symbol(new Token(TokenType.Identifier, "x"), new IntegerType());
         
-        _sut.PushEnvironment(null);
+        _sut.PushEnvironment();
         _sut.DefineSymbol(symbol);
         _sut.PopEnvironment();
         
