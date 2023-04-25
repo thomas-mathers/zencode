@@ -1,8 +1,8 @@
 using Xunit;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Tests.TestData;
+using ZenCode.Tests.Common.Mocks;
 
 namespace ZenCode.Parser.Tests.Grammar.Expressions;
 

@@ -1,6 +1,6 @@
 using Xunit;
 using ZenCode.Parser.Model.Grammar.Types;
-using ZenCode.Parser.Tests.Mocks;
+using ZenCode.Tests.Common.Mocks;
 
 namespace ZenCode.Parser.Tests.Grammar.Types;
 

@@ -1,6 +1,7 @@
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
@@ -11,6 +12,10 @@ public static class ReturnStatementAnalyzer
     public static Type Analyze
         (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, ReturnStatement returnStatement)
     {
+        ArgumentNullException.ThrowIfNull(semanticAnalyzer);
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(returnStatement);
+        
         var functionDeclaration = context.AncestorAstNodes().FirstOrDefault
             (e => e is FunctionDeclarationStatement or AnonymousFunctionDeclarationExpression);
 

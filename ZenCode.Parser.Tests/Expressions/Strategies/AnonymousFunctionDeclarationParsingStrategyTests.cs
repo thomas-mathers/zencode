@@ -10,7 +10,7 @@ using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
-using ZenCode.Parser.Tests.Mocks;
+using ZenCode.Tests.Common.Mocks;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;

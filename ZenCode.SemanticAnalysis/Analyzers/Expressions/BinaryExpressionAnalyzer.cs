@@ -1,6 +1,7 @@
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
@@ -11,6 +12,10 @@ public static class BinaryExpressionAnalyzer
     public static Type Analyze
         (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, BinaryExpression binaryExpression)
     {
+        ArgumentNullException.ThrowIfNull(semanticAnalyzer);
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(binaryExpression);
+        
         var lType = semanticAnalyzer.Analyze(context, binaryExpression.Left);
         var rType = semanticAnalyzer.Analyze(context, binaryExpression.Right);
 
@@ -90,12 +95,12 @@ public static class BinaryExpressionAnalyzer
             TokenType.NotEquals => new BooleanType(),
             TokenType.And => lType switch
             {
-                BooleanType => new IntegerType(),
+                BooleanType => new BooleanType(),
                 _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
             },
             TokenType.Or => lType switch
             {
-                BooleanType => new IntegerType(),
+                BooleanType => new BooleanType(),
                 _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
             },
             _ => throw new ArgumentOutOfRangeException()

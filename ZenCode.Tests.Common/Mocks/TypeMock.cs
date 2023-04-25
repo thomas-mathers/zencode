@@ -1,6 +1,6 @@
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
-namespace ZenCode.Parser.Tests.Mocks;
+namespace ZenCode.Tests.Common.Mocks;
 
 public record TypeMock : Type
 {

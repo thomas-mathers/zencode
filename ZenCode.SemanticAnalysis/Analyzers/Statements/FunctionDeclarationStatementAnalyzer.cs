@@ -1,6 +1,7 @@
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.SemanticAnalysis.Abstractions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Statements;
@@ -14,6 +15,10 @@ public static class FunctionDeclarationStatementAnalyzer
         FunctionDeclarationStatement functionDeclarationStatement
     )
     {
+        ArgumentNullException.ThrowIfNull(semanticAnalyzer);
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(functionDeclarationStatement);
+        
         var type = new FunctionType
         (
             functionDeclarationStatement.ReturnType,

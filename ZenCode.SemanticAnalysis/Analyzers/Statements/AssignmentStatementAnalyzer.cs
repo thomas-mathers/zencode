@@ -1,5 +1,6 @@
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
@@ -10,6 +11,10 @@ public static class AssignmentStatementAnalyzer
     public static Type Analyze
         (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, AssignmentStatement assignmentStatement)
     {
+        ArgumentNullException.ThrowIfNull(semanticAnalyzer);
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(assignmentStatement);
+        
         var symbol = context.ResolveSymbol(assignmentStatement.VariableReference.Identifier.Text);
 
         if (symbol == null)

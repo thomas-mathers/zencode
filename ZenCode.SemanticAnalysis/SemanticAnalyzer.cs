@@ -1,6 +1,7 @@
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
+using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Analyzers;
 using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Analyzers.Statements;

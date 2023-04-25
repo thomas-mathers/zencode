@@ -9,7 +9,7 @@ using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Tests.Mocks;
+using ZenCode.Tests.Common.Mocks;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 

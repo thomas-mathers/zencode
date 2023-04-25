@@ -8,8 +8,8 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Expressions.Strategies;
 using ZenCode.Parser.Model.Grammar.Expressions;
-using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Tests.TestData;
+using ZenCode.Tests.Common.Mocks;
 
 namespace ZenCode.Parser.Tests.Expressions.Strategies;
 

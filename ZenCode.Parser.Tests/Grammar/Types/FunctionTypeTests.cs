@@ -2,7 +2,7 @@ using Moq;
 using Xunit;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Types;
-using ZenCode.Parser.Tests.Mocks;
+using ZenCode.Tests.Common.Mocks;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Tests.Grammar.Types;

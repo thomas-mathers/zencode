@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.SemanticAnalysis", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.SemanticAnalysis.Tests", "ZenCode.SemanticAnalysis.Tests\ZenCode.SemanticAnalysis.Tests.csproj", "{92F83219-1C1B-43FA-A08B-B5DD9C89A5EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.SemanticAnalysis.Tests.Integration", "ZenCode.SemanticAnalysis.Tests.Integration\ZenCode.SemanticAnalysis.Tests.Integration.csproj", "{CFF1E371-8798-4B49-A9D0-C11101DA89B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZenCode.Tests.Common", "ZenCode.Tests.Common\ZenCode.Tests.Common.csproj", "{7D4697CE-C49F-4FCA-900A-8E6A738C1457}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{92F83219-1C1B-43FA-A08B-B5DD9C89A5EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92F83219-1C1B-43FA-A08B-B5DD9C89A5EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92F83219-1C1B-43FA-A08B-B5DD9C89A5EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF1E371-8798-4B49-A9D0-C11101DA89B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF1E371-8798-4B49-A9D0-C11101DA89B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF1E371-8798-4B49-A9D0-C11101DA89B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF1E371-8798-4B49-A9D0-C11101DA89B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4697CE-C49F-4FCA-900A-8E6A738C1457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4697CE-C49F-4FCA-900A-8E6A738C1457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4697CE-C49F-4FCA-900A-8E6A738C1457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4697CE-C49F-4FCA-900A-8E6A738C1457}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

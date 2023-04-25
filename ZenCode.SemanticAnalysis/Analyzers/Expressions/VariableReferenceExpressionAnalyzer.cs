@@ -1,4 +1,5 @@
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
@@ -8,6 +9,9 @@ public static class VariableReferenceExpressionAnalyzer
 {
     public static Type Analyze(ISemanticAnalyzerContext context, VariableReferenceExpression variableReferenceExpression)
     {
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(variableReferenceExpression);
+        
         var symbol = context.ResolveSymbol(variableReferenceExpression.Identifier.Text);
 
         if (symbol == null)

@@ -1,3 +1,4 @@
+
 using Xunit;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar;
@@ -5,7 +6,8 @@ using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Exceptions;
-using ZenCode.SemanticAnalysis.Tests.TestData;
+using ZenCode.SemanticAnalysis.Tests.Integration.TestData;
+using Program = ZenCode.Parser.Model.Grammar.Program;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Tests;

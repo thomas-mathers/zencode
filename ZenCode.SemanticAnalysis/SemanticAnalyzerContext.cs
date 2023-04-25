@@ -1,4 +1,5 @@
 using ZenCode.Parser.Model.Grammar;
+using ZenCode.SemanticAnalysis.Abstractions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis;

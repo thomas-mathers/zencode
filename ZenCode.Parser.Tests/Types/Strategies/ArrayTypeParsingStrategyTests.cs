@@ -6,8 +6,8 @@ using ZenCode.Lexer.Abstractions;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Types;
-using ZenCode.Parser.Tests.Mocks;
 using ZenCode.Parser.Types.Strategies;
+using ZenCode.Tests.Common.Mocks;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.Parser.Tests.Types.Strategies;

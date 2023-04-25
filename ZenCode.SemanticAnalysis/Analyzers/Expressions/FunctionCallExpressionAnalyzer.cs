@@ -1,5 +1,6 @@
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
@@ -14,6 +15,10 @@ public static class FunctionCallExpressionAnalyzer
         FunctionCallExpression functionCallExpression
     )
     {
+        ArgumentNullException.ThrowIfNull(semanticAnalyzer);
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(functionCallExpression);
+        
         var expressionType = semanticAnalyzer.Analyze(context, functionCallExpression.FunctionReference);
 
         if (expressionType is not FunctionType functionType)
