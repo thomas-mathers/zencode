@@ -3,14 +3,15 @@ using Xunit;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Expressions.NewArrayExpressionAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Expressions;
 
 public class NewArrayExpressionAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly NewArrayExpressionAnalyzer _sut = new();
     
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -18,7 +19,7 @@ public class NewArrayExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 new NewArrayExpression(new TypeMock(), new ExpressionMock())
@@ -32,7 +33,7 @@ public class NewArrayExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerContextMock.Object,
                 null!
@@ -47,7 +48,7 @@ public class NewArrayExpressionAnalyzerTests
         var expected = new ArrayType(new TypeMock());
         
         // Act
-        var result = Sut.Analyze
+        var result = _sut.Analyze
         (
             _semanticAnalyzerContextMock.Object,
             new NewArrayExpression(new TypeMock(), new ExpressionMock())

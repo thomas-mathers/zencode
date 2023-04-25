@@ -4,9 +4,9 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Statements;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Statements.ReturnStatementAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Statements;
 
@@ -14,19 +14,20 @@ public class ReturnStatementAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly ReturnStatementAnalyzer _sut = new();
 
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
     {
         // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>(() => Sut.Analyze(null!, _semanticAnalyzerContextMock.Object, new()));
+        Assert.Throws<ArgumentNullException>(() => _sut.Analyze(null!, _semanticAnalyzerContextMock.Object, new()));
     }
 
     [Fact]
     public void Analyze_NullSemanticAnalyzerContext_ThrowsArgumentNullException()
     {
         // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>(() => Sut.Analyze(_semanticAnalyzerMock.Object, null!, new()));
+        Assert.Throws<ArgumentNullException>(() => _sut.Analyze(_semanticAnalyzerMock.Object, null!, new()));
     }
 
     [Fact]
@@ -34,7 +35,7 @@ public class ReturnStatementAnalyzerTests
     {
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
     }
     
     [Fact]
@@ -45,7 +46,7 @@ public class ReturnStatementAnalyzerTests
         
         // Act + Assert
         Assert.Throws<InvalidReturnException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement));
     }
     
     [Fact]
@@ -68,7 +69,7 @@ public class ReturnStatementAnalyzerTests
             });
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
+        var result = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
         
         // Assert
         Assert.IsType<VoidType>(result);
@@ -101,7 +102,7 @@ public class ReturnStatementAnalyzerTests
             });
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
+        var result = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
         
         // Assert
         Assert.IsType<VoidType>(result);
@@ -134,7 +135,7 @@ public class ReturnStatementAnalyzerTests
             });
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
+        var result = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
         
         // Assert
         Assert.IsType<VoidType>(result);
@@ -167,7 +168,7 @@ public class ReturnStatementAnalyzerTests
             });
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
+        var result = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
         
         // Assert
         Assert.IsType<VoidType>(result);
@@ -200,7 +201,7 @@ public class ReturnStatementAnalyzerTests
             });
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
+        var result = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
         
         // Assert
         Assert.IsType<VoidType>(result);

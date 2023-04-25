@@ -1,11 +1,12 @@
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Statements;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Statements;
 
-public static class ReadStatementAnalyzer
+public class ReadStatementAnalyzer : IReadStatementAnalyzer
 {
-    public static Type Analyze()
+    public Type Analyze()
     {
         return new VoidType();
     }

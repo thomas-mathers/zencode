@@ -1,13 +1,14 @@
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Expressions;
 
-public static class VariableReferenceExpressionAnalyzer
+public class VariableReferenceExpressionAnalyzer : IVariableReferenceExpressionAnalyzer
 {
-    public static Type Analyze(ISemanticAnalyzerContext context, VariableReferenceExpression variableReferenceExpression)
+    public Type Analyze(ISemanticAnalyzerContext context, VariableReferenceExpression variableReferenceExpression)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(variableReferenceExpression);

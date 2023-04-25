@@ -1,14 +1,15 @@
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Expressions;
 
-public static class FunctionCallExpressionAnalyzer
+public class FunctionCallExpressionAnalyzer : IFunctionCallExpressionAnalyzer
 {
-    public static Type Analyze
+    public Type Analyze
     (
         ISemanticAnalyzer semanticAnalyzer,
         ISemanticAnalyzerContext context,

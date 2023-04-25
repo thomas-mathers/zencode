@@ -2,13 +2,14 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Expressions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Expressions;
 
-public static class LiteralExpressionAnalyzer
+public class LiteralExpressionAnalyzer : ILiteralExpressionAnalyzer
 {
-    public static Type Analyze(ISemanticAnalyzerContext context, LiteralExpression literalExpression)
+    public Type Analyze(ISemanticAnalyzerContext context, LiteralExpression literalExpression)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(literalExpression);

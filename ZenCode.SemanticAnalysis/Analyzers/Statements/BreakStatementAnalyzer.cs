@@ -1,14 +1,15 @@
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Statements;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Statements;
 
-public static class BreakStatementAnalyzer
+public class BreakStatementAnalyzer : IBreakStatementAnalyzer
 {
-    public static Type Analyze(ISemanticAnalyzerContext context)
+    public Type Analyze(ISemanticAnalyzerContext context)
     {
         ArgumentNullException.ThrowIfNull(context);
         

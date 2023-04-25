@@ -1,13 +1,14 @@
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Statements;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Statements;
 
-public static class WhileStatementAnalyzer
+public class WhileStatementAnalyzer : IWhileStatementAnalyzer
 {
-    public static Type Analyze
+    public Type Analyze
         (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, WhileStatement whileStatement)
     {
         ArgumentNullException.ThrowIfNull(semanticAnalyzer);

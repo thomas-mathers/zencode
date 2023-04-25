@@ -4,9 +4,9 @@ using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Expressions.FunctionCallExpressionAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Expressions;
 
@@ -14,6 +14,7 @@ public class FunctionCallExpressionAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly FunctionCallExpressionAnalyzer _sut = new();
 
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -21,7 +22,7 @@ public class FunctionCallExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
@@ -39,7 +40,7 @@ public class FunctionCallExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 null!,
@@ -57,7 +58,7 @@ public class FunctionCallExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 _semanticAnalyzerContextMock.Object,
@@ -83,7 +84,7 @@ public class FunctionCallExpressionAnalyzerTests
 
         // Act + Assert
         Assert.Throws<InvokingNonFunctionTypeException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
     }
     
     [Fact]
@@ -115,7 +116,7 @@ public class FunctionCallExpressionAnalyzerTests
 
         // Act + Assert
         Assert.Throws<IncorrectNumberOfParametersException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
     }
     
     [Fact]
@@ -151,6 +152,6 @@ public class FunctionCallExpressionAnalyzerTests
 
         // Act + Assert
         Assert.Throws<TypeMismatchException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
     }
 }

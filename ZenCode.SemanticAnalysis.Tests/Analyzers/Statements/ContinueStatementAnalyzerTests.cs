@@ -6,15 +6,16 @@ using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Statements;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Statements.ContinueStatementAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Statements;
 
 public class ContinueStatementAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly ContinueStatementAnalyzer _sut = new();
     
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -22,7 +23,7 @@ public class ContinueStatementAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze(null!)
+            () => _sut.Analyze(null!)
         );
     }
     
@@ -35,7 +36,7 @@ public class ContinueStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<InvalidContinueException>
         (
-            () => Sut.Analyze(_semanticAnalyzerContextMock.Object)
+            () => _sut.Analyze(_semanticAnalyzerContextMock.Object)
         );
     }
     
@@ -57,7 +58,7 @@ public class ContinueStatementAnalyzerTests
             });
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerContextMock.Object);
+        var result = _sut.Analyze(_semanticAnalyzerContextMock.Object);
         
         // Assert
         Assert.Equal(new VoidType(), result);
@@ -88,7 +89,7 @@ public class ContinueStatementAnalyzerTests
             });
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerContextMock.Object);
+        var result = _sut.Analyze(_semanticAnalyzerContextMock.Object);
         
         // Assert
         Assert.Equal(new VoidType(), result);

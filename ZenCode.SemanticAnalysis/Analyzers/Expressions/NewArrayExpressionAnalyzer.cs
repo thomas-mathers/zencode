@@ -1,13 +1,14 @@
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Expressions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Expressions;
 
-public static class NewArrayExpressionAnalyzer
+public class NewArrayExpressionAnalyzer : INewArrayExpressionAnalyzer
 {
-    public static Type Analyze(ISemanticAnalyzerContext context, NewArrayExpression newArrayExpression)
+    public Type Analyze(ISemanticAnalyzerContext context, NewArrayExpression newArrayExpression)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(newArrayExpression);

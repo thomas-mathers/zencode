@@ -5,8 +5,8 @@ using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Statements;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Statements.FunctionDeclarationStatementAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Statements;
 
@@ -14,6 +14,7 @@ public class FunctionDeclarationStatementAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly FunctionDeclarationStatementAnalyzer _sut = new();
     
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -29,7 +30,7 @@ public class FunctionDeclarationStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
@@ -52,7 +53,7 @@ public class FunctionDeclarationStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 null!,
@@ -67,7 +68,7 @@ public class FunctionDeclarationStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 _semanticAnalyzerContextMock.Object,
@@ -90,7 +91,7 @@ public class FunctionDeclarationStatementAnalyzerTests
         var expectedType = new FunctionType(functionDeclarationStatement.ReturnType, new TypeList());
         
         // Act
-        var result = Sut.Analyze
+        var result = _sut.Analyze
         (
             _semanticAnalyzerMock.Object,
             _semanticAnalyzerContextMock.Object,
@@ -130,7 +131,7 @@ public class FunctionDeclarationStatementAnalyzerTests
         );
         
         // Act
-        var result = Sut.Analyze
+        var result = _sut.Analyze
         (
             _semanticAnalyzerMock.Object,
             _semanticAnalyzerContextMock.Object,
@@ -172,7 +173,7 @@ public class FunctionDeclarationStatementAnalyzerTests
         );
         
         // Act
-        var result = Sut.Analyze
+        var result = _sut.Analyze
         (
             _semanticAnalyzerMock.Object,
             _semanticAnalyzerContextMock.Object,

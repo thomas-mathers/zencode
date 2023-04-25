@@ -1,20 +1,20 @@
-
 using Xunit;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.SemanticAnalysis.Tests.Integration.TestData;
 using Program = ZenCode.Parser.Model.Grammar.Program;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
-namespace ZenCode.SemanticAnalysis.Tests;
+namespace ZenCode.SemanticAnalysis.Tests.Integration;
 
 public class SemanticAnalyzerTests
 {
-    private readonly SemanticAnalyzer _sut = new();
+    private readonly ISemanticAnalyzer _sut = new SemanticAnalyzerFactory().Create();
 
     [Fact]
     public void Analyze_NullProgram_ThrowsArgumentNullException()

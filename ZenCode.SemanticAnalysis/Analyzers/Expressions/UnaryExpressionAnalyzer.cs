@@ -2,14 +2,15 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Expressions;
 
-public static class UnaryExpressionAnalyzer
+public class UnaryExpressionAnalyzer : IUnaryExpressionAnalyzer
 {
-    public static Type Analyze
+    public Type Analyze
         (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, UnaryExpression unaryExpression)
     {
         ArgumentNullException.ThrowIfNull(semanticAnalyzer);

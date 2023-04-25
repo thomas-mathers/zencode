@@ -5,8 +5,8 @@ using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Expressions.AnonymousFunctionDeclarationExpressionAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Expressions;
 
@@ -14,14 +14,15 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
-
+    private readonly AnonymousFunctionDeclarationExpressionAnalyzer _sut = new();
+    
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
     {
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
@@ -36,7 +37,7 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 null!,
@@ -50,7 +51,7 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
     {
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
     }
 
     [Fact]
@@ -65,7 +66,7 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
         var expected = new FunctionType(new TypeMock(), new TypeList());
 
         // Act
-        var actual = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
+        var actual = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -84,7 +85,7 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
         var expected = new FunctionType(new TypeMock(), new TypeList(new TypeMock()));
 
         // Act
-        var actual = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
+        var actual = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
 
         // Assert
         Assert.Equal(expected, actual);
@@ -108,7 +109,7 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
         var expected = new FunctionType(new TypeMock(), new TypeList(new TypeMock(), new TypeMock(), new TypeMock()));
 
         // Act
-        var actual = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
+        var actual = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
 
         // Assert
         Assert.Equal(expected, actual);

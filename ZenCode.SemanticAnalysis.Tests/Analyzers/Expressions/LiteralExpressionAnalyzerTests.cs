@@ -4,13 +4,14 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Expressions.LiteralExpressionAnalyzer;
+using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Expressions;
 
 public class LiteralExpressionAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly LiteralExpressionAnalyzer _sut = new();
 
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -18,7 +19,7 @@ public class LiteralExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze(null!, new LiteralExpression(new Token(TokenType.IntegerLiteral)))
+            () => _sut.Analyze(null!, new LiteralExpression(new Token(TokenType.IntegerLiteral)))
         );
     }
 
@@ -28,7 +29,7 @@ public class LiteralExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze(_semanticAnalyzerContextMock.Object, null!)
+            () => _sut.Analyze(_semanticAnalyzerContextMock.Object, null!)
         );
     }
     
@@ -39,7 +40,7 @@ public class LiteralExpressionAnalyzerTests
         var expression = new LiteralExpression(new Token(TokenType.BooleanLiteral));
 
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
+        var result = _sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
 
         // Assert
         Assert.Equal(new BooleanType(), result);
@@ -52,7 +53,7 @@ public class LiteralExpressionAnalyzerTests
         var expression = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
+        var result = _sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
 
         // Assert
         Assert.Equal(new IntegerType(), result);
@@ -65,7 +66,7 @@ public class LiteralExpressionAnalyzerTests
         var expression = new LiteralExpression(new Token(TokenType.FloatLiteral));
 
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
+        var result = _sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
 
         // Assert
         Assert.Equal(new FloatType(), result);
@@ -78,7 +79,7 @@ public class LiteralExpressionAnalyzerTests
         var expression = new LiteralExpression(new Token(TokenType.StringLiteral));
 
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
+        var result = _sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
 
         // Assert
         Assert.Equal(new StringType(), result);

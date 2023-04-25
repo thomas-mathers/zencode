@@ -4,8 +4,8 @@ using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Statements;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Statements.IfStatementAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Statements;
 
@@ -13,6 +13,7 @@ public class IfStatementAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly IfStatementAnalyzer _sut = new();
     
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -29,7 +30,7 @@ public class IfStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
@@ -53,7 +54,7 @@ public class IfStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 null!,
@@ -68,7 +69,7 @@ public class IfStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 _semanticAnalyzerContextMock.Object,
@@ -90,7 +91,7 @@ public class IfStatementAnalyzerTests
         };
         
         // Act
-        var result = Sut.Analyze
+        var result = _sut.Analyze
         (
             _semanticAnalyzerMock.Object,
             _semanticAnalyzerContextMock.Object,

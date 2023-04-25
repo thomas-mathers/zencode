@@ -4,8 +4,8 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Statements;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Statements.VariableDeclarationStatementAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Statements;
 
@@ -13,7 +13,8 @@ public class VariableDeclarationStatementAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
-
+    private readonly VariableDeclarationStatementAnalyzer _sut = new();
+    
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
     {
@@ -26,7 +27,7 @@ public class VariableDeclarationStatementAnalyzerTests
 
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(null!, _semanticAnalyzerContextMock.Object, variableDeclarationStatement));
+            (() => _sut.Analyze(null!, _semanticAnalyzerContextMock.Object, variableDeclarationStatement));
     }
 
     [Fact]
@@ -41,7 +42,7 @@ public class VariableDeclarationStatementAnalyzerTests
 
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, null!, variableDeclarationStatement));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, null!, variableDeclarationStatement));
     }
 
     [Fact]
@@ -49,7 +50,7 @@ public class VariableDeclarationStatementAnalyzerTests
     {
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
     }
 
     [Fact]
@@ -69,7 +70,7 @@ public class VariableDeclarationStatementAnalyzerTests
             .Returns(type);
 
         // Act
-        var result = Sut.Analyze
+        var result = _sut.Analyze
             (_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, variableDeclarationStatement);
 
         // Assert

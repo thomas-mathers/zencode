@@ -2,13 +2,14 @@ using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Statements;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Statements;
 
-public abstract class ScopeAnalyzer
+public class ScopeAnalyzer : IScopeAnalyzer
 {
-    public static Type Analyze(ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, Scope scope)
+    public Type Analyze(ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, Scope scope)
     {
         ArgumentNullException.ThrowIfNull(semanticAnalyzer);
         ArgumentNullException.ThrowIfNull(context);

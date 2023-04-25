@@ -1,14 +1,15 @@
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers;
 using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers;
 
-public static class ConditionScopeAnalyzer
+public class ConditionScopeAnalyzer : IConditionScopeAnalyzer
 {
-    public static Type Analyze
+    public Type Analyze
         (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, ConditionScope conditionScope)
     {
         var conditionType = semanticAnalyzer.Analyze(context, conditionScope.Condition);

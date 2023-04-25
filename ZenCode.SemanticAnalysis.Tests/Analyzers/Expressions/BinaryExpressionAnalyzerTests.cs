@@ -3,10 +3,10 @@ using Xunit;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.SemanticAnalysis.Tests.TestData;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Expressions.BinaryExpressionAnalyzer;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Expressions;
@@ -15,6 +15,7 @@ public class BinaryExpressionAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly BinaryExpressionAnalyzer _sut = new();
     
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -22,7 +23,7 @@ public class BinaryExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
@@ -42,7 +43,7 @@ public class BinaryExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 null!,
@@ -62,7 +63,7 @@ public class BinaryExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 _semanticAnalyzerContextMock.Object,
@@ -96,7 +97,7 @@ public class BinaryExpressionAnalyzerTests
         // Act + Assert
         Assert.Throws<BinaryOperatorUnsupportedTypesException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 _semanticAnalyzerContextMock.Object,
@@ -129,7 +130,7 @@ public class BinaryExpressionAnalyzerTests
             .Returns(rightType);
         
         // Act
-        var result = Sut.Analyze
+        var result = _sut.Analyze
         (
             _semanticAnalyzerMock.Object,
             _semanticAnalyzerContextMock.Object,

@@ -5,10 +5,10 @@ using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Statements;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.Tests.Common.Mocks;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Statements.AssignmentStatementAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Statements;
 
@@ -16,6 +16,7 @@ public class AssignmentStatementAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly AssignmentStatementAnalyzer _sut = new();
 
     public static IEnumerable<object[]> NonMatchingTypes = new[]
     {
@@ -47,7 +48,7 @@ public class AssignmentStatementAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
@@ -66,7 +67,7 @@ public class AssignmentStatementAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 null!,
@@ -85,7 +86,7 @@ public class AssignmentStatementAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerMock.Object,
                 _semanticAnalyzerContextMock.Object,
@@ -107,7 +108,7 @@ public class AssignmentStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<UndeclaredIdentifierException>
         (
-            () => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement)
+            () => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement)
         );
     }
     
@@ -133,7 +134,7 @@ public class AssignmentStatementAnalyzerTests
         // Act + Assert
         Assert.Throws<TypeMismatchException>
         (
-            () => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement)
+            () => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement)
         );
     }
     
@@ -157,7 +158,7 @@ public class AssignmentStatementAnalyzerTests
             .Returns(type);
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement);
+        var result = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement);
         
         // Assert
         Assert.IsType<VoidType>(result);

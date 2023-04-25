@@ -1,13 +1,14 @@
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Abstractions.Analyzers;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers;
 
-public static class ParameterListAnalyzer
+public class ParameterListAnalyzer : IParameterListAnalyzer
 {
-    public static Type Analyze
+    public Type Analyze
         (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, ParameterList parameterList)
     {
         foreach (var parameter in parameterList.Parameters)

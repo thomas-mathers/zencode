@@ -3,8 +3,8 @@ using Xunit;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Statements;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Statements.WhileStatementAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Statements;
 
@@ -12,7 +12,8 @@ public class WhileStatementAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzer> _semanticAnalyzerMock = new();
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
-
+    private readonly WhileStatementAnalyzer _sut = new();
+    
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
     {
@@ -27,7 +28,7 @@ public class WhileStatementAnalyzerTests
 
         // Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(null!, _semanticAnalyzerContextMock.Object, whileStatement));
+            (() => _sut.Analyze(null!, _semanticAnalyzerContextMock.Object, whileStatement));
     }
     
     [Fact]
@@ -44,7 +45,7 @@ public class WhileStatementAnalyzerTests
 
         // Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, null!, whileStatement));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, null!, whileStatement));
     }
     
     [Fact]
@@ -52,7 +53,7 @@ public class WhileStatementAnalyzerTests
     {
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
-            (() => Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
+            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, null!));
     }
     
     [Fact]
@@ -68,7 +69,7 @@ public class WhileStatementAnalyzerTests
         };
 
         // Act
-        Sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, whileStatement);
+        _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, whileStatement);
 
         // Assert
         _semanticAnalyzerMock.Verify

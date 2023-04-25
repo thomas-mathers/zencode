@@ -3,15 +3,16 @@ using Xunit;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.Tests.Common.Mocks;
-using Sut = ZenCode.SemanticAnalysis.Analyzers.Expressions.VariableReferenceExpressionAnalyzer;
 
 namespace ZenCode.SemanticAnalysis.Tests.Analyzers.Expressions;
 
 public class VariableReferenceExpressionAnalyzerTests
 {
     private readonly Mock<ISemanticAnalyzerContext> _semanticAnalyzerContextMock = new();
+    private readonly VariableReferenceExpressionAnalyzer _sut = new();
     
     [Fact]
     public void Analyze_NullSemanticAnalyzer_ThrowsArgumentNullException()
@@ -19,7 +20,7 @@ public class VariableReferenceExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 null!,
                 new VariableReferenceExpression(new Token(TokenType.Identifier))
@@ -33,7 +34,7 @@ public class VariableReferenceExpressionAnalyzerTests
         // Arrange + Act + Assert
         Assert.Throws<ArgumentNullException>
         (
-            () => Sut.Analyze
+            () => _sut.Analyze
             (
                 _semanticAnalyzerContextMock.Object,
                 null!
@@ -50,7 +51,7 @@ public class VariableReferenceExpressionAnalyzerTests
         // Act + Assert
         Assert.Throws<UndeclaredIdentifierException>
         (
-            () => Sut.Analyze(_semanticAnalyzerContextMock.Object, expression)
+            () => _sut.Analyze(_semanticAnalyzerContextMock.Object, expression)
         );
     }
     
@@ -66,7 +67,7 @@ public class VariableReferenceExpressionAnalyzerTests
             .Returns(new Symbol(expression.Identifier, type));
         
         // Act
-        var result = Sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
+        var result = _sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
         
         // Assert
         Assert.Equal(type, result);
