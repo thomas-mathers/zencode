@@ -28,16 +28,16 @@ public class ContinueStatementAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_NoLoopStatement_ThrowsInvalidBreakException()
+    public void Analyze_NoLoopStatement_AddsInvalidBreakException()
     {
         // Arrange
         _semanticAnalyzerContextMock.Setup(e => e.AncestorAstNodes()).Returns(Array.Empty<AstNode>());
         
-        // Act + Assert
-        Assert.Throws<InvalidContinueException>
-        (
-            () => _sut.Analyze(_semanticAnalyzerContextMock.Object)
-        );
+        // Act
+        _sut.Analyze(_semanticAnalyzerContextMock.Object);
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(e => e.AddError(It.IsAny<InvalidContinueException>()), Times.Once);
     }
     
     [Fact]

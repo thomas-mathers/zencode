@@ -34,6 +34,5 @@ public class SemanticAnalyzerFactory
             new ParameterListAnalyzer(),
             new ParameterAnalyzer()
         );
-
     }
 }

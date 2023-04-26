@@ -24,7 +24,7 @@ public class ForStatementAnalyzer : IForStatementAnalyzer
 
         if (conditionType is not BooleanType)
         {
-            throw new TypeMismatchException(new BooleanType(), conditionType);
+            context.AddError(new TypeMismatchException(new BooleanType(), conditionType));
         }
 
         semanticAnalyzer.Analyze(context, forStatement.Iterator);

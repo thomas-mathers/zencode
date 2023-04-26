@@ -79,7 +79,7 @@ public class UnaryExpressionAnalyzerMock
     
     [Theory]
     [MemberData(nameof(NonArithmeticTypes))]
-    public void Analyze_MinusNonArithmeticExpression_ThrowsUnaryOperatorUnsupportedTypeException(Type type)
+    public void Analyze_MinusNonArithmeticExpression_AddsUnaryOperatorUnsupportedTypeException(Type type)
     {
         // Arrange
         var expression = new ExpressionMock();
@@ -89,16 +89,16 @@ public class UnaryExpressionAnalyzerMock
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
             .Returns(type);
         
-        // Act + Assert
-        Assert.Throws<UnaryOperatorUnsupportedTypeException>
+        // Act
+        _sut.Analyze
         (
-            () => _sut.Analyze
-            (
-                _semanticAnalyzerMock.Object,
-                _semanticAnalyzerContextMock.Object,
-                unaryExpression
-            )
+            _semanticAnalyzerMock.Object,
+            _semanticAnalyzerContextMock.Object,
+            unaryExpression
         );
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<UnaryOperatorUnsupportedTypeException>()));
     }
     
     [Fact]
@@ -149,7 +149,7 @@ public class UnaryExpressionAnalyzerMock
     
     [Theory]
     [MemberData(nameof(NonLogicalTypes))]
-    public void Analyze_NotNonLogicalExpression_ThrowsUnaryOperatorUnsupportedTypeException(Type type)
+    public void Analyze_NotNonLogicalExpression_AddsUnaryOperatorUnsupportedTypeException(Type type)
     {
         // Arrange
         var expression = new ExpressionMock();
@@ -159,16 +159,16 @@ public class UnaryExpressionAnalyzerMock
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
             .Returns(type);
         
-        // Act + Assert
-        Assert.Throws<UnaryOperatorUnsupportedTypeException>
+        // Act
+        _sut.Analyze
         (
-            () => _sut.Analyze
-            (
-                _semanticAnalyzerMock.Object,
-                _semanticAnalyzerContextMock.Object,
-                unaryExpression
-            )
+            _semanticAnalyzerMock.Object,
+            _semanticAnalyzerContextMock.Object,
+            unaryExpression
         );
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<UnaryOperatorUnsupportedTypeException>()));
     }
     
     [Fact]

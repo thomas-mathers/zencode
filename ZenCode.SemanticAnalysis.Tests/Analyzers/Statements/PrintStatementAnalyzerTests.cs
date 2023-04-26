@@ -9,7 +9,7 @@ public class PrintStatementAnalyzerTests
     private readonly PrintStatementAnalyzer _sut = new();
     
     [Fact]
-    public void Analyze()
+    public void Analyze_PrintStatement_ReturnsVoidType()
     {
         // Assert + Arrange + Act
         Assert.Equal(new VoidType(), _sut.Analyze());

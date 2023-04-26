@@ -68,7 +68,7 @@ public class FunctionCallExpressionAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_FunctionReferenceIsNotFunctionType_ThrowsInvokingNonFunctionTypeException()
+    public void Analyze_FunctionReferenceIsNotFunctionType_AddsInvokingNonFunctionTypeException()
     {
         // Arrange
         var functionReference = new ExpressionMock();
@@ -82,13 +82,15 @@ public class FunctionCallExpressionAnalyzerTests
             .Setup(m => m.Analyze(_semanticAnalyzerContextMock.Object, functionReference))
             .Returns(new TypeMock());
 
-        // Act + Assert
-        Assert.Throws<InvokingNonFunctionTypeException>
-            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
+        // Act
+        _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
+            
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<InvokingNonFunctionTypeException>()));
     }
     
     [Fact]
-    public void Analyze_IncorrectNumberOfParameters_ThrowsIncorrectNumberOfParametersException()
+    public void Analyze_IncorrectNumberOfParameters_AddsIncorrectNumberOfParametersException()
     {
         // Arrange
         var functionReference = new ExpressionMock();
@@ -114,13 +116,15 @@ public class FunctionCallExpressionAnalyzerTests
                 )
             );
 
-        // Act + Assert
-        Assert.Throws<IncorrectNumberOfParametersException>
-            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
+        // Act
+        _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
+            
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<IncorrectNumberOfParametersException>()));
     }
     
     [Fact]
-    public void Analyze_IncorrectParameterType_ThrowsTypeMismatchException()
+    public void Analyze_IncorrectParameterType_AddsTypeMismatchException()
     {
         // Arrange
         var functionReference = new ExpressionMock();
@@ -150,8 +154,10 @@ public class FunctionCallExpressionAnalyzerTests
                 )
             );
 
-        // Act + Assert
-        Assert.Throws<TypeMismatchException>
-            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression));
+        // Act
+        _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<TypeMismatchException>()));
     }
 }

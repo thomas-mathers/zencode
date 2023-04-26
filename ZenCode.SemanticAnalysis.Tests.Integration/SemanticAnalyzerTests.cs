@@ -28,7 +28,7 @@ public class SemanticAnalyzerTests
 
     [Theory]
     [ClassData(typeof(BinaryOperatorUnsupportedTypes))]
-    public void Analyze_BinaryOperatorOperatorUnsupportedTypes_ThrowsBinaryOperatorUnsupportedTypesException
+    public void Analyze_BinaryOperatorOperatorUnsupportedTypes_AddsBinaryOperatorUnsupportedTypesException
         (TokenType op, TokenType leftType, TokenType rightType)
     {
         // Arrange
@@ -45,12 +45,14 @@ public class SemanticAnalyzerTests
                 }
             }
         );
+        
+        var semanticAnalyzerContext = new SemanticAnalyzerContext();
 
         // Act
-        var exception = Assert.Throws<BinaryOperatorUnsupportedTypesException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(semanticAnalyzerContext, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(semanticAnalyzerContext.Errors, e => e is BinaryOperatorUnsupportedTypesException);
     }
 
     [Theory]
@@ -80,7 +82,7 @@ public class SemanticAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_AssignIncorrectType_ThrowsTypeMismatchException()
+    public void Analyze_AssignIncorrectType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -96,12 +98,14 @@ public class SemanticAnalyzerTests
                 Value = new LiteralExpression(new Token(TokenType.StringLiteral))
             }
         );
+        
+        var semanticAnalyzerContext = new SemanticAnalyzerContext();
 
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(semanticAnalyzerContext, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(semanticAnalyzerContext.Errors, e => e is TypeMismatchException);
     }
 
     [Fact]
@@ -127,7 +131,7 @@ public class SemanticAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_DuplicateVariableDeclarationInDifferentScope_ThrowsDuplicateIdentifierException()
+    public void Analyze_DuplicateVariableDeclarationInDifferentScope_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -147,15 +151,17 @@ public class SemanticAnalyzerTests
             )
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
     
     [Fact]
-    public void Analyze_DuplicateFunctionDeclarationInDifferentScope_ThrowsDuplicateIdentifierException()
+    public void Analyze_DuplicateFunctionDeclarationInDifferentScope_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -175,15 +181,17 @@ public class SemanticAnalyzerTests
             )
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
     
     [Fact]
-    public void Analyze_DuplicateFunctionDeclarationInSameScope_ThrowsDuplicateIdentifierException()
+    public void Analyze_DuplicateFunctionDeclarationInSameScope_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -200,15 +208,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
     
     [Fact]
-    public void Analyze_DuplicateVariableDeclarationInSameScope_ThrowsDuplicateIdentifierException()
+    public void Analyze_DuplicateVariableDeclarationInSameScope_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -225,15 +235,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
     
     [Fact]
-    public void Analyze_VariableHasSameNameAsParameter_ThrowsDuplicateIdentifierException()
+    public void Analyze_VariableHasSameNameAsParameter_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -261,15 +273,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
     
     [Fact]
-    public void Analyze_UndeclaredVariableReference_ThrowsUndeclaredIdentifierException()
+    public void Analyze_UndeclaredVariableReference_AddsUndeclaredIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -281,15 +295,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<UndeclaredIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is UndeclaredIdentifierException);
     }
 
     [Fact]
-    public void Analyze_InvokingNonFunction_ThrowsInvokingNonFunctionTypeException()
+    public void Analyze_InvokingNonFunction_AddsInvokingNonFunctionTypeException()
     {
         // Arrange
         var program = new Program
@@ -309,16 +325,18 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<InvokingNonFunctionTypeException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is InvokingNonFunctionTypeException);
     }
 
     [Fact]
     public void
-        Analyze_AnonymousFunctionCallWithIncorrectNumberOfParameters_ThrowsIncorrectNumberOfParametersException()
+        Analyze_AnonymousFunctionCallWithIncorrectNumberOfParameters_AddsIncorrectNumberOfParametersException()
     {
         // Arrange
         var program = new Program
@@ -345,15 +363,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<IncorrectNumberOfParametersException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is IncorrectNumberOfParametersException);
     }
 
     [Fact]
-    public void Analyze_FunctionCallWithIncorrectNumberOfParameters_ThrowsIncorrectNumberOfParametersException()
+    public void Analyze_FunctionCallWithIncorrectNumberOfParameters_AddsIncorrectNumberOfParametersException()
     {
         // Arrange
         var program = new Program
@@ -382,15 +402,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<IncorrectNumberOfParametersException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is IncorrectNumberOfParametersException);
     }
 
     [Fact]
-    public void Analyze_FunctionCallWithIncorrectParameterType_ThrowsTypeMismatchException()
+    public void Analyze_FunctionCallWithIncorrectParameterType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -418,15 +440,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
 
     [Fact]
-    public void Analyze_AnonymousFunctionCallWithIncorrectParameterType_ThrowsTypeMismatchException()
+    public void Analyze_AnonymousFunctionCallWithIncorrectParameterType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -452,11 +476,13 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
 
     [Fact]
@@ -524,7 +550,7 @@ public class SemanticAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_IfStatementWithNonBooleanConditionType_ThrowsTypeMismatchException()
+    public void Analyze_IfStatementWithNonBooleanConditionType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -538,11 +564,13 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
 
     [Fact]
@@ -565,7 +593,7 @@ public class SemanticAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_ElseIfWithNonBooleanConditionType_ThrowsTypeMismatchException()
+    public void Analyze_ElseIfWithNonBooleanConditionType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -585,12 +613,14 @@ public class SemanticAnalyzerTests
                 }
             }
         );
+        
+        var context = new SemanticAnalyzerContext();
 
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
 
     [Fact]
@@ -620,7 +650,7 @@ public class SemanticAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_WhileStatementWithNonBooleanConditionType_ThrowsTypeMismatchException()
+    public void Analyze_WhileStatementWithNonBooleanConditionType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -633,12 +663,14 @@ public class SemanticAnalyzerTests
                 }
             }
         );
+        
+        var context = new SemanticAnalyzerContext();
 
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
 
     [Fact]
@@ -661,7 +693,7 @@ public class SemanticAnalyzerTests
     }
 
     [Fact]
-    public void Analyze_ForStatementNonBooleanCondition_ThrowsTypeMismatchException()
+    public void Analyze_ForStatementNonBooleanCondition_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -687,11 +719,13 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
 
     [Fact]
@@ -775,7 +809,7 @@ public class SemanticAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_ReferenceForLoopIteratorInParentScope_ThrowsUndeclaredIdentifierException()
+    public void Analyze_ReferenceForLoopIteratorInParentScope_AddsUndeclaredIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -811,15 +845,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<UndeclaredIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is UndeclaredIdentifierException);
     }
     
     [Fact]
-    public void Analyze_ForLoopIteratorHasSameNameAsVariableDefinedBeforeLoop_ThrowsDuplicateIdentifierException()
+    public void Analyze_ForLoopIteratorHasSameNameAsVariableDefinedBeforeLoop_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -855,15 +891,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
     
     [Fact]
-    public void Analyze_ForLoopIteratorHasSameNameAsVariableDefinedAfterLoop_ThrowsDuplicateIdentifierException()
+    public void Analyze_ForLoopIteratorHasSameNameAsVariableDefinedAfterLoop_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -899,15 +937,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
 
     [Fact]
-    public void Analyze_DefineVariableWithSameNameAsForLoopIterator_ThrowsDuplicateIdentifierException()
+    public void Analyze_DefineVariableWithSameNameAsForLoopIterator_AddsDuplicateIdentifierException()
     {
         // Arrange
         var program = new Program
@@ -946,15 +986,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<DuplicateIdentifierException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is DuplicateIdentifierException);
     }
 
     [Fact]
-    public void Analyze_BreakStatementNotInsideLoop_ThrowsInvalidBreakException()
+    public void Analyze_BreakStatementNotInsideLoop_AddsInvalidBreakException()
     {
         // Arrange
         var program = new Program
@@ -962,11 +1004,13 @@ public class SemanticAnalyzerTests
             new BreakStatement()
         );
 
-        // Act
-        var exception = Assert.Throws<InvalidBreakException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        var context = new SemanticAnalyzerContext();
 
+        // Act
+        _sut.Analyze(context, program);
+        
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is InvalidBreakException);
     }
 
     [Fact]
@@ -1033,7 +1077,7 @@ public class SemanticAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_ContinueStatementNotInsideLoop_ThrowsInvalidContinueException()
+    public void Analyze_ContinueStatementNotInsideLoop_AddsInvalidContinueException()
     {
         // Arrange
         var program = new Program
@@ -1041,11 +1085,13 @@ public class SemanticAnalyzerTests
             new ContinueStatement()
         );
 
+        var context = new SemanticAnalyzerContext();
+
         // Act
-        var exception = Assert.Throws<InvalidContinueException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is InvalidContinueException);
     }
     
     [Fact]
@@ -1112,7 +1158,7 @@ public class SemanticAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_ReturnStatementNotInsideFunction_ThrowsInvalidReturnException()
+    public void Analyze_ReturnStatementNotInsideFunction_AddsInvalidReturnException()
     {
         // Arrange
         var program = new Program
@@ -1120,15 +1166,17 @@ public class SemanticAnalyzerTests
             new ReturnStatement()
         );
 
+        var context = new SemanticAnalyzerContext();
+        
         // Act
-        var exception = Assert.Throws<InvalidReturnException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is InvalidReturnException);
     }
     
     [Fact]
-    public void Analyze_ReturnsIncorrectType_ThrowsTypeMismatchException()
+    public void Analyze_ReturnsIncorrectType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -1147,15 +1195,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+        
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
     
     [Fact]
-    public void Analyze_MissingReturnExpression_ThrowsMissingReturnExpressionException()
+    public void Analyze_MissingReturnExpression_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -1171,11 +1221,13 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+        
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
     
     [Fact]
@@ -1224,7 +1276,7 @@ public class SemanticAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_AnonymousFunctionReturnsIncorrectType_ThrowsTypeMismatchException()
+    public void Analyze_AnonymousFunctionReturnsIncorrectType_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -1246,15 +1298,17 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+        
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
     
     [Fact]
-    public void Analyze_AnonymousFunctionMissingReturnExpression_ThrowsMissingReturnExpressionException()
+    public void Analyze_AnonymousFunctionMissingReturnExpression_AddsTypeMismatchException()
     {
         // Arrange
         var program = new Program
@@ -1273,11 +1327,13 @@ public class SemanticAnalyzerTests
             }
         );
 
+        var context = new SemanticAnalyzerContext();
+        
         // Act
-        var exception = Assert.Throws<TypeMismatchException>(() => _sut.Analyze(new SemanticAnalyzerContext(), program));
+        _sut.Analyze(context, program);
 
         // Assert
-        Assert.NotNull(exception);
+        Assert.Contains(context.Errors, e => e is TypeMismatchException);
     }
     
     [Fact]

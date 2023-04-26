@@ -1,5 +1,6 @@
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.SemanticAnalysis.Abstractions;
+using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis;
@@ -9,6 +10,9 @@ public class SemanticAnalyzerContext : ISemanticAnalyzerContext
     private readonly SymbolTable _symbolTable = new();
     private readonly Stack<AstNode> _path = new();
     private readonly Dictionary<AstNode, Type> _type = new();
+    private readonly List<SemanticAnalysisException> _errors = new();
+
+    public IEnumerable<SemanticAnalysisException> Errors => _errors;
 
     public void DefineSymbol(Symbol symbol)
     {
@@ -53,5 +57,10 @@ public class SemanticAnalyzerContext : ISemanticAnalyzerContext
     public Type GetAstNodeType(AstNode node)
     {
         return _type[node];
+    }
+
+    public void AddError(SemanticAnalysisException exception)
+    {
+        _errors.Add(exception);
     }
 }

@@ -9,7 +9,7 @@ public class ReadStatementAnalyzerTests
     private readonly ReadStatementAnalyzer _sut = new();
     
     [Fact]
-    public void Analyze()
+    public void Analyze_ReadStatement_ReturnsVoidType()
     {
         // Assert + Arrange + Act
         Assert.Equal(new VoidType(), _sut.Analyze());

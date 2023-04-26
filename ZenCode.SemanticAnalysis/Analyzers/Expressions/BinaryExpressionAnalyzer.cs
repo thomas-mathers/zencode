@@ -22,93 +22,80 @@ public class BinaryExpressionAnalyzer : IBinaryExpressionAnalyzer
 
         if (lType != rType)
         {
-            throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType);
+            context.AddError(new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType));
+            
+            return new UnknownType();
         }
 
-        Type type = binaryExpression.Operator.Type switch
+        var type = binaryExpression.Operator.Type switch
         {
-            TokenType.Plus => lType switch
-            {
-                IntegerType => new IntegerType(),
-                FloatType => new FloatType(),
-                StringType => new StringType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.Minus => lType switch
-            {
-                IntegerType => new IntegerType(),
-                FloatType => new FloatType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.Multiplication => lType switch
-            {
-                IntegerType => new IntegerType(),
-                FloatType => new FloatType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.Division => lType switch
-            {
-                IntegerType => new IntegerType(),
-                FloatType => new FloatType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.Modulus => lType switch
-            {
-                IntegerType => new IntegerType(),
-                FloatType => new FloatType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.Exponentiation => lType switch
-            {
-                IntegerType => new IntegerType(),
-                FloatType => new FloatType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.LessThan => lType switch
-            {
-                IntegerType => new BooleanType(),
-                FloatType => new BooleanType(),
-                StringType => new BooleanType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.LessThanOrEqual => lType switch
-            {
-                IntegerType => new BooleanType(),
-                FloatType => new BooleanType(),
-                StringType => new BooleanType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.GreaterThan => lType switch
-            {
-                IntegerType => new BooleanType(),
-                FloatType => new BooleanType(),
-                StringType => new BooleanType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.GreaterThanOrEqual => lType switch
-            {
-                IntegerType => new BooleanType(),
-                FloatType => new BooleanType(),
-                StringType => new BooleanType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
+            TokenType.Plus => AnalyzePlusExpression(context, lType),
+            TokenType.Minus => AnalyzeArithmeticExpression(context, lType),
+            TokenType.Multiplication => AnalyzeArithmeticExpression(context, lType),
+            TokenType.Division => AnalyzeArithmeticExpression(context, lType),
+            TokenType.Modulus => AnalyzeArithmeticExpression(context, lType),
+            TokenType.Exponentiation => AnalyzeArithmeticExpression(context, lType),
+            TokenType.LessThan => AnalyzeComparisonExpression(context, lType),
+            TokenType.LessThanOrEqual => AnalyzeComparisonExpression(context, lType),
+            TokenType.GreaterThan => AnalyzeComparisonExpression(context, lType),
+            TokenType.GreaterThanOrEqual => AnalyzeComparisonExpression(context, lType),
             TokenType.Equals => new BooleanType(),
             TokenType.NotEquals => new BooleanType(),
-            TokenType.And => lType switch
-            {
-                BooleanType => new BooleanType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
-            TokenType.Or => lType switch
-            {
-                BooleanType => new BooleanType(),
-                _ => throw new BinaryOperatorUnsupportedTypesException(binaryExpression.Operator.Type, lType, rType)
-            },
+            TokenType.And => AnalyzeLogicalExpression(context, lType),
+            TokenType.Or => AnalyzeLogicalExpression(context, lType),
             _ => throw new ArgumentOutOfRangeException()
         };
 
         context.SetAstNodeType(binaryExpression, type);
 
         return type;
+    }
+    
+    private static Type AnalyzePlusExpression(ISemanticAnalyzerContext context, Type operandType)
+    {
+        if (operandType is IntegerType or FloatType or StringType)
+        {
+            return operandType;
+        }
+
+        context.AddError(new BinaryOperatorUnsupportedTypesException(TokenType.Plus, operandType, operandType));
+            
+        return new UnknownType();
+    }
+    
+    private static Type AnalyzeArithmeticExpression(ISemanticAnalyzerContext context, Type operandType)
+    {
+        if (operandType is IntegerType or FloatType)
+        {
+            return operandType;
+        }
+        
+        context.AddError(new BinaryOperatorUnsupportedTypesException(TokenType.Plus, operandType, operandType));
+        
+        return new UnknownType();
+    }
+    
+    private static Type AnalyzeComparisonExpression(ISemanticAnalyzerContext context, Type operandType)
+    {
+        if (operandType is IntegerType or FloatType or StringType)
+        {
+            return new BooleanType();
+        }
+        
+        context.AddError(new BinaryOperatorUnsupportedTypesException(TokenType.Plus, operandType, operandType));
+        
+        return new UnknownType();
+    }
+
+    private static Type AnalyzeLogicalExpression(ISemanticAnalyzerContext context, Type operandType)
+    {
+        if (operandType is BooleanType)
+        {
+            return operandType;
+        }
+        
+        context.AddError(new BinaryOperatorUnsupportedTypesException(TokenType.Plus, operandType, operandType));
+        
+        return new UnknownType();
     }
 }

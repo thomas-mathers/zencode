@@ -17,7 +17,7 @@ public class BreakStatementAnalyzer : IBreakStatementAnalyzer
 
         if (loopStatement == null)
         {
-            throw new InvalidBreakException();
+            context.AddError(new InvalidBreakException());
         }
 
         return new VoidType();

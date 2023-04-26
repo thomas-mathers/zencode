@@ -96,7 +96,7 @@ public class AssignmentStatementAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_UndeclaredVariable_ThrowsUndeclaredIdentifierException()
+    public void Analyze_UndeclaredVariable_AddsUndeclaredIdentifierException()
     {
         // Arrange
         var statement = new AssignmentStatement
@@ -105,16 +105,16 @@ public class AssignmentStatementAnalyzerTests
             Value = new ExpressionMock()
         };
         
-        // Act + Assert
-        Assert.Throws<UndeclaredIdentifierException>
-        (
-            () => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement)
-        );
+        // Act
+        _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement);
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<UndeclaredIdentifierException>()));
     }
     
     [Theory]
     [MemberData(nameof(NonMatchingTypes))]
-    public void Analyze_VariableTypeDoesNotMatchExpressionType_ThrowsTypeMismatchException(Type variableType, Type expressionType)
+    public void Analyze_VariableTypeDoesNotMatchExpressionType_AddsTypeMismatchException(Type variableType, Type expressionType)
     {
         // Arrange
         var statement = new AssignmentStatement
@@ -131,11 +131,11 @@ public class AssignmentStatementAnalyzerTests
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, It.IsAny<Expression>()))
             .Returns(expressionType);
         
-        // Act + Assert
-        Assert.Throws<TypeMismatchException>
-        (
-            () => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement)
-        );
+        // Act
+        _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, statement);
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<TypeMismatchException>()));
     }
     
     [Theory]

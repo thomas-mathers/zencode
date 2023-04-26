@@ -43,16 +43,16 @@ public class VariableReferenceExpressionAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_ResolveSymbolReturnsNull_ThrowsUndeclaredIdentifierException()
+    public void Analyze_ResolveSymbolReturnsNull_AddsUndeclaredIdentifierException()
     {
         // Arrange
         var expression = new VariableReferenceExpression(new Token(TokenType.Identifier));
         
-        // Act + Assert
-        Assert.Throws<UndeclaredIdentifierException>
-        (
-            () => _sut.Analyze(_semanticAnalyzerContextMock.Object, expression)
-        );
+        // Act
+        _sut.Analyze(_semanticAnalyzerContextMock.Object, expression);
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<UndeclaredIdentifierException>()), Times.Once);
     }
     
     [Fact]

@@ -104,7 +104,7 @@ public class ForStatementAnalyzerTests
     
     [Theory]
     [MemberData(nameof(NonBooleanType))]
-    public void Analyze_NonBooleanCondition_ThrowsTypeMismatchException(Type type)
+    public void Analyze_NonBooleanCondition_AddsTypeMismatchException(Type type)
     {
         // Arrange
         var forStatement = new ForStatement
@@ -126,15 +126,15 @@ public class ForStatementAnalyzerTests
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, forStatement.Condition))
             .Returns(type);
         
-        // Act + Assert
-        Assert.Throws<TypeMismatchException>
+        // Act
+        _sut.Analyze
         (
-            () => _sut.Analyze
-            (
-                _semanticAnalyzerMock.Object,
-                _semanticAnalyzerContextMock.Object,
-                forStatement
-            )
+            _semanticAnalyzerMock.Object,
+            _semanticAnalyzerContextMock.Object,
+            forStatement
         );
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<TypeMismatchException>()), Times.Once);
     }
 }

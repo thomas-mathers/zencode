@@ -2,6 +2,7 @@ using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Statements;
+using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Statements;
@@ -21,9 +22,14 @@ public class VariableDeclarationStatementAnalyzer : IVariableDeclarationStatemen
         
         var type = semanticAnalyzer.Analyze(context, variableDeclarationStatement.Value);
 
-        var symbol = new Symbol(variableDeclarationStatement.VariableName, type);
-
-        context.DefineSymbol(symbol);
+        if (context.ResolveSymbol(variableDeclarationStatement.VariableName.Text) != null)
+        {
+            context.AddError(new DuplicateIdentifierException(variableDeclarationStatement.VariableName));
+            
+            return new VoidType();
+        }
+        
+        context.DefineSymbol(new Symbol(variableDeclarationStatement.VariableName, type));
 
         return new VoidType();
     }

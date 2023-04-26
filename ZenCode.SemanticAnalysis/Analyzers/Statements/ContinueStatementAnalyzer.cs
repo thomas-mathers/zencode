@@ -17,7 +17,7 @@ public class ContinueStatementAnalyzer : IContinueStatementAnalyzer
 
         if (loopStatement == null)
         {
-            throw new InvalidContinueException();
+            context.AddError(new InvalidContinueException());
         }
 
         return new VoidType();

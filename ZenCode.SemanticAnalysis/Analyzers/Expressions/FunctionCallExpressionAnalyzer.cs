@@ -24,13 +24,17 @@ public class FunctionCallExpressionAnalyzer : IFunctionCallExpressionAnalyzer
 
         if (expressionType is not FunctionType functionType)
         {
-            throw new InvokingNonFunctionTypeException();
+            context.AddError(new InvokingNonFunctionTypeException());
+
+            return new UnknownType();
         }
 
         if (functionType.ParameterTypes.Types.Count != functionCallExpression.Arguments.Expressions.Count)
         {
-            throw new IncorrectNumberOfParametersException
-                (functionType.ParameterTypes.Types.Count, functionCallExpression.Arguments.Expressions.Count);
+            context.AddError(new IncorrectNumberOfParametersException
+                (functionType.ParameterTypes.Types.Count, functionCallExpression.Arguments.Expressions.Count));
+
+            return new UnknownType();
         }
 
         for (var i = 0; i < functionType.ParameterTypes.Types.Count; i++)
@@ -40,7 +44,7 @@ public class FunctionCallExpressionAnalyzer : IFunctionCallExpressionAnalyzer
 
             if (parameterType != argumentType)
             {
-                throw new TypeMismatchException(parameterType, argumentType);
+                context.AddError(new TypeMismatchException(parameterType, argumentType));
             }
         }
 

@@ -3,6 +3,7 @@ using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Abstractions.Analyzers.Statements;
+using ZenCode.SemanticAnalysis.Exceptions;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 
 namespace ZenCode.SemanticAnalysis.Analyzers.Statements;
@@ -29,9 +30,14 @@ public class FunctionDeclarationStatementAnalyzer : IFunctionDeclarationStatemen
             )
         );
 
-        var symbol = new Symbol(functionDeclarationStatement.Name, type);
+        if (context.ResolveSymbol(functionDeclarationStatement.Name.Text) != null)
+        {
+            context.AddError(new DuplicateIdentifierException(functionDeclarationStatement.Name));
+            
+            return new VoidType();
+        }
 
-        context.DefineSymbol(symbol);
+        context.DefineSymbol(new Symbol(functionDeclarationStatement.Name, type));
 
         context.PushEnvironment();
 

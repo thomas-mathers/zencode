@@ -39,14 +39,16 @@ public class ReturnStatementAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_ReturnStatementOutsideFunction_ThrowsInvalidReturnException()
+    public void Analyze_ReturnStatementOutsideFunction_AddsInvalidReturnException()
     {
         // Arrange
         var returnStatement = new ReturnStatement();
         
-        // Act + Assert
-        Assert.Throws<InvalidReturnException>
-            (() => _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement));
+        // Act
+        _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, returnStatement);
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(e => e.AddError(It.IsAny<InvalidReturnException>()), Times.Once);
     }
     
     [Fact]

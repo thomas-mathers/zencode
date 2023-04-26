@@ -16,7 +16,9 @@ public class ConditionScopeAnalyzer : IConditionScopeAnalyzer
 
         if (conditionType is not BooleanType)
         {
-            throw new TypeMismatchException(new BooleanType(), conditionType);
+            context.AddError(new TypeMismatchException(new BooleanType(), conditionType));
+            
+            return new VoidType();
         }
 
         semanticAnalyzer.Analyze(context, conditionScope.Scope);

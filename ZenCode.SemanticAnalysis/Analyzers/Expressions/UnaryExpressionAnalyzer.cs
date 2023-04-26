@@ -24,14 +24,14 @@ public class UnaryExpressionAnalyzer : IUnaryExpressionAnalyzer
             case TokenType.Minus:
                 if (type is not IntegerType and not FloatType)
                 {
-                    throw new UnaryOperatorUnsupportedTypeException(unaryExpression.Operator, type);
+                    context.AddError(new UnaryOperatorUnsupportedTypeException(unaryExpression.Operator, type));
                 }
 
                 break;
             case TokenType.Not:
                 if (type is not BooleanType)
                 {
-                    throw new UnaryOperatorUnsupportedTypeException(unaryExpression.Operator, type);
+                    context.AddError(new UnaryOperatorUnsupportedTypeException(unaryExpression.Operator, type));
                 }
 
                 break;

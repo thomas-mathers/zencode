@@ -28,16 +28,16 @@ public class BreakStatementAnalyzerTests
     }
     
     [Fact]
-    public void Analyze_NoLoopStatement_ThrowsInvalidBreakException()
+    public void Analyze_NoLoopStatement_AddsInvalidBreakException()
     {
         // Arrange
         _semanticAnalyzerContextMock.Setup(e => e.AncestorAstNodes()).Returns(Array.Empty<AstNode>());
         
-        // Act + Assert
-        Assert.Throws<InvalidBreakException>
-        (
-            () => _sut.Analyze(_semanticAnalyzerContextMock.Object)
-        );
+        // Act
+        _sut.Analyze(_semanticAnalyzerContextMock.Object);
+        
+        // Assert
+        _semanticAnalyzerContextMock.Verify(e => e.AddError(It.IsAny<InvalidBreakException>()), Times.Once);
     }
     
     [Fact]

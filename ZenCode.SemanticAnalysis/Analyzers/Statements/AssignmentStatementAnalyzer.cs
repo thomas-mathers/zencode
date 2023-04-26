@@ -20,14 +20,16 @@ public class AssignmentStatementAnalyzer : IAssignmentStatementAnalyzer
 
         if (symbol == null)
         {
-            throw new UndeclaredIdentifierException(assignmentStatement.VariableReference.Identifier);
+            context.AddError(new UndeclaredIdentifierException(assignmentStatement.VariableReference.Identifier));
+
+            return new VoidType();
         }
 
         var expressionType = semanticAnalyzer.Analyze(context, assignmentStatement.Value);
 
         if (symbol.Type != expressionType)
         {
-            throw new TypeMismatchException(symbol.Type, expressionType);
+            context.AddError(new TypeMismatchException(symbol.Type, expressionType));
         }
 
         return new VoidType();

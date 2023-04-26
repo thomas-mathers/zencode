@@ -22,7 +22,9 @@ public class ReturnStatementAnalyzer : IReturnStatementAnalyzer
 
         if (functionDeclaration == null)
         {
-            throw new InvalidReturnException();
+            context.AddError(new InvalidReturnException());
+            
+            return new VoidType();
         }
 
         var returnType = returnStatement.Value == null
@@ -39,7 +41,7 @@ public class ReturnStatementAnalyzer : IReturnStatementAnalyzer
 
         if (returnType != functionReturnType)
         {
-            throw new TypeMismatchException(functionReturnType, returnType);
+            context.AddError(new TypeMismatchException(functionReturnType, returnType));
         }
 
         return new VoidType();

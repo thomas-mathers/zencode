@@ -2,6 +2,7 @@ using Moq;
 using Xunit;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
@@ -74,7 +75,7 @@ public class BinaryExpressionAnalyzerTests
     
     [Theory]
     [ClassData(typeof(BinaryOperatorUnsupportedTypes))]
-    public void Analyze_UnsupportedTypes_ThrowsBinaryOperatorUnsupportedTypesException
+    public void Analyze_UnsupportedTypes_AddsBinaryOperatorUnsupportedTypesException
     (
         TokenType op, 
         Type leftType, 
@@ -94,16 +95,18 @@ public class BinaryExpressionAnalyzerTests
             .Returns(leftType)
             .Returns(rightType);
         
-        // Act + Assert
-        Assert.Throws<BinaryOperatorUnsupportedTypesException>
+        // Act
+        var actual = _sut.Analyze
         (
-            () => _sut.Analyze
-            (
-                _semanticAnalyzerMock.Object,
-                _semanticAnalyzerContextMock.Object,
-                binaryExpression
-            )
+            _semanticAnalyzerMock.Object,
+            _semanticAnalyzerContextMock.Object,
+            binaryExpression
         );
+        
+        // Assert
+        Assert.IsType<UnknownType>(actual);
+        
+        _semanticAnalyzerContextMock.Verify(x => x.AddError(It.IsAny<BinaryOperatorUnsupportedTypesException>()));
     }
     
     [Theory]
