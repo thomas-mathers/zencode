@@ -10,14 +10,14 @@ public class ArrayTypeTests
     public void Construct_NullBaseType_ThrowsArgumentNullException()
     {
         // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>(() => new ArrayType(null!));
+        Assert.Throws<ArgumentNullException>(() => new ArrayType { BaseType = null! });
     }
 
     [Fact]
     public void ToString_AnyBaseType_ReturnsCorrectString()
     {
         // Arrange
-        var arrayType = new ArrayType(new TypeMock());
+        var arrayType = new ArrayType { BaseType = new TypeMock() };
 
         // Act
         var actual = arrayType.ToString();

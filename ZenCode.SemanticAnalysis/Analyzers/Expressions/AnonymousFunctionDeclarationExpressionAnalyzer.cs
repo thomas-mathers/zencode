@@ -28,13 +28,13 @@ public class AnonymousFunctionDeclarationExpressionAnalyzer : IAnonymousFunction
         context.PopEnvironment();
 
         var type = new FunctionType
-        (
-            anonymousFunctionDeclarationExpression.ReturnType,
-            new TypeList
+        {
+            ReturnType = anonymousFunctionDeclarationExpression.ReturnType,
+            ParameterTypes = new TypeList
             (
                 anonymousFunctionDeclarationExpression.Parameters.Parameters.Select(t => t.Type).ToArray()
             )
-        );
+        };
 
         context.SetAstNodeType(anonymousFunctionDeclarationExpression, type);
 

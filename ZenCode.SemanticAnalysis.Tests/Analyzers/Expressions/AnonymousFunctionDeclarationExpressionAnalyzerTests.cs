@@ -63,7 +63,10 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
             ReturnType = new TypeMock()
         };
 
-        var expected = new FunctionType(new TypeMock(), new TypeList());
+        var expected = new FunctionType
+        {
+            ReturnType = new TypeMock()
+        };
 
         // Act
         var actual = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
@@ -82,7 +85,11 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
             Parameters = new ParameterList(new Parameter(new Token(TokenType.Identifier, "x"), new TypeMock()))
         };
 
-        var expected = new FunctionType(new TypeMock(), new TypeList(new TypeMock()));
+        var expected = new FunctionType
+        {
+            ReturnType = new TypeMock(),
+            ParameterTypes = new TypeList(new TypeMock())
+        };
 
         // Act
         var actual = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);
@@ -106,7 +113,11 @@ public class AnonymousFunctionDeclarationExpressionAnalyzerTests
             )
         };
 
-        var expected = new FunctionType(new TypeMock(), new TypeList(new TypeMock(), new TypeMock(), new TypeMock()));
+        var expected = new FunctionType
+        {
+            ReturnType = new TypeMock(),
+            ParameterTypes = new TypeList(new TypeMock(), new TypeMock(), new TypeMock())
+        };
 
         // Act
         var actual = _sut.Analyze(_semanticAnalyzerMock.Object, _semanticAnalyzerContextMock.Object, expression);

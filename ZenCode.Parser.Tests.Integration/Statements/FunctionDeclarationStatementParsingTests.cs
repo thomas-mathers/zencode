@@ -164,10 +164,10 @@ public class FunctionDeclarationStatementParsingTests
         var expectedStatement = new FunctionDeclarationStatement
         {
             ReturnType = new FunctionType
-            (
-                new VoidType(),
-                new TypeList()
-            ),
+            { 
+                ReturnType = new VoidType(),
+                ParameterTypes = new TypeList()
+            },
             Name = new Token(TokenType.Identifier)
         };
 
@@ -213,10 +213,10 @@ public class FunctionDeclarationStatementParsingTests
                 (
                     new Token(TokenType.Identifier),
                     new FunctionType
-                    (
-                        new VoidType(),
-                        new TypeList()
-                    )
+                    {
+                        ReturnType = new VoidType(),
+                        ParameterTypes = new TypeList()
+                    }
                 )
             )
         };
@@ -259,10 +259,10 @@ public class FunctionDeclarationStatementParsingTests
         var expectedStatement = new FunctionDeclarationStatement
         {
             ReturnType = new FunctionType
-            (
-                new VoidType(),
-                new TypeList()
-            ),
+            {
+                ReturnType = new VoidType(),
+                ParameterTypes = new TypeList()
+            },
             Name = new Token(TokenType.Identifier),
             Parameters = new ParameterList
             (
@@ -270,10 +270,10 @@ public class FunctionDeclarationStatementParsingTests
                 (
                     new Token(TokenType.Identifier),
                     new FunctionType
-                    (
-                        new VoidType(),
-                        new TypeList()
-                    )
+                    {
+                        ReturnType = new VoidType(),
+                        ParameterTypes = new TypeList()
+                    }
                 )
             )
         };

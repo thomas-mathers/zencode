@@ -16,6 +16,6 @@ public class ArrayTypeParsingStrategy : IArrayTypeParsingStrategy
         tokenStream.Consume(TokenType.LeftBracket);
         tokenStream.Consume(TokenType.RightBracket);
 
-        return new ArrayType(baseType);
+        return new ArrayType { BaseType = baseType };
     }
 }

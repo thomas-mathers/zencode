@@ -110,10 +110,9 @@ public class FunctionCallExpressionAnalyzerTests
             .Returns
             (
                 new FunctionType
-                (
-                    new TypeMock(),
-                    new TypeList()
-                )
+                {
+                    ReturnType = new TypeMock()
+                }
             );
 
         // Act
@@ -144,14 +143,14 @@ public class FunctionCallExpressionAnalyzerTests
             .Returns
             (
                 new FunctionType
-                (
-                    new TypeMock(),
-                    new TypeList
+                {
+                    ReturnType = new TypeMock(),
+                    ParameterTypes = new TypeList
                     (
                         new TypeMock(),
                         new TypeMock()
                     )
-                )
+                }
             );
 
         // Act

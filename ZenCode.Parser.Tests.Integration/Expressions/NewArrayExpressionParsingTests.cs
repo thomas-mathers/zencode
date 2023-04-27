@@ -165,7 +165,13 @@ public class NewArrayExpressionParsingTests
 
         var expected = new NewArrayExpression
         {
-            Type = new ArrayType(new ArrayType(new BooleanType())),
+            Type = new ArrayType
+            {
+                BaseType = new ArrayType
+                {
+                    BaseType = new BooleanType()
+                }
+            },
             Size = size
         };
 
@@ -200,7 +206,13 @@ public class NewArrayExpressionParsingTests
 
         var expected = new NewArrayExpression
         {
-            Type = new ArrayType(new ArrayType(new IntegerType())),
+            Type = new ArrayType
+            {
+                BaseType = new ArrayType
+                {
+                    BaseType = new IntegerType()
+                }
+            },
             Size = size
         };
 
@@ -235,7 +247,13 @@ public class NewArrayExpressionParsingTests
 
         var expected = new NewArrayExpression
         {
-            Type = new ArrayType(new ArrayType(new FloatType())),
+            Type = new ArrayType
+            {
+                BaseType = new ArrayType
+                {
+                    BaseType = new FloatType()
+                }
+            },
             Size = size
         };
 
@@ -270,7 +288,13 @@ public class NewArrayExpressionParsingTests
 
         var expected = new NewArrayExpression
         {
-            Type = new ArrayType(new ArrayType(new StringType())),
+            Type = new ArrayType
+            {
+                BaseType = new ArrayType
+                {
+                    BaseType = new StringType()
+                }
+            },
             Size = size
         };
 

@@ -25,6 +25,10 @@ public class FunctionTypeParsingStrategy : IFunctionTypeParsingStrategy
 
         var returnType = parser.ParseType(tokenStream);
 
-        return new FunctionType(returnType, typeList);
+        return new FunctionType
+        {
+            ReturnType = returnType,
+            ParameterTypes = typeList
+        };
     }
 }

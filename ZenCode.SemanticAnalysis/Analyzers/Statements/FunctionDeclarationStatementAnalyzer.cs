@@ -22,13 +22,13 @@ public class FunctionDeclarationStatementAnalyzer : IFunctionDeclarationStatemen
         ArgumentNullException.ThrowIfNull(functionDeclarationStatement);
         
         var type = new FunctionType
-        (
-            functionDeclarationStatement.ReturnType,
-            new TypeList
+        {
+            ReturnType = functionDeclarationStatement.ReturnType,
+            ParameterTypes = new TypeList
             (
                 functionDeclarationStatement.Parameters.Parameters.Select(parameter => parameter.Type).ToArray()
             )
-        );
+        };
 
         if (context.ResolveSymbol(functionDeclarationStatement.Name.Text) != null)
         {

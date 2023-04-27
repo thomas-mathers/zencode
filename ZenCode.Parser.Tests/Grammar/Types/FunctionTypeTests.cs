@@ -13,21 +13,23 @@ public class FunctionTypeTests
     public void Constructor_NullReturnType_ThrowsArgumentNullException()
     {
         // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>(() => new FunctionType(null!, It.IsAny<TypeList>()));
+        Assert.Throws<ArgumentNullException>
+            (() => new FunctionType { ReturnType = null!, ParameterTypes = It.IsAny<TypeList>() });
     }
 
     [Fact]
     public void Constructor_NullParameterList_ThrowsArgumentNullException()
     {
         // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>(() => new FunctionType(It.IsAny<Type>(), null!));
+        Assert.Throws<ArgumentNullException>
+            (() => new FunctionType { ReturnType = It.IsAny<Type>(), ParameterTypes = null! });
     }
 
     [Fact]
     public void ToString_NoParameters_ReturnsCorrectString()
     {
         // Arrange
-        var functionType = new FunctionType(new TypeMock(), new TypeList());
+        var functionType = new FunctionType { ReturnType = new TypeMock(), ParameterTypes = new TypeList() };
 
         // Act
         var actual = functionType.ToString();
@@ -42,7 +44,11 @@ public class FunctionTypeTests
         // Arrange
         var parameterTypes = new TypeList(new TypeMock());
 
-        var functionType = new FunctionType(new TypeMock(), parameterTypes);
+        var functionType = new FunctionType
+        {
+            ReturnType = new TypeMock(),
+            ParameterTypes = parameterTypes
+        };
 
         // Act
         var actual = functionType.ToString();
@@ -62,7 +68,11 @@ public class FunctionTypeTests
             new TypeMock()
         );
 
-        var functionType = new FunctionType(new TypeMock(), parameterTypes);
+        var functionType = new FunctionType
+        {
+            ReturnType = new TypeMock(),
+            ParameterTypes = parameterTypes
+        };
 
         // Act
         var actual = functionType.ToString();

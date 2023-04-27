@@ -55,7 +55,7 @@ public class TypeParserTests
             }
         );
 
-        var expectedType = new ArrayType(type);
+        var expectedType = new ArrayType { BaseType = type };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -83,7 +83,16 @@ public class TypeParserTests
             }
         );
 
-        var expectedType = new ArrayType(new ArrayType(new ArrayType(type)));
+        var expectedType = new ArrayType
+        {
+            BaseType = new ArrayType
+            {
+                BaseType = new ArrayType
+                {
+                    BaseType = type
+                }
+            }
+        };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -108,7 +117,10 @@ public class TypeParserTests
             }
         );
 
-        var expectedType = new FunctionType(type, new TypeList());
+        var expectedType = new FunctionType
+        {
+            ReturnType = type
+        };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -134,7 +146,11 @@ public class TypeParserTests
             }
         );
 
-        var expectedType = new FunctionType(type, new TypeList(type));
+        var expectedType = new FunctionType
+        {
+            ReturnType = type, 
+            ParameterTypes = new TypeList(type)
+        };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -164,7 +180,11 @@ public class TypeParserTests
             }
         );
 
-        var expectedType = new FunctionType(type, new TypeList(type, type, type));
+        var expectedType = new FunctionType
+        {
+            ReturnType = type, 
+            ParameterTypes = new TypeList(type, type, type)
+        };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -197,11 +217,22 @@ public class TypeParserTests
             }
         );
 
-        var innerInnerFunctionType = new FunctionType(type, new TypeList());
+        var innerInnerFunctionType = new FunctionType
+        {
+            ReturnType = type
+        };
 
-        var innerFunctionType = new FunctionType(type, new TypeList(innerInnerFunctionType));
+        var innerFunctionType = new FunctionType
+        {
+            ReturnType = type, 
+            ParameterTypes = new TypeList(innerInnerFunctionType)
+        };
 
-        var expectedType = new FunctionType(type, new TypeList(innerFunctionType));
+        var expectedType = new FunctionType
+        {
+            ReturnType = type,
+            ParameterTypes = new TypeList(innerFunctionType)
+        };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -229,7 +260,13 @@ public class TypeParserTests
             }
         );
 
-        var expectedType = new FunctionType(new FunctionType(type, new TypeList()), new TypeList());
+        var expectedType = new FunctionType
+        {
+            ReturnType = new FunctionType
+            {
+                ReturnType = type
+            }
+        };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);
@@ -266,10 +303,19 @@ public class TypeParserTests
         );
 
         var expectedType = new FunctionType
-        (
-            new FunctionType(type, new TypeList()),
-            new TypeList(new FunctionType(type, new TypeList()))
-        );
+        {
+            ReturnType = new FunctionType
+            {
+                ReturnType = type
+            },
+            ParameterTypes = new TypeList
+            (
+                new FunctionType
+                {
+                    ReturnType = type
+                }
+            )
+        };
 
         // Act
         var actualType = _sut.ParseType(tokenStream);

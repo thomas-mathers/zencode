@@ -12,8 +12,11 @@ public class NewArrayExpressionAnalyzer : INewArrayExpressionAnalyzer
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(newArrayExpression);
-        
-        var type = new ArrayType(newArrayExpression.Type);
+
+        var type = new ArrayType
+        {
+            BaseType = newArrayExpression.Type
+        };
 
         context.SetAstNodeType(newArrayExpression, type);
 

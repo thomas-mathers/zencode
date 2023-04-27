@@ -49,7 +49,7 @@ public class NewArrayExpressionAnalyzerTests
     public void Analyze_TypeMockExpressionMock_ReturnsCorrectType()
     {
         // Arrange
-        var expected = new ArrayType(new TypeMock());
+        var expected = new ArrayType { BaseType = new TypeMock() };
         
         // Act
         var result = _sut.Analyze

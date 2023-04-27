@@ -2,14 +2,13 @@ namespace ZenCode.Parser.Model.Grammar.Types;
 
 public record ArrayType : Type
 {
-    public ArrayType(Type baseType)
+    private readonly Type _baseType;
+
+    public required Type BaseType
     {
-        ArgumentNullException.ThrowIfNull(baseType);
-
-        BaseType = baseType;
+        get => _baseType;
+        init => _baseType = value ?? throw new ArgumentNullException(nameof(value));
     }
-
-    public Type BaseType { get; init; }
 
     public override string ToString()
     {

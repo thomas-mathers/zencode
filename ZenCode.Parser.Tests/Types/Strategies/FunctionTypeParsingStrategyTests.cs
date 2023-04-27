@@ -34,7 +34,12 @@ public class FunctionTypeParsingStrategyTests
     {
         // Arrange
         var returnType = _fixture.Create<Type>();
-        var expected = new FunctionType(returnType, new TypeList());
+
+        var expected = new FunctionType
+        {
+            ReturnType = returnType,
+            ParameterTypes = new TypeList()
+        };
 
         _tokenStreamMock
             .Setup(x => x.Match(TokenType.RightParenthesis))

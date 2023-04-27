@@ -2,17 +2,20 @@ namespace ZenCode.Parser.Model.Grammar.Types;
 
 public record FunctionType : Type
 {
-    public FunctionType(Type returnType, TypeList parameterTypes)
-    {
-        ArgumentNullException.ThrowIfNull(returnType);
-        ArgumentNullException.ThrowIfNull(parameterTypes);
+    private readonly Type _returnType;
+    private readonly TypeList _parameterTypes = new();
 
-        ReturnType = returnType;
-        ParameterTypes = parameterTypes;
+    public required Type ReturnType
+    {
+        get => _returnType;
+        init => _returnType = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    public Type ReturnType { get; init; }
-    public TypeList ParameterTypes { get; init; }
+    public TypeList ParameterTypes
+    {
+        get => _parameterTypes;
+        init => _parameterTypes = value ?? throw new ArgumentNullException(nameof(value));
+    }
 
     public override string ToString()
     {

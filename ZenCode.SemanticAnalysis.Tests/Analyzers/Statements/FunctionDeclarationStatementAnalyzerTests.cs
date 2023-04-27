@@ -88,7 +88,10 @@ public class FunctionDeclarationStatementAnalyzerTests
             Parameters = new ParameterList()
         };
 
-        var expectedType = new FunctionType(functionDeclarationStatement.ReturnType, new TypeList());
+        var expectedType = new FunctionType
+        {
+            ReturnType = functionDeclarationStatement.ReturnType
+        };
         
         // Act
         var result = _sut.Analyze
@@ -122,13 +125,13 @@ public class FunctionDeclarationStatementAnalyzerTests
         };
 
         var expectedType = new FunctionType
-        (
-            functionDeclarationStatement.ReturnType,
-            new TypeList
+        {
+            ReturnType = functionDeclarationStatement.ReturnType,
+            ParameterTypes = new TypeList
             (
                 functionDeclarationStatement.Parameters.Parameters.Select(parameter => parameter.Type).ToArray()
             )
-        );
+        };
         
         // Act
         var result = _sut.Analyze
@@ -164,13 +167,13 @@ public class FunctionDeclarationStatementAnalyzerTests
         };
 
         var expectedType = new FunctionType
-        (
-            functionDeclarationStatement.ReturnType,
-            new TypeList
+        {
+            ReturnType = functionDeclarationStatement.ReturnType,
+            ParameterTypes = new TypeList
             (
                 functionDeclarationStatement.Parameters.Parameters.Select(parameter => parameter.Type).ToArray()
             )
-        );
+        };
         
         // Act
         var result = _sut.Analyze
