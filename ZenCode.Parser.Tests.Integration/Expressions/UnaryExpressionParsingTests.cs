@@ -3,6 +3,7 @@ using ZenCode.Lexer;
 using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 
 namespace ZenCode.Parser.Tests.Integration.Expressions;
@@ -30,7 +31,7 @@ public class UnaryExpressionParsingTests
         );
 
         var expected = new UnaryExpression
-            (new Token(TokenType.Minus), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+            (UnaryOperatorType.Negate, new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
         var actual = _parser.ParseExpression(tokenStream);

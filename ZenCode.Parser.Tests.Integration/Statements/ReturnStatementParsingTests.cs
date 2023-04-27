@@ -2,6 +2,7 @@ using Xunit;
 using ZenCode.Lexer;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 
@@ -59,7 +60,7 @@ public class ReturnStatementParsingTests
             Value = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                Operator = new Token(TokenType.Plus),
+                Operator = BinaryOperatorType.Addition,
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
@@ -176,7 +177,7 @@ public class ReturnStatementParsingTests
         {
             Value = new UnaryExpression
             (
-                new Token(TokenType.Minus),
+                UnaryOperatorType.Negate,
                 new LiteralExpression(new Token(TokenType.FloatLiteral))
             )
         };

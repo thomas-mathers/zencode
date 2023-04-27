@@ -1,6 +1,7 @@
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
@@ -42,7 +43,7 @@ public class UnaryExpressionAnalyzerMock
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
-                new UnaryExpression(new Token(TokenType.Not), new ExpressionMock())
+                new UnaryExpression(UnaryOperatorType.Not, new ExpressionMock())
             )
         );
     }
@@ -57,7 +58,7 @@ public class UnaryExpressionAnalyzerMock
             (
                 _semanticAnalyzerMock.Object,
                 null!,
-                new UnaryExpression(new Token(TokenType.Not), new ExpressionMock())
+                new UnaryExpression(UnaryOperatorType.Not, new ExpressionMock())
             )
         );
     }
@@ -83,7 +84,7 @@ public class UnaryExpressionAnalyzerMock
     {
         // Arrange
         var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(new Token(TokenType.Minus), expression);
+        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, expression);
         
         _semanticAnalyzerMock
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
@@ -106,7 +107,7 @@ public class UnaryExpressionAnalyzerMock
     {
         // Arrange
         var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(new Token(TokenType.Minus), expression);
+        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, expression);
         
         _semanticAnalyzerMock
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
@@ -129,7 +130,7 @@ public class UnaryExpressionAnalyzerMock
     {
         // Arrange
         var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(new Token(TokenType.Minus), expression);
+        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, expression);
         
         _semanticAnalyzerMock
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
@@ -153,7 +154,7 @@ public class UnaryExpressionAnalyzerMock
     {
         // Arrange
         var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(new Token(TokenType.Not), expression);
+        var unaryExpression = new UnaryExpression(UnaryOperatorType.Not, expression);
         
         _semanticAnalyzerMock
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
@@ -176,7 +177,7 @@ public class UnaryExpressionAnalyzerMock
     {
         // Arrange
         var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(new Token(TokenType.Not), expression);
+        var unaryExpression = new UnaryExpression(UnaryOperatorType.Not, expression);
         
         _semanticAnalyzerMock
             .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))

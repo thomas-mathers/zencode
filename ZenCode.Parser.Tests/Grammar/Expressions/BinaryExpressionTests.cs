@@ -1,6 +1,7 @@
 using Xunit;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Mappers;
 using ZenCode.Parser.Tests.TestData;
 using ZenCode.Tests.Common.Mocks;
 
@@ -15,16 +16,15 @@ public class BinaryExpressionTests
         // Arrange
         var lExpression = new ExpressionMock();
         var rExpression = new ExpressionMock();
-        var op = new Token(operatorToken);
 
         var binaryExpression = new BinaryExpression
         {
-            Operator = op,
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(operatorToken),
             Left = lExpression,
             Right = rExpression
         };
         
-        var expected = $"{{Expression}} {operatorToken} {{Expression}}";
+        var expected = $"{{Expression}} {binaryExpression.Operator} {{Expression}}";
 
         // Act
         var actual = binaryExpression.ToString();

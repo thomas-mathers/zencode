@@ -3,6 +3,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Mappers;
 
 namespace ZenCode.Parser.Expressions.Strategies;
 
@@ -28,7 +29,7 @@ public class BinaryExpressionParsingStrategy : IBinaryExpressionParsingStrategy
 
         return new BinaryExpression
         {
-            Operator = operatorToken,
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(operatorToken.Type),
             Left = lOperand,
             Right = rOperand
         };

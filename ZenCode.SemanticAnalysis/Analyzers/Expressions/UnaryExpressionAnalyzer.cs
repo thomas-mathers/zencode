@@ -1,4 +1,5 @@
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
@@ -19,16 +20,16 @@ public class UnaryExpressionAnalyzer : IUnaryExpressionAnalyzer
         
         var type = semanticAnalyzer.Analyze(context, unaryExpression.Expression);
 
-        switch (unaryExpression.Operator.Type)
+        switch (unaryExpression.Operator)
         {
-            case TokenType.Minus:
+            case UnaryOperatorType.Negate:
                 if (type is not IntegerType and not FloatType)
                 {
                     context.AddError(new UnaryOperatorUnsupportedTypeException(unaryExpression.Operator, type));
                 }
 
                 break;
-            case TokenType.Not:
+            default:
                 if (type is not BooleanType)
                 {
                     context.AddError(new UnaryOperatorUnsupportedTypeException(unaryExpression.Operator, type));

@@ -43,7 +43,7 @@ public class IfStatementParsingTests
         var thenCondition = new BinaryExpression
         {
             Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            Operator = new Token(TokenType.Equals),
+            Operator = BinaryOperatorType.Equals,
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
@@ -103,7 +103,7 @@ public class IfStatementParsingTests
         var thenCondition = new BinaryExpression
         {
             Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            Operator = new Token(TokenType.Equals),
+            Operator = BinaryOperatorType.Equals,
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
@@ -187,7 +187,7 @@ public class IfStatementParsingTests
         var thenCondition = new BinaryExpression
         {
             Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            Operator = new Token(TokenType.Equals),
+            Operator = BinaryOperatorType.Equals,
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
@@ -209,7 +209,7 @@ public class IfStatementParsingTests
         var elseIfCondition = new BinaryExpression
         {
             Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            Operator = new Token(TokenType.Equals),
+            Operator = BinaryOperatorType.Equals,
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 

@@ -353,7 +353,7 @@ public class SemanticAnalyzerTests
         var binaryExpression = new BinaryExpression
         {
             Left = new ExpressionMock(),
-            Operator = new Token(TokenType.Plus),
+            Operator = BinaryOperatorType.Addition,
             Right = new ExpressionMock()
         };
         
@@ -426,7 +426,7 @@ public class SemanticAnalyzerTests
     public void Analyze_UnaryExpression_CallsUnaryExpressionAnalyzer()
     {
         // Arrange
-        var unaryExpression = new UnaryExpression(new Token(TokenType.Plus), new ExpressionMock());
+        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, new ExpressionMock());
         
         // Act
         _sut.Analyze(_semanticAnalyzerContextMock.Object, unaryExpression);

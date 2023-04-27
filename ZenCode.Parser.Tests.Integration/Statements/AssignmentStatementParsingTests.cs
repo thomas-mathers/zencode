@@ -45,7 +45,7 @@ public class AssignmentStatementParsingTests
         var expression = new BinaryExpression
         {
             Left = new LiteralExpression(new Token(TokenType.FloatLiteral)),
-            Operator = new Token(TokenType.Plus),
+            Operator = BinaryOperatorType.Addition,
             Right = new LiteralExpression(new Token(TokenType.FloatLiteral))
         };
 
@@ -211,7 +211,7 @@ public class AssignmentStatementParsingTests
 
         var expression = new UnaryExpression
         (
-            new Token(TokenType.Minus),
+            UnaryOperatorType.Negate,
             new LiteralExpression(new Token(TokenType.IntegerLiteral))
         );
 
@@ -287,7 +287,7 @@ public class AssignmentStatementParsingTests
             Value = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.FloatLiteral)),
-                Operator = new Token(TokenType.Plus),
+                Operator = BinaryOperatorType.Addition,
                 Right = new LiteralExpression(new Token(TokenType.FloatLiteral))
             }
         };
@@ -413,7 +413,7 @@ public class AssignmentStatementParsingTests
                 VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new UnaryExpression
                 (
-                    new Token(TokenType.Minus),
+                    UnaryOperatorType.Negate,
                     new LiteralExpression(new Token(TokenType.IntegerLiteral))
                 )
             };

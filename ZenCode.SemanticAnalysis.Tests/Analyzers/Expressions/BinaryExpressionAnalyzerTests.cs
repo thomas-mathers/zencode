@@ -1,8 +1,10 @@
 using Moq;
 using Xunit;
 using ZenCode.Lexer.Model;
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.Parser.Model.Mappers;
 using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Analyzers.Expressions;
 using ZenCode.SemanticAnalysis.Exceptions;
@@ -31,7 +33,7 @@ public class BinaryExpressionAnalyzerTests
                 new BinaryExpression
                 {
                     Left = new ExpressionMock(),
-                    Operator = new Token(TokenType.Plus),
+                    Operator = BinaryOperatorType.Addition,
                     Right = new ExpressionMock()
                 }
             )
@@ -51,7 +53,7 @@ public class BinaryExpressionAnalyzerTests
                 new BinaryExpression
                 {
                     Left = new ExpressionMock(),
-                    Operator = new Token(TokenType.Plus),
+                    Operator = BinaryOperatorType.Addition,
                     Right = new ExpressionMock()
                 }
             )
@@ -86,7 +88,7 @@ public class BinaryExpressionAnalyzerTests
         var binaryExpression = new BinaryExpression
         {
             Left = new ExpressionMock(),
-            Operator = new Token(op),
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
             Right = new ExpressionMock()
         };
 
@@ -123,7 +125,7 @@ public class BinaryExpressionAnalyzerTests
         var binaryExpression = new BinaryExpression
         {
             Left = new ExpressionMock(),
-            Operator = new Token(op),
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
             Right = new ExpressionMock()
         };
 

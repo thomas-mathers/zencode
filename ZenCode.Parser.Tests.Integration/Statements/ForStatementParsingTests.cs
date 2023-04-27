@@ -63,7 +63,7 @@ public class ForStatementParsingTests
         var condition = new BinaryExpression
         {
             Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            Operator = new Token(TokenType.LessThan),
+            Operator = BinaryOperatorType.LessThan,
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
@@ -73,7 +73,7 @@ public class ForStatementParsingTests
             Value = new BinaryExpression
             {
                 Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
-                Operator = new Token(TokenType.Plus),
+                Operator = BinaryOperatorType.Addition,
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };

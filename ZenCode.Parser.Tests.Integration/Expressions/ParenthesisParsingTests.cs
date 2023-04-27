@@ -56,7 +56,7 @@ public class ParenthesisParsingTests
         );
 
         var expected = new UnaryExpression
-            (new Token(TokenType.Minus), new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+            (UnaryOperatorType.Negate, new LiteralExpression(new Token(TokenType.IntegerLiteral)));
 
         // Act
         var actual = _parser.ParseExpression(tokenStream);
@@ -84,7 +84,7 @@ public class ParenthesisParsingTests
         var expected = new BinaryExpression
         {
             Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            Operator = new Token(TokenType.Plus),
+            Operator = BinaryOperatorType.Addition,
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)) 
         };
 

@@ -4,6 +4,7 @@ using ZenCode.Lexer.Exceptions;
 using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Mappers;
 using ZenCode.Parser.Tests.Integration.TestData;
 
 namespace ZenCode.Parser.Tests.Integration.Expressions;
@@ -42,10 +43,10 @@ public class BinaryExpressionParsingTests
             Left = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                Operator = new Token(op),
+                Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             },
-            Operator = new Token(op),
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
@@ -79,11 +80,11 @@ public class BinaryExpressionParsingTests
         var expected = new BinaryExpression
         {
             Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            Operator = new Token(op),
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
             Right = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                Operator = new Token(op),
+                Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
@@ -119,11 +120,11 @@ public class BinaryExpressionParsingTests
         var expected = new BinaryExpression
         {
             Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            Operator = new Token(loOp),
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(loOp),
             Right = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                Operator = new Token(hiOp),
+                Operator = TokenTypeToBinaryOperatorTypeMapper.Map(hiOp),
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };
@@ -161,10 +162,10 @@ public class BinaryExpressionParsingTests
             Left = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                Operator = new Token(hiOp),
+                Operator = TokenTypeToBinaryOperatorTypeMapper.Map(hiOp),
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             },
-            Operator = new Token(loOp),
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(loOp),
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 
@@ -202,11 +203,11 @@ public class BinaryExpressionParsingTests
         var expected = new BinaryExpression
         {
             Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-            Operator = new Token(hiOp),
+            Operator = TokenTypeToBinaryOperatorTypeMapper.Map(hiOp),
             Right = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
-                Operator = new Token(loOp),
+                Operator = TokenTypeToBinaryOperatorTypeMapper.Map(loOp),
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
         };

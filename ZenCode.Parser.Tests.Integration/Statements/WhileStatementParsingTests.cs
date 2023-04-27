@@ -43,7 +43,7 @@ public class WhileStatementParsingTests
         var condition = new BinaryExpression
         {
             Left = new VariableReferenceExpression(new Token(TokenType.Identifier)),
-            Operator = new Token(TokenType.GreaterThan),
+            Operator = BinaryOperatorType.GreaterThan,
             Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
         };
 

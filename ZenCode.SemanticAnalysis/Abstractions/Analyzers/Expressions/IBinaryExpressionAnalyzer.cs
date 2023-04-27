@@ -6,5 +6,5 @@ namespace ZenCode.SemanticAnalysis.Abstractions.Analyzers.Expressions;
 public interface IBinaryExpressionAnalyzer
 {
     Type Analyze
-        (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, BinaryExpression binaryExpression);
+        (ISemanticAnalyzer semanticAnalyzer, ISemanticAnalyzerContext context, BinaryExpression expression);
 }

@@ -4,6 +4,7 @@ using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
+using ZenCode.Parser.Model.Mappers;
 using ZenCode.SemanticAnalysis.Abstractions;
 using ZenCode.SemanticAnalysis.Exceptions;
 using ZenCode.SemanticAnalysis.Tests.Integration.TestData;
@@ -40,7 +41,7 @@ public class SemanticAnalyzerTests
                 Value = new BinaryExpression
                 {
                     Left = new LiteralExpression(new Token(leftType)),
-                    Operator = new Token(op),
+                    Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
                     Right = new LiteralExpression(new Token(rightType))
                 }
             }
@@ -69,7 +70,7 @@ public class SemanticAnalyzerTests
                 Value = new BinaryExpression
                 {
                     Left = new LiteralExpression(new Token(leftType)),
-                    Operator = new Token(op),
+                    Operator = TokenTypeToBinaryOperatorTypeMapper.Map(op),
                     Right = new LiteralExpression(new Token(rightType))
                 }
             }
@@ -712,7 +713,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },
@@ -744,7 +745,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -753,7 +754,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },
@@ -780,7 +781,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -789,7 +790,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },
@@ -824,7 +825,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -833,7 +834,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 }
@@ -875,7 +876,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -884,7 +885,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },
@@ -916,7 +917,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -925,7 +926,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },
@@ -962,7 +963,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -971,7 +972,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },
@@ -1029,7 +1030,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -1038,7 +1039,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },
@@ -1110,7 +1111,7 @@ public class SemanticAnalyzerTests
                 Condition = new BinaryExpression
                 {
                     Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                    Operator = new Token(TokenType.LessThan),
+                    Operator = BinaryOperatorType.LessThan,
                     Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 },
                 Iterator = new AssignmentStatement
@@ -1119,7 +1120,7 @@ public class SemanticAnalyzerTests
                     Value = new BinaryExpression
                     {
                         Left = new VariableReferenceExpression(new Token(TokenType.Identifier, "x")),
-                        Operator = new Token(TokenType.Plus),
+                        Operator = BinaryOperatorType.Addition,
                         Right = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                     },
                 },

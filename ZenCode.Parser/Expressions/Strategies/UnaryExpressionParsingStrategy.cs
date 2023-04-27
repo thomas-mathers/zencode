@@ -3,6 +3,7 @@ using ZenCode.Lexer.Model;
 using ZenCode.Parser.Abstractions;
 using ZenCode.Parser.Abstractions.Expressions;
 using ZenCode.Parser.Model.Grammar.Expressions;
+using ZenCode.Parser.Model.Mappers;
 
 namespace ZenCode.Parser.Expressions.Strategies;
 
@@ -17,6 +18,6 @@ public class UnaryExpressionParsingStrategy : IUnaryExpressionParsingStrategy
 
         var expression = parser.ParseExpression(tokenStream);
 
-        return new UnaryExpression(operatorToken, expression);
+        return new UnaryExpression(TokenTypeToUnaryOperatorTypeMapper.Map(operatorToken.Type), expression);
     }
 }
