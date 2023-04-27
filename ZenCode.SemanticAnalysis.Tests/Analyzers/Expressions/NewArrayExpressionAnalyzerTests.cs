@@ -22,7 +22,11 @@ public class NewArrayExpressionAnalyzerTests
             () => _sut.Analyze
             (
                 null!,
-                new NewArrayExpression(new TypeMock(), new ExpressionMock())
+                new NewArrayExpression
+                {
+                    Type = new TypeMock(),
+                    Size = new ExpressionMock()
+                }
             )
         );
     }
@@ -51,7 +55,11 @@ public class NewArrayExpressionAnalyzerTests
         var result = _sut.Analyze
         (
             _semanticAnalyzerContextMock.Object,
-            new NewArrayExpression(new TypeMock(), new ExpressionMock())
+            new NewArrayExpression
+            {
+                Type = new TypeMock(),
+                Size = new ExpressionMock()
+            }
         );
         
         // Assert

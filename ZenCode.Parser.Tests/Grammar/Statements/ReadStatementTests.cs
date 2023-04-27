@@ -23,7 +23,11 @@ public class ReadStatementTests
     {
         // Arrange
         var variableReferenceExpression = new VariableReferenceExpression(new Token(TokenType.Identifier, "x"));
-        var readStatement = new ReadStatement(variableReferenceExpression);
+
+        var readStatement = new ReadStatement
+        {
+            VariableReference = variableReferenceExpression
+        };
 
         const string expected = "read x";
 
@@ -46,7 +50,10 @@ public class ReadStatementTests
             }
         };
 
-        var readStatement = new ReadStatement(variableReferenceExpression);
+        var readStatement = new ReadStatement
+        {
+            VariableReference = variableReferenceExpression
+        };
 
         const string expected = "read x[{Expression}][{Expression}][{Expression}]";
 

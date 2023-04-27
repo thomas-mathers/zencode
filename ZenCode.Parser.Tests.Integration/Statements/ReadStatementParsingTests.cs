@@ -30,7 +30,10 @@ public class ReadStatementParsingTests
             }
         );
 
-        var expectedStatement = new ReadStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+        var expectedStatement = new ReadStatement
+        {
+            VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -66,7 +69,10 @@ public class ReadStatementParsingTests
             }
         };
 
-        var expectedStatement = new ReadStatement(variableReferenceExpression);
+        var expectedStatement = new ReadStatement
+        {
+            VariableReference = variableReferenceExpression
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

@@ -5,7 +5,7 @@ namespace ZenCode.Parser.Model.Grammar.Statements;
 
 public record ReturnStatement : SimpleStatement
 {
-    public Expression? Value { get; init; } = null;
+    public Expression? Value { get; init; }
 
     public override string ToString()
     {

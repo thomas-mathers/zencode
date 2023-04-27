@@ -35,7 +35,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new BooleanType(), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new BooleanType(),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -62,7 +66,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new IntegerType(), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new IntegerType(),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -89,7 +97,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new FloatType(), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new FloatType(),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -116,7 +128,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new StringType(), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new StringType(),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -147,7 +163,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new BooleanType())), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new ArrayType(new ArrayType(new BooleanType())),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -178,7 +198,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new IntegerType())), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new ArrayType(new ArrayType(new IntegerType())),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -209,7 +233,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new FloatType())), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new ArrayType(new ArrayType(new FloatType())),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);
@@ -240,7 +268,11 @@ public class NewArrayExpressionParsingTests
 
         var size = new LiteralExpression(new Token(TokenType.IntegerLiteral));
 
-        var expected = new NewArrayExpression(new ArrayType(new ArrayType(new StringType())), size);
+        var expected = new NewArrayExpression
+        {
+            Type = new ArrayType(new ArrayType(new StringType())),
+            Size = size
+        };
 
         // Act
         var actual = _sut.ParseExpression(tokenStream);

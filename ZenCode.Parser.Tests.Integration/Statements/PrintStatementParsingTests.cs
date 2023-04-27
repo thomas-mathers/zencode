@@ -33,14 +33,14 @@ public class PrintStatementParsingTests
         );
 
         var expectedStatement = new PrintStatement
-        (
-            new BinaryExpression
+        {
+            Expression = new BinaryExpression
             {
                 Left = new LiteralExpression(new Token(TokenType.IntegerLiteral)),
                 Operator = BinaryOperatorType.Addition,
                 Right = new LiteralExpression(new Token(TokenType.IntegerLiteral))
             }
-        );
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -66,7 +66,10 @@ public class PrintStatementParsingTests
             }
         );
 
-        var expectedStatement = new PrintStatement(new LiteralExpression(new Token(tokenType)));
+        var expectedStatement = new PrintStatement
+        {
+            Expression = new LiteralExpression(new Token(tokenType)) 
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -92,12 +95,12 @@ public class PrintStatementParsingTests
 
         var expectedStatement =
             new PrintStatement
-            (
-                new FunctionCallExpression
+            {
+                Expression = new FunctionCallExpression
                 {
                     FunctionReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
                 }
-            );
+            };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -121,7 +124,10 @@ public class PrintStatementParsingTests
             }
         );
 
-        var expectedStatement = new PrintStatement(new LiteralExpression(new Token(TokenType.StringLiteral)));
+        var expectedStatement = new PrintStatement
+        {
+            Expression = new LiteralExpression(new Token(TokenType.StringLiteral))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -145,13 +151,13 @@ public class PrintStatementParsingTests
         );
 
         var expectedStatement = new PrintStatement
-        (
-            new UnaryExpression
-            (
-                UnaryOperatorType.Negate,
-                new LiteralExpression(new Token(TokenType.FloatLiteral))
-            )
-        );
+        {
+            Expression = new UnaryExpression
+            {
+                Operator = UnaryOperatorType.Negate,
+                Expression = new LiteralExpression(new Token(TokenType.FloatLiteral))
+            }
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);
@@ -173,7 +179,10 @@ public class PrintStatementParsingTests
             }
         );
 
-        var expectedStatement = new PrintStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+        var expectedStatement = new PrintStatement
+        {
+            Expression = new VariableReferenceExpression(new Token(TokenType.Identifier))
+        };
 
         // Act
         var actualStatement = _sut.ParseStatement(tokenStream);

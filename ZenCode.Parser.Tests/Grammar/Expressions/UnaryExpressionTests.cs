@@ -1,5 +1,4 @@
 using Xunit;
-using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Tests.Common.Mocks;
@@ -12,7 +11,12 @@ public class UnaryExpressionTests
     public void ToString_NotExpression_ReturnsCorrectString()
     {
         // Arrange
-        var unaryExpression = new UnaryExpression(UnaryOperatorType.Not, new ExpressionMock());
+        var unaryExpression = new UnaryExpression
+        {
+            Operator = UnaryOperatorType.Not,
+            Expression = new ExpressionMock()
+        };
+        
         const string expected = "Not {Expression}";
 
         // Act

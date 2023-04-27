@@ -210,10 +210,10 @@ public class AssignmentStatementParsingTests
         };
 
         var expression = new UnaryExpression
-        (
-            UnaryOperatorType.Negate,
-            new LiteralExpression(new Token(TokenType.IntegerLiteral))
-        );
+        {
+            Operator = UnaryOperatorType.Negate,
+            Expression = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         var expectedStatement = new AssignmentStatement
         {
@@ -412,10 +412,10 @@ public class AssignmentStatementParsingTests
             {
                 VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier)),
                 Value = new UnaryExpression
-                (
-                    UnaryOperatorType.Negate,
-                    new LiteralExpression(new Token(TokenType.IntegerLiteral))
-                )
+                {
+                    Operator = UnaryOperatorType.Negate,
+                    Expression = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+                }
             };
 
         // Act

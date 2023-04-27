@@ -35,7 +35,11 @@ public class UnaryExpressionParsingStrategyTests
         // Arrange
         var expression = _fixture.Create<Expression>();
 
-        var expected = new UnaryExpression(TokenTypeToUnaryOperatorTypeMapper.Map(operatorToken), expression);
+        var expected = new UnaryExpression
+        {
+            Operator = TokenTypeToUnaryOperatorTypeMapper.Map(operatorToken),
+            Expression = expression
+        };
 
         _tokenStreamMock
             .Setup(x => x.Consume(operatorToken))

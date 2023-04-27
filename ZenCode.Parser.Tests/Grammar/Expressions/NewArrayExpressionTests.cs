@@ -10,9 +10,12 @@ public class NewArrayExpressionTests
     public void ToString_OneIndexExpressions_ReturnsCorrectString()
     {
         // Arrange
-        var type = new TypeMock();
-        var size = new ExpressionMock();
-        var newExpression = new NewArrayExpression(type, size);
+        var newExpression = new NewArrayExpression
+        {
+            Type = new TypeMock(),
+            Size = new ExpressionMock()
+        };
+        
         const string expected = "new {Type}[{Expression}]";
 
         // Act

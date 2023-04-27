@@ -218,7 +218,10 @@ public class SemanticAnalyzerTests
     public void Analyze_PrintStatement_CallsPrintStatementAnalyzer()
     {
         // Arrange
-        var printStatement = new PrintStatement(new ExpressionMock());
+        var printStatement = new PrintStatement
+        {
+            Expression = new ExpressionMock()
+        };
         
         // Act
         _sut.Analyze(_semanticAnalyzerContextMock.Object, printStatement);
@@ -235,7 +238,10 @@ public class SemanticAnalyzerTests
     public void Analyze_ReadStatement_CallsReadStatementAnalyzer()
     {
         // Arrange
-        var readStatement = new ReadStatement(new VariableReferenceExpression(new Token(TokenType.Identifier)));
+        var readStatement = new ReadStatement
+        {
+            VariableReference = new VariableReferenceExpression(new Token(TokenType.Identifier))
+        };
         
         // Act
         _sut.Analyze(_semanticAnalyzerContextMock.Object, readStatement);
@@ -409,7 +415,11 @@ public class SemanticAnalyzerTests
     public void Analyze_NewArrayExpression_CallsNewArrayExpressionAnalyzer()
     {
         // Arrange
-        var newArrayExpression = new NewArrayExpression(new BooleanType(), new ExpressionMock());
+        var newArrayExpression = new NewArrayExpression
+        {
+            Type = new BooleanType(),
+            Size = new ExpressionMock()
+        };
         
         // Act
         _sut.Analyze(_semanticAnalyzerContextMock.Object, newArrayExpression);
@@ -426,7 +436,11 @@ public class SemanticAnalyzerTests
     public void Analyze_UnaryExpression_CallsUnaryExpressionAnalyzer()
     {
         // Arrange
-        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, new ExpressionMock());
+        var unaryExpression = new UnaryExpression
+        {
+            Operator = UnaryOperatorType.Negate,
+            Expression = new ExpressionMock()
+        };
         
         // Act
         _sut.Analyze(_semanticAnalyzerContextMock.Object, unaryExpression);

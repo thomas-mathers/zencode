@@ -21,6 +21,10 @@ public class NewArrayExpressionParsingStrategy : INewExpressionParsingStrategy
         var size = parser.ParseExpression(tokenStream);
         tokenStream.Consume(TokenType.RightBracket);
 
-        return new NewArrayExpression(type, size);
+        return new NewArrayExpression
+        {
+            Type = type,
+            Size = size
+        };
     }
 }

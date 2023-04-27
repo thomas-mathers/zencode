@@ -10,7 +10,11 @@ public class PrintStatementTests
     public void ToString_PrintStatement_ReturnsCorrectString()
     {
         // Arrange
-        var printStatement = new PrintStatement(new ExpressionMock());
+        var printStatement = new PrintStatement
+        {
+            Expression = new ExpressionMock()
+        };
+        
         const string expected = "print {Expression}";
 
         // Act

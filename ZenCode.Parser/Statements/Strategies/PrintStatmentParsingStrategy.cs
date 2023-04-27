@@ -15,8 +15,9 @@ public class PrintStatementParsingStrategy : IPrintStatementParsingStrategy
         
         tokenStream.Consume(TokenType.Print);
 
-        var expression = parser.ParseExpression(tokenStream);
-
-        return new PrintStatement(expression);
+        return new PrintStatement
+        {
+            Expression = parser.ParseExpression(tokenStream)
+        };
     }
 }

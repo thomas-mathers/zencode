@@ -183,10 +183,10 @@ public class VariableDeclarationStatementParsingTests
         var identifier = new Token(TokenType.Identifier);
 
         var expression = new UnaryExpression
-        (
-            UnaryOperatorType.Negate,
-            new LiteralExpression(new Token(TokenType.FloatLiteral))
-        );
+        {
+            Operator = UnaryOperatorType.Negate,
+            Expression = new LiteralExpression(new Token(TokenType.FloatLiteral))
+        };
 
         var expectedStatement = new VariableDeclarationStatement
         {

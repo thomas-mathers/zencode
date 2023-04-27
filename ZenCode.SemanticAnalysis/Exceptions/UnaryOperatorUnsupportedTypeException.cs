@@ -1,4 +1,3 @@
-using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar;
 using Type = ZenCode.Parser.Model.Grammar.Types.Type;
 

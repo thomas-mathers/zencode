@@ -18,6 +18,10 @@ public class UnaryExpressionParsingStrategy : IUnaryExpressionParsingStrategy
 
         var expression = parser.ParseExpression(tokenStream);
 
-        return new UnaryExpression(TokenTypeToUnaryOperatorTypeMapper.Map(operatorToken.Type), expression);
+        return new UnaryExpression
+        {
+            Operator = TokenTypeToUnaryOperatorTypeMapper.Map(operatorToken.Type),
+            Expression = expression
+        };
     }
 }

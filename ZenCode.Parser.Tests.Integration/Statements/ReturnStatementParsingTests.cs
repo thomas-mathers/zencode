@@ -175,11 +175,11 @@ public class ReturnStatementParsingTests
 
         var expectedStatement = new ReturnStatement
         {
-            Value = new UnaryExpression
-            (
-                UnaryOperatorType.Negate,
-                new LiteralExpression(new Token(TokenType.FloatLiteral))
-            )
+            Value = new UnaryExpression 
+            {
+                Operator = UnaryOperatorType.Negate,
+                Expression = new LiteralExpression(new Token(TokenType.FloatLiteral))
+            }
         };
 
         // Act

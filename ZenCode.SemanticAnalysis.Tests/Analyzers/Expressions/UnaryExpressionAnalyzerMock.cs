@@ -1,6 +1,5 @@
 using Moq;
 using Xunit;
-using ZenCode.Lexer.Model;
 using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Types;
@@ -43,7 +42,11 @@ public class UnaryExpressionAnalyzerMock
             (
                 null!,
                 _semanticAnalyzerContextMock.Object,
-                new UnaryExpression(UnaryOperatorType.Not, new ExpressionMock())
+                new UnaryExpression
+                {
+                    Operator = UnaryOperatorType.Not,
+                    Expression = new ExpressionMock()
+                }
             )
         );
     }
@@ -58,7 +61,11 @@ public class UnaryExpressionAnalyzerMock
             (
                 _semanticAnalyzerMock.Object,
                 null!,
-                new UnaryExpression(UnaryOperatorType.Not, new ExpressionMock())
+                new UnaryExpression
+                {
+                    Operator = UnaryOperatorType.Not,
+                    Expression = new ExpressionMock()
+                }
             )
         );
     }
@@ -83,11 +90,14 @@ public class UnaryExpressionAnalyzerMock
     public void Analyze_MinusNonArithmeticExpression_AddsUnaryOperatorUnsupportedTypeException(Type type)
     {
         // Arrange
-        var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, expression);
+        var unaryExpression = new UnaryExpression
+        {
+            Operator = UnaryOperatorType.Negate,
+            Expression = new ExpressionMock()
+        };
         
         _semanticAnalyzerMock
-            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
+            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, unaryExpression.Expression))
             .Returns(type);
         
         // Act
@@ -106,11 +116,14 @@ public class UnaryExpressionAnalyzerMock
     public void Analyze_MinusIntegerExpression_ReturnsIntegerType()
     {
         // Arrange
-        var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, expression);
+        var unaryExpression = new UnaryExpression
+        {
+            Operator = UnaryOperatorType.Negate,
+            Expression = new ExpressionMock()
+        };
         
         _semanticAnalyzerMock
-            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
+            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, unaryExpression.Expression))
             .Returns(new IntegerType());
         
         // Act
@@ -129,11 +142,14 @@ public class UnaryExpressionAnalyzerMock
     public void Analyze_MinusFloatExpression_ReturnsFloatType()
     {
         // Arrange
-        var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(UnaryOperatorType.Negate, expression);
+        var unaryExpression = new UnaryExpression
+        {
+            Operator = UnaryOperatorType.Negate,
+            Expression = new ExpressionMock()
+        };
         
         _semanticAnalyzerMock
-            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
+            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, unaryExpression.Expression))
             .Returns(new FloatType());
         
         // Act
@@ -153,11 +169,14 @@ public class UnaryExpressionAnalyzerMock
     public void Analyze_NotNonLogicalExpression_AddsUnaryOperatorUnsupportedTypeException(Type type)
     {
         // Arrange
-        var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(UnaryOperatorType.Not, expression);
+        var unaryExpression = new UnaryExpression
+        {
+            Operator = UnaryOperatorType.Not,
+            Expression = new ExpressionMock()
+        };
         
         _semanticAnalyzerMock
-            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
+            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, unaryExpression.Expression))
             .Returns(type);
         
         // Act
@@ -176,11 +195,14 @@ public class UnaryExpressionAnalyzerMock
     public void Analyze_NotBooleanExpression_ReturnsBooleanType()
     {
         // Arrange
-        var expression = new ExpressionMock();
-        var unaryExpression = new UnaryExpression(UnaryOperatorType.Not, expression);
+        var unaryExpression = new UnaryExpression
+        {
+            Operator = UnaryOperatorType.Not,
+            Expression = new ExpressionMock()
+        };
         
         _semanticAnalyzerMock
-            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, expression))
+            .Setup(x => x.Analyze(_semanticAnalyzerContextMock.Object, unaryExpression.Expression))
             .Returns(new BooleanType());
         
         // Act

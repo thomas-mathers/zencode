@@ -31,7 +31,10 @@ public class UnaryExpressionParsingTests
         );
 
         var expected = new UnaryExpression
-            (UnaryOperatorType.Negate, new LiteralExpression(new Token(TokenType.IntegerLiteral)));
+        {
+            Operator = UnaryOperatorType.Negate,
+            Expression = new LiteralExpression(new Token(TokenType.IntegerLiteral))
+        };
 
         // Act
         var actual = _parser.ParseExpression(tokenStream);
