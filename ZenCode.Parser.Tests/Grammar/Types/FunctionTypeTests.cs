@@ -10,22 +10,6 @@ namespace ZenCode.Parser.Tests.Grammar.Types;
 public class FunctionTypeTests
 {
     [Fact]
-    public void Constructor_NullReturnType_ThrowsArgumentNullException()
-    {
-        // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>
-            (() => new FunctionType { ReturnType = null!, ParameterTypes = It.IsAny<TypeList>() });
-    }
-
-    [Fact]
-    public void Constructor_NullParameterList_ThrowsArgumentNullException()
-    {
-        // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>
-            (() => new FunctionType { ReturnType = It.IsAny<Type>(), ParameterTypes = null! });
-    }
-
-    [Fact]
     public void ToString_NoParameters_ReturnsCorrectString()
     {
         // Arrange

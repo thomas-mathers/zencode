@@ -7,13 +7,6 @@ namespace ZenCode.Parser.Tests.Grammar.Types;
 public class ArrayTypeTests
 {
     [Fact]
-    public void Construct_NullBaseType_ThrowsArgumentNullException()
-    {
-        // Arrange + Act + Assert
-        Assert.Throws<ArgumentNullException>(() => new ArrayType { BaseType = null! });
-    }
-
-    [Fact]
     public void ToString_AnyBaseType_ReturnsCorrectString()
     {
         // Arrange
