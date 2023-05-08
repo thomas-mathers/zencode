@@ -17,14 +17,12 @@ public class ScopeAnalyzer : IScopeAnalyzer
         
         context.PushEnvironment();
 
-        foreach (var s in scope.Statements.Where
-            (s => s is VariableDeclarationStatement or FunctionDeclarationStatement))
+        foreach (var s in scope.Statements.Where(IsDeclarationStatement))
         {
             semanticAnalyzer.Analyze(context, s);
         }
 
-        foreach (var s in scope.Statements.Where
-            (s => s is not VariableDeclarationStatement and not FunctionDeclarationStatement))
+        foreach (var s in scope.Statements.Where(IsNotDeclarationStatement))
         {
             semanticAnalyzer.Analyze(context, s);
         }
@@ -32,5 +30,15 @@ public class ScopeAnalyzer : IScopeAnalyzer
         context.PopEnvironment();
 
         return new VoidType();
+    }
+
+    private static bool IsNotDeclarationStatement(Statement s)
+    {
+        return s is not VariableDeclarationStatement and not FunctionDeclarationStatement;
+    }
+
+    private static bool IsDeclarationStatement(Statement s)
+    {
+        return s is VariableDeclarationStatement or FunctionDeclarationStatement;
     }
 }

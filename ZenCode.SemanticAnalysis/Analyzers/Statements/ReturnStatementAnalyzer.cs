@@ -1,3 +1,4 @@
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Expressions;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
@@ -17,8 +18,7 @@ public class ReturnStatementAnalyzer : IReturnStatementAnalyzer
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(returnStatement);
         
-        var functionDeclaration = context.AncestorAstNodes().FirstOrDefault
-            (e => e is FunctionDeclarationStatement or AnonymousFunctionDeclarationExpression);
+        var functionDeclaration = context.AncestorAstNodes().FirstOrDefault(IsDeclarationStatement);
 
         if (functionDeclaration == null)
         {
@@ -45,5 +45,10 @@ public class ReturnStatementAnalyzer : IReturnStatementAnalyzer
         }
 
         return new VoidType();
+    }
+
+    private static bool IsDeclarationStatement(AstNode e)
+    {
+        return e is FunctionDeclarationStatement or AnonymousFunctionDeclarationExpression;
     }
 }

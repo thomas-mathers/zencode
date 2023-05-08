@@ -1,3 +1,4 @@
+using ZenCode.Parser.Model.Grammar;
 using ZenCode.Parser.Model.Grammar.Statements;
 using ZenCode.Parser.Model.Grammar.Types;
 using ZenCode.SemanticAnalysis.Abstractions;
@@ -13,7 +14,7 @@ public class BreakStatementAnalyzer : IBreakStatementAnalyzer
     {
         ArgumentNullException.ThrowIfNull(context);
         
-        var loopStatement = context.AncestorAstNodes().FirstOrDefault(e => e is WhileStatement or ForStatement);
+        var loopStatement = context.AncestorAstNodes().FirstOrDefault(IsLoopStatement);
 
         if (loopStatement == null)
         {
@@ -21,5 +22,10 @@ public class BreakStatementAnalyzer : IBreakStatementAnalyzer
         }
 
         return new VoidType();
+    }
+
+    private static bool IsLoopStatement(AstNode e)
+    {
+        return e is WhileStatement or ForStatement;
     }
 }
